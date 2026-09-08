@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ong Vàng vượt mê cung phần cứng — IC3 GS6 Spark Level 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --accent:#FFC531; --accent-2:#F2A007;
+  --bg-1:#123F52; --bg-2:#0C2E3D; --bg-3:#133F52;
+  --bg-a:#1D6B83; --bg-b:#0E3446; --lit-fill:#6E4A05;
+  --wall:#071F2A; --dim:#2A5769; --dimtext:#8FB6C4;
+  --leaf:#3FBF75; --berry:#FF6B6B;
+  --cream:#FFF6E4; --ink:#16323C;
+  --r-lg:20px; --r-md:13px;
+  --font-ui:'Baloo 2','Segoe UI Rounded','SF Pro Rounded',system-ui,-apple-system,sans-serif;
+  --font-text:'Be Vietnam Pro','Segoe UI',system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{height:100%}
+body{
+  font-family:var(--font-text);color:var(--cream);
+  height:100vh;height:100dvh;overflow:hidden;
+  display:flex;flex-direction:column;
+  padding:10px clamp(10px,2vw,22px) 12px;
+  background:var(--bg-1);
+  background:
+    radial-gradient(1100px 620px at 10% -10%, var(--bg-a) 0%, transparent 58%),
+    radial-gradient(900px 560px at 98% 110%, var(--bg-b) 0%, transparent 60%),
+    var(--bg-1);
+  transition:background .5s ease;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ---------- Thanh trên cùng ---------- */
+.topbar{flex:none;display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.brand{font-family:var(--font-ui);font-weight:800;font-size:1.05rem;line-height:1.15}
+.brand small{display:block;font-family:var(--font-text);font-weight:400;font-size:.68rem;opacity:.7;margin-top:2px}
+.topbar .spacer{flex:1}
+.pill{font-family:var(--font-ui);font-weight:700;font-size:.86rem;
+  background:rgba(255,255,255,.09);border:1.5px solid rgba(255,255,255,.16);
+  padding:6px 13px;border-radius:999px;white-space:nowrap}
+.pill b{color:var(--accent)}
+.iconbtn{font-size:.98rem;line-height:1;cursor:pointer;flex:none;
+  background:rgba(255,255,255,.09);border:1.5px solid rgba(255,255,255,.16);
+  color:var(--cream);width:38px;height:38px;border-radius:50%;
+  display:grid;place-items:center;transition:background .15s}
+.iconbtn:hover{background:rgba(255,255,255,.2)}
+.iconbtn:focus-visible,.opt:focus-visible,.btn:focus-visible,.linkbtn:focus-visible,.lvcard:focus-visible{
+  outline:3px solid var(--accent);outline-offset:3px}
+
+/* ---------- Khung màn hình ---------- */
+#stage{flex:1;min-height:0}
+.screen{display:none;height:100%}
+.screen.on{display:block}
+.screen.scroll{overflow-y:auto;overscroll-behavior:contain}
+.screen.play.on{display:grid;grid-template-columns:minmax(260px,0.85fr) 1.15fr;gap:14px;min-height:0}
+
+/* ---------- Chọn level ---------- */
+.intro{text-align:center;max-width:640px;margin:0 auto 18px}
+.intro h1{font-family:var(--font-ui);font-weight:800;font-size:clamp(1.4rem,4vw,2.15rem);line-height:1.12;margin-bottom:8px}
+.intro p{font-size:clamp(.9rem,2.2vw,1rem);opacity:.82;line-height:1.5}
+.levels{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;max-width:960px;margin:0 auto 10px}
+.lvcard{
+  text-align:left;cursor:pointer;color:var(--cream);font-family:var(--font-text);
+  background:linear-gradient(170deg,rgba(255,255,255,.1),rgba(255,255,255,.03));
+  border:2px solid rgba(255,255,255,.15);border-radius:var(--r-lg);
+  padding:16px 16px 14px;transition:transform .14s,border-color .14s,background .14s}
+.lvcard:hover{transform:translateY(-4px)}
+.lvcard .lvnum{font-family:var(--font-ui);font-weight:800;font-size:.78rem;letter-spacing:.4px;
+  padding:3px 11px;border-radius:999px;display:inline-block;margin-bottom:9px;color:#20130A}
+.lvcard h3{font-family:var(--font-ui);font-weight:700;font-size:1.22rem;line-height:1.2;margin-bottom:4px}
+.lvcard .meta{font-size:.85rem;opacity:.78;line-height:1.45;margin-bottom:11px}
+.lvcard svg{width:100%;height:88px;display:block;margin-bottom:11px}
+.lvcard .go{font-family:var(--font-ui);font-weight:800;font-size:.95rem;display:flex;align-items:center;gap:6px}
+.namebar{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;max-width:760px;margin:0 auto 16px}
+.namebar label{font-family:var(--font-ui);font-weight:600;font-size:.86rem;opacity:.82}
+.namebar input{font-family:var(--font-text);font-size:.95rem;color:var(--cream);
+  background:rgba(0,0,0,.26);border:1.5px solid rgba(255,255,255,.2);border-radius:999px;
+  padding:10px 17px;min-width:240px;outline:none;transition:border-color .15s}
+.namebar input:focus{border-color:var(--accent)}
+.namebar input::placeholder{color:rgba(255,246,228,.4)}
+.lvcard .rec{font-family:var(--font-ui);font-weight:600;font-size:.79rem;margin-bottom:9px}
+.whoami{font-size:.9rem;opacity:.8;margin:-8px 0 16px}
+
+/* bảng thành tích */
+.hist{max-width:920px;margin:0 auto;padding:24px 20px;
+  background:linear-gradient(170deg,rgba(255,255,255,.1),rgba(255,255,255,.03));
+  border:1.5px solid rgba(255,255,255,.15);border-radius:var(--r-lg)}
+.hist h2{font-family:var(--font-ui);font-weight:800;font-size:1.5rem;text-align:center;margin-bottom:6px}
+.hist .note{text-align:center;font-size:.85rem;opacity:.7;line-height:1.5;margin-bottom:18px}
+.records{display:grid;grid-template-columns:repeat(auto-fit,minmax(196px,1fr));gap:11px;margin-bottom:20px}
+.reccard{background:rgba(0,0,0,.24);border-radius:var(--r-md);padding:13px 15px;border-left:4px solid var(--accent-2)}
+.reccard .t{font-family:var(--font-ui);font-weight:700;font-size:.92rem;margin-bottom:5px}
+.reccard b{display:block;font-family:var(--font-ui);font-weight:800;font-size:1.5rem;line-height:1.2;color:var(--accent)}
+.reccard span{font-size:.8rem;opacity:.78;line-height:1.4;display:block;margin-top:2px}
+.tablewrap{overflow-x:auto;margin-bottom:18px;border-radius:var(--r-md)}
+.histtable{width:100%;border-collapse:collapse;font-size:.86rem;min-width:640px}
+.histtable th,.histtable td{padding:9px 11px;text-align:left;border-bottom:1px solid rgba(255,255,255,.1);white-space:nowrap}
+.histtable th{font-family:var(--font-ui);font-weight:700;font-size:.79rem;opacity:.72;background:rgba(0,0,0,.2)}
+.histtable td.nm{white-space:normal;font-weight:600}
+.histtable td.pt{font-family:var(--font-ui);font-weight:800;color:var(--accent)}
+.histtable tbody tr:hover{background:rgba(255,255,255,.05)}
+.histtable tr.best td{background:rgba(255,255,255,.07)}
+.empty{text-align:center;opacity:.6;padding:30px 12px;line-height:1.6;font-size:.92rem}
+.hint-line{text-align:center;font-size:.8rem;opacity:.6;line-height:1.55;max-width:620px;margin:6px auto 4px;padding-bottom:6px}
+
+/* ---------- Cột mê cung ---------- */
+.board-col{display:flex;flex-direction:column;min-height:0;gap:8px}
+.board-head{flex:none;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.board-head h2{font-family:var(--font-ui);font-weight:700;font-size:1.02rem;line-height:1.2}
+.board-head span{font-size:.8rem;opacity:.7}
+.board{flex:1;min-height:0;display:flex;
+  background:linear-gradient(160deg,var(--bg-2),var(--bg-3));
+  border:1.5px solid rgba(255,255,255,.13);border-radius:var(--r-lg);padding:12px;
+  transition:background .5s ease}
+.board svg{width:100%;height:100%;display:block}
+.legend{flex:none;font-size:.76rem;opacity:.62;line-height:1.5;text-align:center}
+
+.seg-base{stroke:var(--dim);stroke-width:8;stroke-linecap:round;fill:none}
+.seg-lit{stroke:var(--accent-2);stroke-width:8;stroke-linecap:round;fill:none;
+  opacity:0;transition:opacity .45s ease}
+.seg-lit.on{opacity:1;filter:drop-shadow(0 0 6px var(--accent))}
+.wall{fill:var(--wall);stroke:rgba(255,255,255,.05);stroke-width:2}
+.node{fill:var(--bg-2);stroke:var(--dim);stroke-width:3;transition:fill .3s,stroke .3s}
+.node.lit{fill:var(--lit-fill);stroke:var(--accent)}
+.node.miss{fill:#4A2020;stroke:#8A4141}
+.node-num{font-family:var(--font-ui);font-weight:700;font-size:17px;fill:var(--dimtext);
+  text-anchor:middle;dominant-baseline:central;transition:fill .3s;pointer-events:none}
+.node-num.lit{fill:var(--accent)}
+.node-num.miss{fill:#E8A0A0}
+.bee{transition:transform .5s cubic-bezier(.34,1.28,.64,1)}
+.bee-float{animation:hover 1.9s ease-in-out infinite}
+@keyframes hover{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.chip-glow{opacity:.12;transition:opacity .6s}
+.chip-glow.on{animation:pulseGlow 1.5s ease-in-out infinite}
+@keyframes pulseGlow{0%,100%{opacity:.5}50%{opacity:1}}
+
+/* ---------- Cột câu hỏi ---------- */
+.q-col{display:flex;flex-direction:column;min-height:0;gap:10px}
+.timer{flex:none;display:flex;align-items:center;gap:11px}
+.timer-track{flex:1;height:13px;background:rgba(0,0,0,.32);border-radius:999px;overflow:hidden}
+.timer-fill{height:100%;width:100%;border-radius:999px;background:linear-gradient(90deg,var(--leaf),#7FD9A5)}
+.timer-fill.warn{background:linear-gradient(90deg,var(--accent-2),var(--accent))}
+.timer-fill.danger{background:linear-gradient(90deg,#E04545,var(--berry))}
+.timer-num{font-family:var(--font-ui);font-weight:800;font-size:1.18rem;min-width:52px;text-align:right}
+.timer-num.danger{color:var(--berry);animation:beat .6s ease-in-out infinite}
+@keyframes beat{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+
+.card{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;
+  background:var(--cream);color:var(--ink);border-radius:var(--r-lg);
+  padding:18px 18px 16px;box-shadow:0 14px 30px rgba(0,0,0,.3)}
+.qmeta{display:flex;align-items:center;gap:8px;margin-bottom:9px;flex-wrap:wrap}
+.tag{font-family:var(--font-ui);font-weight:700;font-size:.74rem;padding:3px 11px;border-radius:999px}
+.tag.lv1{background:#DBF1E3;color:#1E7346}
+.tag.lv2{background:#FDEBC9;color:#8A5A05}
+.tag.lv3{background:#F6DEE2;color:#94324A}
+.tag.topic{background:#DDEBF1;color:#2C5D71}
+.qtext{font-family:var(--font-ui);font-weight:700;font-size:clamp(1.02rem,1.55vw,1.3rem);line-height:1.36;margin-bottom:14px}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:9px}
+.opt{display:flex;gap:10px;align-items:center;text-align:left;
+  background:#fff;border:2.5px solid #E4D9C2;border-radius:var(--r-md);
+  padding:11px 13px;cursor:pointer;font-family:var(--font-text);
+  font-size:clamp(.9rem,1.1vw,1rem);color:var(--ink);line-height:1.33;
+  transition:border-color .15s,background .15s,transform .1s}
+.opt:hover:not(:disabled){border-color:var(--accent-2);background:#FFFCF4}
+.opt:active:not(:disabled){transform:scale(.985)}
+.opt .letter{flex:none;width:30px;height:30px;border-radius:9px;background:#F0E6D0;
+  font-family:var(--font-ui);font-weight:800;font-size:.98rem;color:#8A6A2A;
+  display:grid;place-items:center}
+.opt:disabled{cursor:default;opacity:.6}
+.opt.right{background:#E6F8EE;border-color:var(--leaf);opacity:1}
+.opt.right .letter{background:var(--leaf);color:#fff}
+.opt.wrong{background:#FDECEC;border-color:var(--berry);opacity:1}
+.opt.wrong .letter{background:var(--berry);color:#fff}
+.opt .mark{margin-left:auto;font-weight:800;font-size:1.1rem}
+
+.hintbox,.feedback{margin-top:12px;border-radius:var(--r-md);padding:11px 14px;
+  display:none;line-height:1.48;font-size:.92rem}
+.hintbox.show,.feedback.show{display:block;animation:slideIn .28s ease both}
+@keyframes slideIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.hintbox{background:#FFF3D4;border-left:5px solid var(--accent-2)}
+.feedback.ok{background:#E6F8EE;border-left:5px solid var(--leaf)}
+.feedback.no{background:#FDECEC;border-left:5px solid var(--berry)}
+.feedback strong{font-family:var(--font-ui);display:block;margin-bottom:3px;font-size:1rem}
+.actions{display:flex;gap:10px;align-items:center;margin-top:14px;flex-wrap:wrap}
+.actions .grow{flex:1}
+.linkbtn{font-family:var(--font-ui);font-weight:700;font-size:.9rem;background:#F0E6D0;border:none;
+  color:#7A5A14;padding:10px 17px;border-radius:999px;cursor:pointer;transition:background .15s}
+.linkbtn:hover:not(:disabled){background:#E6D8B8}
+.linkbtn:disabled{opacity:.45;cursor:default}
+.score-pop{font-family:var(--font-ui);font-weight:800;color:#2E9B62;font-size:1rem;opacity:0;transition:opacity .3s}
+.score-pop.show{opacity:1}
+.btn{font-family:var(--font-ui);font-weight:800;font-size:1rem;
+  background:linear-gradient(180deg,var(--accent),var(--accent-2));
+  color:#2B1E04;border:none;border-radius:999px;padding:12px 30px;cursor:pointer;
+  box-shadow:0 5px 0 rgba(0,0,0,.28),0 10px 20px rgba(0,0,0,.24);
+  transition:transform .1s,box-shadow .1s}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(0,0,0,.28)}
+.btn.ghost{background:transparent;color:var(--cream);border:2px solid rgba(255,255,255,.32);
+  box-shadow:none;font-size:.95rem;padding:11px 24px}
+.btn.ghost:active{transform:translateY(2px);box-shadow:none}
+
+/* ---------- Kết quả ---------- */
+.result{text-align:center;max-width:760px;margin:0 auto;
+  background:linear-gradient(170deg,rgba(255,255,255,.1),rgba(255,255,255,.03));
+  border:1.5px solid rgba(255,255,255,.15);border-radius:var(--r-lg);padding:26px 20px}
+.stars{font-size:2.3rem;letter-spacing:7px;margin-bottom:5px}
+.result h2{font-family:var(--font-ui);font-weight:800;font-size:clamp(1.35rem,4vw,1.95rem);margin-bottom:7px}
+.result .badge{display:inline-block;background:var(--accent);color:#2B1E04;font-family:var(--font-ui);
+  font-weight:800;padding:6px 19px;border-radius:999px;margin-bottom:16px;font-size:.96rem}
+.stats{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.stat{background:rgba(0,0,0,.22);border-radius:var(--r-md);padding:11px 19px;min-width:104px}
+.stat b{display:block;font-family:var(--font-ui);font-weight:800;font-size:1.55rem;color:var(--accent);line-height:1.15}
+.stat span{font-size:.76rem;opacity:.78}
+.endbtns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.review{margin-top:24px;text-align:left}
+.review h3{font-family:var(--font-ui);font-weight:700;font-size:1.05rem;margin-bottom:10px}
+.rv{background:rgba(0,0,0,.22);border-radius:var(--r-md);padding:11px 14px;margin-bottom:8px;font-size:.89rem;line-height:1.48}
+.rv .q{font-family:var(--font-ui);font-weight:700;margin-bottom:4px}
+.rv .a{color:var(--accent)}
+.rv .e{opacity:.76;margin-top:2px}
+.rv.ok{border-left:4px solid var(--leaf)}
+.rv.no{border-left:4px solid var(--berry)}
+
+/* ---------- Màn hình hẹp ---------- */
+@media (max-width:880px){
+  .screen.play.on{grid-template-columns:1fr;grid-template-rows:minmax(120px,26%) 1fr}
+  .board{padding:8px}
+  .legend{display:none}
+  .brand small{display:none}
+}
+@media (max-height:560px){
+  .board-head{display:none}
+  .legend{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.06ms !important}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">🐝 Ong Vàng vượt mê cung phần cứng
+    <small>IC3 GS6 Spark Level 1 — Bài 1 + 2: Phần cứng máy tính</small>
+  </div>
+  <div class="spacer"></div>
+  <div class="pill" id="pillLv" hidden>Level <b id="lvNow">1</b></div>
+  <div class="pill" id="pillQ" hidden>Câu <b id="qNow">1</b>/<span id="qTotal">10</span></div>
+  <div class="pill" id="pillScore" hidden>⭐ <b id="scoreNow">0</b></div>
+  <button class="iconbtn" id="btnHome" title="Về màn chọn level" aria-label="Về màn chọn level" hidden>🏠</button>
+  <button class="iconbtn" id="btnMute" title="Bật hoặc tắt âm thanh" aria-label="Bật hoặc tắt âm thanh">🔊</button>
+</header>
+
+<main id="stage">
+
+  <!-- CHỌN LEVEL -->
+  <section class="screen scroll on" id="scStart">
+    <div class="intro">
+      <h1>Chọn mê cung để Ong Vàng bắt đầu bay</h1>
+      <p>Trả lời đúng, Ong Vàng tiến một chốt và thắp sáng đoạn mạch phía sau. Trả lời sai hoặc hết giờ, Ong Vàng lùi lại một chốt và đoạn mạch đó tắt. Chỉ khi đi hết đường mạch, Ong Vàng mới chạm được con chip kho báu.</p>
+    </div>
+    <div class="namebar">
+      <label for="playerName">Tên học sinh hoặc nhóm</label>
+      <input id="playerName" type="text" maxlength="30" autocomplete="off" placeholder="Ví dụ: Nhóm 1 — Minh và Lan">
+      <button class="btn ghost" id="btnHist">📋 Bảng thành tích (<span id="histCount">0</span>)</button>
+    </div>
+    <div class="levels" id="levelCards"></div>
+    <p class="hint-line">Trả lời càng nhanh, điểm càng cao. Đúng liền 3 câu trở lên được thưởng thêm. Bấm phím A, B, C, D để chọn đáp án và Enter để sang câu tiếp theo.</p>
+  </section>
+
+  <!-- CHƠI -->
+  <section class="screen play" id="scPlay">
+    <div class="board-col">
+      <div class="board-head">
+        <h2 id="mazeName">Mê cung mạch đồng</h2>
+        <span id="mazeProg">Đã thắp 0/10 đoạn mạch</span>
+      </div>
+      <div class="board">
+        <svg id="maze" role="img" aria-label="Bản đồ mê cung mạch điện" preserveAspectRatio="xMidYMid meet">
+          <defs><radialGradient id="glow">
+            <stop offset="0%" stop-color="#FFE9A8" stop-opacity=".9"/>
+            <stop offset="100%" stop-color="#FFE9A8" stop-opacity="0"/>
+          </radialGradient></defs>
+          <g id="gWalls"></g><g id="segBase"></g><g id="segLit"></g>
+          <g id="gNodes"></g><g id="gChip"></g>
+          <g class="bee" id="bee"><g class="bee-float">
+            <ellipse cx="-1" cy="-8" rx="10" ry="6" fill="#fff" opacity=".8" transform="rotate(-28 -1 -8)"/>
+            <ellipse cx="8" cy="-8" rx="10" ry="6" fill="#fff" opacity=".8" transform="rotate(28 8 -8)"/>
+            <ellipse cx="4" cy="0" rx="13" ry="10" fill="#FFC531" stroke="#3B2A0A" stroke-width="2"/>
+            <path d="M2 -8.5 L2 8.5 M8.5 -7.5 L8.5 7.5" stroke="#3B2A0A" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="-8" cy="-1.5" r="6.5" fill="#3B2A0A"/>
+            <circle cx="-10" cy="-3" r="1.7" fill="#fff"/>
+            <path d="M-10 -7.5 q-3 -5.5 -6 -6.5" stroke="#3B2A0A" stroke-width="1.7" fill="none" stroke-linecap="round"/>
+          </g></g>
+        </svg>
+      </div>
+      <p class="legend">🐝 đúng thì tiến một chốt và thắp sáng mạch, sai thì lùi một chốt và mạch tắt</p>
+    </div>
+
+    <div class="q-col">
+      <div class="timer">
+        <div class="timer-track"><div class="timer-fill" id="timerFill"></div></div>
+        <div class="timer-num" id="timerNum">30s</div>
+      </div>
+      <div class="card">
+        <div class="qmeta"><span class="tag" id="tagLevel">Nhận biết</span><span class="tag topic" id="tagTopic">Phần cứng</span></div>
+        <p class="qtext" id="qText">…</p>
+        <div class="opts" id="opts"></div>
+        <div class="hintbox" id="hintBox"></div>
+        <div class="feedback" id="feedback" role="status" aria-live="polite"></div>
+        <div class="actions">
+          <button class="linkbtn" id="btnHint">💡 Gợi ý (−25 điểm)</button>
+          <span class="score-pop" id="scorePop"></span>
+          <span class="grow"></span>
+          <button class="btn" id="btnNext" style="display:none">Câu tiếp theo</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KẾT QUẢ -->
+  <section class="screen scroll" id="scEnd">
+    <div class="result">
+      <div class="stars" id="stars">⭐⭐⭐</div>
+      <h2 id="endTitle">Tuyệt vời!</h2>
+      <div class="badge" id="endBadge">Kỹ sư phần cứng nhí</div>
+      <p class="whoami" id="whoAmI"></p>
+      <div class="stats">
+        <div class="stat"><b id="endRight">0</b><span>câu đúng</span></div>
+        <div class="stat"><b id="endSteps">0</b><span>đoạn mạch đã thắp</span></div>
+        <div class="stat"><b id="endScore">0</b><span>tổng điểm</span></div>
+        <div class="stat"><b id="endBest">0</b><span>chuỗi đúng dài nhất</span></div>
+      </div>
+      <div class="endbtns">
+        <button class="btn" id="btnNextLv">Sang Level 2</button>
+        <button class="btn ghost" id="btnReplay">Chơi lại level này</button>
+        <button class="btn ghost" id="btnPick">Chọn level khác</button>
+        <button class="btn ghost" id="btnHist2">📋 Bảng thành tích</button>
+      </div>
+      <div class="review">
+        <h3 id="reviewTitle">Cùng xem lại các câu hỏi</h3>
+        <div id="reviewList"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BẢNG THÀNH TÍCH -->
+  <section class="screen scroll" id="scHist">
+    <div class="hist">
+      <h2>Bảng thành tích</h2>
+      <p class="note">Ghi lại mọi lượt chơi trong buổi học này. Bấm “Tải bảng điểm” để lưu thành file mở được bằng Excel.</p>
+      <div class="records" id="bestCards"></div>
+      <div id="histEmpty" class="empty">Chưa có lượt chơi nào được ghi.<br>Hoàn thành một level để ghi tên vào bảng thành tích.</div>
+      <div class="tablewrap" id="tableWrap">
+        <table class="histtable">
+          <thead><tr>
+            <th>#</th><th>Tên</th><th>Level</th><th>Câu đúng</th>
+            <th>Đoạn mạch</th><th>Điểm</th><th>Sao</th><th>Lúc</th>
+          </tr></thead>
+          <tbody id="histBody"></tbody>
+        </table>
+      </div>
+      <div class="endbtns">
+        <button class="btn" id="btnExport">⬇ Tải bảng điểm (.csv)</button>
+        <button class="btn ghost" id="btnClearHist">Xoá bảng thành tích</button>
+        <button class="btn ghost" id="btnBackHome">Quay lại chọn level</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+/* ==================== BỘ CÂU HỎI THEO LEVEL ==================== */
+const BANK = {
+1:[
+ {lv:"Nhận biết",topic:"Khái niệm phần cứng",
+  q:"Phần cứng (Hardware) của máy tính là gì?",
+  opts:["Những thiết bị em có thể cầm, nắm và nhìn thấy được","Những bài hát và bộ phim lưu trong máy","Các trò chơi em cài vào máy tính","Những dòng chữ hiện trên màn hình"],ans:0,
+  hint:"Thử nghĩ xem thứ nào em có thể chạm tay vào được.",
+  exp:"Phần cứng là các bộ phận có thật, sờ được: màn hình, bàn phím, chuột, loa…"},
+ {lv:"Nhận biết",topic:"Thiết bị nhập",
+  q:"Thiết bị nào sau đây là thiết bị nhập (Input Device)?",
+  opts:["Máy in (Printer)","Loa (Speakers)","Bàn phím (Keyboard)","Màn hình (Monitor)"],ans:2,
+  hint:"Thiết bị nhập là thiết bị đưa thông tin vào trong máy tính.",
+  exp:"Em gõ chữ và số trên bàn phím để đưa thông tin vào máy, nên bàn phím là thiết bị nhập."},
+ {lv:"Nhận biết",topic:"Thiết bị xuất",
+  q:"Thiết bị xuất (Output Device) có nhiệm vụ gì?",
+  opts:["Gửi thông tin vào máy tính","Đưa kết quả xử lí của máy tính đến con người","Nối máy tính với mạng Internet","Cung cấp điện cho máy tính"],ans:1,
+  hint:"Chữ “xuất” có nghĩa là đưa ra ngoài.",
+  exp:"Màn hình hiện hình, loa phát tiếng, máy in in ra giấy — tất cả đều đưa kết quả ra cho em."},
+ {lv:"Nhận biết",topic:"Nhận dạng máy tính",
+  q:"Máy tính nào có bàn di chuột (Touchpad) gắn sẵn ngay dưới bàn phím?",
+  opts:["Máy tính để bàn (Desktop)","Máy tính bảng (Tablet)","Điện thoại thông minh (Smartphone)","Máy tính xách tay (Laptop)"],ans:3,
+  hint:"Đây là loại máy tính có thể gập lại và mang đi học.",
+  exp:"Laptop tích hợp sẵn touchpad để trỏ và nhấp mà không cần chuột rời."},
+ {lv:"Nhận biết",topic:"Thiết bị xuất",
+  q:"Thiết bị nào sau đây KHÔNG phải là thiết bị xuất?",
+  opts:["Màn hình (Monitor)","Loa (Speakers)","Chuột (Mouse)","Máy in (Printer)"],ans:2,
+  hint:"Thiết bị nào dùng để ra lệnh cho máy tính?",
+  exp:"Chuột đưa lệnh vào máy nên là thiết bị nhập; màn hình, loa, máy in đều đưa kết quả ra ngoài."},
+ {lv:"Nhận biết",topic:"Thiết bị nhập",
+  q:"Máy quét (Scanner) dùng để làm gì?",
+  opts:["In tài liệu ra giấy","Đưa hình ảnh và chữ từ tờ giấy vào máy tính","Phát nhạc cho cả lớp nghe","Nối máy tính với mạng Internet"],ans:1,
+  hint:"“Quét” là đưa hình từ tờ giấy vào đâu?",
+  exp:"Scanner chụp lại trang giấy rồi đưa vào máy tính, nên nó là thiết bị nhập."},
+ {lv:"Nhận biết",topic:"Thiết bị nhập",
+  q:"Micro (Microphone) thuộc nhóm thiết bị nào?",
+  opts:["Thiết bị nhập","Thiết bị xuất","Thiết bị lưu trữ","Thiết bị kết nối"],ans:0,
+  hint:"Em nói vào micro thì tiếng đi vào máy hay đi ra ngoài?",
+  exp:"Micro thu giọng nói của em rồi đưa vào máy tính, nên nó là thiết bị nhập."},
+ {lv:"Nhận biết",topic:"Nhận dạng máy tính",
+  q:"Một bộ máy tính để bàn (Desktop) gồm những bộ phận chính nào?",
+  opts:["Thùng máy, bàn phím, chuột và màn hình","Chỉ cần một chiếc màn hình","Màn hình và cục pin","Máy in và máy quét"],ans:0,
+  hint:"Hãy nhớ lại bộ máy tính trong phòng tin học của trường.",
+  exp:"Desktop gồm thùng máy (Case), bàn phím, chuột và màn hình tách rời nhau."},
+ {lv:"Thông hiểu",topic:"Tích hợp nhập – xuất",
+  q:"Điện thoại thông minh nhận lệnh của em bằng cách nào?",
+  opts:["Bằng chuột rời","Bằng bàn di chuột","Bằng màn hình cảm ứng","Bằng máy quét"],ans:2,
+  hint:"Em chạm ngón tay vào đâu để mở một ứng dụng?",
+  exp:"Smartphone dùng màn hình cảm ứng: vừa hiện hình cho em xem, vừa nhận lệnh khi em chạm."},
+ {lv:"Nhận biết",topic:"Thiết bị xuất",
+  q:"Loa (Speakers) giúp em làm được việc gì?",
+  opts:["Gõ chữ vào máy tính","Nghe được âm thanh từ máy tính","Lưu bài tập mang về nhà","Nối máy tính với TV"],ans:1,
+  hint:"Loa phát ra thứ gì cho em?",
+  exp:"Loa đưa âm thanh — kết quả xử lí của máy — đến tai em, nên loa là thiết bị xuất."}
+],
+2:[
+ {lv:"Thông hiểu",topic:"Tích hợp nhập – xuất",
+  q:"Vì sao màn hình cảm ứng (Touchscreen) vừa là thiết bị nhập, vừa là thiết bị xuất?",
+  opts:["Vì nó rất mỏng và nhẹ","Vì nó cần cắm điện mới chạy được","Vì nó hiện hình cho em xem, đồng thời nhận lệnh khi em chạm tay","Vì nó chỉ có trên điện thoại thông minh"],ans:2,
+  hint:"Hãy nghĩ tới hai việc mà màn hình cảm ứng làm cùng một lúc.",
+  exp:"Hiện kết quả là xuất, chạm tay ra lệnh là nhập — nó làm cả hai việc nên gọi là thiết bị tích hợp."},
+ {lv:"Thông hiểu",topic:"Tích hợp nhập – xuất",
+  q:"Bộ tai nghe (Headset) khác tai nghe thường (Headphone) ở điểm nào?",
+  opts:["Có gắn thêm micro nên vừa nghe vừa nói được","Có dây dài hơn","Chỉ dùng được cho máy tính để bàn","Không cần cắm vào máy tính"],ans:0,
+  hint:"Khi gọi video cho ông bà, em cần thêm thiết bị gì để nói chuyện?",
+  exp:"Headset gồm loa (thiết bị xuất) và micro (thiết bị nhập) trong cùng một bộ."},
+ {lv:"Thông hiểu",topic:"Thiết bị ngoại vi",
+  q:"Vì sao loa, máy in, tai nghe được gọi là thiết bị ngoại vi?",
+  opts:["Vì chúng nằm bên trong thùng máy","Vì chúng đắt tiền hơn máy tính","Vì chúng chỉ dùng được với laptop","Vì chúng nối từ bên ngoài vào và không tự hoạt động một mình"],ans:3,
+  hint:"Chữ “ngoại” có nghĩa là ở bên ngoài.",
+  exp:"Thiết bị ngoại vi là bộ phận bổ sung, kết nối từ bên ngoài và cần nguồn điện từ thiết bị chính."},
+ {lv:"Thông hiểu",topic:"Thiết bị kết nối",
+  q:"Cô giáo muốn nối máy tính xách tay với máy chiếu để trình chiếu bài. Cô nên dùng cổng nào?",
+  opts:["Cổng mạng (Ethernet)","Cổng HDMI","Khe cắm thẻ nhớ","Ổ cắm điện"],ans:1,
+  hint:"Cổng này chuyên dùng cho màn hình, TV và máy chiếu.",
+  exp:"Cổng HDMI và VGA truyền hình ảnh từ máy tính ra màn hình, TV hoặc máy chiếu."},
+ {lv:"Thông hiểu",topic:"Thiết bị kết nối",
+  q:"Cổng USB trên máy tính dùng để nối những thiết bị nào?",
+  opts:["Chỉ nối được với TV","Máy in, chuột, bàn phím, ổ đĩa Flash","Chỉ nối được với Internet","Chỉ nối được với máy chiếu"],ans:1,
+  hint:"USB là cổng đa năng nhất trên máy tính.",
+  exp:"USB (Universal Serial Bus) nối được máy in, máy quét, máy ảnh, chuột, bàn phím và ổ đĩa Flash."},
+ {lv:"Thông hiểu",topic:"Thiết bị kết nối",
+  q:"Muốn nối máy tính vào mạng bằng dây cáp, em dùng cổng nào?",
+  opts:["Cổng mạng (Network port)","Cổng HDMI","Cổng VGA","Cổng cắm tai nghe"],ans:0,
+  hint:"Cổng này dùng sợi cáp mạng có đầu bấm hình vuông nhỏ.",
+  exp:"Cổng mạng dùng cáp có dây; ngoài ra máy tính còn nối mạng không dây bằng Wifi."},
+ {lv:"Thông hiểu",topic:"Nhận dạng máy tính",
+  q:"Máy tính tất cả trong một (All-in-One) khác máy tính để bàn ở điểm nào?",
+  opts:["Có pin nên dùng được khi mất điện","Thùng máy được gộp chung vào màn hình","Không cần bàn phím","Nhỏ bằng chiếc điện thoại"],ans:1,
+  hint:"“Tất cả trong một” nghĩa là gộp bộ phận nào lại với nhau?",
+  exp:"All-in-One gộp thùng máy vào màn hình nên ít chiếm chỗ, nhưng vẫn phải cắm nguồn điện."},
+ {lv:"Thông hiểu",topic:"Nhận dạng máy tính",
+  q:"Vì sao máy tính bảng và điện thoại dễ mang theo hơn máy tính để bàn?",
+  opts:["Vì màn hình của chúng lớn hơn","Vì nhỏ, nhẹ và chạy được bằng pin","Vì có nhiều cổng kết nối hơn","Vì chúng không cần màn hình"],ans:1,
+  hint:"Thiết bị nào không phải cắm điện liên tục khi dùng?",
+  exp:"Tablet và smartphone nhỏ nhẹ, dùng pin nên di động được; desktop phải cắm điện và đặt cố định."},
+ {lv:"Thông hiểu",topic:"Thiết bị nhập",
+  q:"Webcam gắn sẵn trên laptop thuộc nhóm thiết bị nào?",
+  opts:["Thiết bị xuất","Thiết bị nhập","Thiết bị lưu trữ","Thiết bị kết nối"],ans:1,
+  hint:"Webcam đưa hình ảnh của em đi vào đâu?",
+  exp:"Webcam thu hình rồi đưa vào máy tính nên là thiết bị nhập, thường tích hợp sẵn trên laptop."},
+ {lv:"Thông hiểu",topic:"Nhận dạng máy tính",
+  q:"Phát biểu nào sau đây đúng về máy tính để bàn (Desktop)?",
+  opts:["Có thể vừa đi vừa dùng","Đặt cố định và luôn phải cắm nguồn điện","Chạy bằng pin nên rất dễ di động","Màn hình luôn luôn là màn hình cảm ứng"],ans:1,
+  hint:"Máy tính trong phòng tin học có mang đi chơi được không?",
+  exp:"Desktop hạn chế di chuyển vì kích thước lớn và luôn cần kết nối với nguồn điện."},
+ {lv:"Thông hiểu",topic:"Tích hợp nhập – xuất",
+  q:"Thiết bị nào sau đây vừa là thiết bị nhập, vừa là thiết bị xuất?",
+  opts:["Máy in (Printer)","Bàn phím (Keyboard)","Bộ tai nghe (Headset)","Máy quét (Scanner)"],ans:2,
+  hint:"Thiết bị nào vừa cho em nghe, vừa cho em nói?",
+  exp:"Headset có loa (xuất) và micro (nhập) nên là thiết bị tích hợp nhập – xuất."},
+ {lv:"Thông hiểu",topic:"Thiết bị nhập",
+  q:"Bàn di chuột (Touchpad) trên laptop thay thế cho thiết bị nào?",
+  opts:["Bàn phím","Chuột","Màn hình","Loa"],ans:1,
+  hint:"Nó dùng để di con trỏ và nhấp chọn.",
+  exp:"Touchpad là thiết bị nhập cảm ứng, giúp trỏ và nhấp thay cho chuột rời."}
+],
+3:[
+ {lv:"Vận dụng",topic:"Nhận dạng máy tính",
+  q:"Bạn An muốn mang máy tính đến lớp và vẫn dùng được khi chưa có ổ cắm điện. An nên chọn máy nào?",
+  opts:["Máy tính để bàn (Desktop)","Máy tính tất cả trong một (All-in-One)","Máy tính xách tay (Laptop)","Máy in (Printer)"],ans:2,
+  hint:"Máy nào vừa nhỏ nhẹ, vừa có pin bên trong?",
+  exp:"Laptop nhỏ, nhẹ và chạy bằng pin nên mang đi và dùng được khi chưa cắm điện."},
+ {lv:"Vận dụng",topic:"Thiết bị nhập",
+  q:"Em muốn đưa bài vẽ trên giấy vào máy tính để nộp cho cô. Em nên dùng thiết bị nào?",
+  opts:["Máy in (Printer)","Máy quét (Scanner)","Loa (Speakers)","Máy chiếu (Projector)"],ans:1,
+  hint:"Thiết bị nào biến tờ giấy thành hình ảnh trong máy tính?",
+  exp:"Scanner là thiết bị nhập, đưa hình ảnh từ tờ giấy vào máy tính. Máy in thì làm ngược lại."},
+ {lv:"Vận dụng",topic:"Thiết bị nhập",
+  q:"Nhóm em quay video giới thiệu lớp học. Cần thiết bị nhập nào để thu lời thuyết minh?",
+  opts:["Loa","Micro","Máy in","Màn hình"],ans:1,
+  hint:"Thiết bị nào đưa giọng nói vào máy tính?",
+  exp:"Micro là thiết bị nhập, thu giọng nói và đưa vào máy tính; loa thì phát tiếng ra ngoài."},
+ {lv:"Vận dụng",topic:"Thiết bị xuất",
+  q:"Máy tính mở nhạc nhưng không nghe thấy gì. Em nên kiểm tra thiết bị nào trước tiên?",
+  opts:["Bàn phím","Máy quét","Loa hoặc tai nghe","Máy in"],ans:2,
+  hint:"Âm thanh là kết quả đi ra ngoài, vậy phải kiểm tra nhóm thiết bị nào?",
+  exp:"Âm thanh là kết quả xuất ra, nên cần kiểm tra thiết bị xuất âm thanh là loa hoặc tai nghe."},
+ {lv:"Vận dụng",topic:"Thiết bị kết nối",
+  q:"Em cần chép bài tập mang về nhà mà không dùng Internet. Em nên dùng cách nào?",
+  opts:["Cắm ổ đĩa Flash (USB) vào cổng USB","Nối cáp HDMI sang máy chiếu","Bật webcam quay lại màn hình","Cắm tai nghe vào máy tính"],ans:0,
+  hint:"Thiết bị nhỏ gọn nào giúp em mang dữ liệu đi theo?",
+  exp:"Ổ đĩa Flash là thiết bị lưu trữ nhỏ gọn, cắm vào cổng USB để chép bài mang về."},
+ {lv:"Vận dụng",topic:"Thiết bị ngoại vi",
+  q:"Vì sao một thiết bị ngoại vi như máy in không thể tự làm việc một mình?",
+  opts:["Vì nó quá nhỏ","Vì nó cần nhận lệnh và nguồn điện từ thiết bị chính","Vì nó không có màn hình","Vì nó chỉ hoạt động vào ban đêm"],ans:1,
+  hint:"Thiết bị ngoại vi là bộ phận bổ sung hay bộ phận chính?",
+  exp:"Thiết bị ngoại vi nối từ bên ngoài vào, phải nhận lệnh và nguồn điện từ thiết bị chính mới chạy được."},
+ {lv:"Vận dụng",topic:"Tích hợp nhập – xuất",
+  q:"Bạn Lan dùng máy tính bảng để học bài. Bộ phận nào giúp Lan vừa xem vừa ra lệnh cho máy?",
+  opts:["Chuột rời","Màn hình cảm ứng","Máy quét","Bàn di chuột"],ans:1,
+  hint:"Máy tính bảng không có chuột và bàn phím rời.",
+  exp:"Màn hình cảm ứng của tablet vừa hiện nội dung (xuất) vừa nhận lệnh chạm (nhập)."},
+ {lv:"Vận dụng",topic:"Thiết bị kết nối",
+  q:"Phòng máy có laptop, máy chiếu và loa. Để cả lớp cùng xem và nghe một video, cần dùng gì?",
+  opts:["Chỉ cần laptop là đủ","Laptop nối máy chiếu qua cổng HDMI và nối loa","Chỉ cần máy quét","Chỉ cần bàn phím rời"],ans:1,
+  hint:"Một thiết bị lo phần hình, một thiết bị lo phần tiếng.",
+  exp:"Máy chiếu và loa đều là thiết bị xuất: máy chiếu đưa hình lên màn lớn, loa đưa âm thanh ra cả phòng."},
+ {lv:"Vận dụng",topic:"Thiết bị kết nối",
+  q:"Thiết bị nào sau đây KHÔNG phải là cổng kết nối?",
+  opts:["Cổng HDMI","Cổng USB","Cổng mạng (Network port)","Bàn phím (Keyboard)"],ans:3,
+  hint:"Ba thứ kia đều là chỗ để cắm dây vào máy tính.",
+  exp:"Bàn phím là thiết bị nhập; HDMI, USB và cổng mạng là các cổng kết nối trên máy tính."},
+ {lv:"Vận dụng",topic:"An toàn với AI",
+  q:"Em nhờ AI vẽ giúp một bức tranh cho bài học. Việc nào sau đây em KHÔNG nên làm?",
+  opts:["Gõ yêu cầu bằng bàn phím","Xem bức tranh trên màn hình","Nghe AI đọc kết quả bằng loa","Tự gửi ảnh thật của mình cho AI khi chưa xin phép thầy cô"],ans:3,
+  hint:"Có một thứ em phải giữ riêng cho mình, không đưa cho AI.",
+  exp:"Không dùng hình ảnh, giọng nói hay thông tin cá nhân thật làm đầu vào cho AI nếu chưa được phép."},
+ {lv:"Vận dụng",topic:"An toàn với AI",
+  q:"Khi em gõ câu hỏi gửi cho AI, câu hỏi đó được gọi là gì?",
+  opts:["Thông tin đầu vào","Thông tin đầu ra","Thiết bị lưu trữ","Cổng kết nối"],ans:0,
+  hint:"Câu hỏi đi từ em vào máy hay từ máy ra ngoài?",
+  exp:"Câu hỏi hay yêu cầu em gửi cho AI là thông tin đầu vào; câu trả lời hiện ra là thông tin đầu ra."},
+ {lv:"Vận dụng",topic:"An toàn với AI",
+  q:"Trước khi bật camera hoặc micro để làm việc với AI, em cần làm gì?",
+  opts:["Bật ngay cho nhanh","Xin phép thầy cô hoặc người lớn","Tắt máy tính đi","Tháo bàn phím ra"],ans:1,
+  hint:"Camera và micro thu hình, thu tiếng thật của em.",
+  exp:"Em không tự bật camera, micro hay gửi ảnh, giọng nói nếu chưa được thầy cô hoặc người lớn cho phép."},
+ {lv:"Vận dụng",topic:"An toàn với AI",
+  q:"Trong giờ ra chơi, em muốn dùng AI luyện tập nhanh vài câu hỏi. Thiết bị nào tiện nhất?",
+  opts:["Máy tính để bàn","Máy chiếu","Máy tính bảng hoặc điện thoại","Máy in"],ans:2,
+  hint:"Thiết bị nào cầm được trên tay và mở lên là dùng ngay?",
+  exp:"Tablet và smartphone tiện tra cứu nhanh, luyện tập ngắn nhờ nhỏ gọn và có màn hình cảm ứng."},
+ {lv:"Vận dụng",topic:"Khái niệm phần cứng",
+  q:"Bạn Minh nói: “Bài hát trong máy tính cũng là phần cứng.” Em nhận xét thế nào?",
+  opts:["Đúng, vì bài hát nằm trong máy tính","Sai, vì bài hát không cầm nắm được nên không phải phần cứng","Đúng, vì bài hát phát ra từ loa","Sai, vì bài hát không có trong máy tính"],ans:1,
+  hint:"Phần cứng phải là thứ em cầm và nhìn thấy được.",
+  exp:"Bài hát là dữ liệu, không cầm nắm được. Chỉ loa, tai nghe — thứ phát bài hát ra — mới là phần cứng."}
+]
+};
+
+/* ==================== CẤU HÌNH 3 MÊ CUNG ==================== */
+const LEVELS = [
+ { id:1, name:"Mê cung mạch đồng", sub:"Đường mạch đi thẳng theo hàng, dễ theo dõi",
+   skill:"Nhận biết", time:30,
+   accent:"#FFC531", accent2:"#F2A007", bg1:"#123F52", bg2:"#0C2E3D", bg3:"#133F52",
+   bgA:"#1D6B83", bgB:"#0E3446", wall:"#071F2A", litFill:"#6E4A05", dim:"#2A5769", dimtext:"#8FB6C4",
+   cols:4, rows:3, cw:104, ch:92,
+   path:[[0,0],[1,0],[2,0],[3,0],[3,1],[2,1],[1,1],[0,1],[0,2],[1,2],[2,2],[3,2]] },
+
+ { id:2, name:"Mê cung xoắn ốc", sub:"Đường mạch cuộn tròn dần vào tâm bo mạch",
+   skill:"Thông hiểu", time:25,
+   accent:"#5FE3D3", accent2:"#25A99B", bg1:"#123452", bg2:"#0B2338", bg3:"#12324B",
+   bgA:"#1A5478", bgB:"#0A2B44", wall:"#061726", litFill:"#12554E", dim:"#2B4E70", dimtext:"#93B4CE",
+   cols:4, rows:4, cw:104, ch:92,
+   path:[[0,0],[1,0],[2,0],[3,0],[3,1],[3,2],[3,3],[2,3],[1,3],[0,3],[0,2],[0,1],[1,1],[2,1]] },
+
+ { id:3, name:"Mê cung nhánh rẽ", sub:"Đường mạch bẻ ngoặt liên tục, nhiều ngõ cụt",
+   skill:"Vận dụng", time:20,
+   accent:"#D6A2FF", accent2:"#9B5DE5", bg1:"#2A2249", bg2:"#1C1633", bg3:"#2A2149",
+   bgA:"#443A6E", bgB:"#221B3D", wall:"#130E24", litFill:"#4A2C77", dim:"#493C6E", dimtext:"#B3A3D6",
+   cols:5, rows:4, cw:100, ch:90,
+   path:[[0,3],[0,2],[1,2],[1,3],[2,3],[2,2],[2,1],[1,1],[1,0],[2,0],[3,0],[3,1],[4,1],[4,2],[3,2],[3,3]] }
+];
+LEVELS.forEach(L=>{ L.qs=BANK[L.id]; });
+
+/* ==================== THAM SỐ CHUNG ==================== */
+const BASE=100, PER_SEC=5, STREAK_BONUS=50, HINT_COST=25, LETTERS=["A","B","C","D"];
+const SVGNS="http://www.w3.org/2000/svg";
+const $=id=>document.getElementById(id);
+const el=(t,a)=>{const n=document.createElementNS(SVGNS,t);for(const k in a)n.setAttribute(k,a[k]);return n;};
+
+/* ==================== TRẠNG THÁI ==================== */
+let cfg=null, QS=[], idx=0, pos=0, score=0, right=0, streak=0, bestStreak=0;
+let locked=false, hintUsed=false, left=0, ticker=null, results=[];
+
+/* ==================== ÂM THANH ==================== */
+let ctx=null, muted=false;
+const AC=()=>{ if(!ctx) ctx=new (window.AudioContext||window.webkitAudioContext)(); return ctx; };
+function tone(f,at,dur,type="sine",vol=.16){
+  if(muted) return;
+  try{
+    const c=AC(),o=c.createOscillator(),g=c.createGain();
+    o.type=type;o.frequency.setValueAtTime(f,c.currentTime+at);
+    g.gain.setValueAtTime(0,c.currentTime+at);
+    g.gain.linearRampToValueAtTime(vol,c.currentTime+at+.015);
+    g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+at+dur);
+    o.connect(g);g.connect(c.destination);
+    o.start(c.currentTime+at);o.stop(c.currentTime+at+dur+.03);
+  }catch(e){}
+}
+const sfx={
+  tap:()=>tone(620,0,.07,"triangle",.09),
+  right:()=>[523,659,784,1047].forEach((f,i)=>tone(f,i*.075,.3,"triangle",.15)),
+  wrong:()=>{tone(300,0,.2,"sine",.14);tone(210,.16,.32,"sine",.13);},
+  tick:()=>tone(950,0,.05,"square",.06),
+  timeout:()=>{tone(420,0,.16,"sine",.13);tone(300,.14,.2,"sine",.12);tone(200,.3,.3,"sine",.11);},
+  hint:()=>{tone(760,0,.09,"triangle",.1);tone(1010,.08,.14,"triangle",.09);},
+  win:()=>{[523,659,784,1047,1319].forEach((f,i)=>tone(f,i*.11,.45,"triangle",.16));tone(784,.62,.7,"sine",.13);},
+  end:()=>[523,587,659].forEach((f,i)=>tone(f,i*.14,.4,"sine",.13))
+};
+
+/* ==================== HÌNH HỌC MÊ CUNG ==================== */
+const cx=(L,c)=>(c+0.5)*L.cw, cy=(L,r)=>(r+0.5)*L.ch;
+const viewBox=L=>`-10 -10 ${L.cols*L.cw+20} ${L.rows*L.ch+20}`;
+function wallCells(L){
+  const used=new Set(L.path.map(p=>p[0]+","+p[1])), out=[];
+  for(let r=0;r<L.rows;r++) for(let c=0;c<L.cols;c++)
+    if(!used.has(c+","+r)) out.push([c,r]);
+  return out;
+}
+
+/* ---- Bản đồ thu nhỏ trên thẻ chọn level ---- */
+function preview(L){
+  const s=el("svg",{viewBox:viewBox(L),preserveAspectRatio:"xMidYMid meet"});
+  wallCells(L).forEach(([c,r])=>s.appendChild(el("rect",{
+    x:c*L.cw+11,y:r*L.ch+11,width:L.cw-22,height:L.ch-22,rx:12,
+    fill:"rgba(255,255,255,.05)"})));
+  for(let i=1;i<L.path.length;i++){
+    const a=L.path[i-1],b=L.path[i];
+    s.appendChild(el("line",{x1:cx(L,a[0]),y1:cy(L,a[1]),x2:cx(L,b[0]),y2:cy(L,b[1]),
+      stroke:L.accent2,"stroke-width":11,"stroke-linecap":"round"}));
+  }
+  L.path.forEach((p,i)=>s.appendChild(el("circle",{
+    cx:cx(L,p[0]),cy:cy(L,p[1]),r:i===L.path.length-1?17:10,
+    fill:i===L.path.length-1?L.accent:"#fff",opacity:i===L.path.length-1?1:.55})));
+  return s;
+}
+
+/* ---- Bàn chơi ---- */
+function buildMaze(){
+  const L=cfg, m=$("maze");
+  m.setAttribute("viewBox",viewBox(L));
+  ["gWalls","segBase","segLit","gNodes","gChip"].forEach(g=>$(g).innerHTML="");
+  const last=L.path.length-1;
+
+  wallCells(L).forEach(([c,r])=>$("gWalls").appendChild(el("rect",{
+    x:c*L.cw+10,y:r*L.ch+10,width:L.cw-20,height:L.ch-20,rx:14,class:"wall"})));
+
+  for(let i=1;i<L.path.length;i++){
+    const a=L.path[i-1],b=L.path[i];
+    const d={x1:cx(L,a[0]),y1:cy(L,a[1]),x2:cx(L,b[0]),y2:cy(L,b[1])};
+    $("segBase").appendChild(el("line",{...d,class:"seg-base"}));
+    $("segLit").appendChild(el("line",{...d,class:"seg-lit",id:"lit"+i}));
+  }
+
+  L.path.forEach((p,i)=>{
+    if(i===last) return;
+    const x=cx(L,p[0]),y=cy(L,p[1]);
+    $("gNodes").appendChild(el("circle",{cx:x,cy:y,r:i===0?14:22,class:"node",id:"nd"+i}));
+    if(i>0){const t=el("text",{x,y,class:"node-num",id:"nn"+i});t.textContent=i;$("gNodes").appendChild(t);}
+  });
+
+  const tx=cx(L,L.path[last][0]), ty=cy(L,L.path[last][1]);
+  const chip=$("gChip");
+  chip.appendChild(el("circle",{cx:tx,cy:ty,r:38,fill:"url(#glow)",class:"chip-glow",id:"chipGlow"}));
+  chip.appendChild(el("rect",{x:tx-17,y:ty-17,width:34,height:34,rx:7,fill:L.bg2,stroke:L.dim,"stroke-width":3}));
+  chip.appendChild(el("rect",{x:tx-9,y:ty-9,width:18,height:18,rx:4,fill:L.dim,id:"chipCore"}));
+  [-11,0,11].forEach(o=>{
+    chip.appendChild(el("path",{d:`M${tx+o} ${ty-17}v-7M${tx+o} ${ty+17}v7`,stroke:L.dim,"stroke-width":3,"stroke-linecap":"round"}));
+    chip.appendChild(el("path",{d:`M${tx-17} ${ty+o}h-7M${tx+17} ${ty+o}h7`,stroke:L.dim,"stroke-width":3,"stroke-linecap":"round"}));
+  });
+  moveBee(0,false);
+}
+function moveBee(i,animate=true){
+  const b=$("bee"), p=cfg.path[i];
+  if(!animate) b.style.transition="none";
+  b.style.transform=`translate(${cx(cfg,p[0])}px, ${cy(cfg,p[1])-30}px)`;
+  if(!animate) requestAnimationFrame(()=>b.style.transition="");
+}
+
+/* ==================== ĐIỀU HƯỚNG ==================== */
+function show(id){["scStart","scPlay","scEnd","scHist"].forEach(s=>$(s).classList.toggle("on",s===id));}
+function applyTheme(L){
+  const s=document.documentElement.style;
+  s.setProperty("--accent",L.accent); s.setProperty("--accent-2",L.accent2);
+  s.setProperty("--bg-1",L.bg1); s.setProperty("--bg-2",L.bg2); s.setProperty("--bg-3",L.bg3);
+  s.setProperty("--bg-a",L.bgA);  s.setProperty("--bg-b",L.bgB);
+  s.setProperty("--lit-fill",L.litFill); s.setProperty("--wall",L.wall);
+  s.setProperty("--dim",L.dim); s.setProperty("--dimtext",L.dimtext);
+}
+
+function buildLevelCards(){
+  const box=$("levelCards"); box.innerHTML="";
+  LEVELS.forEach(L=>{
+    const c=document.createElement("button");
+    c.className="lvcard"; c.style.borderColor=L.accent2+"66";
+    c.innerHTML=`<span class="lvnum" style="background:${L.accent}">LEVEL ${L.id}</span>
+      <h3>${L.name}</h3>
+      <p class="meta">${L.qs.length} câu, ${L.time} giây mỗi câu<br>Mức độ: ${L.skill}</p>
+      <div class="prev"></div>
+      <p class="rec" id="rec${L.id}" style="color:${L.accent}"></p>
+      <span class="go" style="color:${L.accent}">Bắt đầu bay ▸</span>`;
+    c.querySelector(".prev").appendChild(preview(L));
+    c.addEventListener("mouseenter",()=>c.style.borderColor=L.accent);
+    c.addEventListener("mouseleave",()=>c.style.borderColor=L.accent2+"66");
+    c.addEventListener("click",()=>{ AC(); sfx.tap(); startLevel(L); });
+    box.appendChild(c);
+  });
+}
+
+function goHome(){
+  clearInterval(ticker);
+  show("scStart");
+  applyTheme(LEVELS[0]);
+  ["pillLv","pillQ","pillScore"].forEach(p=>$(p).hidden=true);
+  $("btnHome").hidden=true;
+}
+
+/* ==================== VÒNG CHƠI ==================== */
+function startLevel(L){
+  cfg=L; QS=L.qs;
+  idx=0;pos=0;score=0;right=0;streak=0;bestStreak=0;results=[];
+  applyTheme(L);
+  ["pillLv","pillQ","pillScore"].forEach(p=>$(p).hidden=false);
+  $("btnHome").hidden=false;
+  $("lvNow").textContent=L.id;
+  $("qTotal").textContent=QS.length;
+  $("scoreNow").textContent="0";
+  $("mazeName").textContent=L.name;
+  show("scPlay"); buildMaze(); updateProgress(); render();
+}
+function updateProgress(){ $("mazeProg").textContent=`Đã thắp ${pos}/${QS.length} đoạn mạch`; }
+
+/* Vẽ lại toàn bộ đường mạch theo vị trí hiện tại của Ong Vàng */
+function paintPath(){
+  for(let i=1;i<cfg.path.length;i++){
+    const seg=$("lit"+i);
+    if(seg) seg.classList.toggle("on", i<=pos);
+  }
+  for(let i=1;i<=QS.length;i++){
+    const nd=$("nd"+i), nn=$("nn"+i);
+    if(nd) nd.classList.toggle("lit", i<=pos);
+    if(nn) nn.classList.toggle("lit", i<=pos);
+  }
+}
+/* Nháy đỏ chốt mà Ong Vàng vừa phải rời khỏi */
+function flashNode(i){
+  const nd=$("nd"+i), nn=$("nn"+i);
+  if(!nd) return;
+  nd.classList.add("miss"); if(nn) nn.classList.add("miss");
+  setTimeout(()=>{ nd.classList.remove("miss"); if(nn) nn.classList.remove("miss"); paintPath(); },900);
+}
+
+function render(){
+  const q=QS[idx];
+  locked=false;hintUsed=false;left=cfg.time;
+  $("qNow").textContent=idx+1;
+  $("tagLevel").textContent=q.lv;
+  $("tagLevel").className="tag "+(q.lv==="Nhận biết"?"lv1":q.lv==="Thông hiểu"?"lv2":"lv3");
+  $("tagTopic").textContent=q.topic;
+  $("qText").textContent=q.q;
+  $("feedback").className="feedback";
+  $("hintBox").className="hintbox";
+  $("scorePop").className="score-pop";
+  $("btnNext").style.display="none";
+  $("btnHint").disabled=false;
+  $("btnHint").textContent=`💡 Gợi ý (−${HINT_COST} điểm)`;
+
+  const box=$("opts"); box.innerHTML="";
+  q.opts.forEach((text,i)=>{
+    const b=document.createElement("button");
+    b.className="opt"; b.dataset.i=i;
+    b.innerHTML=`<span class="letter">${LETTERS[i]}</span><span>${text}</span><span class="mark"></span>`;
+    b.addEventListener("click",()=>answer(i));
+    box.appendChild(b);
+  });
+  document.querySelector(".card").scrollTop=0;
+  startTimer();
+}
+
+function startTimer(){
+  clearInterval(ticker); paintTimer();
+  ticker=setInterval(()=>{
+    left-=0.1;
+    if(left<=0){ left=0; paintTimer(); clearInterval(ticker); answer(-1); return; }
+    const s=Math.ceil(left);
+    if(s<=5 && Math.abs(left-s)<0.06) sfx.tick();
+    paintTimer();
+  },100);
+}
+function paintTimer(){
+  const f=$("timerFill"), n=$("timerNum"), s=Math.ceil(left);
+  f.style.width=(left/cfg.time*100)+"%";
+  n.textContent=s+"s";
+  f.className="timer-fill"+(left<=5?" danger":left<=10?" warn":"");
+  n.className="timer-num"+(left<=5?" danger":"");
+}
+
+function answer(pick){
+  if(locked) return;
+  locked=true; clearInterval(ticker);
+  const q=QS[idx], ok=(pick===q.ans), timeout=(pick===-1), secs=Math.max(0,Math.floor(left));
+
+  document.querySelectorAll(".opt").forEach(b=>{
+    const i=+b.dataset.i; b.disabled=true;
+    if(i===q.ans){b.classList.add("right");b.querySelector(".mark").textContent="✓";}
+    else if(i===pick){b.classList.add("wrong");b.querySelector(".mark").textContent="✗";}
+  });
+
+  let stepMsg="";
+  if(ok){
+    right++;streak++;bestStreak=Math.max(bestStreak,streak);
+    let g=BASE+secs*PER_SEC+(streak>=3?STREAK_BONUS:0)-(hintUsed?HINT_COST:0);
+    g=Math.max(0,g); score+=g;
+    pos=Math.min(pos+1,QS.length);
+    sfx.right();
+    const pop=$("scorePop");
+    pop.textContent=`+${g} điểm${streak>=3?`  ·  chuỗi ${streak} câu!`:""}`;
+    pop.classList.add("show");
+    stepMsg=`Ong Vàng tiến lên chốt số ${pos}.`;
+  }else{
+    streak=0;
+    if(pos>0){
+      flashNode(pos);
+      pos--;
+      stepMsg=`Ong Vàng lùi về ${pos===0?"vạch xuất phát":"chốt số "+pos} và đoạn mạch vừa thắp tắt đi.`;
+    }else{
+      stepMsg="Ong Vàng đang ở vạch xuất phát nên không lùi thêm được.";
+    }
+    timeout?sfx.timeout():sfx.wrong();
+  }
+  $("scoreNow").textContent=score;
+  paintPath(); updateProgress(); moveBee(pos);
+
+  const fb=$("feedback");
+  fb.className="feedback show "+(ok?"ok":"no");
+  fb.innerHTML= ok
+    ? `<strong>Chính xác! ⚡ ${stepMsg}</strong>${q.exp}`
+    : `<strong>${timeout?"Hết giờ mất rồi!":"Chưa đúng."} Đáp án là ${LETTERS[q.ans]}. ${q.opts[q.ans]}</strong>${stepMsg}<br>${q.exp}`;
+
+  results.push({n:idx+1,q:q.q,ans:LETTERS[q.ans]+". "+q.opts[q.ans],exp:q.exp,ok});
+  $("btnHint").disabled=true;
+  const nx=$("btnNext");
+  nx.style.display="inline-block";
+  nx.textContent=(idx===QS.length-1)?"Xem kết quả":"Câu tiếp theo";
+  nx.focus();
+}
+
+function next(){ if(idx<QS.length-1){idx++;render();} else finish(); }
+
+function finish(){
+  const total=QS.length, ratio=right/total;
+  const stopAt=pos, reached=(pos>=total);
+  if(reached){
+    pos=cfg.path.length-1; paintPath(); moveBee(pos);
+    $("chipGlow").classList.add("on"); $("chipCore").setAttribute("fill",cfg.accent);
+    sfx.win();
+  }else{
+    if(ratio>=.8) $("chipGlow").classList.add("on");
+    ratio>=.8 ? sfx.win() : sfx.end();
+  }
+
+  const badges={1:["Ong Vàng tập bay","Thợ học việc","Thợ học việc giỏi","Trợ lý phần cứng"],
+                2:["Ong Vàng tập bay","Thợ máy tập sự","Thợ máy khéo tay","Thợ máy tài ba"],
+                3:["Ong Vàng tập bay","Kĩ thuật viên tập sự","Kĩ thuật viên giỏi","Kỹ sư phần cứng nhí"]};
+  let tier,stars,title;
+  if(ratio>=.8){tier=3;stars="⭐⭐⭐";title=reached?"Hoàn hảo! Ong Vàng chạm tới con chip kho báu.":"Xuất sắc!";}
+  else if(ratio>=.6){tier=2;stars="⭐⭐";title="Giỏi lắm!";}
+  else if(ratio>=.4){tier=1;stars="⭐";title="Khá rồi đó!";}
+  else {tier=0;stars="✨";title="Cùng ôn lại bài nhé!";}
+
+  $("stars").textContent=stars;
+  $("endTitle").textContent=title;
+  $("endBadge").textContent=badges[cfg.id][tier];
+  $("endRight").textContent=right+"/"+total;
+  $("endSteps").textContent=(reached?total:stopAt)+"/"+total;
+  $("endScore").textContent=score;
+  $("endBest").textContent=bestStreak;
+  $("reviewTitle").textContent=`Cùng xem lại ${total} câu hỏi của ${cfg.name}`;
+  $("reviewList").innerHTML=results.map(r=>`
+    <div class="rv ${r.ok?"ok":"no"}">
+      <div class="q">${r.ok?"✓":"✗"} Câu ${r.n}. ${r.q}</div>
+      <div class="a">Đáp án: ${r.ans}</div>
+      <div class="e">${r.exp}</div>
+    </div>`).join("");
+
+  $("whoAmI").textContent="Kết quả của: "+playerName();
+  addRecord({id:plays.length+1, name:playerName(), lvId:cfg.id, lvName:cfg.name,
+             right, total, steps:(reached?total:stopAt), score, stars:tier, when:stamp()});
+
+  const nextLv=LEVELS.find(L=>L.id===cfg.id+1);
+  const bn=$("btnNextLv");
+  if(nextLv){ bn.style.display="inline-block"; bn.textContent=`Sang Level ${nextLv.id}`; }
+  else bn.style.display="none";
+
+  setTimeout(()=>{ show("scEnd"); $("pillQ").hidden=true; $("scEnd").scrollTop=0; },1000);
+}
+
+/* ==================== BẢNG THÀNH TÍCH ==================== */
+const plays=[];
+const STAR=t=>t>0?"⭐".repeat(t):"✨";
+function playerName(){ const v=$("playerName").value.trim(); return v || "Chưa đặt tên"; }
+function stamp(){
+  const d=new Date(), z=n=>String(n).padStart(2,"0");
+  return `${z(d.getHours())}:${z(d.getMinutes())} ${z(d.getDate())}/${z(d.getMonth()+1)}`;
+}
+function bestOf(lvId){
+  const r=plays.filter(h=>h.lvId===lvId);
+  return r.length ? r.reduce((a,b)=>b.score>a.score?b:a) : null;
+}
+function refreshRecords(){
+  LEVELS.forEach(L=>{
+    const e=$("rec"+L.id); if(!e) return;
+    const b=bestOf(L.id);
+    e.textContent = b ? `🏅 Kỷ lục ${b.score} điểm — ${b.name}` : "Chưa có kỷ lục";
+    e.style.opacity = b ? ".95" : ".45";
+  });
+  $("histCount").textContent=plays.length;
+}
+function addRecord(r){ plays.push(r); refreshRecords(); }
+
+function renderHist(){
+  const has=plays.length>0;
+  $("histEmpty").style.display = has?"none":"block";
+  $("tableWrap").style.display = has?"block":"none";
+  $("btnExport").style.display = has?"inline-block":"none";
+  $("btnClearHist").style.display = has?"inline-block":"none";
+
+  $("bestCards").innerHTML = LEVELS.map(L=>{
+    const b=bestOf(L.id);
+    return `<div class="reccard" style="border-left-color:${L.accent2}">
+      <div class="t">Level ${L.id} — ${L.name}</div>
+      <b>${b?b.score+" điểm":"—"}</b>
+      <span>${b?`${b.name} · ${b.right}/${b.total} câu đúng · ${STAR(b.stars)}`:"chưa có lượt chơi nào"}</span>
+    </div>`;
+  }).join("");
+
+  const bestIds=new Set(LEVELS.map(L=>bestOf(L.id)).filter(Boolean).map(b=>b.id));
+  $("histBody").innerHTML = plays.slice().reverse().map(h=>`
+    <tr class="${bestIds.has(h.id)?"best":""}">
+      <td>${h.id}</td><td class="nm">${bestIds.has(h.id)?"🏅 ":""}${h.name}</td>
+      <td>${h.lvId} — ${h.lvName}</td><td>${h.right}/${h.total}</td>
+      <td>${h.steps}/${h.total}</td><td class="pt">${h.score}</td>
+      <td>${STAR(h.stars)}</td><td>${h.when}</td>
+    </tr>`).join("");
+}
+
+function exportCSV(){
+  if(!plays.length) return;
+  const rows=[["STT","Tên","Level","Mê cung","Câu đúng","Tổng câu","Đoạn mạch đã thắp","Điểm","Số sao","Thời gian"]];
+  plays.forEach(h=>rows.push([h.id,h.name,h.lvId,h.lvName,h.right,h.total,h.steps,h.score,h.stars,h.when]));
+  const csv="\uFEFF"+rows.map(r=>r.map(f=>{
+    const t=String(f);
+    return /[",;\r\n]/.test(t) ? '"'+t.replace(/"/g,'""')+'"' : t;
+  }).join(",")).join("\r\n");
+  try{
+    const a=document.createElement("a");
+    a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8;"}));
+    a.download=`BangDiem_MeCungPhanCung_${new Date().toISOString().slice(0,10)}.csv`;
+    document.body.appendChild(a); a.click();
+    setTimeout(()=>{URL.revokeObjectURL(a.href); a.remove();},1000);
+  }catch(e){
+    alert("Trình duyệt đang chặn tải file ở chế độ xem trước. Hãy mở file game trực tiếp bằng trình duyệt rồi tải lại.");
+  }
+}
+
+function goHist(){
+  clearInterval(ticker);
+  ["pillLv","pillQ","pillScore"].forEach(p=>$(p).hidden=true);
+  $("btnHome").hidden=false;
+  renderHist(); show("scHist"); $("scHist").scrollTop=0;
+}
+
+/* ==================== SỰ KIỆN ==================== */
+$("btnNext").addEventListener("click",()=>{sfx.tap();next();});
+$("btnReplay").addEventListener("click",()=>{sfx.tap();startLevel(cfg);});
+$("btnPick").addEventListener("click",()=>{sfx.tap();goHome();});
+$("btnHome").addEventListener("click",()=>{sfx.tap();goHome();});
+$("btnNextLv").addEventListener("click",()=>{
+  const n=LEVELS.find(L=>L.id===cfg.id+1); if(n){sfx.tap();startLevel(n);}
+});
+$("btnHint").addEventListener("click",()=>{
+  if(locked||hintUsed) return;
+  hintUsed=true; sfx.hint();
+  const h=$("hintBox"); h.textContent="💡 "+QS[idx].hint; h.classList.add("show");
+  $("btnHint").disabled=true; $("btnHint").textContent="💡 Đã dùng gợi ý";
+});
+$("btnHist").addEventListener("click",()=>{AC();sfx.tap();goHist();});
+$("btnHist2").addEventListener("click",()=>{sfx.tap();goHist();});
+$("btnBackHome").addEventListener("click",()=>{sfx.tap();goHome();});
+$("btnExport").addEventListener("click",()=>{sfx.tap();exportCSV();});
+let clearArmed=false;
+$("btnClearHist").addEventListener("click",e=>{
+  const b=e.currentTarget;
+  if(!clearArmed){
+    clearArmed=true; b.textContent="Bấm lần nữa để xoá hết";
+    setTimeout(()=>{ if(clearArmed){clearArmed=false; b.textContent="Xoá bảng thành tích";} },4000);
+    return;
+  }
+  clearArmed=false; b.textContent="Xoá bảng thành tích";
+  plays.length=0; refreshRecords(); renderHist(); sfx.tap();
+});
+$("btnMute").addEventListener("click",e=>{
+  muted=!muted;
+  e.currentTarget.textContent=muted?"🔇":"🔊";
+  e.currentTarget.title=muted?"Bật âm thanh":"Tắt âm thanh";
+});
+document.addEventListener("keydown",e=>{
+  if(!$("scPlay").classList.contains("on")) return;
+  const k=e.key.toUpperCase();
+  if(!locked && LETTERS.includes(k)) answer(LETTERS.indexOf(k));
+  else if(!locked && ["1","2","3","4"].includes(k)) answer(+k-1);
+  else if(locked && (e.key==="Enter"||e.key===" ")){e.preventDefault();next();}
+});
+
+buildLevelCards();
+refreshRecords();
+</script>
+</body>
+</html>
