@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bài 1 – Ứng dụng công nghệ đa dạng | Ôn bài lớp 5</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --nen:#EDF2FC;
+  --giay:#FFFFFF;
+  --muc:#14224E;
+  --muc-nhat:#5A6784;
+  --vien:#D9E2F5;
+  --xanh:#1657D6;
+  --xanh-nhat:#DEE9FF;
+  --vang:#FFB223;
+  --luc:#12A150;
+  --luc-nhat:#DDF5E7;
+  --do:#DC4550;
+  --do-nhat:#FCE3E4;
+  --tim:#7A45D6;
+  --cam:#EF7020;
+  --hong:#E4406F;
+  --ngoc:#0E9B93;
+  --bong:0 2px 0 var(--vien);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--nen);
+  color:var(--muc);
+  font-family:"Be Vietnam Pro",-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  font-size:17px;
+  line-height:1.65;
+  -webkit-text-size-adjust:100%;
+}
+h1,h2,h3,.tieu-de{font-family:"Baloo 2","Be Vietnam Pro",Arial,sans-serif;line-height:1.25;margin:0}
+p{margin:0 0 .8em}
+:focus-visible{outline:3px solid var(--vang);outline-offset:3px;border-radius:6px}
+button{font-family:inherit;font-size:inherit;color:inherit;cursor:pointer}
+.khung{width:min(980px,100% - 2rem);margin-inline:auto}
+
+/* ---------- Thanh điều hướng ---------- */
+header.thanh{
+  position:sticky;top:0;z-index:50;
+  background:rgba(237,242,252,.92);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--vien);
+}
+.thanh-trong{display:flex;align-items:center;gap:1rem;padding:.6rem 0;flex-wrap:wrap}
+.nhan-bai{font-family:"Baloo 2",sans-serif;font-weight:800;font-size:1.05rem;letter-spacing:-.01em;white-space:nowrap}
+.nhan-bai span{color:var(--xanh)}
+nav.tab{display:flex;gap:.35rem;margin-left:auto;flex-wrap:wrap}
+nav.tab button{
+  border:1px solid transparent;background:transparent;
+  padding:.45rem .8rem;border-radius:999px;font-weight:600;font-size:.94rem;
+  color:var(--muc-nhat);
+}
+nav.tab button:hover{background:var(--xanh-nhat);color:var(--xanh)}
+nav.tab button[aria-selected="true"]{background:var(--xanh);color:#fff}
+
+/* ---------- Hero ---------- */
+.hero{padding:2.6rem 0 1.6rem;display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center}
+.hero h1{font-size:clamp(1.9rem,5.2vw,3rem);font-weight:800;letter-spacing:-.02em}
+.hero .mon{color:var(--xanh);font-weight:600;font-size:.95rem;margin-bottom:.35rem}
+.hero p.dan{color:var(--muc-nhat);max-width:44ch;margin-top:.6rem}
+.tram{position:relative;width:132px;height:132px;display:grid;place-items:center;flex:none}
+.tram .cham{width:56px;height:56px;border-radius:50%;background:var(--xanh);display:grid;place-items:center;color:#fff;font-family:"Baloo 2";font-weight:800;font-size:1.5rem;position:relative;z-index:2}
+.tram i{position:absolute;border:2px solid var(--xanh);border-radius:50%;inset:0;opacity:0;animation:song 3.2s ease-out infinite}
+.tram i:nth-child(2){animation-delay:1.05s}
+.tram i:nth-child(3){animation-delay:2.1s}
+@keyframes song{0%{transform:scale(.42);opacity:.75}100%{transform:scale(1);opacity:0}}
+@media (prefers-reduced-motion:reduce){.tram i{animation:none;opacity:.25;transform:scale(.75)}.tram i:nth-child(2){transform:scale(1)}}
+@media(max-width:640px){.hero{grid-template-columns:1fr;padding-top:1.6rem}.tram{display:none}}
+
+/* ---------- Thanh tiến độ ---------- */
+.tien-do{display:flex;align-items:center;gap:.8rem;background:var(--giay);border:1px solid var(--vien);border-radius:14px;padding:.7rem 1rem;margin-bottom:2rem}
+.tien-do .rang{flex:1;height:9px;background:var(--xanh-nhat);border-radius:99px;overflow:hidden}
+.tien-do .rang b{display:block;height:100%;width:0;background:var(--luc);border-radius:99px;transition:width .4s ease}
+.tien-do small{color:var(--muc-nhat);font-weight:600;white-space:nowrap;font-size:.86rem}
+
+/* ---------- Tuyến trạm ---------- */
+.tuyen{position:relative;padding-left:3.2rem}
+.tuyen::before{content:"";position:absolute;left:17px;top:14px;bottom:70px;width:3px;background:repeating-linear-gradient(var(--vang) 0 9px,transparent 9px 17px)}
+.tram-hoc{position:relative;margin-bottom:2.2rem}
+.so-tram{position:absolute;left:-3.2rem;top:2px;width:37px;height:37px;border-radius:50%;display:grid;place-items:center;color:#fff;font-family:"Baloo 2";font-weight:800;font-size:1.1rem;box-shadow:0 0 0 5px var(--nen)}
+.the{background:var(--giay);border:1px solid var(--vien);border-radius:18px;padding:1.3rem 1.4rem;box-shadow:var(--bong)}
+.the h2{font-size:1.35rem;font-weight:700;margin-bottom:.5rem}
+.dinh-nghia{border-left:4px solid var(--xanh);background:var(--xanh-nhat);padding:.75rem 1rem;border-radius:0 12px 12px 0;margin:.9rem 0}
+.dinh-nghia b{color:var(--xanh)}
+@media(max-width:640px){.tuyen{padding-left:2.7rem}.tuyen::before{left:13px}.so-tram{left:-2.7rem;width:31px;height:31px;font-size:.95rem}.the{padding:1.1rem}}
+
+/* ---------- Các bước GPS ---------- */
+.buoc{list-style:none;padding:0;margin:1rem 0 0;display:grid;gap:.55rem}
+.buoc li{display:flex;gap:.75rem;align-items:flex-start;background:#F7F9FE;border:1px solid var(--vien);border-radius:12px;padding:.65rem .8rem}
+.buoc li b{flex:none;width:26px;height:26px;border-radius:8px;background:var(--muc);color:#fff;display:grid;place-items:center;font-size:.85rem;font-family:"Baloo 2"}
+.buoc li span{font-size:.97rem}
+
+/* ---------- Lưới ngành nghề ---------- */
+.nganh{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:.7rem;margin-top:1rem}
+.nganh div{background:#F7F9FE;border:1px solid var(--vien);border-radius:14px;padding:.85rem}
+.nganh h3{font-size:1rem;margin-bottom:.25rem}
+.nganh p{font-size:.93rem;color:var(--muc-nhat);margin:0}
+.nganh .bieu{font-size:1.3rem;line-height:1;display:block;margin-bottom:.3rem}
+
+/* ---------- So sánh AI ---------- */
+.so-sanh{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:1rem}
+.so-sanh>div{border-radius:14px;padding:.9rem 1rem;font-size:.95rem}
+.so-sanh .ai{background:var(--luc-nhat);border:1px solid #B7E6CC}
+.so-sanh .tim-kiem{background:#F1F3F8;border:1px solid var(--vien)}
+.so-sanh h3{font-size:1rem;margin-bottom:.35rem}
+.so-sanh ul{margin:0;padding-left:1.1rem}
+@media(max-width:560px){.so-sanh{grid-template-columns:1fr}}
+.luu-y{margin-top:1rem;background:#FFF6E4;border:1px solid #FFE0A6;border-radius:14px;padding:.9rem 1rem}
+.luu-y ul{margin:.4rem 0 0;padding-left:1.15rem;font-size:.95rem}
+.luu-y li{margin-bottom:.25rem}
+
+.xong{margin-top:1.1rem;display:inline-flex;align-items:center;gap:.5rem;border:1.5px solid var(--vien);background:var(--giay);border-radius:999px;padding:.4rem .95rem;font-weight:600;font-size:.92rem;color:var(--muc-nhat)}
+.xong[data-xong="1"]{border-color:var(--luc);background:var(--luc-nhat);color:var(--luc)}
+
+/* ---------- Vận dụng ---------- */
+.van-dung{margin-top:1rem;background:var(--muc);color:#fff;border-radius:18px;padding:1.4rem}
+.van-dung h2{font-size:1.25rem;margin-bottom:.4rem}
+.van-dung p{color:#C6D2EC;font-size:.96rem}
+.van-dung ol{margin:.6rem 0 0;padding-left:1.2rem;font-size:.96rem}
+.van-dung li{margin-bottom:.3rem}
+
+/* ---------- Thẻ ghi nhớ ---------- */
+.the-lat{perspective:1200px;margin:1.5rem auto 0;max-width:640px}
+.the-lat .mat{position:relative;width:100%;min-height:250px;transition:transform .5s cubic-bezier(.4,.2,.2,1);transform-style:preserve-3d;cursor:pointer;border:0;background:none;padding:0;display:block}
+.the-lat.lat .mat{transform:rotateY(180deg)}
+.the-lat .truoc,.the-lat .sau{position:absolute;inset:0;backface-visibility:hidden;border-radius:20px;padding:1.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:.6rem}
+.the-lat .truoc{background:var(--giay);border:1px solid var(--vien);box-shadow:var(--bong)}
+.the-lat .sau{background:var(--muc);color:#fff;transform:rotateY(180deg)}
+.the-lat .truoc strong{font-family:"Baloo 2";font-size:1.5rem;font-weight:700}
+.the-lat .truoc em{font-style:normal;color:var(--muc-nhat);font-size:.88rem}
+.the-lat .sau p{margin:0;font-size:1.02rem;line-height:1.6}
+@media (prefers-reduced-motion:reduce){.the-lat .mat{transition:none}}
+.dieu-khien{display:flex;align-items:center;justify-content:center;gap:.6rem;margin-top:1.2rem;flex-wrap:wrap}
+.nut{border:1.5px solid var(--vien);background:var(--giay);border-radius:999px;padding:.5rem 1.1rem;font-weight:600;font-size:.95rem}
+.nut:hover{border-color:var(--xanh);color:var(--xanh)}
+.nut.chinh{background:var(--xanh);border-color:var(--xanh);color:#fff}
+.nut.chinh:hover{background:#0E44AC;color:#fff}
+.dem{color:var(--muc-nhat);font-weight:600;font-size:.9rem;min-width:64px;text-align:center}
+
+/* ---------- Trắc nghiệm ---------- */
+.quiz{max-width:680px;margin:1.5rem auto 0;background:var(--giay);border:1px solid var(--vien);border-radius:20px;padding:1.5rem;box-shadow:var(--bong)}
+.quiz .dau{display:flex;justify-content:space-between;align-items:center;gap:1rem;font-size:.88rem;color:var(--muc-nhat);font-weight:600;margin-bottom:.5rem}
+.quiz .hoi{font-family:"Baloo 2";font-size:1.28rem;font-weight:700;line-height:1.4;margin-bottom:1rem}
+.dap-an{display:grid;gap:.55rem}
+.dap-an button{
+  text-align:left;border:1.5px solid var(--vien);background:var(--giay);
+  border-radius:14px;padding:.75rem .95rem;display:flex;gap:.7rem;align-items:flex-start;
+  font-size:1rem;transition:border-color .15s,background .15s;
+}
+.dap-an button:hover:not(:disabled){border-color:var(--xanh);background:#F7FAFF}
+.dap-an button:disabled{cursor:default}
+.dap-an .chu{flex:none;width:26px;height:26px;border-radius:8px;background:var(--nen);display:grid;place-items:center;font-weight:700;font-size:.88rem;font-family:"Baloo 2"}
+.dap-an button.dung{border-color:var(--luc);background:var(--luc-nhat)}
+.dap-an button.dung .chu{background:var(--luc);color:#fff}
+.dap-an button.sai{border-color:var(--do);background:var(--do-nhat)}
+.dap-an button.sai .chu{background:var(--do);color:#fff}
+.giai-thich{margin-top:1rem;border-radius:14px;padding:.85rem 1rem;font-size:.95rem;display:none}
+.giai-thich.hien{display:block}
+.giai-thich b{display:block;font-family:"Baloo 2";font-size:1.05rem;margin-bottom:.15rem}
+.giai-thich.ok{background:var(--luc-nhat);color:#0B6B37}
+.giai-thich.ko{background:var(--do-nhat);color:#9A2A33}
+.ket-qua{text-align:center;padding:1rem 0}
+.ket-qua .diem{font-family:"Baloo 2";font-size:3.6rem;font-weight:800;line-height:1;color:var(--xanh)}
+.ket-qua .diem small{font-size:1.4rem;color:var(--muc-nhat)}
+.ket-qua h2{font-size:1.5rem;margin:.5rem 0 .3rem}
+.ket-qua p{color:var(--muc-nhat)}
+.lai-sai{text-align:left;margin-top:1.2rem;border-top:1px solid var(--vien);padding-top:1rem}
+.lai-sai h3{font-size:1rem;margin-bottom:.5rem}
+.lai-sai li{font-size:.93rem;margin-bottom:.55rem;color:var(--muc-nhat)}
+.lai-sai li b{color:var(--muc);display:block;font-weight:600}
+
+/* ---------- Trò chơi nối ---------- */
+.noi{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;max-width:860px;margin:1.4rem auto 0}
+.cot h3{font-size:.92rem;color:var(--muc-nhat);margin-bottom:.5rem;font-family:"Be Vietnam Pro";font-weight:600}
+.o{width:100%;text-align:left;border:1.5px solid var(--vien);background:var(--giay);border-radius:14px;padding:.7rem .85rem;margin-bottom:.5rem;font-size:.95rem;transition:border-color .15s,background .15s,opacity .2s}
+.o:hover:not(:disabled){border-color:var(--xanh)}
+.o.chon{border-color:var(--xanh);background:var(--xanh-nhat);border-width:2px}
+.o.dung{border-color:var(--luc);background:var(--luc-nhat);opacity:.65;cursor:default}
+.o.lech{animation:rung .35s}
+@keyframes rung{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+@media (prefers-reduced-motion:reduce){.o.lech{animation:none;border-color:var(--do)}}
+@media(max-width:620px){.noi{grid-template-columns:1fr}}
+
+.trang{display:none}
+.trang.hien{display:block}
+footer{text-align:center;color:var(--muc-nhat);font-size:.85rem;padding:2.5rem 0 3rem}
+.bang-huy{background:var(--luc-nhat);border:1px solid #B7E6CC;color:#0B6B37;border-radius:14px;padding:.8rem 1rem;font-weight:600;text-align:center;margin-top:1rem;font-size:.95rem}
+</style>
+</head>
+<body>
+
+<header class="thanh">
+  <div class="khung thanh-trong">
+    <div class="nhan-bai">Bài 1 · <span>Ứng dụng công nghệ đa dạng</span></div>
+    <nav class="tab" role="tablist" aria-label="Chuyển phần">
+      <button role="tab" aria-selected="true" data-trang="bai-hoc">Bài học</button>
+      <button role="tab" aria-selected="false" data-trang="ghi-nho">Thẻ ghi nhớ</button>
+      <button role="tab" aria-selected="false" data-trang="trac-nghiem">Trắc nghiệm</button>
+      <button role="tab" aria-selected="false" data-trang="tro-choi">Trò chơi nối</button>
+    </nav>
+  </div>
+</header>
+
+<main class="khung">
+
+<!-- ============ BÀI HỌC ============ -->
+<section class="trang hien" id="bai-hoc">
+  <div class="hero">
+    <div>
+      <div class="mon">Chủ đề: Căn bản về công nghệ</div>
+      <h1>Công nghệ đang giúp con người mỗi ngày</h1>
+      <p class="dan">Bốn trạm dưới đây là toàn bộ nội dung Bài 1. Em đọc từng trạm, đánh dấu “Đã học xong”, rồi qua phần Trắc nghiệm để tự kiểm tra.</p>
+    </div>
+    <div class="tram" aria-hidden="true">
+      <i></i><i></i><i></i>
+      <div class="cham">1</div>
+    </div>
+  </div>
+
+  <div class="tien-do">
+    <small id="chu-tien-do">Đã học 0/4 trạm</small>
+    <div class="rang"><b id="rang-tien-do"></b></div>
+  </div>
+
+  <div class="tuyen">
+
+    <!-- Trạm 1 -->
+    <article class="tram-hoc">
+      <div class="so-tram" style="background:var(--xanh)">1</div>
+      <div class="the">
+        <h2>Dữ liệu thời gian thực</h2>
+        <div class="dinh-nghia">
+          <b>Dữ liệu thời gian thực</b> (Real-time Data) là dữ liệu được tạo ra hoặc thu thập liên tục và được cung cấp cho người dùng <b>ngay lập tức</b>.
+        </div>
+        <p>Nói đơn giản: chuyện đang xảy ra ở đâu đó, em biết được ngay lúc này, không phải chờ đến ngày mai.</p>
+        <div class="nganh">
+          <div><span class="bieu">⛏️</span><h3>Cùng làm việc từ xa</h3><p>Công nhân ở các khu mỏ khác nhau chia sẻ dữ liệu thời gian thực để phối hợp làm việc.</p></div>
+          <div><span class="bieu">🩺</span><h3>Chăm sóc bệnh nhân</h3><p>Y tá theo dõi dữ liệu y tế thời gian thực để hỗ trợ bệnh nhân đang ở nhà.</p></div>
+          <div><span class="bieu">🗺️</span><h3>Bản đồ giao thông</h3><p>Bản đồ báo đoạn đường đang tắc ngay lúc em nhìn vào.</p></div>
+        </div>
+        <button class="xong" data-tram="1" data-xong="0">Đã học xong trạm này</button>
+      </div>
+    </article>
+
+    <!-- Trạm 2 -->
+    <article class="tram-hoc">
+      <div class="so-tram" style="background:var(--luc)">2</div>
+      <div class="the">
+        <h2>Hệ thống định vị toàn cầu GPS</h2>
+        <div class="dinh-nghia">
+          <b>GPS</b> (Global Positioning System) là một mạng lưới các vệ tinh và thiết bị thu tín hiệu, dùng để xác định <b>vị trí</b> của một đối tượng trên bề mặt Trái Đất.
+        </div>
+        <p><strong>GPS hoạt động qua 4 bước:</strong></p>
+        <ul class="buoc">
+          <li><b>1</b><span><strong>Vệ tinh GPS.</strong> Các vệ tinh bay quanh Trái Đất và phát tín hiệu.</span></li>
+          <li><b>2</b><span><strong>Tín hiệu.</strong> Tín hiệu từ vệ tinh được gửi đến thiết bị của em.</span></li>
+          <li><b>3</b><span><strong>Thiết bị nhận tín hiệu.</strong> Thiết bị nhận tín hiệu và tính toán vị trí.</span></li>
+          <li><b>4</b><span><strong>Hiển thị vị trí.</strong> Vị trí hiện lên trên bản đồ để giúp em tìm đường.</span></li>
+        </ul>
+        <button class="xong" data-tram="2" data-xong="0">Đã học xong trạm này</button>
+      </div>
+    </article>
+
+    <!-- Trạm 3 -->
+    <article class="tram-hoc">
+      <div class="so-tram" style="background:var(--cam)">3</div>
+      <div class="the">
+        <h2>Công nghệ trong các ngành nghề</h2>
+        <p>Mỗi nghề dùng công nghệ theo một cách riêng để làm việc nhanh hơn và chính xác hơn.</p>
+        <div class="nganh" id="luoi-nganh"></div>
+        <button class="xong" data-tram="3" data-xong="0">Đã học xong trạm này</button>
+      </div>
+    </article>
+
+    <!-- Trạm 4 -->
+    <article class="tram-hoc">
+      <div class="so-tram" style="background:var(--tim)">4</div>
+      <div class="the">
+        <h2>Trí tuệ nhân tạo tạo sinh</h2>
+        <div class="dinh-nghia">
+          <b>AI tạo sinh</b> là trí tuệ nhân tạo có thể tạo ra nội dung <b>hoàn toàn mới</b>: văn bản, hình ảnh, câu hỏi, bản tóm tắt, gợi ý…
+        </div>
+        <div class="so-sanh">
+          <div class="ai">
+            <h3>🤖 AI tạo sinh</h3>
+            <ul>
+              <li>Tạo ra nội dung mới</li>
+              <li>Tổng hợp và trả lời theo cách dễ hiểu</li>
+              <li>Tóm tắt, gợi ý, giải thích thêm</li>
+            </ul>
+          </div>
+          <div class="tim-kiem">
+            <h3>🔎 Công cụ tìm kiếm</h3>
+            <ul>
+              <li>Chỉ liệt kê các đường dẫn trang web</li>
+              <li>Không tổng hợp</li>
+              <li>Không giải thích thêm cho em</li>
+            </ul>
+          </div>
+        </div>
+        <p style="margin-top:1rem"><strong>AI hỗ trợ cuộc sống:</strong></p>
+        <div class="nganh">
+          <div><span class="bieu">🌤️</span><h3>Thời tiết</h3><p>Phân tích dữ liệu thời tiết và gợi ý tuyến đường.</p></div>
+          <div><span class="bieu">🏥</span><h3>Y tế</h3><p>Hỗ trợ bác sĩ đọc hình ảnh và chẩn đoán.</p></div>
+          <div><span class="bieu">🏭</span><h3>Sản xuất</h3><p>Nhận diện vật thể và phát hiện lỗi sản phẩm.</p></div>
+        </div>
+        <div class="luu-y">
+          <strong>⚠️ Ba điều cần nhớ khi dùng AI</strong>
+          <ul>
+            <li>AI không phải con người – không tự hiểu mọi thứ như chúng ta.</li>
+            <li>AI tạo câu trả lời dựa trên dữ liệu đã học được trước đó.</li>
+            <li>Luôn kiểm tra lại kết quả của AI trước khi sử dụng!</li>
+          </ul>
+        </div>
+        <button class="xong" data-tram="4" data-xong="0">Đã học xong trạm này</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="van-dung">
+    <h2>Vận dụng ở nhà</h2>
+    <p>Dùng Google Maps trên điện thoại hoặc máy tính (có người lớn cùng làm nhé), em hãy:</p>
+    <ol>
+      <li>Tìm vị trí hiện tại của em trên bản đồ;</li>
+      <li>Nhập một địa điểm em muốn đến (trường học, siêu thị, nhà bạn…);</li>
+      <li>Quan sát tuyến đường mà ứng dụng gợi ý.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ THẺ GHI NHỚ ============ -->
+<section class="trang" id="ghi-nho">
+  <div class="hero"><div>
+    <div class="mon">Ôn nhanh</div>
+    <h1>Thẻ ghi nhớ</h1>
+    <p class="dan">Đọc mặt trước, tự trả lời trong đầu, rồi bấm vào thẻ để lật xem đáp án.</p>
+  </div></div>
+
+  <div class="the-lat" id="the-lat">
+    <button class="mat" id="mat-the" aria-live="polite">
+      <span class="truoc"><strong id="the-truoc"></strong><em>Bấm để lật thẻ</em></span>
+      <span class="sau"><p id="the-sau"></p></span>
+    </button>
+  </div>
+  <div class="dieu-khien">
+    <button class="nut" id="the-truoc-nut">← Thẻ trước</button>
+    <span class="dem" id="the-dem"></span>
+    <button class="nut chinh" id="the-sau-nut">Thẻ sau →</button>
+    <button class="nut" id="the-xao">Xáo trộn</button>
+  </div>
+</section>
+
+<!-- ============ TRẮC NGHIỆM ============ -->
+<section class="trang" id="trac-nghiem">
+  <div class="hero"><div>
+    <div class="mon">Tự kiểm tra</div>
+    <h1>Trắc nghiệm 14 câu</h1>
+    <p class="dan">Chọn một đáp án cho mỗi câu. Sai cũng không sao — em sẽ được giải thích ngay.</p>
+  </div></div>
+  <div class="quiz" id="quiz"></div>
+</section>
+
+<!-- ============ TRÒ CHƠI NỐI ============ -->
+<section class="trang" id="tro-choi">
+  <div class="hero"><div>
+    <div class="mon">Luyện tập</div>
+    <h1>Nối nghề với công việc</h1>
+    <p class="dan">Bấm một nghề ở cột trái, rồi bấm việc mà công nghệ giúp họ làm ở cột phải.</p>
+  </div></div>
+  <div class="dieu-khien" style="justify-content:flex-start">
+    <span class="dem" id="noi-dem" style="min-width:auto"></span>
+    <button class="nut" id="noi-lam-lai">Chơi lại</button>
+  </div>
+  <div class="noi">
+    <div class="cot"><h3>Ngành nghề</h3><div id="cot-trai"></div></div>
+    <div class="cot"><h3>Công nghệ giúp họ làm gì</h3><div id="cot-phai"></div></div>
+  </div>
+  <div id="noi-xong"></div>
+</section>
+
+<footer>Tài liệu ôn tập Bài 1 – Ứng dụng công nghệ đa dạng · IC3 GS6 Spark Level 3</footer>
+</main>
+
+<script>
+/* ================= DỮ LIỆU ================= */
+const NGANH = [
+  {mau:"var(--xanh)", bieu:"🩺", ten:"Y tế",              viec:"Bác sĩ theo dõi và phân tích dữ liệu sức khỏe của bệnh nhân."},
+  {mau:"var(--luc)",  bieu:"🚗", ten:"Giao thông",        viec:"Tài xế sử dụng GPS để tìm đường và tránh tắc đường."},
+  {mau:"var(--cam)",  bieu:"🏗️", ten:"Xây dựng",          viec:"Kỹ sư theo dõi tiến độ công trình bằng phần mềm và thiết bị thông minh."},
+  {mau:"var(--tim)",  bieu:"🌩️", ten:"Thời tiết",         viec:"Theo dõi thời tiết, dự báo bão để cảnh báo kịp thời."},
+  {mau:"var(--hong)", bieu:"❤️", ten:"Sức khỏe – Thể thao", viec:"Thiết bị đeo thông minh theo dõi nhịp tim, năng lượng và số bước."},
+  {mau:"var(--ngoc)", bieu:"🌱", ten:"Nông nghiệp",       viec:"Giám sát cây trồng, điều khiển tưới nước và phun thuốc tự động."}
+];
+
+const THE = [
+  {t:"Dữ liệu thời gian thực", s:"Dữ liệu được tạo ra hoặc thu thập liên tục và được cung cấp cho người dùng ngay lập tức."},
+  {t:"GPS", s:"Hệ thống định vị toàn cầu — mạng lưới vệ tinh và thiết bị thu tín hiệu, dùng để xác định vị trí của một đối tượng trên bề mặt Trái Đất."},
+  {t:"4 bước GPS hoạt động", s:"1. Vệ tinh phát tín hiệu → 2. Tín hiệu đến thiết bị → 3. Thiết bị tính toán vị trí → 4. Hiển thị vị trí trên bản đồ."},
+  {t:"AI tạo sinh", s:"Trí tuệ nhân tạo tạo ra nội dung hoàn toàn mới: văn bản, hình ảnh, câu hỏi, tóm tắt, gợi ý thông minh."},
+  {t:"Công cụ tìm kiếm khác AI ở đâu?", s:"Công cụ tìm kiếm chỉ liệt kê các đường dẫn trang web, không tổng hợp hay giải thích thêm."},
+  {t:"Công nghệ trong y tế", s:"Bác sĩ theo dõi và phân tích dữ liệu sức khỏe của bệnh nhân; AI hỗ trợ đọc hình ảnh và chẩn đoán."},
+  {t:"Công nghệ trong nông nghiệp", s:"Giám sát cây trồng, điều khiển tưới nước và phun thuốc tự động bằng máy bay không người lái."},
+  {t:"Thiết bị đeo thông minh", s:"Theo dõi nhịp tim, năng lượng tiêu thụ và quá trình vận động của người dùng."},
+  {t:"3 điều cần nhớ khi dùng AI", s:"AI không phải con người; AI trả lời dựa trên dữ liệu đã học; luôn kiểm tra lại kết quả trước khi dùng."},
+  {t:"AI giúp nhân viên giao hàng thế nào?", s:"Tính toán tuyến đường giao hàng nhanh nhất, theo dõi đơn hàng và tối ưu thời gian giao nhận."}
+];
+
+const CAU_HOI = [
+  {h:"Dữ liệu thời gian thực là gì?",
+   a:["Dữ liệu được tạo ra hoặc thu thập liên tục và cung cấp cho người dùng ngay lập tức",
+      "Dữ liệu đã lưu trong máy tính từ nhiều năm trước",
+      "Dữ liệu chỉ xem được khi máy không có mạng",
+      "Dữ liệu học sinh chép tay vào vở"],
+   d:0, g:"“Thời gian thực” nghĩa là em nhận được thông tin ngay lúc nó xảy ra."},
+
+  {h:"Trường hợp nào dưới đây đang dùng dữ liệu thời gian thực?",
+   a:["Xem bản đồ báo đoạn đường đang tắc ngay lúc này",
+      "Xem lại ảnh chụp từ năm ngoái",
+      "Đọc một cuốn sách in",
+      "Chép bài vào vở"],
+   d:0, g:"Tình trạng tắc đường thay đổi từng phút, nên bản đồ phải cập nhật liên tục."},
+
+  {h:"Các công nhân ở một khu mỏ có thể nhận dữ liệu thời gian thực từ công nhân ở một khu mỏ khác. Điều này có khả thi không?",
+   a:["Có", "Không"],
+   d:0, g:"Đúng. Đây chính là ví dụ trong bài: chia sẻ dữ liệu thời gian thực để phối hợp làm việc."},
+
+  {h:"Một y tá làm việc từ xa có thể dùng dữ liệu y tế thời gian thực để hỗ trợ bệnh nhân đang ở nhà. Điều này có khả thi không?",
+   a:["Có", "Không"],
+   d:0, g:"Đúng. Dữ liệu y tế được truyền liên tục nên y tá theo dõi được từ xa."},
+
+  {h:"GPS là viết tắt của cụm từ nào?",
+   a:["Global Positioning System", "Google Photo Service", "General Power Supply", "Global Picture Screen"],
+   d:0, g:"GPS = Global Positioning System = Hệ thống định vị toàn cầu."},
+
+  {h:"GPS được dùng để làm gì?",
+   a:["Xác định vị trí của một đối tượng trên bề mặt Trái Đất",
+      "Nghe nhạc và xem phim",
+      "Đo cân nặng của một người",
+      "Vẽ tranh trên máy tính"],
+   d:0, g:"GPS là mạng lưới vệ tinh và thiết bị thu tín hiệu dùng để xác định vị trí."},
+
+  {h:"Bước đầu tiên trong cách GPS hoạt động là gì?",
+   a:["Các vệ tinh bay quanh Trái Đất và phát tín hiệu",
+      "Thiết bị hiển thị vị trí trên bản đồ",
+      "Thiết bị tính toán vị trí của em",
+      "Em nhập địa chỉ cần đến"],
+   d:0, g:"Thứ tự đúng: vệ tinh phát tín hiệu → tín hiệu đến thiết bị → thiết bị tính vị trí → hiển thị trên bản đồ."},
+
+  {h:"Orson là tài xế xe buýt của trường, đang chở học sinh đi thực tế tới một nơi chưa từng đến. Anh ấy nên dùng công nghệ nào để định hướng?",
+   a:["GPS (Global Positioning System)", "Quả địa cầu (Globe)", "Radio", "Máy phát MP3"],
+   d:0, g:"Chỉ GPS mới chỉ được vị trí hiện tại và tuyến đường cần đi."},
+
+  {h:"Bác sĩ theo dõi và phân tích dữ liệu sức khỏe của bệnh nhân trên màn hình. Đây là công nghệ trong ngành nào?",
+   a:["Y tế", "Xây dựng", "Nông nghiệp", "Giao thông"],
+   d:0, g:"Ngành y tế dùng công nghệ để theo dõi, phân tích dữ liệu và hỗ trợ chẩn đoán."},
+
+  {h:"Thiết bị đeo thông minh theo dõi nhịp tim, năng lượng tiêu thụ và số bước chân thuộc lĩnh vực nào?",
+   a:["Sức khỏe – Thể thao", "Thời tiết", "Xây dựng", "Sản xuất"],
+   d:0, g:"Đồng hồ thông minh giúp người tập theo dõi cơ thể khi vận động."},
+
+  {h:"Trong nông nghiệp, máy bay không người lái (drone) giúp người nông dân làm gì?",
+   a:["Giám sát cây trồng, tưới nước và phun thuốc tự động",
+      "Nấu ăn cho cả gia đình",
+      "Dạy học thay giáo viên",
+      "Sửa chữa xe máy"],
+   d:0, g:"Drone bay trên cánh đồng để quan sát và chăm sóc cây trồng tự động."},
+
+  {h:"Khác biệt lớn nhất giữa AI tạo sinh và công cụ tìm kiếm là gì?",
+   a:["AI tạo sinh tổng hợp và tạo ra nội dung mới, còn công cụ tìm kiếm chỉ liệt kê đường dẫn trang web",
+      "AI tạo sinh chỉ hoạt động ban đêm",
+      "Công cụ tìm kiếm luôn nhanh hơn AI",
+      "Cả hai hoàn toàn giống nhau"],
+   d:0, g:"AI tạo sinh trả lời theo cách dễ hiểu; công cụ tìm kiếm để em tự đọc các trang web."},
+
+  {h:"Ý nào sau đây KHÔNG đúng về AI?",
+   a:["AI là con người và tự hiểu được mọi thứ như chúng ta",
+      "AI có thể tạo ra văn bản và hình ảnh mới",
+      "AI trả lời dựa trên dữ liệu đã học được trước đó",
+      "Cần kiểm tra lại kết quả của AI trước khi dùng"],
+   d:0, g:"AI không phải con người. Nó chỉ tạo câu trả lời từ dữ liệu đã học."},
+
+  {h:"Sau khi nhờ AI viết giúp một đoạn giới thiệu, em nên làm gì?",
+   a:["Đọc và kiểm tra lại thông tin trước khi sử dụng",
+      "Nộp ngay, không cần đọc lại",
+      "Tin tuyệt đối vì AI không bao giờ sai",
+      "Xóa đi vì AI luôn sai"],
+   d:0, g:"Luôn kiểm tra kết quả của AI — đây là lưu ý quan trọng nhất trong bài."}
+];
+
+/* ================= TIỆN ÍCH ================= */
+const $ = s => document.querySelector(s);
+const xao = a => a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(v=>v[1]);
+
+/* ================= ĐIỀU HƯỚNG ================= */
+document.querySelectorAll('nav.tab button').forEach(b=>{
+  b.onclick = ()=>{
+    document.querySelectorAll('nav.tab button').forEach(x=>x.setAttribute('aria-selected','false'));
+    b.setAttribute('aria-selected','true');
+    document.querySelectorAll('.trang').forEach(p=>p.classList.remove('hien'));
+    $('#'+b.dataset.trang).classList.add('hien');
+    window.scrollTo({top:0});
+  };
+});
+
+/* ================= TRẠM 3: lưới ngành nghề ================= */
+$('#luoi-nganh').innerHTML = NGANH.map(n=>
+  `<div><span class="bieu">${n.bieu}</span><h3 style="color:${n.mau}">${n.ten}</h3><p>${n.viec}</p></div>`
+).join('');
+
+/* ================= TIẾN ĐỘ ================= */
+const daXong = new Set();
+document.querySelectorAll('.xong').forEach(b=>{
+  b.onclick = ()=>{
+    const id = b.dataset.tram;
+    if(daXong.has(id)){ daXong.delete(id); b.dataset.xong='0'; b.textContent='Đã học xong trạm này'; }
+    else { daXong.add(id); b.dataset.xong='1'; b.textContent='✓ Xong trạm này'; }
+    $('#chu-tien-do').textContent = `Đã học ${daXong.size}/4 trạm`;
+    $('#rang-tien-do').style.width = (daXong.size/4*100)+'%';
+  };
+});
+
+/* ================= THẺ GHI NHỚ ================= */
+let bo = [...THE], vt = 0;
+function veThe(){
+  $('#the-truoc').textContent = bo[vt].t;
+  $('#the-sau').textContent   = bo[vt].s;
+  $('#the-dem').textContent   = `${vt+1} / ${bo.length}`;
+  $('#the-lat').classList.remove('lat');
+}
+$('#mat-the').onclick = ()=> $('#the-lat').classList.toggle('lat');
+$('#the-sau-nut').onclick = ()=>{ vt=(vt+1)%bo.length; veThe(); };
+$('#the-truoc-nut').onclick = ()=>{ vt=(vt-1+bo.length)%bo.length; veThe(); };
+$('#the-xao').onclick = ()=>{ bo = xao(bo); vt=0; veThe(); };
+veThe();
+
+/* ================= TRẮC NGHIỆM ================= */
+let bang=[], chiSo=0, dungSo=0, saiList=[];
+const CHU = ['A','B','C','D'];
+
+function batDauQuiz(){
+  bang = xao(CAU_HOI).map(c=>{
+    const dapDung = c.a[c.d];
+    const tron = xao(c.a);
+    return {h:c.h, a:tron, d:tron.indexOf(dapDung), g:c.g};
+  });
+  chiSo=0; dungSo=0; saiList=[];
+  veCau();
+}
+
+function veCau(){
+  const c = bang[chiSo];
+  $('#quiz').innerHTML = `
+    <div class="dau"><span>Câu ${chiSo+1} / ${bang.length}</span><span>Đúng: ${dungSo}</span></div>
+    <div class="hoi">${c.h}</div>
+    <div class="dap-an" id="ds"></div>
+    <div class="giai-thich" id="gt"></div>
+    <div class="dieu-khien" id="dk" style="display:none"></div>`;
+  const ds = $('#ds');
+  c.a.forEach((t,i)=>{
+    const b = document.createElement('button');
+    b.innerHTML = `<span class="chu">${CHU[i]}</span><span>${t}</span>`;
+    b.onclick = ()=> chon(i);
+    ds.appendChild(b);
+  });
+}
+
+function chon(i){
+  const c = bang[chiSo];
+  const nut = [...$('#ds').children];
+  nut.forEach(b=>b.disabled=true);
+  nut[c.d].classList.add('dung');
+  const gt = $('#gt');
+  if(i===c.d){ dungSo++; gt.className='giai-thich hien ok'; gt.innerHTML=`<b>Chính xác! 🎉</b>${c.g}`; }
+  else{
+    nut[i].classList.add('sai');
+    saiList.push({h:c.h, dung:c.a[c.d], g:c.g});
+    gt.className='giai-thich hien ko';
+    gt.innerHTML=`<b>Chưa đúng rồi</b>Đáp án đúng: <strong>${c.a[c.d]}</strong>. ${c.g}`;
+  }
+  const dk = $('#dk');
+  dk.style.display='flex';
+  dk.innerHTML = `<button class="nut chinh">${chiSo+1<bang.length?'Câu tiếp theo →':'Xem kết quả'}</button>`;
+  dk.firstChild.onclick = ()=>{ chiSo++; chiSo<bang.length ? veCau() : veKetQua(); };
+  dk.firstChild.focus();
+}
+
+function veKetQua(){
+  const tong = bang.length, ti = dungSo/tong;
+  let loi = "Em cần đọc lại phần Bài học rồi thử lại nhé.";
+  if(ti===1) loi = "Tuyệt vời! Em nắm chắc cả bài rồi.";
+  else if(ti>=.8) loi = "Rất tốt! Chỉ còn vài chỗ nhỏ cần xem lại.";
+  else if(ti>=.5) loi = "Khá ổn. Xem lại các câu sai bên dưới là ổn ngay.";
+  $('#quiz').innerHTML = `
+    <div class="ket-qua">
+      <div class="diem">${dungSo}<small>/${tong}</small></div>
+      <h2>${loi}</h2>
+      <p>Em trả lời đúng ${dungSo} trên tổng số ${tong} câu.</p>
+      <div class="dieu-khien">
+        <button class="nut chinh" id="lam-lai">Làm lại</button>
+        <button class="nut" id="ve-bai">Đọc lại bài học</button>
+      </div>
+      ${saiList.length? `<div class="lai-sai"><h3>Những câu cần xem lại</h3><ul>${
+        saiList.map(s=>`<li><b>${s.h}</b>Đáp án đúng: ${s.dung}. ${s.g}</li>`).join('')
+      }</ul></div>` : ''}
+    </div>`;
+  $('#lam-lai').onclick = batDauQuiz;
+  $('#ve-bai').onclick = ()=> document.querySelector('nav.tab button[data-trang="bai-hoc"]').click();
+}
+batDauQuiz();
+
+/* ================= TRÒ CHƠI NỐI ================= */
+let dangChon=null, capDung=0, luot=0;
+function batDauNoi(){
+  dangChon=null; capDung=0; luot=0;
+  $('#noi-xong').innerHTML='';
+  const trai = xao(NGANH.map((n,i)=>({i,t:`${n.bieu} ${n.ten}`})));
+  const phai = xao(NGANH.map((n,i)=>({i,t:n.viec})));
+  $('#cot-trai').innerHTML  = trai.map(x=>`<button class="o" data-ben="trai" data-i="${x.i}">${x.t}</button>`).join('');
+  $('#cot-phai').innerHTML  = phai.map(x=>`<button class="o" data-ben="phai" data-i="${x.i}">${x.t}</button>`).join('');
+  document.querySelectorAll('.o').forEach(o=> o.onclick = ()=> bam(o));
+  capNhatDem();
+}
+function capNhatDem(){ $('#noi-dem').textContent = `Nối đúng ${capDung}/6 · Số lượt: ${luot}`; }
+function bam(o){
+  if(o.classList.contains('dung')) return;
+  if(!dangChon){ dangChon=o; o.classList.add('chon'); return; }
+  if(dangChon===o){ o.classList.remove('chon'); dangChon=null; return; }
+  if(dangChon.dataset.ben===o.dataset.ben){
+    dangChon.classList.remove('chon'); dangChon=o; o.classList.add('chon'); return;
+  }
+  luot++;
+  if(dangChon.dataset.i===o.dataset.i){
+    dangChon.classList.remove('chon');
+    dangChon.classList.add('dung'); o.classList.add('dung');
+    dangChon.disabled=true; o.disabled=true;
+    capDung++;
+    if(capDung===6){
+      $('#noi-xong').innerHTML = `<div class="bang-huy">🎉 Em đã nối đúng cả 6 nghề sau ${luot} lượt!</div>`;
+    }
+  }else{
+    const a=dangChon, b=o;
+    a.classList.remove('chon'); a.classList.add('lech'); b.classList.add('lech');
+    setTimeout(()=>{ a.classList.remove('lech'); b.classList.remove('lech'); },380);
+  }
+  dangChon=null;
+  capNhatDem();
+}
+$('#noi-lam-lai').onclick = batDauNoi;
+batDauNoi();
+</script>
+</body>
+</html>
