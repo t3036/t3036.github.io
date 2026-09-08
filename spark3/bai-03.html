@@ -1,0 +1,1554 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<!-- Tiêu đề trang: mã ở cuối file sẽ tự ghi đè bằng CONFIG.title -->
+<title>Bài giảng tương tác</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ===========================================================
+   BÀI GIẢNG TƯƠNG TÁC — BẢNG MÀU & GIAO DIỆN
+   -----------------------------------------------------------
+   Muốn đổi "tông" cả ứng dụng: chỉ cần sửa các biến trong
+   khối :root ngay bên dưới, không cần đụng tới phần còn lại.
+   =========================================================== */
+
+/* ============================================================
+   1. TOKEN HỆ THỐNG
+   ============================================================ */
+:root{
+  --ink:        #252a52;   /* mực xanh đậm: chữ + viền */
+  --ink-soft:   #5f6693;
+  --paper:      #ffffff;
+  --sky:        #d7ebff;   /* nền lớp học */
+  --sky-deep:   #b4d8fb;
+  --sun:        #ffc93c;   /* nút chính */
+  --sun-deep:   #f0a92b;
+  --grass:      #1faf6d;   /* đúng */
+  --grass-soft: #e0f7ec;
+  --berry:      #ff566c;   /* sai */
+  --berry-soft: #ffe7ea;
+  --lilac:      #8b7bff;
+
+  --pair-1:#ff8a3d; --pair-2:#3aa9ff; --pair-3:#8b7bff; --pair-4:#1faf6d;
+
+  --r-lg: 30px;
+  --r-md: 20px;
+  --r-sm: 14px;
+
+  --shadow-card: 0 12px 0 rgba(37,42,82,.10);
+  --shadow-btn:  0 5px 0 var(--ink);
+
+  --font-display: "Baloo 2", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Be Vietnam Pro", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+html,body{height:100%}
+
+body{
+  font-family:var(--font-body);
+  color:var(--ink);
+  background:var(--sky);
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(37,42,82,.10) 1.5px, transparent 0);
+  background-size:22px 22px;
+  -webkit-font-smoothing:antialiased;
+  overflow:hidden;
+}
+
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,select{font-family:inherit}
+
+:focus-visible{outline:4px solid var(--lilac);outline-offset:3px;border-radius:6px}
+
+/* ============================================================
+   2. KHUNG ỨNG DỤNG
+   ============================================================ */
+.app{
+  height:100dvh;
+  display:grid;
+  grid-template-rows:auto 1fr auto;
+  gap:clamp(10px,1.6vh,20px);
+  padding:0 clamp(12px,2.5vw,32px) clamp(12px,2.4vh,24px);
+  max-width:1180px;
+  margin:0 auto;
+}
+
+/* ---- 2.1 Thanh trên cùng: tiến trình ---- */
+.topbar{padding-top:clamp(10px,1.6vh,18px)}
+
+.progress{
+  height:12px;
+  background:var(--paper);
+  border:3px solid var(--ink);
+  border-radius:999px;
+  overflow:hidden;
+}
+.progress__fill{
+  height:100%;
+  width:0%;
+  background:repeating-linear-gradient(115deg,var(--sun) 0 14px,var(--sun-deep) 14px 28px);
+  border-radius:999px;
+  transition:width .45s cubic-bezier(.34,1.3,.64,1);
+}
+
+.topbar__row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-top:10px;
+  flex-wrap:wrap;
+}
+
+.lesson-name{
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:clamp(14px,1.9vw,19px);
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.lesson-name span{font-size:1.25em;line-height:1}
+
+.tools{display:flex;align-items:center;gap:8px}
+
+.counter{
+  font-weight:700;
+  font-size:14px;
+  background:var(--paper);
+  border:3px solid var(--ink);
+  border-radius:999px;
+  padding:4px 14px;
+  white-space:nowrap;
+}
+
+.icon-btn{
+  width:40px;height:40px;
+  display:grid;place-items:center;
+  font-size:18px;
+  background:var(--paper);
+  border:3px solid var(--ink);
+  border-radius:50%;
+  transition:transform .12s;
+}
+.icon-btn:hover{transform:translateY(-2px)}
+.icon-btn[aria-pressed="false"]{opacity:.45}
+
+/* ---- 2.2 Sân khấu + thẻ slide ---- */
+.stage{min-height:0;display:flex}
+
+.slide{
+  flex:1;
+  min-height:0;
+  background:var(--paper);
+  border:4px solid var(--ink);
+  border-radius:var(--r-lg);
+  box-shadow:var(--shadow-card);
+  padding:clamp(20px,3.4vh,40px) clamp(20px,4vw,52px);
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  display:flex;
+  flex-direction:column;
+  gap:clamp(14px,2.2vh,22px);
+  scrollbar-width:thin;
+}
+.slide.enter{animation:slideIn .34s cubic-bezier(.34,1.2,.64,1) both}
+@keyframes slideIn{
+  from{opacity:0;transform:translateY(14px) scale(.985)}
+  to{opacity:1;transform:none}
+}
+.slide.shake{animation:shake .42s}
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  20%{transform:translateX(-9px)}
+  40%{transform:translateX(8px)}
+  60%{transform:translateX(-5px)}
+  80%{transform:translateX(3px)}
+}
+
+/* ---- 2.3 Chân trang điều hướng ---- */
+.nav{display:flex;align-items:center;gap:12px}
+.nav__spacer{flex:1}
+
+.btn{
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:clamp(16px,2vw,21px);
+  padding:12px clamp(20px,3vw,34px);
+  border:4px solid var(--ink);
+  border-radius:999px;
+  box-shadow:var(--shadow-btn);
+  transition:transform .1s, box-shadow .1s, background .15s;
+  white-space:nowrap;
+}
+.btn:active{transform:translateY(5px);box-shadow:0 0 0 var(--ink)}
+.btn--primary{background:var(--sun)}
+.btn--primary:hover{background:var(--sun-deep)}
+.btn--ghost{background:var(--paper)}
+.btn--ghost:hover{background:var(--sky)}
+.btn--retry{background:var(--berry);color:var(--paper)}
+.btn--retry:hover{background:#f0455c}
+.btn[hidden]{display:none}
+
+/* ============================================================
+   3. NỘI DUNG SLIDE LÝ THUYẾT
+   ============================================================ */
+.topic{
+  align-self:flex-start;
+  font-weight:700;
+  font-size:13px;
+  background:var(--sky);
+  border:3px solid var(--ink);
+  border-radius:999px;
+  padding:4px 14px;
+}
+
+.slide h1{
+  font-family:var(--font-display);
+  font-weight:800;
+  font-size:clamp(28px,4.4vw,46px);
+  line-height:1.12;
+  letter-spacing:-.01em;
+}
+
+.lead{
+  font-size:clamp(17px,2.2vw,23px);
+  line-height:1.55;
+  max-width:62ch;
+}
+.lead b{color:var(--lilac)}
+
+.slide-photo{
+  width:100%;
+  max-height:38vh;
+  object-fit:contain;
+  border:4px solid var(--ink);
+  border-radius:var(--r-md);
+  background:var(--sky);
+}
+
+.things{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(128px,1fr));
+  gap:clamp(10px,1.6vw,16px);
+}
+.thing{
+  background:var(--sky);
+  border:3px solid var(--ink);
+  border-radius:var(--r-md);
+  padding:14px 8px 12px;
+  text-align:center;
+}
+.thing em{
+  display:block;font-style:normal;
+  font-size:clamp(30px,4.4vw,42px);line-height:1.1;margin-bottom:6px;
+}
+.thing span{display:block;font-weight:600;font-size:clamp(13px,1.5vw,15px);line-height:1.3}
+.thing small{display:block;font-weight:500;font-size:12px;color:var(--ink-soft)}
+
+.remember{
+  display:flex;gap:14px;align-items:flex-start;
+  background:var(--grass-soft);
+  border:3px solid var(--grass);
+  border-radius:var(--r-md);
+  padding:14px 18px;
+  font-size:clamp(15px,1.8vw,18px);
+  line-height:1.5;
+}
+.remember em{font-style:normal;font-size:26px;line-height:1}
+
+.score{
+  display:flex;align-items:center;gap:18px;
+  background:var(--sun);
+  border:4px solid var(--ink);
+  border-radius:var(--r-md);
+  padding:18px 24px;
+}
+.score em{font-style:normal;font-size:clamp(38px,6vw,58px);line-height:1}
+.score strong{display:block;font-family:var(--font-display);font-size:clamp(24px,3.4vw,34px)}
+.score span{font-size:clamp(14px,1.8vw,17px);font-weight:500}
+
+/* ============================================================
+   4. PHẦN CHUNG CỦA CÂU HỎI
+   ============================================================ */
+.question{
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:clamp(22px,3.3vw,36px);
+  line-height:1.25;
+}
+
+.qnote{
+  font-size:clamp(14px,1.7vw,17px);
+  font-weight:500;
+  color:var(--ink-soft);
+  margin-top:-6px;
+}
+
+.feedback{
+  display:flex;gap:12px;align-items:flex-start;
+  border:3px solid;
+  border-radius:var(--r-md);
+  padding:13px 18px;
+  font-size:clamp(15px,1.85vw,18px);
+  line-height:1.5;
+  font-weight:500;
+}
+.feedback em{font-style:normal;font-size:24px;line-height:1.1}
+.feedback.ok{background:var(--grass-soft);border-color:var(--grass)}
+.feedback.no{background:var(--berry-soft);border-color:var(--berry)}
+.feedback b{font-weight:700}
+
+/* ============================================================
+   5. DẠNG 1 & 2 — TRẮC NGHIỆM MỘT / NHIỀU ĐÁP ÁN
+   ============================================================ */
+.options{display:grid;gap:clamp(9px,1.4vh,14px)}
+
+.option{
+  display:flex;align-items:center;gap:14px;
+  background:var(--paper);
+  border:4px solid var(--ink);
+  border-radius:var(--r-md);
+  padding:clamp(10px,1.5vh,16px) 18px;
+  cursor:pointer;
+  transition:transform .12s, background .15s;
+}
+.option:hover{transform:translateX(5px);background:var(--sky)}
+.option input{position:absolute;opacity:0;width:1px;height:1px}
+.option input:focus-visible + .letter{outline:4px solid var(--lilac);outline-offset:3px}
+
+.letter{
+  flex:none;
+  width:clamp(38px,4.6vw,48px);
+  height:clamp(38px,4.6vw,48px);
+  display:grid;place-items:center;
+  font-family:var(--font-display);
+  font-weight:800;
+  font-size:clamp(18px,2.4vw,24px);
+  background:var(--sky);
+  border:3px solid var(--ink);
+  border-radius:50%;
+}
+.letter--box{border-radius:12px}      /* ô vuông = được chọn nhiều đáp án */
+
+.option-text{font-size:clamp(16px,2.1vw,22px);font-weight:600;line-height:1.35}
+
+.option.picked{background:var(--sun)}
+.option.picked .letter{background:var(--paper)}
+.option.right{background:var(--grass);color:var(--paper);transform:none}
+.option.right .letter{background:var(--paper);color:var(--grass)}
+.option.wrong{background:var(--berry);color:var(--paper);transform:none}
+.option.wrong .letter{background:var(--paper);color:var(--berry)}
+.option.locked{pointer-events:none}
+.option.locked:not(.right):not(.wrong){opacity:.55}
+
+/* ============================================================
+   6. DẠNG 3 — KÉO THẢ
+   ============================================================ */
+.pool{
+  display:flex;flex-wrap:wrap;gap:10px;
+  min-height:74px;
+  padding:14px;
+  background:var(--sky);
+  border:4px dashed var(--ink);
+  border-radius:var(--r-md);
+}
+.pool:empty{display:grid;place-items:center}
+.pool:empty::after{
+  content:'Em đã thả hết thẻ rồi';
+  font-weight:600;color:var(--ink-soft);
+}
+
+.chip{
+  display:inline-block;
+  background:var(--paper);
+  border:4px solid var(--ink);
+  border-radius:999px;
+  box-shadow:0 4px 0 var(--ink);
+  padding:9px 18px;
+  font-size:clamp(14px,1.8vw,19px);
+  font-weight:600;
+  cursor:grab;
+  user-select:none;
+  transition:transform .12s, background .15s;
+}
+.chip:hover{transform:translateY(-3px)}
+.chip.active{background:var(--sun);transform:translateY(-4px)}
+.chip:active{cursor:grabbing}
+
+.zones{display:grid;gap:clamp(9px,1.4vh,14px)}
+
+.zone{
+  display:flex;align-items:center;gap:14px;
+  background:var(--paper);
+  border:4px solid var(--ink);
+  border-radius:var(--r-md);
+  padding:clamp(9px,1.3vh,14px) 16px;
+  cursor:pointer;
+}
+.zone__label{
+  flex:1;
+  font-size:clamp(15px,1.9vw,20px);
+  font-weight:600;line-height:1.35;
+}
+.zone__slot{
+  flex:none;
+  width:min(48%,280px);
+  min-height:52px;
+  display:grid;place-items:center;
+  text-align:center;
+  padding:6px 12px;
+  background:var(--sky);
+  border:3px dashed var(--ink);
+  border-radius:var(--r-sm);
+  font-size:clamp(13px,1.7vw,18px);
+  font-weight:600;
+  color:var(--ink-soft);
+}
+.zone.over .zone__slot{background:var(--sun);color:var(--ink)}
+.zone.right .zone__slot{
+  background:var(--grass);color:var(--paper);
+  border-style:solid;border-color:var(--grass);
+}
+.zone.wrong .zone__slot{
+  background:var(--berry);color:var(--paper);
+  border-style:solid;border-color:var(--berry);
+}
+
+/* ============================================================
+   7. DẠNG 4 — DANH SÁCH THẢ XUỐNG
+   ============================================================ */
+.sentence{
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:clamp(20px,2.9vw,32px);
+  line-height:1.85;
+}
+
+.pick{
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:clamp(16px,2.1vw,24px);
+  color:var(--ink);
+  background:var(--sun);
+  border:4px solid var(--ink);
+  border-radius:var(--r-sm);
+  box-shadow:0 4px 0 var(--ink);
+  padding:4px 10px;
+  margin:0 4px;
+  cursor:pointer;
+  max-width:min(100%,320px);
+}
+.pick.right{background:var(--grass);color:var(--paper)}
+.pick.wrong{background:var(--berry);color:var(--paper)}
+.pick option{background:var(--paper);color:var(--ink);font-size:16px}
+
+/* ============================================================
+   8. DẠNG 5 — NỐI CẶP
+   ============================================================ */
+.match{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:clamp(10px,2vw,26px);
+  align-items:start;
+}
+.match__col{display:grid;gap:10px;align-content:start}
+.match__head{
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:clamp(14px,1.8vw,18px);
+  color:var(--ink-soft);
+}
+
+.card{
+  display:flex;align-items:center;gap:10px;
+  text-align:left;width:100%;
+  background:var(--paper);
+  border:4px solid var(--ink);
+  border-radius:var(--r-md);
+  padding:clamp(9px,1.4vh,14px) 14px;
+  font-size:clamp(14px,1.8vw,19px);
+  font-weight:600;line-height:1.3;
+  cursor:pointer;
+  transition:transform .12s, background .15s;
+}
+.card:hover{transform:translateY(-3px)}
+.card em{font-style:normal;font-size:clamp(22px,3vw,28px);line-height:1}
+.card.active{background:var(--sun);transform:translateY(-3px)}
+.card.linked{border-color:var(--dot,var(--lilac))}
+.card.correct{background:var(--grass-soft);border-color:var(--grass);pointer-events:none}
+.card.incorrect{background:var(--berry-soft);border-color:var(--berry)}
+
+.pin{
+  flex:none;margin-left:auto;
+  width:26px;height:26px;
+  display:grid;place-items:center;
+  border-radius:50%;
+  background:var(--dot,var(--lilac));
+  color:#fff;
+  font-family:var(--font-display);
+  font-weight:800;font-size:14px;
+}
+.card.correct .pin{background:var(--grass)}
+
+/* ============================================================
+   9. DẠNG 6 — BẤM ĐÚNG VÙNG TRÊN HÌNH
+   ============================================================ */
+.hotspot{
+  position:relative;
+  border:4px solid var(--ink);
+  border-radius:var(--r-md);
+  overflow:hidden;
+  background:var(--sky);
+}
+.hotspot img{display:block;width:100%;height:auto}
+.hotspot--empty{
+  aspect-ratio:16/9;
+  max-height:46vh;
+  background-image:
+    linear-gradient(rgba(37,42,82,.10) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(37,42,82,.10) 1px, transparent 1px);
+  background-size:10% 10%;
+}
+
+.spot{
+  position:absolute;
+  display:grid;place-items:center;
+  text-align:center;
+  padding:4px;
+  background:rgba(255,255,255,.45);
+  border:4px solid var(--ink);
+  border-radius:var(--r-sm);
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:clamp(13px,1.7vw,18px);
+  line-height:1.2;
+  transition:transform .12s, background .15s;
+}
+.spot:hover{transform:scale(1.04)}
+.spot.picked{background:var(--sun)}
+.spot.right{background:rgba(31,175,109,.85);border-color:var(--grass);color:var(--paper)}
+.spot.wrong{background:rgba(255,86,108,.85);border-color:var(--berry);color:var(--paper)}
+
+/* ============================================================
+   10. PHÁO GIẤY
+   ============================================================ */
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:60;overflow:hidden}
+.confetti i{position:absolute;top:-30px;font-size:24px;animation:fall 1.5s linear forwards}
+@keyframes fall{
+  to{transform:translateY(105vh) rotate(540deg);opacity:.2}
+}
+
+/* ============================================================
+   11. ĐÁP ỨNG + TRỢ NĂNG
+   ============================================================ */
+@media (max-width:640px){
+  .slide{padding:18px 16px;border-radius:22px}
+  .match{grid-template-columns:1fr;gap:8px}
+  .match__col:last-child{margin-top:6px}
+  .lesson-name{font-size:13px}
+  .counter{font-size:12px;padding:3px 10px}
+  .option{gap:10px;padding:10px 12px}
+  .zone{flex-direction:column;align-items:stretch;gap:8px}
+  .zone__slot{width:100%}
+  .sentence{line-height:2.1}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms !important;transition-duration:.001ms !important}
+}
+
+/* ===========================================================
+   TUỲ CHỈNH RIÊNG CHO BÀI 3 (khác với template gốc)
+   =========================================================== */
+
+/* Danh sách thả xuống phải nổi lên trên ô phản hồi khi bung ra */
+.pick{position:relative;z-index:2}
+
+/* Vùng bấm đã canh sẵn toạ độ nên tắt lưới canh của template */
+.hotspot--empty{background-image:none}
+
+/* Sơ đồ 5 bước: vùng bấm hẹp nên chữ phải nhỏ lại cho vừa */
+.spot{font-size:clamp(11px,1.35vw,16px);padding:6px 4px;line-height:1.25}
+
+/* Bài này có câu kéo thả 5 ô, nhãn dài nên cho ô đích hẹp lại */
+.zone__slot{width:min(42%,240px)}
+
+</style>
+</head>
+<body>
+
+<!--
+  BẢN MỘT FILE: HTML + CSS + JavaScript nằm chung trong file này.
+  Nội dung bài: khối slidesData ở đầu phần <script> cuối file.
+  Giao diện: các biến trong :root ở đầu <style>; phần chỉnh riêng
+  cho bài này nằm ở cuối <style>, dưới tiêu đề "TUỲ CHỈNH RIÊNG".
+-->
+<div class="app">
+
+  <!-- ===== Thanh trên cùng: tiến trình + công cụ ===== -->
+  <header class="topbar">
+    <div class="progress" role="progressbar" aria-label="Tiến trình bài học"
+         aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="bar">
+      <div class="progress__fill" id="barFill"></div>
+    </div>
+
+    <div class="topbar__row">
+      <p class="lesson-name" id="lessonName"></p>
+      <div class="tools">
+        <p class="counter" id="counter"></p>
+        <button class="icon-btn" id="soundBtn" aria-pressed="true" title="Bật / tắt âm thanh">🔊</button>
+        <button class="icon-btn" id="fullBtn" title="Phóng to toàn màn hình">⛶</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== Sân khấu: nơi slide được vẽ ra ===== -->
+  <main class="stage">
+    <section class="slide" id="slide" tabindex="-1"></section>
+  </main>
+
+  <!-- ===== Thanh điều hướng ===== -->
+  <footer class="nav">
+    <button class="btn btn--ghost" id="prevBtn">Quay lại</button>
+    <div class="nav__spacer"></div>
+    <button class="btn btn--retry" id="retryBtn" hidden>Thử lại</button>
+    <button class="btn btn--primary" id="mainBtn">Tiếp theo</button>
+  </footer>
+
+</div>
+
+<script>
+/* ============================================================
+   BÀI GIẢNG TƯƠNG TÁC — TEMPLATE TRỐNG
+   ------------------------------------------------------------
+   Bạn chỉ cần sửa hai khối bên dưới (CONFIG và slidesData).
+   Toàn bộ phần từ mục 2 trở xuống là bộ máy chạy, giữ nguyên.
+   ============================================================ */
+
+
+/* ============================================================
+   0. THÔNG TIN BÀI HỌC (hiện ở thanh trên cùng)
+   ============================================================ */
+const CONFIG = {
+  icon:  '🤖',
+  title: 'Bài 3 — Máy học'
+};
+
+
+/* ============================================================
+   1. DỮ LIỆU BÀI HỌC
+   ------------------------------------------------------------
+   Nguồn: Bài 3 "Máy học" — IC3 GS6 Spark Level 3
+   Chủ đề: Căn bản về công nghệ
+
+   Các dạng slide đang dùng:
+     'info' · 'quiz_single' · 'quiz_multiple'
+     'quiz_dragdrop' · 'quiz_dropdown' · 'quiz_matching' · 'quiz_hotspot'
+   ============================================================ */
+const slidesData = [
+
+  /* ---------- 1. Khởi động ---------- */
+  {
+    type: 'info',
+    topic: 'Khởi động',
+    title: 'Vì sao mỗi người lại nhận được gợi ý khác nhau?',
+    content: 'Nam và Mai cùng mở một ứng dụng. Nam thấy video bóng đá, kĩ năng bóng rổ, giải tennis. Mai thấy hướng dẫn vẽ tranh, nhạc thiếu nhi, cách làm bánh. Ứng dụng đã <b>học</b> từ những gì mỗi bạn thường xem.',
+    imageUrl: null,
+    things: [
+      { icon: '🤖', name: 'Máy học',                        en: 'Phần 1' },
+      { icon: '🎓', name: 'Quá trình huấn luyện mô hình AI', en: 'Phần 2' },
+      { icon: '♿', name: 'Khả năng tiếp cận công nghệ',     en: 'Phần 3' }
+    ],
+    remember: ''
+  },
+
+  /* ---------- 2. Máy học là gì ---------- */
+  {
+    type: 'info',
+    topic: 'Phần 1 · Máy học',
+    title: 'Máy học là gì?',
+    content: '<b>Máy học</b> (ML — Machine Learning) là một phần của trí tuệ nhân tạo (AI). Máy tính có khả năng <b>tự học</b> thông qua việc sử dụng dữ liệu có sẵn rồi tự suy luận để giải quyết nhu cầu của người dùng.',
+    imageUrl: null,
+    things: [
+      { icon: '📚', name: 'Dữ liệu có sẵn', en: 'Thứ con người đưa cho máy học' },
+      { icon: '🧠', name: 'Tự tìm quy luật', en: 'Máy rút ra quy luật từ dữ liệu' },
+      { icon: '💡', name: 'Tự suy luận',     en: 'Đưa ra câu trả lời cho việc mới' }
+    ],
+    remember: 'Máy học không được lập trình sẵn từng câu trả lời. Nó tìm ra quy luật từ dữ liệu mà con người đưa vào.'
+  },
+
+  /* ---------- 3. Trắc nghiệm ---------- */
+  {
+    type: 'quiz_single',
+    topic: 'Vận dụng',
+    question: 'Máy học (Machine Learning) là gì?',
+    options: [
+      'Một loại máy in tự động dùng trong nhà máy.',
+      'Một phần của trí tuệ nhân tạo, máy tính tự học từ dữ liệu.',
+      'Một thiết bị dùng để lưu trữ dữ liệu.',
+      'Một môn học ở trường về cách sửa máy tính.'
+    ],
+    correctAnswer: 1,
+    hint: 'Trong tên gọi đã có chữ "học" rồi đó. Ai học và học từ cái gì?',
+    explain: 'Máy học là một phần của AI: máy tính tự học từ dữ liệu có sẵn rồi tự suy luận.'
+  },
+
+  /* ---------- 4. Ví dụ về máy học ---------- */
+  {
+    type: 'info',
+    topic: 'Phần 1 · Máy học',
+    title: 'Máy học có ở quanh em',
+    content: 'Nhiều thứ em gặp hằng ngày đều có máy học làm việc bên trong.',
+    imageUrl: null,
+    things: [
+      { icon: '🚗', name: 'Xe thông minh',           en: 'Đánh giá môi trường lái và tình trạng người lái' },
+      { icon: '🎵', name: 'Đề xuất nhạc và video',   en: 'Gợi ý bài hát, video em có thể thích' },
+      { icon: '🦾', name: 'Tự động hóa robot',       en: 'Điều chỉnh quy trình sản xuất trong nhà máy' },
+      { icon: '🔎', name: 'Tìm kiếm trên Web',       en: 'Trả về thông tin phù hợp nhất với yêu cầu' },
+      { icon: '🏠', name: 'Nhà thông minh',          en: 'Smarthome · làm theo thói quen của gia đình' },
+      { icon: '🎼', name: 'Hỗ trợ sáng tác',         en: 'Giúp nhạc sĩ tạo thêm giai điệu mới' }
+    ],
+    remember: 'Cùng một ứng dụng nhưng mỗi người xem một kiểu, nên máy học đề xuất cho mỗi người một danh sách khác nhau.'
+  },
+
+  /* ---------- 5. Chọn nhiều đáp án ---------- */
+  {
+    type: 'quiz_multiple',
+    topic: 'Vận dụng',
+    question: 'Máy học đang giúp con người làm những việc nào sau đây?',
+    options: [
+      'Đề xuất bài hát và video hợp với sở thích của em.',
+      'Giúp nhạc sĩ sáng tác thêm nhiều bài hát.',
+      'Điều khiển robot trong quy trình sản xuất.',
+      'Tự học giỏi mà không cần bất kì dữ liệu nào.'
+    ],
+    correctAnswers: [0, 1, 2],
+    hint: 'Có một đáp án sai. Em hãy nhớ lại: máy học cần thứ gì thì mới học được?',
+    explain: 'Máy học đề xuất nội dung, hỗ trợ sáng tác và điều khiển robot. Nhưng nó <b>luôn cần dữ liệu</b> thì mới học được.'
+  },
+
+  /* ---------- 6. Năm bước huấn luyện AI ---------- */
+  {
+    type: 'info',
+    topic: 'Phần 2 · Huấn luyện mô hình AI',
+    title: 'Năm bước huấn luyện một mô hình AI',
+    content: 'Muốn AI phân biệt được ảnh mèo và ảnh chó, người ta phải dạy nó theo năm bước.',
+    imageUrl: null,
+    things: [
+      { icon: '1️⃣', name: 'Xác định vấn đề',        en: 'AI sẽ giải quyết việc gì' },
+      { icon: '2️⃣', name: 'Thu thập dữ liệu',       en: 'Gom thật nhiều dữ liệu liên quan' },
+      { icon: '3️⃣', name: 'Dạy máy học từ dữ liệu', en: 'AI tìm ra quy luật để nhận biết' },
+      { icon: '4️⃣', name: 'Kiểm tra kết quả',       en: 'Thử với dữ liệu mới xem đúng hay sai' },
+      { icon: '5️⃣', name: 'Cải tiến',               en: 'Bổ sung dữ liệu, huấn luyện lại AI' }
+    ],
+    remember: 'Nếu dữ liệu quá ít, không rõ ràng hoặc chỉ đại diện cho một nhóm nhỏ thì kết quả của AI có thể <b>sai hoặc không công bằng</b>.'
+  },
+
+  /* ---------- 7. Kéo thả ---------- */
+  {
+    type: 'quiz_dragdrop',
+    topic: 'Vận dụng',
+    question: 'Kéo tên từng bước vào đúng việc phải làm.',
+    zones: [
+      { label: 'Quyết định xem AI sẽ giải quyết vấn đề gì.',        item: 'Bước 1 · Xác định vấn đề' },
+      { label: 'Gom thật nhiều ảnh mèo và ảnh chó.',                item: 'Bước 2 · Thu thập dữ liệu' },
+      { label: 'AI tìm ra quy luật để phân biệt mèo với chó.',      item: 'Bước 3 · Dạy máy học' },
+      { label: 'Đưa một tấm ảnh mới xem AI đoán đúng hay sai.',     item: 'Bước 4 · Kiểm tra kết quả' },
+      { label: 'Bổ sung thêm dữ liệu rồi huấn luyện lại AI.',       item: 'Bước 5 · Cải tiến' }
+    ],
+    hint: 'Em hãy làm theo thứ tự thật tự nhiên: muốn dạy thì phải có dữ liệu trước đã.',
+    explain: 'Năm bước đi theo đúng thứ tự: xác định vấn đề, thu thập dữ liệu, dạy máy học, kiểm tra rồi cải tiến.'
+  },
+
+  /* ---------- 8. Bấm đúng vùng ---------- */
+  {
+    type: 'quiz_hotspot',
+    topic: 'Vận dụng',
+    question: 'Đây là sơ đồ năm bước huấn luyện AI. Em hãy bấm vào bước mà AI học từ dữ liệu để tìm ra quy luật.',
+    imageUrl: null,
+    spots: [
+      { label: '1 Xác định vấn đề',  x: 2,    y: 26, w: 18, h: 48, correct: false },
+      { label: '2 Thu thập dữ liệu', x: 21.5, y: 26, w: 18, h: 48, correct: false },
+      { label: '3 Dạy máy học',      x: 41,   y: 26, w: 18, h: 48, correct: true  },
+      { label: '4 Kiểm tra kết quả', x: 60.5, y: 26, w: 18, h: 48, correct: false },
+      { label: '5 Cải tiến',         x: 80,   y: 26, w: 18, h: 48, correct: false }
+    ],
+    hint: 'Bước này diễn ra sau khi đã gom đủ dữ liệu, và trước khi đem ảnh mới ra thử.',
+    explain: 'Ở bước 3, AI học từ kho dữ liệu đã thu thập và tự tìm ra quy luật để nhận biết.'
+  },
+
+  /* ---------- 9. Danh sách thả xuống ---------- */
+  {
+    type: 'quiz_dropdown',
+    topic: 'Vận dụng',
+    question: 'Nếu dữ liệu huấn luyện quá ít hoặc chỉ đại diện cho một nhóm nhỏ thì kết quả của AI có thể ___ . Vì vậy trước khi dùng kết quả của AI, em nên ___ .',
+    blanks: [
+      { options: ['chính xác hơn', 'sai hoặc không công bằng', 'chạy nhanh hơn'],      correctAnswer: 1 },
+      { options: ['tin ngay lập tức', 'kiểm tra lại thông tin', 'gửi cho cả lớp'],     correctAnswer: 1 }
+    ],
+    hint: 'Học ít thì biết ít. Và điều gì máy nói ra cũng nên xem lại đã.',
+    explain: 'Dữ liệu thiếu thì AI dễ trả lời sai hoặc thiên lệch, nên em luôn kiểm tra lại trước khi dùng.'
+  },
+
+  /* ---------- 10. Khả năng tiếp cận công nghệ ---------- */
+  {
+    type: 'info',
+    topic: 'Phần 3 · Khả năng tiếp cận công nghệ',
+    title: 'Khả năng tiếp cận công nghệ (Accessibility)',
+    content: '<b>Khả năng tiếp cận công nghệ</b> là mục tiêu tạo ra những sản phẩm công nghệ mà <b>tất cả mọi người</b>, kể cả người khuyết tật, đều sử dụng được.',
+    imageUrl: null,
+    things: [
+      { icon: '⌨️', name: 'Bàn phím phím to',      en: 'Cho người khó cử động tay' },
+      { icon: '🔊', name: 'Trình đọc màn hình',    en: 'Đọc chữ trên màn hình thành tiếng' },
+      { icon: '💬', name: 'Phụ đề cho video',      en: 'Hiện lời nói thành chữ' }
+    ],
+    remember: 'Ví dụ trong sách: bàn phím được thiết kế kích thước và cách bố trí phím phù hợp với người có vấn đề về thị lực hoặc khó di chuyển tay.'
+  },
+
+  /* ---------- 11. Trắc nghiệm ---------- */
+  {
+    type: 'quiz_single',
+    topic: 'Vận dụng',
+    question: 'Tùy chọn nào là đúng khi nói về khả năng tiếp cận công nghệ?',
+    options: [
+      'Khả năng kết nối với mạng.',
+      'Quá trình lưu trữ dữ liệu trên đám mây.',
+      'Sự dễ dàng sử dụng và sẵn có của công nghệ dành cho người khuyết tật.',
+      'Cách dữ liệu được gửi qua Internet.'
+    ],
+    correctAnswer: 2,
+    hint: 'Từ khóa của phần này là "tất cả mọi người đều dùng được".',
+    explain: 'Khả năng tiếp cận công nghệ nói về việc mọi người, kể cả người khuyết tật, đều dùng được sản phẩm công nghệ.'
+  },
+
+  /* ---------- 12. Nối cặp ---------- */
+  {
+    type: 'quiz_matching',
+    topic: 'Vận dụng',
+    question: 'Nối mỗi thiết kế với nhóm người mà nó giúp đỡ.',
+    pairs: [
+      { icon: '⌨️', left: 'Bàn phím có phím to, dễ bấm', right: 'Người khó cử động tay' },
+      { icon: '🔊', left: 'Trình đọc màn hình',          right: 'Người khiếm thị' },
+      { icon: '💬', left: 'Phụ đề cho video',            right: 'Người khiếm thính' }
+    ],
+    hint: 'Em hãy nghĩ xem mỗi thiết kế thay thế cho giác quan hoặc động tác nào.',
+    explain: 'Mỗi thiết kế bù đắp cho một khó khăn riêng, nhờ vậy công nghệ không bỏ sót ai.'
+  },
+
+  /* ---------- 13. Kết thúc ---------- */
+  {
+    type: 'info',
+    final: true,
+    topic: 'Hoàn thành',
+    title: 'Em đã học xong bài Máy học!',
+    content: 'Em đã biết máy học là gì, AI được huấn luyện qua năm bước ra sao, và vì sao công nghệ cần dùng được cho tất cả mọi người.',
+    imageUrl: null,
+    remember: 'AI học từ dữ liệu do con người đưa vào. Dữ liệu đầy đủ và rõ ràng thì kết quả mới đúng và công bằng.'
+  }
+];
+
+
+/* ============================================================
+   2. TRẠNG THÁI
+   ============================================================ */
+const state = {
+  index: 0,
+  sound: true,
+  answers: {}   // { [slideIndex]: { checked, solved, ...dữ liệu riêng của từng dạng } }
+};
+
+const el = {
+  slide:    document.getElementById('slide'),
+  barFill:  document.getElementById('barFill'),
+  bar:      document.getElementById('bar'),
+  counter:  document.getElementById('counter'),
+  prevBtn:  document.getElementById('prevBtn'),
+  mainBtn:  document.getElementById('mainBtn'),
+  retryBtn: document.getElementById('retryBtn'),
+  soundBtn: document.getElementById('soundBtn'),
+  fullBtn:  document.getElementById('fullBtn')
+};
+
+const LETTERS = ['A','B','C','D','E','F'];
+const PAIR_COLORS = ['var(--pair-1)','var(--pair-2)','var(--pair-3)','var(--pair-4)'];
+
+
+/* ============================================================
+   3. TIỆN ÍCH
+   ============================================================ */
+function esc(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+function ans(i){
+  if(i === undefined) i = state.index;
+  if(!state.answers[i]) state.answers[i] = { checked:false, solved:false, tries:0 };
+  return state.answers[i];
+}
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+/** So sánh hai danh sách vị trí, không quan tâm thứ tự. */
+function sameSet(a, b){
+  if(a.length !== b.length) return false;
+  const x = a.slice().sort((m,n)=>m-n), y = b.slice().sort((m,n)=>m-n);
+  return x.every((v,i)=> v === y[i]);
+}
+
+/* --- Âm thanh nhỏ bằng WebAudio, không cần file ngoài --- */
+let audioCtx = null;
+function beep(notes){
+  if(!state.sound) return;
+  try{
+    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+    if(audioCtx.state === 'suspended') audioCtx.resume();
+    notes.forEach(([freq, at, dur]) => {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0.0001, audioCtx.currentTime + at);
+      gain.gain.exponentialRampToValueAtTime(0.22, audioCtx.currentTime + at + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + at + dur);
+      osc.connect(gain).connect(audioCtx.destination);
+      osc.start(audioCtx.currentTime + at);
+      osc.stop(audioCtx.currentTime + at + dur + 0.02);
+    });
+  }catch(e){ /* trình duyệt chặn thì bỏ qua */ }
+}
+const soundRight = () => beep([[660,0,.14],[880,.12,.2]]);
+const soundWrong = () => beep([[220,0,.22]]);
+const soundTurn  = () => beep([[520,0,.07]]);
+
+/* --- Pháo giấy --- */
+function confetti(){
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const box = document.createElement('div');
+  box.className = 'confetti';
+  const bits = ['⭐','🎉','✨','🎈','🌟','💛'];
+  for(let i=0;i<26;i++){
+    const b = document.createElement('i');
+    b.textContent = bits[Math.floor(Math.random()*bits.length)];
+    b.style.left = Math.random()*100 + '%';
+    b.style.animationDelay = (Math.random()*0.35) + 's';
+    b.style.animationDuration = (1.1 + Math.random()*0.8) + 's';
+    b.style.fontSize = (16 + Math.random()*18) + 'px';
+    box.appendChild(b);
+  }
+  document.body.appendChild(box);
+  setTimeout(() => box.remove(), 2200);
+}
+
+
+/* ============================================================
+   4. VẼ GIAO DIỆN THEO type
+   ============================================================ */
+function render(animate){
+  const slide = slidesData[state.index];
+  const a = ans(state.index);
+
+  el.slide.classList.remove('enter');
+  el.slide.innerHTML = viewOf(slide, a);
+  if(animate){ void el.slide.offsetWidth; el.slide.classList.add('enter'); }
+  el.slide.scrollTop = 0;
+
+  const pct = Math.round(((state.index + 1) / slidesData.length) * 100);
+  el.barFill.style.width = pct + '%';
+  el.bar.setAttribute('aria-valuenow', pct);
+  el.counter.textContent = 'Trang ' + (state.index + 1) + ' / ' + slidesData.length;
+
+  el.prevBtn.hidden = state.index === 0;
+  updateButtons(slide, a);
+}
+
+function viewOf(slide, a){
+  switch(slide.type){
+    case 'info':          return viewInfo(slide, a);
+    case 'quiz_single':   return viewSingle(slide, a);
+    case 'quiz_multiple': return viewMultiple(slide, a);
+    case 'quiz_dragdrop': return viewDragDrop(slide, a);
+    case 'quiz_dropdown': return viewDropdown(slide, a);
+    case 'quiz_matching': return viewMatching(slide, a);
+    case 'quiz_hotspot':  return viewHotspot(slide, a);
+    default:              return '<p class="lead">Chưa hỗ trợ loại slide này.</p>';
+  }
+}
+
+/* Phần đầu chung của mọi slide câu hỏi */
+function head(s, note){
+  let h = '';
+  if(s.topic) h += '<p class="topic">' + esc(s.topic) + '</p>';
+  h += '<h2 class="question">' + s.question + '</h2>';
+  if(note) h += '<p class="qnote">' + note + '</p>';
+  return h;
+}
+
+/* ---------- 4.1 Slide lý thuyết ---------- */
+function viewInfo(s){
+  let html = '';
+  if(s.topic)   html += '<p class="topic">' + esc(s.topic) + '</p>';
+  html += '<h1>' + s.title + '</h1>';
+  if(s.content) html += '<p class="lead">' + s.content + '</p>';
+
+  if(s.final){
+    const quizzes = slidesData.filter(x => x.type !== 'info').length;
+    const done = Object.values(state.answers).filter(x => x.solved).length;
+    html += '<div class="score"><em>🏆</em><div>' +
+            '<strong>' + done + ' / ' + quizzes + ' câu đúng</strong>' +
+            '<span>Em đã trả lời đúng ' + done + ' trên ' + quizzes + ' câu hỏi của bài.</span>' +
+            '</div></div>';
+  }
+
+  if(s.imageUrl){
+    html += '<img class="slide-photo" src="' + esc(s.imageUrl) + '" alt="' + esc(s.title) + '">';
+  }else if(s.things && s.things.length){
+    html += '<div class="things">';
+    s.things.forEach(t => {
+      html += '<div class="thing"><em>' + t.icon + '</em>' +
+              '<span>' + esc(t.name) + '</span>' +
+              '<small>' + esc(t.en) + '</small></div>';
+    });
+    html += '</div>';
+  }
+
+  if(s.remember) html += '<div class="remember"><em>💡</em><p>' + s.remember + '</p></div>';
+  return html;
+}
+
+/* ---------- 4.2 Trắc nghiệm 1 đáp án ---------- */
+function viewSingle(s, a){
+  let html = head(s, 'Em hãy chọn một đáp án.');
+  html += '<div class="options" role="radiogroup" aria-label="Các đáp án">';
+  s.options.forEach((opt, i) => {
+    let cls = 'option';
+    if(a.checked){
+      cls += ' locked';
+      if(i === s.correctAnswer) cls += ' right';
+      else if(i === a.picked)   cls += ' wrong';
+    }else if(a.picked === i) cls += ' picked';
+
+    html += '<label class="' + cls + '">' +
+              '<input type="radio" name="choice" value="' + i + '"' +
+                (a.picked === i ? ' checked' : '') + (a.checked ? ' disabled' : '') + '>' +
+              '<span class="letter">' + LETTERS[i] + '</span>' +
+              '<span class="option-text">' + esc(opt) + '</span>' +
+            '</label>';
+  });
+  html += '</div>' + feedbackHTML(s, a);
+  return html;
+}
+
+/* ---------- 4.3 Trắc nghiệm nhiều đáp án ---------- */
+function viewMultiple(s, a){
+  if(!a.picks) a.picks = [];
+  let html = head(s, 'Câu này có nhiều hơn một đáp án đúng.');
+  html += '<div class="options" role="group" aria-label="Các đáp án">';
+  s.options.forEach((opt, i) => {
+    const picked = a.picks.indexOf(i) !== -1;
+    let cls = 'option';
+    if(a.checked){
+      cls += ' locked';
+      if(s.correctAnswers.indexOf(i) !== -1) cls += ' right';
+      else if(picked) cls += ' wrong';
+    }else if(picked) cls += ' picked';
+
+    html += '<label class="' + cls + '">' +
+              '<input type="checkbox" name="multi" value="' + i + '"' +
+                (picked ? ' checked' : '') + (a.checked ? ' disabled' : '') + '>' +
+              '<span class="letter letter--box">' + LETTERS[i] + '</span>' +
+              '<span class="option-text">' + esc(opt) + '</span>' +
+            '</label>';
+  });
+  html += '</div>' + feedbackHTML(s, a);
+  return html;
+}
+
+/* ---------- 4.4 Kéo thả ---------- */
+function viewDragDrop(s, a){
+  if(!a.order)  a.order  = shuffle(s.zones.map((_, i) => i));
+  if(!a.placed) a.placed = {};
+
+  const used = Object.keys(a.placed).map(k => a.placed[k]);
+
+  let html = head(s, 'Kéo thẻ vào đúng ô, hoặc bấm thẻ rồi bấm ô muốn thả.');
+
+  // Kho thẻ chưa dùng
+  html += '<div class="pool" id="pool">';
+  a.order.forEach(i => {
+    if(used.indexOf(i) !== -1) return;
+    html += '<span class="chip' + (a.grab === i ? ' active' : '') + '" role="button" tabindex="0" ' +
+              'draggable="' + (a.checked ? 'false' : 'true') + '" data-i="' + i + '">' +
+              esc(s.zones[i].item) + '</span>';
+  });
+  html += '</div>';
+
+  // Các ô đích
+  html += '<div class="zones">';
+  s.zones.forEach((z, i) => {
+    const item = a.placed[i];
+    let cls = 'zone';
+    if(a.checked && item !== undefined) cls += (item === i ? ' right' : ' wrong');
+    html += '<div class="' + cls + '" role="button" tabindex="0" data-i="' + i + '">' +
+              '<span class="zone__label">' + esc(z.label) + '</span>' +
+              '<span class="zone__slot">' +
+                (item !== undefined ? esc(s.zones[item].item) : 'Thả vào đây') +
+              '</span>' +
+            '</div>';
+  });
+  html += '</div>' + feedbackHTML(s, a);
+  return html;
+}
+
+/* ---------- 4.5 Danh sách thả xuống ---------- */
+function viewDropdown(s, a){
+  if(!a.sel) a.sel = s.blanks.map(() => -1);
+  const parts = s.question.split('___');
+
+  // Câu hỏi ở dạng này chính là câu văn có ô chọn, nên không lặp lại thành tiêu đề
+  let html = '';
+  if(s.topic) html += '<p class="topic">' + esc(s.topic) + '</p>';
+  html += '<p class="qnote">Em hãy chọn từ đúng trong mỗi ô.</p>';
+  html += '<p class="sentence">';
+  parts.forEach((part, i) => {
+    html += esc(part);
+    if(i < s.blanks.length){
+      const b = s.blanks[i];
+      let cls = 'pick';
+      if(a.checked) cls += (a.sel[i] === b.correctAnswer ? ' right' : ' wrong');
+      html += '<select class="' + cls + '" data-b="' + i + '"' + (a.checked ? ' disabled' : '') + '>' +
+                '<option value="-1"' + (a.sel[i] === -1 ? ' selected' : '') + '>— chọn —</option>';
+      b.options.forEach((opt, j) => {
+        html += '<option value="' + j + '"' + (a.sel[i] === j ? ' selected' : '') + '>' + esc(opt) + '</option>';
+      });
+      html += '</select>';
+    }
+  });
+  html += '</p>' + feedbackHTML(s, a);
+  return html;
+}
+
+/* ---------- 4.6 Nối cặp ---------- */
+function viewMatching(s, a){
+  if(!a.order) a.order = shuffle(s.pairs.map((_, i) => i));
+  if(!a.links) a.links = {};
+
+  let html = head(s, 'Bấm một thẻ bên trái, rồi bấm thẻ đúng bên phải. Bấm lại vào thẻ đã nối để gỡ ra.');
+  html += '<div class="match">';
+
+  html += '<div class="match__col"><p class="match__head">Cột A</p>';
+  s.pairs.forEach((p, i) => {
+    const linked = a.links[i] !== undefined;
+    let cls = 'card' + (a.sel === i ? ' active' : '') + (linked ? ' linked' : '');
+    if(a.checked && linked) cls += (a.links[i] === i ? ' correct' : ' incorrect');
+    html += '<button class="' + cls + '" data-side="left" data-i="' + i + '" ' +
+              'style="--dot:' + PAIR_COLORS[i % PAIR_COLORS.length] + '">' +
+              (p.icon ? '<em>' + p.icon + '</em>' : '') +
+              '<span>' + esc(p.left) + '</span>' +
+              (linked ? '<span class="pin">' + (i + 1) + '</span>' : '') +
+            '</button>';
+  });
+  html += '</div>';
+
+  html += '<div class="match__col"><p class="match__head">Cột B</p>';
+  a.order.forEach(j => {
+    const owner = Object.keys(a.links).find(k => a.links[k] === j);
+    const linked = owner !== undefined;
+    const color = linked ? PAIR_COLORS[Number(owner) % PAIR_COLORS.length] : 'var(--lilac)';
+    let cls = 'card' + (linked ? ' linked' : '');
+    if(a.checked && linked) cls += (Number(owner) === j ? ' correct' : ' incorrect');
+    html += '<button class="' + cls + '" data-side="right" data-i="' + j + '" style="--dot:' + color + '">' +
+              '<span>' + esc(s.pairs[j].right) + '</span>' +
+              (linked ? '<span class="pin">' + (Number(owner) + 1) + '</span>' : '') +
+            '</button>';
+  });
+  html += '</div></div>' + feedbackHTML(s, a);
+  return html;
+}
+
+/* ---------- 4.7 Bấm đúng vùng trên hình ---------- */
+function viewHotspot(s, a){
+  if(!a.hits) a.hits = [];
+  const many = s.spots.filter(p => p.correct).length > 1;
+
+  let html = head(s, many ? 'Em hãy bấm vào tất cả các vùng đúng trên hình.'
+                          : 'Em hãy bấm vào đúng một vùng trên hình.');
+
+  html += '<div class="hotspot' + (s.imageUrl ? '' : ' hotspot--empty') + '">';
+  if(s.imageUrl) html += '<img src="' + esc(s.imageUrl) + '" alt="">';
+
+  s.spots.forEach((p, i) => {
+    const picked = a.hits.indexOf(i) !== -1;
+    let cls = 'spot';
+    if(a.checked){
+      if(p.correct) cls += ' right';
+      else if(picked) cls += ' wrong';
+    }else if(picked) cls += ' picked';
+
+    html += '<button class="' + cls + '" data-spot="' + i + '" ' +
+              'style="left:' + p.x + '%;top:' + p.y + '%;width:' + p.w + '%;height:' + p.h + '%">' +
+              esc(p.label || '') + '</button>';
+  });
+  html += '</div>' + feedbackHTML(s, a);
+  return html;
+}
+
+/* ---------- 4.8 Ô phản hồi ---------- */
+function feedbackHTML(s, a){
+  if(!a.checked) return '';
+  if(a.solved){
+    return '<div class="feedback ok"><em>🎉</em><p><b>Chính xác!</b> ' + (s.explain || '') + '</p></div>';
+  }
+  return '<div class="feedback no"><em>🤔</em><p><b>Chưa đúng rồi.</b> ' +
+         (s.hint || 'Em hãy bấm Thử lại và làm lại lần nữa nhé.') + '</p></div>';
+}
+
+
+/* ============================================================
+   5. HAI NÚT DƯỚI CÙNG
+   ------------------------------------------------------------
+   Chưa kiểm tra   -> [Kiểm tra]
+   Kiểm tra mà sai -> [Thử lại]        (nút Kiểm tra bị ẩn)
+   Đã đúng         -> [Tiếp theo]
+   Nút Quay lại luôn hiện, trừ trang đầu tiên.
+   ============================================================ */
+function isQuiz(slide){ return slide.type !== 'info'; }
+
+function updateButtons(slide, a){
+  const last = state.index === slidesData.length - 1;
+
+  if(isQuiz(slide) && !a.solved){
+    if(a.checked){
+      el.mainBtn.hidden  = true;    // trả lời sai: bỏ hẳn nút Kiểm tra
+      el.retryBtn.hidden = false;
+    }else{
+      el.mainBtn.hidden  = false;
+      el.mainBtn.textContent = 'Kiểm tra';
+      el.mainBtn.dataset.act = 'check';
+      el.retryBtn.hidden = true;
+    }
+    return;
+  }
+
+  el.retryBtn.hidden = true;
+  el.mainBtn.hidden  = false;
+  el.mainBtn.textContent = last ? 'Học lại từ đầu' : 'Tiếp theo';
+  el.mainBtn.dataset.act = last ? 'restart' : 'next';
+}
+
+
+/* ============================================================
+   6. CHẤM BÀI
+   ============================================================ */
+function check(){
+  const s = slidesData[state.index];
+  const a = ans();
+
+  switch(s.type){
+
+    case 'quiz_single':
+      if(a.picked === undefined) return nudge('Em hãy chọn một đáp án trước nhé.');
+      a.solved = a.picked === s.correctAnswer;
+      break;
+
+    case 'quiz_multiple':
+      if(!a.picks || !a.picks.length) return nudge('Em hãy chọn ít nhất một đáp án nhé.');
+      a.solved = sameSet(a.picks, s.correctAnswers);
+      break;
+
+    case 'quiz_dragdrop':
+      if(Object.keys(a.placed).length < s.zones.length) return nudge('Em hãy thả hết các thẻ vào ô nhé.');
+      a.solved = s.zones.every((_, i) => a.placed[i] === i);
+      break;
+
+    case 'quiz_dropdown':
+      if(a.sel.indexOf(-1) !== -1) return nudge('Em hãy chọn đủ các ô nhé.');
+      a.solved = s.blanks.every((b, i) => a.sel[i] === b.correctAnswer);
+      break;
+
+    case 'quiz_matching':
+      if(Object.keys(a.links).length < s.pairs.length) return nudge('Em hãy nối hết các thẻ nhé.');
+      a.solved = s.pairs.every((_, i) => a.links[i] === i);
+      break;
+
+    case 'quiz_hotspot': {
+      if(!a.hits.length) return nudge('Em hãy bấm vào một vùng trên hình nhé.');
+      const right = [];
+      s.spots.forEach((p, i) => { if(p.correct) right.push(i); });
+      a.solved = sameSet(a.hits, right);
+      break;
+    }
+  }
+
+  a.checked = true;
+  a.tries++;
+  render(false);
+
+  if(a.solved){
+    soundRight();
+    confetti();
+  }else{
+    soundWrong();
+    el.slide.classList.add('shake');
+    setTimeout(() => el.slide.classList.remove('shake'), 450);
+  }
+}
+
+/** Nhắc nhẹ khi làm chưa xong — không tính là một lần trả lời sai. */
+function nudge(msg){
+  el.slide.classList.add('shake');
+  setTimeout(() => el.slide.classList.remove('shake'), 450);
+  soundWrong();
+  const old = el.slide.querySelector('.feedback');
+  if(old) old.remove();
+  el.slide.insertAdjacentHTML('beforeend',
+    '<div class="feedback no"><em>✋</em><p>' + esc(msg) + '</p></div>');
+}
+
+/** Làm lại: giữ những phần đã đúng, xoá phần sai. */
+function retry(){
+  const s = slidesData[state.index];
+  const a = ans();
+  a.checked = false;
+
+  if(s.type === 'quiz_single')   a.picked = undefined;
+  if(s.type === 'quiz_multiple') a.picks = [];
+  if(s.type === 'quiz_dropdown') a.sel = s.blanks.map(() => -1);
+  if(s.type === 'quiz_hotspot')  a.hits = [];
+
+  if(s.type === 'quiz_matching'){
+    const kept = {};
+    Object.keys(a.links).forEach(k => { if(a.links[k] === Number(k)) kept[k] = a.links[k]; });
+    a.links = kept;
+    a.sel = null;
+  }
+  if(s.type === 'quiz_dragdrop'){
+    const kept = {};
+    Object.keys(a.placed).forEach(k => { if(a.placed[k] === Number(k)) kept[k] = a.placed[k]; });
+    a.placed = kept;
+    a.grab = null;
+  }
+
+  render(false);
+}
+
+
+/* ============================================================
+   7. ĐIỀU HƯỚNG
+   ============================================================ */
+function go(step){
+  const next = state.index + step;
+  if(next < 0 || next >= slidesData.length) return;
+  state.index = next;
+  soundTurn();
+  render(true);
+  el.slide.focus({ preventScroll:true });
+}
+
+function restart(){
+  state.index = 0;
+  state.answers = {};
+  render(true);
+}
+
+
+/* ============================================================
+   8. SỰ KIỆN
+   ============================================================ */
+el.prevBtn.addEventListener('click', () => go(-1));
+el.retryBtn.addEventListener('click', retry);
+
+el.mainBtn.addEventListener('click', () => {
+  const act = el.mainBtn.dataset.act;
+  if(act === 'check')        check();
+  else if(act === 'restart') restart();
+  else                       go(1);
+});
+
+/* --- Chọn đáp án: radio, checkbox, dropdown --- */
+el.slide.addEventListener('change', e => {
+  const a = ans();
+  if(a.checked) return;
+
+  if(e.target.name === 'choice'){
+    a.picked = Number(e.target.value);
+    render(false);
+  }
+  else if(e.target.name === 'multi'){
+    const v = Number(e.target.value);
+    const at = a.picks.indexOf(v);
+    if(at === -1) a.picks.push(v); else a.picks.splice(at, 1);
+    render(false);
+  }
+  else if(e.target.dataset.b !== undefined){
+    a.sel[Number(e.target.dataset.b)] = Number(e.target.value);
+  }
+});
+
+/* --- Bấm: nối cặp, kéo thả (chế độ chạm), hotspot --- */
+el.slide.addEventListener('click', e => {
+  const a = ans();
+  if(a.checked) return;
+
+  // Nối cặp
+  const card = e.target.closest('.card');
+  if(card){
+    const i = Number(card.dataset.i);
+    if(card.dataset.side === 'left'){
+      if(a.links[i] !== undefined){ delete a.links[i]; a.sel = null; }
+      else a.sel = (a.sel === i ? null : i);
+    }else{
+      const owner = Object.keys(a.links).find(k => a.links[k] === i);
+      if(owner !== undefined){ delete a.links[owner]; a.sel = null; }
+      else if(a.sel !== null && a.sel !== undefined){ a.links[a.sel] = i; a.sel = null; soundTurn(); }
+    }
+    return render(false);
+  }
+
+  // Kéo thả — bấm thẻ để cầm
+  const chip = e.target.closest('.chip');
+  if(chip){
+    const i = Number(chip.dataset.i);
+    a.grab = (a.grab === i ? null : i);
+    return render(false);
+  }
+
+  // Kéo thả — bấm ô để thả hoặc lấy thẻ ra
+  const zone = e.target.closest('.zone');
+  if(zone){
+    dropInto(Number(zone.dataset.i));
+    return;
+  }
+
+  // Hotspot
+  const spot = e.target.closest('.spot');
+  if(spot){
+    const i = Number(spot.dataset.spot);
+    const at = a.hits.indexOf(i);
+    if(at === -1) a.hits.push(i); else a.hits.splice(at, 1);
+    soundTurn();
+    return render(false);
+  }
+});
+
+function dropInto(zoneIndex){
+  const a = ans();
+  if(a.placed[zoneIndex] !== undefined){      // ô đang có thẻ: lấy thẻ ra
+    delete a.placed[zoneIndex];
+    a.grab = null;
+  }else if(a.grab !== null && a.grab !== undefined){
+    a.placed[zoneIndex] = a.grab;
+    a.grab = null;
+    soundTurn();
+  }
+  render(false);
+}
+
+/* --- Kéo thả bằng chuột --- */
+el.slide.addEventListener('dragstart', e => {
+  const chip = e.target.closest('.chip');
+  if(!chip || ans().checked) return;
+  ans().grab = Number(chip.dataset.i);
+  e.dataTransfer.setData('text/plain', chip.dataset.i);
+  e.dataTransfer.effectAllowed = 'move';
+});
+
+el.slide.addEventListener('dragover', e => {
+  const zone = e.target.closest('.zone');
+  if(!zone || ans().checked) return;
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  zone.classList.add('over');
+});
+
+el.slide.addEventListener('dragleave', e => {
+  const zone = e.target.closest('.zone');
+  if(zone) zone.classList.remove('over');
+});
+
+el.slide.addEventListener('drop', e => {
+  const zone = e.target.closest('.zone');
+  if(!zone || ans().checked) return;
+  e.preventDefault();
+  zone.classList.remove('over');
+  dropInto(Number(zone.dataset.i));
+});
+
+/* --- Phím tắt cho lớp học / máy chiếu --- */
+document.addEventListener('keydown', e => {
+  const t = e.target;
+  if(t.tagName === 'INPUT' || t.tagName === 'SELECT') return;
+
+  // Đang đứng trên một thẻ tương tác thì Enter / Space kích hoạt chính thẻ đó
+  const piece = t.closest && t.closest('.chip, .zone, .card, .spot');
+  if(piece && (e.key === 'Enter' || e.key === ' ')){
+    e.preventDefault();
+    piece.click();
+    return;
+  }
+
+  const s = slidesData[state.index];
+  const a = ans();
+
+  if(e.key === 'ArrowLeft'){
+    go(-1);
+  }
+  else if(e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter'){
+    e.preventDefault();
+    if(!el.mainBtn.hidden)       el.mainBtn.click();
+    else if(!el.retryBtn.hidden) el.retryBtn.click();
+  }
+  else if(/^[1-6]$/.test(e.key) && !a.checked){
+    const i = Number(e.key) - 1;
+    if(s.type === 'quiz_single' && i < s.options.length){
+      a.picked = i; render(false);
+    }
+    else if(s.type === 'quiz_multiple' && i < s.options.length){
+      const at = a.picks.indexOf(i);
+      if(at === -1) a.picks.push(i); else a.picks.splice(at, 1);
+      render(false);
+    }
+  }
+});
+
+el.soundBtn.addEventListener('click', () => {
+  state.sound = !state.sound;
+  el.soundBtn.textContent = state.sound ? '🔊' : '🔇';
+  el.soundBtn.setAttribute('aria-pressed', String(state.sound));
+  if(state.sound) soundTurn();
+});
+
+el.fullBtn.addEventListener('click', () => {
+  if(document.fullscreenElement) document.exitFullscreen();
+  else document.documentElement.requestFullscreen().catch(() => {});
+});
+
+
+/* ============================================================
+   9. KHỞI ĐỘNG
+   ============================================================ */
+document.getElementById('lessonName').innerHTML =
+  '<span>' + CONFIG.icon + '</span> ' + CONFIG.title;
+document.title = CONFIG.title;
+
+render(true);
+</script>
+</body>
+</html>
