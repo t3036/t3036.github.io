@@ -365,11 +365,20 @@ input,select{font-family:inherit}
   font-weight:600;
   cursor:grab;
   user-select:none;
+  -webkit-user-drag:none;
+  touch-action:none;   /* để ngón tay kéo thẻ, không bị trình duyệt cuộn trang */
   transition:transform .12s, background .15s;
 }
 .chip:hover{transform:translateY(-3px)}
 .chip.active{background:var(--sun);transform:translateY(-4px)}
 .chip:active{cursor:grabbing}
+.chip--dragging{opacity:.35}
+.chip--ghost{
+  z-index:999;
+  cursor:grabbing;
+  box-shadow:0 8px 0 var(--ink);
+  transform-origin:top left;
+}
 
 .zones{display:grid;gap:clamp(9px,1.4vh,14px)}
 
@@ -380,6 +389,7 @@ input,select{font-family:inherit}
   border-radius:var(--r-md);
   padding:clamp(9px,1.3vh,14px) 16px;
   cursor:pointer;
+  touch-action:manipulation;
 }
 .zone__label{
   flex:1;
