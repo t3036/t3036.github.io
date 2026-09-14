@@ -165,62 +165,6 @@ const el = {
 const LETTERS = ['A','B','C','D','E','F'];
 const PAIR_COLORS = ['var(--pair-1)','var(--pair-2)','var(--pair-3)','var(--pair-4)'];
 
-/* --------------------------------------------------------------
-   Kéo thả bằng Pointer Events (thay cho HTML5 Drag and Drop)
-   ------------------------------------------------------------
-   HTML5 Drag and Drop (dragstart/dragover/drop) rất hay chập chờn:
-   không chạy trên máy chạm, và cả trên desktop cũng có thể bị chặn
-   khi trang nằm trong iframe / WebView của một ứng dụng khác. Pointer
-   Events (pointerdown/move/up) hoạt động thống nhất cho chuột, bút
-   cảm ứng và ngón tay nên dùng để tự vẽ thao tác kéo — không phụ
-   thuộc trình duyệt có hỗ trợ DnD hay không.
-   -------------------------------------------------------------- */
-const dragState = { pointerId:null, from:null, moved:false, startX:0, startY:0, ghost:null };
-const DRAG_THRESHOLD = 6; // px chuột/ngón tay phải di chuyển qua mới coi là "kéo"
-let suppressNextClick = false;
-
-function zoneUnderPoint(x, y){
-  if(dragState.ghost) dragState.ghost.style.display = 'none';
-  const hit = document.elementFromPoint(x, y);
-  if(dragState.ghost) dragState.ghost.style.display = '';
-  return hit && hit.closest ? hit.closest('.zone') : null;
-}
-
-function startGhost(chip, x, y){
-  const g = chip.cloneNode(true);
-  g.classList.add('chip--ghost');
-  g.style.position = 'fixed';
-  g.style.left = '0'; g.style.top = '0';
-  g.style.pointerEvents = 'none';
-  g.style.margin = '0';
-  document.body.appendChild(g);
-  dragState.ghost = g;
-  chip.classList.add('chip--dragging');
-  moveGhost(x, y);
-}
-
-function moveGhost(x, y){
-  if(!dragState.ghost) return;
-  const w = dragState.ghost.offsetWidth, h = dragState.ghost.offsetHeight;
-  dragState.ghost.style.transform = 'translate(' + (x - w/2) + 'px,' + (y - h/2) + 'px)';
-}
-
-function endGhost(){
-  if(dragState.ghost){ dragState.ghost.remove(); dragState.ghost = null; }
-  el.slide.querySelectorAll('.chip--dragging').forEach(c => c.classList.remove('chip--dragging'));
-  el.slide.querySelectorAll('.zone.over').forEach(z => z.classList.remove('over'));
-}
-
-/** Thả thẻ đang kéo vào một ô — chỉ thả được vào ô còn trống. */
-function placeChip(zoneIndex, chipIndex){
-  const a = ans();
-  if(a.placed[zoneIndex] !== undefined) return; // ô đã có thẻ khác, không thay thế
-  a.placed[zoneIndex] = chipIndex;
-  a.grab = null;
-  soundTurn();
-  render(false);
-}
-
 
 /* ============================================================
    3. TIỆN ÍCH
@@ -434,7 +378,7 @@ function viewDragDrop(s, a){
   a.order.forEach(i => {
     if(used.indexOf(i) !== -1) return;
     html += '<span class="chip' + (a.grab === i ? ' active' : '') + '" role="button" tabindex="0" ' +
-              'data-i="' + i + '">' +
+              'draggable="' + (a.checked ? 'false' : 'true') + '" data-i="' + i + '">' +
               esc(s.zones[i].item) + '</span>';
   });
   html += '</div>';
@@ -459,28 +403,80 @@ function viewDragDrop(s, a){
 /* ---------- 4.5 Danh sách thả xuống ---------- */
 function viewDropdown(s, a){
   if(!a.sel) a.sel = s.blanks.map(() => -1);
-  const parts = s.question.split('___');
 
-  // Câu hỏi ở dạng này chính là câu văn có ô chọn, nên không lặp lại thành tiêu đề
+  // Vẽ 1 đoạn văn bản có thể chứa nhiều "___", trả về HTML với các <select> tương ứng.
+  // blankIndex là chỉ số của ô trống ĐẦU TIÊN xuất hiện trong đoạn "text" này (tính theo s.blanks).
+  function renderLine(text, blankIndex){
+    const parts = text.split('___');
+    let out = '';
+    parts.forEach((part, i) => {
+      out += esc(part);
+      if(i < parts.length - 1){
+        const bi = blankIndex + i;
+        const b = s.blanks[bi];
+        let cls = 'pick';
+        if(a.checked) cls += (a.sel[bi] === b.correctAnswer ? ' right' : ' wrong');
+        out += '<select class="' + cls + '" data-b="' + bi + '"' + (a.checked ? ' disabled' : '') + '>' +
+                  '<option value="-1"' + (a.sel[bi] === -1 ? ' selected' : '') + '>— chọn —</option>';
+        b.options.forEach((opt, j) => {
+          out += '<option value="' + j + '"' + (a.sel[bi] === j ? ' selected' : '') + '>' + esc(opt) + '</option>';
+        });
+        out += '</select>';
+      }
+    });
+    return out;
+  }
+
   let html = '';
   if(s.topic) html += '<p class="topic">' + esc(s.topic) + '</p>';
-  html += '<p class="qnote">Em hãy chọn từ đúng trong mỗi ô.</p>';
-  html += '<p class="sentence">';
-  parts.forEach((part, i) => {
-    html += esc(part);
-    if(i < s.blanks.length){
-      const b = s.blanks[i];
-      let cls = 'pick';
-      if(a.checked) cls += (a.sel[i] === b.correctAnswer ? ' right' : ' wrong');
-      html += '<select class="' + cls + '" data-b="' + i + '"' + (a.checked ? ' disabled' : '') + '>' +
-                '<option value="-1"' + (a.sel[i] === -1 ? ' selected' : '') + '>— chọn —</option>';
-      b.options.forEach((opt, j) => {
-        html += '<option value="' + j + '"' + (a.sel[i] === j ? ' selected' : '') + '>' + esc(opt) + '</option>';
-      });
-      html += '</select>';
+
+  // Cố gắng tách câu thành từng phát biểu riêng (mỗi phát biểu chứa đúng 1 ô trống,
+  // kết thúc bằng dấu chấm), để mỗi phát biểu được xuống hàng và tách khỏi câu dẫn/yêu cầu.
+  // Nếu văn bản không theo đúng quy ước này (số câu tách được khác số ô trống),
+  // sẽ dùng lại cách hiển thị liền mạch như cũ để đảm bảo an toàn.
+  let sentences = s.question.split(/(?<=___\.)\s*/).filter(Boolean);
+  const splitMatchesBlanks = sentences.filter(t => t.includes('___')).length === s.blanks.length;
+
+  if(splitMatchesBlanks){
+    // Nếu câu đầu tiên có phần dẫn nhập trước dấu ":" (VD: "Hãy phân loại ... vào đúng nhóm:"),
+    // tách phần đó ra làm TIÊU ĐỀ của câu hỏi, định dạng giống hệt tiêu đề (h2.question)
+    // của các dạng câu hỏi khác — in đậm, nổi bật ở trên cùng.
+    const colonIdx = sentences[0].indexOf(':');
+    if(colonIdx !== -1 && colonIdx < sentences[0].indexOf('___')){
+      const intro = sentences[0].slice(0, colonIdx + 1).trim();
+      sentences[0] = sentences[0].slice(colonIdx + 1).trim();
+      html += '<h2 class="question">' + esc(intro) + '</h2>';
     }
-  });
-  html += '</p>' + feedbackHTML(s, a);
+
+    html += '<p class="qnote">Em hãy chọn từ đúng trong mỗi ô.</p>';
+
+    html += '<div class="sentence-list">';
+    let blankIndex = 0;
+    sentences.forEach(sent => {
+      const blanksInSent = (sent.match(/___/g) || []).length;
+      if(blanksInSent === 1){
+        // Chỉ có 1 ô trống trong phát biểu này: tách riêng phần chữ (bên trái)
+        // và khung chọn đáp án (bên phải, nằm ngoài dòng chữ) thành 2 cột.
+        const idx = sent.indexOf('___');
+        const before = sent.slice(0, idx);
+        const after = sent.slice(idx + 3); // phần còn lại, thường là dấu "."
+        html += '<div class="sentence-row">' +
+                  '<span class="sentence-text">' + esc(before) + '</span>' +
+                  '<span class="sentence-control">' + renderLine('___' + after, blankIndex) + '</span>' +
+                '</div>';
+      } else {
+        // Nhiều hơn 1 ô trống trong cùng 1 phát biểu: hiển thị liền mạch như cũ.
+        html += '<div class="sentence-row sentence-row--inline">' + renderLine(sent, blankIndex) + '</div>';
+      }
+      blankIndex += blanksInSent;
+    });
+    html += '</div>';
+  } else {
+    html += '<p class="qnote">Em hãy chọn từ đúng trong mỗi ô.</p>';
+    html += '<p class="sentence-plain">' + renderLine(s.question, 0) + '</p>';
+  }
+
+  html += feedbackHTML(s, a);
   return html;
 }
 
@@ -745,7 +741,6 @@ el.slide.addEventListener('change', e => {
 el.slide.addEventListener('click', e => {
   const a = ans();
   if(a.checked) return;
-  if(suppressNextClick){ suppressNextClick = false; return; }   // vừa thả xong bằng thao tác kéo, bỏ qua click ăn theo
 
   // Nối cặp
   const card = e.target.closest('.card');
@@ -801,49 +796,35 @@ function dropInto(zoneIndex){
   render(false);
 }
 
-/* --- Kéo thả bằng Pointer Events (chuột, bút, ngón tay đều dùng chung) --- */
-el.slide.addEventListener('pointerdown', e => {
+/* --- Kéo thả bằng chuột --- */
+el.slide.addEventListener('dragstart', e => {
   const chip = e.target.closest('.chip');
   if(!chip || ans().checked) return;
-  if(e.pointerType === 'mouse' && e.button !== 0) return;   // chỉ bắt chuột trái
-  dragState.pointerId = e.pointerId;
-  dragState.from = Number(chip.dataset.i);
-  dragState.moved = false;
-  dragState.startX = e.clientX;
-  dragState.startY = e.clientY;
+  ans().grab = Number(chip.dataset.i);
+  e.dataTransfer.setData('text/plain', chip.dataset.i);
+  e.dataTransfer.effectAllowed = 'move';
 });
 
-el.slide.addEventListener('pointermove', e => {
-  if(dragState.pointerId !== e.pointerId || dragState.from === null) return;
-  const dx = e.clientX - dragState.startX, dy = e.clientY - dragState.startY;
-  if(!dragState.moved && Math.hypot(dx, dy) > DRAG_THRESHOLD){
-    dragState.moved = true;
-    const chip = el.slide.querySelector('.chip[data-i="' + dragState.from + '"]');
-    if(chip) startGhost(chip, e.clientX, e.clientY);
-  }
-  if(dragState.moved){
-    e.preventDefault();
-    moveGhost(e.clientX, e.clientY);
-    const zone = zoneUnderPoint(e.clientX, e.clientY);
-    el.slide.querySelectorAll('.zone.over').forEach(z => { if(z !== zone) z.classList.remove('over'); });
-    if(zone) zone.classList.add('over');
-  }
+el.slide.addEventListener('dragover', e => {
+  const zone = e.target.closest('.zone');
+  if(!zone || ans().checked) return;
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  zone.classList.add('over');
 });
 
-function finishDrag(e){
-  if(dragState.pointerId !== e.pointerId) return;
-  if(dragState.moved){
-    const zone = zoneUnderPoint(e.clientX, e.clientY);
-    endGhost();
-    if(zone) placeChip(Number(zone.dataset.i), dragState.from);
-    suppressNextClick = true;   // ngăn sự kiện click ăn theo bấm lại thẻ vừa thả
-  }
-  dragState.pointerId = null;
-  dragState.from = null;
-  dragState.moved = false;
-}
-el.slide.addEventListener('pointerup', finishDrag);
-el.slide.addEventListener('pointercancel', finishDrag);
+el.slide.addEventListener('dragleave', e => {
+  const zone = e.target.closest('.zone');
+  if(zone) zone.classList.remove('over');
+});
+
+el.slide.addEventListener('drop', e => {
+  const zone = e.target.closest('.zone');
+  if(!zone || ans().checked) return;
+  e.preventDefault();
+  zone.classList.remove('over');
+  dropInto(Number(zone.dataset.i));
+});
 
 /* --- Phím tắt cho lớp học / máy chiếu --- */
 document.addEventListener('keydown', e => {
