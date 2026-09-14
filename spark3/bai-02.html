@@ -3,35 +3,56 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<!-- Tiêu đề trang: mã ở cuối file sẽ tự ghi đè bằng CONFIG.title -->
 <title>Bài giảng tương tác</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
+/* ===========================================================
+   BÀI GIẢNG TƯƠNG TÁC — BẢNG MÀU & GIAO DIỆN
+   -----------------------------------------------------------
+   Muốn đổi "tông" cả ứng dụng: chỉ cần sửa các biến trong
+   khối :root ngay bên dưới, không cần đụng tới phần còn lại.
+   =========================================================== */
+
+/* ============================================================
+   1. TOKEN HỆ THỐNG
+   ============================================================ */
 :root{
-  --ink:        #252a52;
+  --ink:        #252a52;   /* mực xanh đậm: chữ + viền */
   --ink-soft:   #5f6693;
   --paper:      #ffffff;
-  --sky:        #d7ebff;
+  --sky:        #d7ebff;   /* nền lớp học */
   --sky-deep:   #b4d8fb;
-  --sun:        #ffc93c;
+  --sun:        #ffc93c;   /* nút chính */
   --sun-deep:   #f0a92b;
-  --grass:      #1faf6d;
+  --grass:      #1faf6d;   /* đúng */
   --grass-soft: #e0f7ec;
-  --berry:      #ff566c;
+  --berry:      #ff566c;   /* sai */
   --berry-soft: #ffe7ea;
   --lilac:      #8b7bff;
+
   --pair-1:#ff8a3d; --pair-2:#3aa9ff; --pair-3:#8b7bff; --pair-4:#1faf6d;
+
   --r-lg: 30px;
   --r-md: 20px;
   --r-sm: 14px;
+
   --shadow-card: 0 12px 0 rgba(37,42,82,.10);
   --shadow-btn:  0 5px 0 var(--ink);
+
   --font-display: "Baloo 2", "Segoe UI", system-ui, sans-serif;
   --font-body: "Be Vietnam Pro", "Segoe UI", system-ui, -apple-system, sans-serif;
 }
+
 *{box-sizing:border-box;margin:0;padding:0}
+
 html,body{height:100%}
+
 body{
   font-family:var(--font-body);
   color:var(--ink);
@@ -42,9 +63,15 @@ body{
   -webkit-font-smoothing:antialiased;
   overflow:hidden;
 }
+
 button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
 input,select{font-family:inherit}
+
 :focus-visible{outline:4px solid var(--lilac);outline-offset:3px;border-radius:6px}
+
+/* ============================================================
+   2. KHUNG ỨNG DỤNG
+   ============================================================ */
 .app{
   height:100dvh;
   display:grid;
@@ -54,7 +81,10 @@ input,select{font-family:inherit}
   max-width:1180px;
   margin:0 auto;
 }
+
+/* ---- 2.1 Thanh trên cùng: tiến trình ---- */
 .topbar{padding-top:clamp(10px,1.6vh,18px)}
+
 .progress{
   height:12px;
   background:var(--paper);
@@ -69,6 +99,7 @@ input,select{font-family:inherit}
   border-radius:999px;
   transition:width .45s cubic-bezier(.34,1.3,.64,1);
 }
+
 .topbar__row{
   display:flex;
   align-items:center;
@@ -77,6 +108,7 @@ input,select{font-family:inherit}
   margin-top:10px;
   flex-wrap:wrap;
 }
+
 .lesson-name{
   font-family:var(--font-display);
   font-weight:700;
@@ -86,7 +118,9 @@ input,select{font-family:inherit}
   gap:8px;
 }
 .lesson-name span{font-size:1.25em;line-height:1}
+
 .tools{display:flex;align-items:center;gap:8px}
+
 .counter{
   font-weight:700;
   font-size:14px;
@@ -96,6 +130,7 @@ input,select{font-family:inherit}
   padding:4px 14px;
   white-space:nowrap;
 }
+
 .icon-btn{
   width:40px;height:40px;
   display:grid;place-items:center;
@@ -107,7 +142,10 @@ input,select{font-family:inherit}
 }
 .icon-btn:hover{transform:translateY(-2px)}
 .icon-btn[aria-pressed="false"]{opacity:.45}
+
+/* ---- 2.2 Sân khấu + thẻ slide ---- */
 .stage{min-height:0;display:flex}
+
 .slide{
   flex:1;
   min-height:0;
@@ -136,8 +174,11 @@ input,select{font-family:inherit}
   60%{transform:translateX(-5px)}
   80%{transform:translateX(3px)}
 }
+
+/* ---- 2.3 Chân trang điều hướng ---- */
 .nav{display:flex;align-items:center;gap:12px}
 .nav__spacer{flex:1}
+
 .btn{
   font-family:var(--font-display);
   font-weight:700;
@@ -157,6 +198,10 @@ input,select{font-family:inherit}
 .btn--retry{background:var(--berry);color:var(--paper)}
 .btn--retry:hover{background:#f0455c}
 .btn[hidden]{display:none}
+
+/* ============================================================
+   3. NỘI DUNG SLIDE LÝ THUYẾT
+   ============================================================ */
 .topic{
   align-self:flex-start;
   font-weight:700;
@@ -166,6 +211,7 @@ input,select{font-family:inherit}
   border-radius:999px;
   padding:4px 14px;
 }
+
 .slide h1{
   font-family:var(--font-display);
   font-weight:800;
@@ -173,12 +219,14 @@ input,select{font-family:inherit}
   line-height:1.12;
   letter-spacing:-.01em;
 }
+
 .lead{
   font-size:clamp(17px,2.2vw,23px);
   line-height:1.55;
   max-width:62ch;
 }
 .lead b{color:var(--lilac)}
+
 .slide-photo{
   width:100%;
   max-height:38vh;
@@ -187,6 +235,7 @@ input,select{font-family:inherit}
   border-radius:var(--r-md);
   background:var(--sky);
 }
+
 .things{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(128px,1fr));
@@ -205,6 +254,7 @@ input,select{font-family:inherit}
 }
 .thing span{display:block;font-weight:600;font-size:clamp(13px,1.5vw,15px);line-height:1.3}
 .thing small{display:block;font-weight:500;font-size:12px;color:var(--ink-soft)}
+
 .remember{
   display:flex;gap:14px;align-items:flex-start;
   background:var(--grass-soft);
@@ -215,6 +265,7 @@ input,select{font-family:inherit}
   line-height:1.5;
 }
 .remember em{font-style:normal;font-size:26px;line-height:1}
+
 .score{
   display:flex;align-items:center;gap:18px;
   background:var(--sun);
@@ -225,18 +276,24 @@ input,select{font-family:inherit}
 .score em{font-style:normal;font-size:clamp(38px,6vw,58px);line-height:1}
 .score strong{display:block;font-family:var(--font-display);font-size:clamp(24px,3.4vw,34px)}
 .score span{font-size:clamp(14px,1.8vw,17px);font-weight:500}
+
+/* ============================================================
+   4. PHẦN CHUNG CỦA CÂU HỎI
+   ============================================================ */
 .question{
   font-family:var(--font-display);
   font-weight:700;
   font-size:clamp(22px,3.3vw,36px);
   line-height:1.25;
 }
+
 .qnote{
   font-size:clamp(14px,1.7vw,17px);
   font-weight:500;
   color:var(--ink-soft);
   margin-top:-6px;
 }
+
 .feedback{
   display:flex;gap:12px;align-items:flex-start;
   border:3px solid;
@@ -250,7 +307,12 @@ input,select{font-family:inherit}
 .feedback.ok{background:var(--grass-soft);border-color:var(--grass)}
 .feedback.no{background:var(--berry-soft);border-color:var(--berry)}
 .feedback b{font-weight:700}
+
+/* ============================================================
+   5. DẠNG 1 & 2 — TRẮC NGHIỆM MỘT / NHIỀU ĐÁP ÁN
+   ============================================================ */
 .options{display:grid;gap:clamp(9px,1.4vh,14px)}
+
 .option{
   display:flex;align-items:center;gap:14px;
   background:var(--paper);
@@ -263,6 +325,7 @@ input,select{font-family:inherit}
 .option:hover{transform:translateX(5px);background:var(--sky)}
 .option input{position:absolute;opacity:0;width:1px;height:1px}
 .option input:focus-visible + .letter{outline:4px solid var(--lilac);outline-offset:3px}
+
 .letter{
   flex:none;
   width:clamp(38px,4.6vw,48px);
@@ -275,8 +338,10 @@ input,select{font-family:inherit}
   border:3px solid var(--ink);
   border-radius:50%;
 }
-.letter--box{border-radius:12px}
+.letter--box{border-radius:12px}      /* ô vuông = được chọn nhiều đáp án */
+
 .option-text{font-size:clamp(16px,2.1vw,22px);font-weight:600;line-height:1.35}
+
 .option.picked{background:var(--sun)}
 .option.picked .letter{background:var(--paper)}
 .option.right{background:var(--grass);color:var(--paper);transform:none}
@@ -285,6 +350,10 @@ input,select{font-family:inherit}
 .option.wrong .letter{background:var(--paper);color:var(--berry)}
 .option.locked{pointer-events:none}
 .option.locked:not(.right):not(.wrong){opacity:.55}
+
+/* ============================================================
+   6. DẠNG 3 — KÉO THẢ
+   ============================================================ */
 .pool{
   display:flex;flex-wrap:wrap;gap:10px;
   min-height:74px;
@@ -298,6 +367,7 @@ input,select{font-family:inherit}
   content:'Em đã thả hết thẻ rồi';
   font-weight:600;color:var(--ink-soft);
 }
+
 .chip{
   display:inline-block;
   background:var(--paper);
@@ -314,7 +384,9 @@ input,select{font-family:inherit}
 .chip:hover{transform:translateY(-3px)}
 .chip.active{background:var(--sun);transform:translateY(-4px)}
 .chip:active{cursor:grabbing}
+
 .zones{display:grid;gap:clamp(9px,1.4vh,14px)}
+
 .zone{
   display:flex;align-items:center;gap:14px;
   background:var(--paper);
@@ -351,12 +423,17 @@ input,select{font-family:inherit}
   background:var(--berry);color:var(--paper);
   border-style:solid;border-color:var(--berry);
 }
+
+/* ============================================================
+   7. DẠNG 4 — DANH SÁCH THẢ XUỐNG
+   ============================================================ */
 .sentence{
   font-family:var(--font-display);
   font-weight:700;
   font-size:clamp(20px,2.9vw,32px);
   line-height:1.85;
 }
+
 .pick{
   font-family:var(--font-display);
   font-weight:700;
@@ -370,11 +447,14 @@ input,select{font-family:inherit}
   margin:0 4px;
   cursor:pointer;
   max-width:min(100%,320px);
-  position:relative;z-index:2;
 }
 .pick.right{background:var(--grass);color:var(--paper)}
 .pick.wrong{background:var(--berry);color:var(--paper)}
 .pick option{background:var(--paper);color:var(--ink);font-size:16px}
+
+/* ============================================================
+   8. DẠNG 5 — NỐI CẶP
+   ============================================================ */
 .match{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -388,6 +468,7 @@ input,select{font-family:inherit}
   font-size:clamp(14px,1.8vw,18px);
   color:var(--ink-soft);
 }
+
 .card{
   display:flex;align-items:center;gap:10px;
   text-align:left;width:100%;
@@ -406,6 +487,7 @@ input,select{font-family:inherit}
 .card.linked{border-color:var(--dot,var(--lilac))}
 .card.correct{background:var(--grass-soft);border-color:var(--grass);pointer-events:none}
 .card.incorrect{background:var(--berry-soft);border-color:var(--berry)}
+
 .pin{
   flex:none;margin-left:auto;
   width:26px;height:26px;
@@ -417,6 +499,10 @@ input,select{font-family:inherit}
   font-weight:800;font-size:14px;
 }
 .card.correct .pin{background:var(--grass)}
+
+/* ============================================================
+   9. DẠNG 6 — BẤM ĐÚNG VÙNG TRÊN HÌNH
+   ============================================================ */
 .hotspot{
   position:relative;
   border:4px solid var(--ink);
@@ -426,10 +512,14 @@ input,select{font-family:inherit}
 }
 .hotspot img{display:block;width:100%;height:auto}
 .hotspot--empty{
-  aspect-ratio:16/10;
-  max-height:44vh;
-  background-image:none;
+  aspect-ratio:16/9;
+  max-height:46vh;
+  background-image:
+    linear-gradient(rgba(37,42,82,.10) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(37,42,82,.10) 1px, transparent 1px);
+  background-size:10% 10%;
 }
+
 .spot{
   position:absolute;
   display:grid;place-items:center;
@@ -448,11 +538,19 @@ input,select{font-family:inherit}
 .spot.picked{background:var(--sun)}
 .spot.right{background:rgba(31,175,109,.85);border-color:var(--grass);color:var(--paper)}
 .spot.wrong{background:rgba(255,86,108,.85);border-color:var(--berry);color:var(--paper)}
+
+/* ============================================================
+   10. PHÁO GIẤY
+   ============================================================ */
 .confetti{position:fixed;inset:0;pointer-events:none;z-index:60;overflow:hidden}
 .confetti i{position:absolute;top:-30px;font-size:24px;animation:fall 1.5s linear forwards}
 @keyframes fall{
   to{transform:translateY(105vh) rotate(540deg);opacity:.2}
 }
+
+/* ============================================================
+   11. ĐÁP ỨNG + TRỢ NĂNG
+   ============================================================ */
 @media (max-width:640px){
   .slide{padding:18px 16px;border-radius:22px}
   .match{grid-template-columns:1fr;gap:8px}
@@ -464,17 +562,43 @@ input,select{font-family:inherit}
   .zone__slot{width:100%}
   .sentence{line-height:2.1}
 }
+
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001ms !important;transition-duration:.001ms !important}
 }
+
+/* ===========================================================
+   TUỲ CHỈNH RIÊNG CHO BÀI 2 (khác với template gốc)
+   =========================================================== */
+
+/* Danh sách thả xuống phải nổi lên trên ô phản hồi khi bung ra */
+.pick{position:relative;z-index:2}
+
+/* Vùng bấm đã canh sẵn toạ độ nên tắt lưới canh của template */
+.hotspot--empty{background-image:none}
+
+/* Bốn vùng bấm xếp thành sơ đồ nên cho khung thấp lại một chút */
+.hotspot--empty{aspect-ratio:16/10;max-height:44vh}
+
 </style>
 </head>
 <body>
+
+<!--
+  BẢN MỘT FILE: HTML + CSS + JavaScript nằm chung trong file này.
+  Nội dung bài: khối slidesData ở đầu phần <script> cuối file.
+  Giao diện: các biến trong :root ở đầu <style>; phần chỉnh riêng
+  cho bài này nằm ở cuối <style>, dưới tiêu đề "TUỲ CHỈNH RIÊNG".
+-->
 <div class="app">
+
+  <!-- ===== Thanh trên cùng: tiến trình + công cụ ===== -->
   <header class="topbar">
-    <div class="progress" role="progressbar" aria-label="Tiến trình bài học" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="bar">
+    <div class="progress" role="progressbar" aria-label="Tiến trình bài học"
+         aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="bar">
       <div class="progress__fill" id="barFill"></div>
     </div>
+
     <div class="topbar__row">
       <p class="lesson-name" id="lessonName"></p>
       <div class="tools">
@@ -484,133 +608,285 @@ input,select{font-family:inherit}
       </div>
     </div>
   </header>
+
+  <!-- ===== Sân khấu: nơi slide được vẽ ra ===== -->
   <main class="stage">
     <section class="slide" id="slide" tabindex="-1"></section>
   </main>
+
+  <!-- ===== Thanh điều hướng ===== -->
   <footer class="nav">
     <button class="btn btn--ghost" id="prevBtn">Quay lại</button>
     <div class="nav__spacer"></div>
     <button class="btn btn--retry" id="retryBtn" hidden>Thử lại</button>
     <button class="btn btn--primary" id="mainBtn">Tiếp theo</button>
   </footer>
-</div>
-<script>
 
+</div>
+
+<script>
+/* ============================================================
+   BÀI GIẢNG TƯƠNG TÁC — TEMPLATE TRỐNG
+   ------------------------------------------------------------
+   Bạn chỉ cần sửa hai khối bên dưới (CONFIG và slidesData).
+   Toàn bộ phần từ mục 2 trở xuống là bộ máy chạy, giữ nguyên.
+   ============================================================ */
+
+
+/* ============================================================
+   0. THÔNG TIN BÀI HỌC (hiện ở thanh trên cùng)
+   ============================================================ */
 const CONFIG = {
-  icon:  '🖥️',
-  title: 'Bài 1 — Giới thiệu về Hệ điều hành'
+  icon:  '💾',
+  title: 'Bài 2 — Lưu trữ thông tin'
 };
+
+
+/* ============================================================
+   1. DỮ LIỆU BÀI HỌC
+   ------------------------------------------------------------
+   Nguồn: Bài 2 "Lưu trữ thông tin" — IC3 GS6 Spark Level 3
+   Chủ đề: Căn bản về công nghệ
+
+   Các dạng slide đang dùng:
+     'info' · 'quiz_single' · 'quiz_multiple'
+     'quiz_dragdrop' · 'quiz_dropdown' · 'quiz_matching' · 'quiz_hotspot'
+   ============================================================ */
 const slidesData = [
+
+  /* ---------- 1. Khởi động ---------- */
   {
     type: 'info',
-    topic: 'Phần 1 · Khái niệm',
-    title: 'Hệ điều hành là gì?',
-    content: '<b>Hệ điều hành (Operating System - OS)</b> là phần mềm hệ thống đặc biệt, quản lí tất cả các phần mềm và phần cứng trên máy tính.',
+    topic: 'Khởi động',
+    title: 'Nếu thiết bị hỏng, dữ liệu của em có mất không?',
+    content: 'Ảnh, bài tập, bài hát, video em để trong máy tính đều là <b>dữ liệu</b>. Nếu máy hỏng mà em chưa cất dữ liệu ở nơi nào khác thì rất dễ mất. Bài học này giúp em biết cất dữ liệu ở đâu cho an toàn.',
     imageUrl: null,
     things: [
-      { icon: '⌨️', name: 'Phần cứng', en: 'Chuột, bàn phím, màn hình' },
-      { icon: '💻', name: 'Hệ điều hành', en: 'Quản lí và điều khiển' },
-      { icon: '🎮', name: 'Phần mềm', en: 'Trò chơi, trình duyệt, AI' }
-    ],
-    remember: 'Không có hệ điều hành thì máy tính <b>không thể hoạt động</b> được.'
-  },
-  {
-    type: 'quiz_single',
-    topic: 'Luyện tập',
-    question: 'Hệ điều hành (OS) là gì?',
-    options: [
-      'Khu vực làm việc của màn hình máy tính',
-      'Thiết bị vật lí lưu trữ thông tin',
-      'Phần mềm hỗ trợ các chức năng cơ bản của máy tính',
-      'Một cái gì đó đi vào máy tính'
-    ],
-    correctAnswer: 2,
-    hint: 'Hệ điều hành không phải là thiết bị cầm nắm được.',
-    explain: 'Hệ điều hành là phần mềm quản lí và hỗ trợ các chức năng cơ bản của máy tính.'
-  },
-  {
-    type: 'info',
-    topic: 'Phần 2 · Chức năng',
-    title: 'Chức năng của Hệ điều hành',
-    content: 'Hệ điều hành giống như người nhạc trưởng, điều khiển mọi hoạt động của máy tính để chúng phối hợp nhịp nhàng với nhau.',
-    imageUrl: null,
-    things: [
-      { icon: '🖨️', name: 'Quản lí phần cứng', en: 'Giao tiếp với các thiết bị' },
-      { icon: '🎬', name: 'Quản lí phần mềm', en: 'Kiểm soát các ứng dụng' },
-      { icon: '📁', name: 'Quản lí tập tin', en: 'Sao chép, di chuyển, xóa dữ liệu' }
+      { icon: '💾', name: 'Thiết bị lưu trữ thông dụng', en: 'Phần 1' },
+      { icon: '☁️', name: 'Điện toán đám mây',           en: 'Phần 2' },
+      { icon: '🔄', name: 'Lưu trữ đám mây và lợi ích',   en: 'Phần 3' }
     ],
     remember: ''
   },
-  {
-    type: 'quiz_single',
-    topic: 'Luyện tập',
-    question: 'Loại phần mềm hệ thống nào quản lí tất cả các phần mềm và phần cứng trên máy tính?',
-    options: [
-      'Hệ điều hành (OS)',
-      'Trình điều khiển thiết bị (Driver)',
-      'Phần mềm tiện ích (Utility)',
-      'Phần mềm chống virus'
-    ],
-    correctAnswer: 0,
-    hint: 'Đây là nội dung chính của bài học hôm nay.',
-    explain: 'Hệ điều hành (OS) chính là phần mềm quản lí mọi hoạt động của phần mềm và phần cứng.'
-  },
+
+  /* ---------- 2. USB flash drive ---------- */
   {
     type: 'info',
-    topic: 'Phần 3 · Nhận diện thiết bị mới',
-    title: 'Driver — Trình điều khiển thiết bị',
-    content: 'Khi em kết nối thiết bị mới (ví dụ: máy in) vào máy tính, hệ điều hành cần một phần mềm đặc biệt gọi là <b>Driver</b>. Driver giúp hệ điều hành hiểu và giao tiếp với thiết bị đó.',
+    topic: 'Phần 1 · Thiết bị lưu trữ thông dụng',
+    title: 'Ổ USB (USB Flash Drive)',
+    content: '<b>USB flash drive</b> (USB — Universal Serial Bus) là thiết bị lưu trữ dữ liệu di động, nối với máy tính qua cổng USB.',
     imageUrl: null,
     things: [
-      { icon: '🔌', name: 'Kết nối', en: 'Cắm thiết bị vào máy tính' },
-      { icon: '⚙️', name: 'Cài Driver', en: 'Cài đặt phần mềm điều khiển' },
-      { icon: '✅', name: 'Hoạt động', en: 'Hệ điều hành nhận diện và sử dụng' }
+      { icon: '🎒', name: 'Di động',            en: 'Bỏ túi mang theo bên mình' },
+      { icon: '🔌', name: 'Lưu trữ dạng cắm',   en: 'Cắm vào là dùng được ngay' },
+      { icon: '📤', name: 'Truyền tải tập tin', en: 'Chép dữ liệu giữa các máy' }
     ],
-    remember: 'Mỗi thiết bị phần cứng cần một <b>Driver riêng</b> để có thể hoạt động trên hệ thống.'
+    remember: 'USB <b>không</b> kết nối không dây. Muốn dùng, em phải cắm nó vào cổng USB của máy.'
   },
+
+  /* ---------- 3. Trắc nghiệm ---------- */
   {
     type: 'quiz_single',
-    topic: 'Luyện tập',
-    question: 'Chương trình nào sau đây phải được cài đặt để hệ điều hành có thể hiểu được một máy in mới?',
+    topic: 'Vận dụng',
+    question: 'Em hãy cho biết, USB Drive dùng để làm gì?',
     options: [
-      'Driver',
-      'Wizard',
-      'Firewall',
-      'Installer'
+      'Chụp ảnh',
+      'Gửi và nhận tin nhắn SMS',
+      'Chơi Game',
+      'Lưu trữ và truyền dữ liệu'
     ],
-    correctAnswer: 0,
-    hint: 'Nó giống như một người phiên dịch giữa máy tính và thiết bị mới.',
-    explain: 'Cần cài đặt <b>Driver</b> (Trình điều khiển) để hệ điều hành giao tiếp được với thiết bị mới.'
+    correctAnswer: 3,
+    hint: 'Em hãy nhớ lại ba tính năng của USB vừa học ở trang trước.',
+    explain: 'USB dùng để lưu trữ dữ liệu và chép dữ liệu qua lại giữa các máy tính.'
   },
+
+  /* ---------- 4. Chọn nhiều đáp án ---------- */
+  {
+    type: 'quiz_multiple',
+    topic: 'Vận dụng',
+    question: 'Đâu là tính năng của USB?',
+    options: [
+      'Có thể mang theo',
+      'Không gian lưu trữ',
+      'Truyền tải tập tin',
+      'Kết nối không dây'
+    ],
+    correctAnswers: [0, 1, 2],
+    hint: 'Có một tính năng không đúng. Em hãy nghĩ xem USB có dùng được khi chưa cắm vào máy không.',
+    explain: 'USB mang theo được, có không gian lưu trữ và truyền tải được tập tin. USB <b>không</b> kết nối không dây.'
+  },
+
+  /* ---------- 5. Ổ cứng và ổ thể rắn ---------- */
   {
     type: 'info',
-    topic: 'Phần 4 · Hệ điều hành và AI',
-    title: 'Vai trò của Hệ điều hành khi dùng AI',
-    content: 'AI thường chạy trên ứng dụng, trình duyệt hoặc máy chủ trực tuyến. Hệ điều hành đóng vai trò như <b>cầu nối</b> giữa em, công cụ AI và phần cứng máy tính.',
+    topic: 'Phần 1 · Thiết bị lưu trữ thông dụng',
+    title: 'Ổ đĩa cứng và ổ đĩa thể rắn',
+    content: '<b>Ổ đĩa cứng</b> (HDD — Hard Disk Drive) lưu dữ liệu cố định lâu dài bên trong máy tính, giữ được dữ liệu ngay cả khi đã tắt máy. <b>Ổ đĩa thể rắn</b> (SSD — Solid State Drive) dùng thay cho ổ cứng truyền thống, chạy nhanh hơn và cũng có loại gắn ngoài giống USB.',
     imageUrl: null,
     things: [
-      { icon: '⌨️', name: 'Nhận tín hiệu', en: 'Từ bàn phím, chuột, micrô' },
-      { icon: '🌐', name: 'Chuyển yêu cầu', en: 'Đưa yêu cầu đến công cụ AI' },
-      { icon: '🖥️', name: 'Hiển thị', en: 'Hiện kết quả lên màn hình' }
+      { icon: '🔌', name: 'Ổ USB',          en: 'USB Flash Drive · cắm ngoài' },
+      { icon: '💽', name: 'Ổ đĩa cứng',     en: 'HDD · nằm trong máy tính' },
+      { icon: '⚡', name: 'Ổ đĩa thể rắn',  en: 'SSD · nhanh, bền, chạy êm' }
     ],
-    remember: 'AI <b>không phải</b> là phần cứng. Thiết bị cần có hệ điều hành thì em mới sử dụng được các công cụ AI.'
+    remember: 'Cả ba thiết bị này đều lưu được dữ liệu mà <b>không cần Internet</b>.'
   },
+
+  /* ---------- 6. Trắc nghiệm ---------- */
+  {
+    type: 'quiz_single',
+    topic: 'Vận dụng',
+    question: 'Tùy chọn nào dưới đây mô tả đúng về USB Drive?',
+    options: [
+      'Một không gian lưu trữ trên một ổ cứng.',
+      'Một thiết bị nhớ hoạt động trên đám mây.',
+      'Một thiết bị lưu trữ dạng cắm.',
+      'Một cơ sở dữ liệu lưu trữ các tập tin trực tuyến.'
+    ],
+    correctAnswer: 2,
+    hint: 'USB phải cắm vào cổng của máy tính thì mới dùng được.',
+    explain: 'USB là thiết bị lưu trữ dạng cắm, mang theo được và không cần Internet.'
+  },
+
+  /* ---------- 7. Nối cặp ---------- */
+  {
+    type: 'quiz_matching',
+    topic: 'Vận dụng',
+    question: 'Nối mỗi thiết bị lưu trữ với mô tả đúng của nó.',
+    pairs: [
+      { icon: '🔌', left: 'Ổ USB',              right: 'Cắm ngoài, mang theo để chép tệp' },
+      { icon: '💽', left: 'Ổ đĩa cứng (HDD)',   right: 'Lưu dữ liệu lâu dài trong máy tính' },
+      { icon: '⚡', left: 'Ổ đĩa thể rắn (SSD)', right: 'Nhanh hơn, dùng thay ổ cứng truyền thống' }
+    ],
+    hint: 'Thiết bị nào nằm bên trong máy, thiết bị nào cắm từ bên ngoài vào?',
+    explain: 'USB cắm ngoài, HDD nằm trong máy, SSD là bản thay thế nhanh hơn cho HDD.'
+  },
+
+  /* ---------- 8. Điện toán đám mây ---------- */
+  {
+    type: 'info',
+    topic: 'Phần 2 · Điện toán đám mây',
+    title: 'Điện toán đám mây là gì?',
+    content: '<b>Điện toán</b> (Computing) là việc dùng máy tính và thiết bị điện tử để xử lí thông tin: tính toán, lưu trữ, tìm kiếm, xem video trực tuyến... <b>Điện toán đám mây</b> (Cloud Computing) là dịch vụ cho phép em lưu trữ, xử lí và truy cập dữ liệu <b>thông qua Internet</b>.',
+    imageUrl: null,
+    things: [
+      { icon: '💻', name: 'Máy tính của em', en: 'Nơi em ngồi làm việc' },
+      { icon: '🌐', name: 'Internet',        en: 'Đường truyền dữ liệu đi và về' },
+      { icon: '☁️', name: 'Máy chủ đám mây', en: 'Nơi cất dữ liệu ở rất xa' }
+    ],
+    remember: 'Không có Internet thì em <b>không</b> mở được dữ liệu đang để trên đám mây.'
+  },
+
+  /* ---------- 9. Danh sách thả xuống ---------- */
+  {
+    type: 'quiz_dropdown',
+    topic: 'Vận dụng',
+    question: 'Ổ đĩa cứng HDD cất dữ liệu ___ , còn lưu trữ đám mây cất dữ liệu ___ .',
+    blanks: [
+      { options: ['bên trong máy tính', 'trong cổng HDMI', 'trên một tờ giấy'], correctAnswer: 0 },
+      { options: ['trong thùng máy', 'trên Internet', 'trên màn hình'],         correctAnswer: 1 }
+    ],
+    hint: 'Một nơi em cầm được bằng tay, một nơi phải có mạng mới tới được.',
+    explain: 'HDD nằm ngay trong máy tính, còn dữ liệu trên đám mây nằm ở máy chủ và đi qua Internet.'
+  },
+
+  /* ---------- 10. Lưu trữ đám mây ---------- */
+  {
+    type: 'info',
+    topic: 'Phần 3 · Lưu trữ đám mây',
+    title: 'Lưu trữ đám mây (Cloud Storage)',
+    content: '<b>Lưu trữ đám mây</b> là một phần quan trọng của điện toán đám mây, cho phép em cất dữ liệu và mở lại chúng ở mọi lúc mọi nơi khi có kết nối Internet.',
+    imageUrl: null,
+    things: [
+      { icon: '🔄', name: 'Tự động đồng bộ',    en: 'Dữ liệu giống nhau trên mọi thiết bị' },
+      { icon: '👥', name: 'Nhiều máy cùng xem', en: 'Nhiều thiết bị mở cùng một lúc' },
+      { icon: '🔒', name: 'Có kiểm soát',       en: 'Chỉ ai được cấp quyền mới vào được' }
+    ],
+    remember: 'Vài dịch vụ quen thuộc: <b>Google Drive</b> của Google, <b>Dropbox</b> của Dropbox, <b>OneDrive</b> của Microsoft.'
+  },
+
+  /* ---------- 11. Trắc nghiệm ---------- */
+  {
+    type: 'quiz_single',
+    topic: 'Vận dụng',
+    question: 'Em hãy cho biết, lợi ích của việc lưu trữ đám mây là gì?',
+    options: [
+      'Thông tin chỉ có thể được truy cập bởi một thiết bị tại một thời điểm.',
+      'Bản in trên giấy (Physical Copies) của tài liệu được lưu trữ.',
+      'Dữ liệu được tự động đồng bộ hóa trên tất cả các thiết bị.',
+      'Bất kì ai cũng có thể truy cập tập tin mà không cần xin phép.'
+    ],
+    correctAnswer: 2,
+    hint: 'Em hãy xem lại ba lợi ích ở trang trước. Có đáp án nói ngược lại với chúng.',
+    explain: 'Dữ liệu trên đám mây tự đồng bộ nên em sửa ở máy này thì máy kia cũng thấy bản mới.'
+  },
+
+  /* ---------- 12. Kéo thả ---------- */
+  {
+    type: 'quiz_dragdrop',
+    topic: 'Vận dụng',
+    question: 'Kéo loại lưu trữ phù hợp vào từng tình huống.',
+    zones: [
+      { label: 'Em muốn sao chép hình ảnh giữa hai máy tính mà không cần kết nối mạng.', item: 'USB' },
+      { label: 'Em chỉ muốn lưu trữ dữ liệu ngay trên máy tính xách tay của mình.',      item: 'Ổ cứng (Hard Drive)' },
+      { label: 'Em muốn dữ liệu được sao lưu an toàn bởi một công ty khác.',             item: 'Lưu trữ đám mây (Cloud Storage)' }
+    ],
+    hint: 'Tình huống nào nhắc tới "không cần mạng" thì chắc chắn không phải đám mây.',
+    explain: 'Chép giữa hai máy không mạng thì dùng USB, lưu ngay trên máy thì dùng ổ cứng, gửi cho công ty khác giữ hộ thì dùng đám mây.'
+  },
+
+  /* ---------- 13. Bấm đúng vùng ---------- */
+  {
+    type: 'quiz_hotspot',
+    topic: 'Vận dụng',
+    question: 'Hôm nay lớp em mất Wi-Fi. Em hãy bấm vào những nơi vẫn cất được dữ liệu.',
+    imageUrl: null,
+    spots: [
+      { label: '☁️ Google Drive trên Internet', x: 24, y: 3,  w: 52, h: 21, correct: false },
+      { label: '💽 Ổ đĩa cứng trong máy tính',  x: 6,  y: 37, w: 41, h: 26, correct: true  },
+      { label: '🔌 USB cắm ở cạnh máy',         x: 53, y: 37, w: 41, h: 26, correct: true  },
+      { label: '🖨️ Máy in để bàn',              x: 24, y: 74, w: 52, h: 21, correct: false }
+    ],
+    hint: 'Nơi nào cần Internet thì hôm nay không tới được. Còn máy in thì không cất dữ liệu.',
+    explain: 'Ổ đĩa cứng và USB giữ dữ liệu ngay trên thiết bị nên không cần Internet vẫn dùng được.'
+  },
+
+  /* ---------- 14. Đọc thêm ---------- */
+  {
+    type: 'info',
+    topic: 'Đọc thêm',
+    title: 'AI trong lưu trữ đám mây',
+    content: 'AI có thể hỗ trợ em tìm kiếm, sắp xếp và tóm tắt dữ liệu đang để trên đám mây.',
+    imageUrl: null,
+    things: [
+      { icon: '🔍', name: 'Tìm kiếm thông minh', en: 'Tìm ảnh theo nội dung, tìm tệp nhanh hơn' },
+      { icon: '🗂️', name: 'Sắp xếp và gợi ý',    en: 'Tự phân loại tệp, gợi ý tệp liên quan' },
+      { icon: '📝', name: 'Tóm tắt nội dung',    en: 'Rút gọn văn bản, trích ra ý chính' }
+    ],
+    remember: 'Em <b>không</b> chia sẻ mật khẩu, thông tin cá nhân hay tài liệu chưa được phép công khai cho AI, và luôn kiểm tra lại kết quả AI đưa ra.'
+  },
+
+  /* ---------- 15. Kết thúc ---------- */
   {
     type: 'info',
     final: true,
     topic: 'Hoàn thành',
-    title: 'Em đã học xong bài Giới thiệu về Hệ điều hành!',
-    content: 'Bây giờ em đã biết Hệ điều hành là gì, các chức năng cơ bản, vai trò của Driver và cách Hệ điều hành giúp chúng ta tương tác với AI.',
+    title: 'Em đã học xong bài Lưu trữ thông tin!',
+    content: 'Bây giờ em phân biệt được ổ USB, ổ đĩa cứng, ổ đĩa thể rắn và lưu trữ đám mây, đồng thời biết chọn nơi cất dữ liệu hợp với từng tình huống.',
     imageUrl: null,
-    remember: 'Hãy thử quan sát máy tính của em và tìm xem có những thiết bị phần cứng và phần mềm nào đang được Hệ điều hành quản lí nhé!'
+    remember: 'Cần sao lưu nhanh ở sân trường khi không có Wi-Fi thì dùng <b>USB</b>. Muốn chia sẻ ảnh cho cả lớp cùng xem thì dùng <b>dịch vụ đám mây</b> như Google Drive.'
   }
 ];
 
+
+/* ============================================================
+   2. TRẠNG THÁI
+   ============================================================ */
 const state = {
   index: 0,
   sound: true,
-  answers: {}
+  answers: {}   // { [slideIndex]: { checked, solved, ...dữ liệu riêng của từng dạng } }
 };
+
 const el = {
   slide:    document.getElementById('slide'),
   barFill:  document.getElementById('barFill'),
@@ -622,17 +898,25 @@ const el = {
   soundBtn: document.getElementById('soundBtn'),
   fullBtn:  document.getElementById('fullBtn')
 };
+
 const LETTERS = ['A','B','C','D','E','F'];
 const PAIR_COLORS = ['var(--pair-1)','var(--pair-2)','var(--pair-3)','var(--pair-4)'];
+
+
+/* ============================================================
+   3. TIỆN ÍCH
+   ============================================================ */
 function esc(s){
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
     .replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
+
 function ans(i){
   if(i === undefined) i = state.index;
   if(!state.answers[i]) state.answers[i] = { checked:false, solved:false, tries:0 };
   return state.answers[i];
 }
+
 function shuffle(arr){
   const a = arr.slice();
   for(let i=a.length-1;i>0;i--){
@@ -641,11 +925,15 @@ function shuffle(arr){
   }
   return a;
 }
+
+/** So sánh hai danh sách vị trí, không quan tâm thứ tự. */
 function sameSet(a, b){
   if(a.length !== b.length) return false;
   const x = a.slice().sort((m,n)=>m-n), y = b.slice().sort((m,n)=>m-n);
   return x.every((v,i)=> v === y[i]);
 }
+
+/* --- Âm thanh nhỏ bằng WebAudio, không cần file ngoài --- */
 let audioCtx = null;
 function beep(notes){
   if(!state.sound) return;
@@ -664,11 +952,13 @@ function beep(notes){
       osc.start(audioCtx.currentTime + at);
       osc.stop(audioCtx.currentTime + at + dur + 0.02);
     });
-  }catch(e){ }
+  }catch(e){ /* trình duyệt chặn thì bỏ qua */ }
 }
 const soundRight = () => beep([[660,0,.14],[880,.12,.2]]);
 const soundWrong = () => beep([[220,0,.22]]);
 const soundTurn  = () => beep([[520,0,.07]]);
+
+/* --- Pháo giấy --- */
 function confetti(){
   if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const box = document.createElement('div');
@@ -686,20 +976,29 @@ function confetti(){
   document.body.appendChild(box);
   setTimeout(() => box.remove(), 2200);
 }
+
+
+/* ============================================================
+   4. VẼ GIAO DIỆN THEO type
+   ============================================================ */
 function render(animate){
   const slide = slidesData[state.index];
   const a = ans(state.index);
+
   el.slide.classList.remove('enter');
   el.slide.innerHTML = viewOf(slide, a);
   if(animate){ void el.slide.offsetWidth; el.slide.classList.add('enter'); }
   el.slide.scrollTop = 0;
+
   const pct = Math.round(((state.index + 1) / slidesData.length) * 100);
   el.barFill.style.width = pct + '%';
   el.bar.setAttribute('aria-valuenow', pct);
   el.counter.textContent = 'Trang ' + (state.index + 1) + ' / ' + slidesData.length;
+
   el.prevBtn.hidden = state.index === 0;
   updateButtons(slide, a);
 }
+
 function viewOf(slide, a){
   switch(slide.type){
     case 'info':          return viewInfo(slide, a);
@@ -712,6 +1011,8 @@ function viewOf(slide, a){
     default:              return '<p class="lead">Chưa hỗ trợ loại slide này.</p>';
   }
 }
+
+/* Phần đầu chung của mọi slide câu hỏi */
 function head(s, note){
   let h = '';
   if(s.topic) h += '<p class="topic">' + esc(s.topic) + '</p>';
@@ -719,11 +1020,14 @@ function head(s, note){
   if(note) h += '<p class="qnote">' + note + '</p>';
   return h;
 }
+
+/* ---------- 4.1 Slide lý thuyết ---------- */
 function viewInfo(s){
   let html = '';
   if(s.topic)   html += '<p class="topic">' + esc(s.topic) + '</p>';
   html += '<h1>' + s.title + '</h1>';
   if(s.content) html += '<p class="lead">' + s.content + '</p>';
+
   if(s.final){
     const quizzes = slidesData.filter(x => x.type !== 'info').length;
     const done = Object.values(state.answers).filter(x => x.solved).length;
@@ -732,6 +1036,7 @@ function viewInfo(s){
             '<span>Em đã trả lời đúng ' + done + ' trên ' + quizzes + ' câu hỏi của bài.</span>' +
             '</div></div>';
   }
+
   if(s.imageUrl){
     html += '<img class="slide-photo" src="' + esc(s.imageUrl) + '" alt="' + esc(s.title) + '">';
   }else if(s.things && s.things.length){
@@ -743,9 +1048,12 @@ function viewInfo(s){
     });
     html += '</div>';
   }
+
   if(s.remember) html += '<div class="remember"><em>💡</em><p>' + s.remember + '</p></div>';
   return html;
 }
+
+/* ---------- 4.2 Trắc nghiệm 1 đáp án ---------- */
 function viewSingle(s, a){
   let html = head(s, 'Em hãy chọn một đáp án.');
   html += '<div class="options" role="radiogroup" aria-label="Các đáp án">';
@@ -756,6 +1064,7 @@ function viewSingle(s, a){
       if(i === s.correctAnswer) cls += ' right';
       else if(i === a.picked)   cls += ' wrong';
     }else if(a.picked === i) cls += ' picked';
+
     html += '<label class="' + cls + '">' +
               '<input type="radio" name="choice" value="' + i + '"' +
                 (a.picked === i ? ' checked' : '') + (a.checked ? ' disabled' : '') + '>' +
@@ -766,6 +1075,8 @@ function viewSingle(s, a){
   html += '</div>' + feedbackHTML(s, a);
   return html;
 }
+
+/* ---------- 4.3 Trắc nghiệm nhiều đáp án ---------- */
 function viewMultiple(s, a){
   if(!a.picks) a.picks = [];
   let html = head(s, 'Câu này có nhiều hơn một đáp án đúng.');
@@ -778,6 +1089,7 @@ function viewMultiple(s, a){
       if(s.correctAnswers.indexOf(i) !== -1) cls += ' right';
       else if(picked) cls += ' wrong';
     }else if(picked) cls += ' picked';
+
     html += '<label class="' + cls + '">' +
               '<input type="checkbox" name="multi" value="' + i + '"' +
                 (picked ? ' checked' : '') + (a.checked ? ' disabled' : '') + '>' +
@@ -788,11 +1100,17 @@ function viewMultiple(s, a){
   html += '</div>' + feedbackHTML(s, a);
   return html;
 }
+
+/* ---------- 4.4 Kéo thả ---------- */
 function viewDragDrop(s, a){
   if(!a.order)  a.order  = shuffle(s.zones.map((_, i) => i));
   if(!a.placed) a.placed = {};
+
   const used = Object.keys(a.placed).map(k => a.placed[k]);
+
   let html = head(s, 'Kéo thẻ vào đúng ô, hoặc bấm thẻ rồi bấm ô muốn thả.');
+
+  // Kho thẻ chưa dùng
   html += '<div class="pool" id="pool">';
   a.order.forEach(i => {
     if(used.indexOf(i) !== -1) return;
@@ -801,6 +1119,8 @@ function viewDragDrop(s, a){
               esc(s.zones[i].item) + '</span>';
   });
   html += '</div>';
+
+  // Các ô đích
   html += '<div class="zones">';
   s.zones.forEach((z, i) => {
     const item = a.placed[i];
@@ -816,9 +1136,13 @@ function viewDragDrop(s, a){
   html += '</div>' + feedbackHTML(s, a);
   return html;
 }
+
+/* ---------- 4.5 Danh sách thả xuống ---------- */
 function viewDropdown(s, a){
   if(!a.sel) a.sel = s.blanks.map(() => -1);
   const parts = s.question.split('___');
+
+  // Câu hỏi ở dạng này chính là câu văn có ô chọn, nên không lặp lại thành tiêu đề
   let html = '';
   if(s.topic) html += '<p class="topic">' + esc(s.topic) + '</p>';
   html += '<p class="qnote">Em hãy chọn từ đúng trong mỗi ô.</p>';
@@ -840,11 +1164,16 @@ function viewDropdown(s, a){
   html += '</p>' + feedbackHTML(s, a);
   return html;
 }
+
+/* ---------- 4.6 Nối cặp ---------- */
 function viewMatching(s, a){
   if(!a.order) a.order = shuffle(s.pairs.map((_, i) => i));
   if(!a.links) a.links = {};
+
   let html = head(s, 'Bấm một thẻ bên trái, rồi bấm thẻ đúng bên phải. Bấm lại vào thẻ đã nối để gỡ ra.');
-  html += '<div class="match"><div class="match__col"><p class="match__head">Cột A</p>';
+  html += '<div class="match">';
+
+  html += '<div class="match__col"><p class="match__head">Cột A</p>';
   s.pairs.forEach((p, i) => {
     const linked = a.links[i] !== undefined;
     let cls = 'card' + (a.sel === i ? ' active' : '') + (linked ? ' linked' : '');
@@ -856,7 +1185,9 @@ function viewMatching(s, a){
               (linked ? '<span class="pin">' + (i + 1) + '</span>' : '') +
             '</button>';
   });
-  html += '</div><div class="match__col"><p class="match__head">Cột B</p>';
+  html += '</div>';
+
+  html += '<div class="match__col"><p class="match__head">Cột B</p>';
   a.order.forEach(j => {
     const owner = Object.keys(a.links).find(k => a.links[k] === j);
     const linked = owner !== undefined;
@@ -871,13 +1202,18 @@ function viewMatching(s, a){
   html += '</div></div>' + feedbackHTML(s, a);
   return html;
 }
+
+/* ---------- 4.7 Bấm đúng vùng trên hình ---------- */
 function viewHotspot(s, a){
   if(!a.hits) a.hits = [];
   const many = s.spots.filter(p => p.correct).length > 1;
+
   let html = head(s, many ? 'Em hãy bấm vào tất cả các vùng đúng trên hình.'
                           : 'Em hãy bấm vào đúng một vùng trên hình.');
+
   html += '<div class="hotspot' + (s.imageUrl ? '' : ' hotspot--empty') + '">';
   if(s.imageUrl) html += '<img src="' + esc(s.imageUrl) + '" alt="">';
+
   s.spots.forEach((p, i) => {
     const picked = a.hits.indexOf(i) !== -1;
     let cls = 'spot';
@@ -885,6 +1221,7 @@ function viewHotspot(s, a){
       if(p.correct) cls += ' right';
       else if(picked) cls += ' wrong';
     }else if(picked) cls += ' picked';
+
     html += '<button class="' + cls + '" data-spot="' + i + '" ' +
               'style="left:' + p.x + '%;top:' + p.y + '%;width:' + p.w + '%;height:' + p.h + '%">' +
               esc(p.label || '') + '</button>';
@@ -892,6 +1229,8 @@ function viewHotspot(s, a){
   html += '</div>' + feedbackHTML(s, a);
   return html;
 }
+
+/* ---------- 4.8 Ô phản hồi ---------- */
 function feedbackHTML(s, a){
   if(!a.checked) return '';
   if(a.solved){
@@ -900,12 +1239,24 @@ function feedbackHTML(s, a){
   return '<div class="feedback no"><em>🤔</em><p><b>Chưa đúng rồi.</b> ' +
          (s.hint || 'Em hãy bấm Thử lại và làm lại lần nữa nhé.') + '</p></div>';
 }
+
+
+/* ============================================================
+   5. HAI NÚT DƯỚI CÙNG
+   ------------------------------------------------------------
+   Chưa kiểm tra   -> [Kiểm tra]
+   Kiểm tra mà sai -> [Thử lại]        (nút Kiểm tra bị ẩn)
+   Đã đúng         -> [Tiếp theo]
+   Nút Quay lại luôn hiện, trừ trang đầu tiên.
+   ============================================================ */
 function isQuiz(slide){ return slide.type !== 'info'; }
+
 function updateButtons(slide, a){
   const last = state.index === slidesData.length - 1;
+
   if(isQuiz(slide) && !a.solved){
     if(a.checked){
-      el.mainBtn.hidden  = true;
+      el.mainBtn.hidden  = true;    // trả lời sai: bỏ hẳn nút Kiểm tra
       el.retryBtn.hidden = false;
     }else{
       el.mainBtn.hidden  = false;
@@ -915,35 +1266,48 @@ function updateButtons(slide, a){
     }
     return;
   }
+
   el.retryBtn.hidden = true;
   el.mainBtn.hidden  = false;
   el.mainBtn.textContent = last ? 'Học lại từ đầu' : 'Tiếp theo';
   el.mainBtn.dataset.act = last ? 'restart' : 'next';
 }
+
+
+/* ============================================================
+   6. CHẤM BÀI
+   ============================================================ */
 function check(){
   const s = slidesData[state.index];
   const a = ans();
+
   switch(s.type){
+
     case 'quiz_single':
       if(a.picked === undefined) return nudge('Em hãy chọn một đáp án trước nhé.');
       a.solved = a.picked === s.correctAnswer;
       break;
+
     case 'quiz_multiple':
       if(!a.picks || !a.picks.length) return nudge('Em hãy chọn ít nhất một đáp án nhé.');
       a.solved = sameSet(a.picks, s.correctAnswers);
       break;
+
     case 'quiz_dragdrop':
       if(Object.keys(a.placed).length < s.zones.length) return nudge('Em hãy thả hết các thẻ vào ô nhé.');
       a.solved = s.zones.every((_, i) => a.placed[i] === i);
       break;
+
     case 'quiz_dropdown':
       if(a.sel.indexOf(-1) !== -1) return nudge('Em hãy chọn đủ các ô nhé.');
       a.solved = s.blanks.every((b, i) => a.sel[i] === b.correctAnswer);
       break;
+
     case 'quiz_matching':
       if(Object.keys(a.links).length < s.pairs.length) return nudge('Em hãy nối hết các thẻ nhé.');
       a.solved = s.pairs.every((_, i) => a.links[i] === i);
       break;
+
     case 'quiz_hotspot': {
       if(!a.hits.length) return nudge('Em hãy bấm vào một vùng trên hình nhé.');
       const right = [];
@@ -952,9 +1316,11 @@ function check(){
       break;
     }
   }
+
   a.checked = true;
   a.tries++;
   render(false);
+
   if(a.solved){
     soundRight();
     confetti();
@@ -964,6 +1330,8 @@ function check(){
     setTimeout(() => el.slide.classList.remove('shake'), 450);
   }
 }
+
+/** Nhắc nhẹ khi làm chưa xong — không tính là một lần trả lời sai. */
 function nudge(msg){
   el.slide.classList.add('shake');
   setTimeout(() => el.slide.classList.remove('shake'), 450);
@@ -973,14 +1341,18 @@ function nudge(msg){
   el.slide.insertAdjacentHTML('beforeend',
     '<div class="feedback no"><em>✋</em><p>' + esc(msg) + '</p></div>');
 }
+
+/** Làm lại: giữ những phần đã đúng, xoá phần sai. */
 function retry(){
   const s = slidesData[state.index];
   const a = ans();
   a.checked = false;
+
   if(s.type === 'quiz_single')   a.picked = undefined;
   if(s.type === 'quiz_multiple') a.picks = [];
   if(s.type === 'quiz_dropdown') a.sel = s.blanks.map(() => -1);
   if(s.type === 'quiz_hotspot')  a.hits = [];
+
   if(s.type === 'quiz_matching'){
     const kept = {};
     Object.keys(a.links).forEach(k => { if(a.links[k] === Number(k)) kept[k] = a.links[k]; });
@@ -993,8 +1365,14 @@ function retry(){
     a.placed = kept;
     a.grab = null;
   }
+
   render(false);
 }
+
+
+/* ============================================================
+   7. ĐIỀU HƯỚNG
+   ============================================================ */
 function go(step){
   const next = state.index + step;
   if(next < 0 || next >= slidesData.length) return;
@@ -1003,22 +1381,32 @@ function go(step){
   render(true);
   el.slide.focus({ preventScroll:true });
 }
+
 function restart(){
   state.index = 0;
   state.answers = {};
   render(true);
 }
+
+
+/* ============================================================
+   8. SỰ KIỆN
+   ============================================================ */
 el.prevBtn.addEventListener('click', () => go(-1));
 el.retryBtn.addEventListener('click', retry);
+
 el.mainBtn.addEventListener('click', () => {
   const act = el.mainBtn.dataset.act;
   if(act === 'check')        check();
   else if(act === 'restart') restart();
   else                       go(1);
 });
+
+/* --- Chọn đáp án: radio, checkbox, dropdown --- */
 el.slide.addEventListener('change', e => {
   const a = ans();
   if(a.checked) return;
+
   if(e.target.name === 'choice'){
     a.picked = Number(e.target.value);
     render(false);
@@ -1033,9 +1421,13 @@ el.slide.addEventListener('change', e => {
     a.sel[Number(e.target.dataset.b)] = Number(e.target.value);
   }
 });
+
+/* --- Bấm: nối cặp, kéo thả (chế độ chạm), hotspot --- */
 el.slide.addEventListener('click', e => {
   const a = ans();
   if(a.checked) return;
+
+  // Nối cặp
   const card = e.target.closest('.card');
   if(card){
     const i = Number(card.dataset.i);
@@ -1049,17 +1441,23 @@ el.slide.addEventListener('click', e => {
     }
     return render(false);
   }
+
+  // Kéo thả — bấm thẻ để cầm
   const chip = e.target.closest('.chip');
   if(chip){
     const i = Number(chip.dataset.i);
     a.grab = (a.grab === i ? null : i);
     return render(false);
   }
+
+  // Kéo thả — bấm ô để thả hoặc lấy thẻ ra
   const zone = e.target.closest('.zone');
   if(zone){
     dropInto(Number(zone.dataset.i));
     return;
   }
+
+  // Hotspot
   const spot = e.target.closest('.spot');
   if(spot){
     const i = Number(spot.dataset.spot);
@@ -1069,9 +1467,10 @@ el.slide.addEventListener('click', e => {
     return render(false);
   }
 });
+
 function dropInto(zoneIndex){
   const a = ans();
-  if(a.placed[zoneIndex] !== undefined){
+  if(a.placed[zoneIndex] !== undefined){      // ô đang có thẻ: lấy thẻ ra
     delete a.placed[zoneIndex];
     a.grab = null;
   }else if(a.grab !== null && a.grab !== undefined){
@@ -1081,6 +1480,8 @@ function dropInto(zoneIndex){
   }
   render(false);
 }
+
+/* --- Kéo thả bằng chuột --- */
 el.slide.addEventListener('dragstart', e => {
   const chip = e.target.closest('.chip');
   if(!chip || ans().checked) return;
@@ -1088,6 +1489,7 @@ el.slide.addEventListener('dragstart', e => {
   e.dataTransfer.setData('text/plain', chip.dataset.i);
   e.dataTransfer.effectAllowed = 'move';
 });
+
 el.slide.addEventListener('dragover', e => {
   const zone = e.target.closest('.zone');
   if(!zone || ans().checked) return;
@@ -1095,10 +1497,12 @@ el.slide.addEventListener('dragover', e => {
   e.dataTransfer.dropEffect = 'move';
   zone.classList.add('over');
 });
+
 el.slide.addEventListener('dragleave', e => {
   const zone = e.target.closest('.zone');
   if(zone) zone.classList.remove('over');
 });
+
 el.slide.addEventListener('drop', e => {
   const zone = e.target.closest('.zone');
   if(!zone || ans().checked) return;
@@ -1106,17 +1510,23 @@ el.slide.addEventListener('drop', e => {
   zone.classList.remove('over');
   dropInto(Number(zone.dataset.i));
 });
+
+/* --- Phím tắt cho lớp học / máy chiếu --- */
 document.addEventListener('keydown', e => {
   const t = e.target;
   if(t.tagName === 'INPUT' || t.tagName === 'SELECT') return;
+
+  // Đang đứng trên một thẻ tương tác thì Enter / Space kích hoạt chính thẻ đó
   const piece = t.closest && t.closest('.chip, .zone, .card, .spot');
   if(piece && (e.key === 'Enter' || e.key === ' ')){
     e.preventDefault();
     piece.click();
     return;
   }
+
   const s = slidesData[state.index];
   const a = ans();
+
   if(e.key === 'ArrowLeft'){
     go(-1);
   }
@@ -1137,21 +1547,28 @@ document.addEventListener('keydown', e => {
     }
   }
 });
+
 el.soundBtn.addEventListener('click', () => {
   state.sound = !state.sound;
   el.soundBtn.textContent = state.sound ? '🔊' : '🔇';
   el.soundBtn.setAttribute('aria-pressed', String(state.sound));
   if(state.sound) soundTurn();
 });
+
 el.fullBtn.addEventListener('click', () => {
   if(document.fullscreenElement) document.exitFullscreen();
   else document.documentElement.requestFullscreen().catch(() => {});
 });
+
+
+/* ============================================================
+   9. KHỞI ĐỘNG
+   ============================================================ */
 document.getElementById('lessonName').innerHTML =
   '<span>' + CONFIG.icon + '</span> ' + CONFIG.title;
 document.title = CONFIG.title;
-render(true);
 
+render(true);
 </script>
 </body>
 </html>

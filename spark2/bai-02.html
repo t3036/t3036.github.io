@@ -497,112 +497,92 @@ input,select{font-family:inherit}
 <script>
 
 const CONFIG = {
-  icon:  '🖥️',
-  title: 'Bài 1 — Giới thiệu về Hệ điều hành'
+  icon:  '📱',
+  title: 'Bài 2 — Các hệ điều hành thông dụng'
 };
 const slidesData = [
   {
     type: 'info',
-    topic: 'Phần 1 · Khái niệm',
-    title: 'Hệ điều hành là gì?',
-    content: '<b>Hệ điều hành (Operating System - OS)</b> là phần mềm hệ thống đặc biệt, quản lí tất cả các phần mềm và phần cứng trên máy tính.',
+    topic: 'Phần 1 · Máy tính',
+    title: 'Hệ điều hành dành cho máy tính',
+    content: 'Hai hệ điều hành phổ biến nhất trên máy tính là <b>Windows</b> và <b>macOS</b>.',
     imageUrl: null,
     things: [
-      { icon: '⌨️', name: 'Phần cứng', en: 'Chuột, bàn phím, màn hình' },
-      { icon: '💻', name: 'Hệ điều hành', en: 'Quản lí và điều khiển' },
-      { icon: '🎮', name: 'Phần mềm', en: 'Trò chơi, trình duyệt, AI' }
+      { icon: '🪟', name: 'Windows', en: 'Do Microsoft phát hành' },
+      { icon: '🍏', name: 'macOS', en: 'Do Apple phát hành' }
     ],
-    remember: 'Không có hệ điều hành thì máy tính <b>không thể hoạt động</b> được.'
-  },
-  {
-    type: 'quiz_single',
-    topic: 'Luyện tập',
-    question: 'Hệ điều hành (OS) là gì?',
-    options: [
-      'Khu vực làm việc của màn hình máy tính',
-      'Thiết bị vật lí lưu trữ thông tin',
-      'Phần mềm hỗ trợ các chức năng cơ bản của máy tính',
-      'Một cái gì đó đi vào máy tính'
-    ],
-    correctAnswer: 2,
-    hint: 'Hệ điều hành không phải là thiết bị cầm nắm được.',
-    explain: 'Hệ điều hành là phần mềm quản lí và hỗ trợ các chức năng cơ bản của máy tính.'
+    remember: 'Windows rất phổ biến trên nhiều loại máy, còn macOS chỉ chạy trên các dòng máy Mac (iMac, MacBook) của Apple.'
   },
   {
     type: 'info',
-    topic: 'Phần 2 · Chức năng',
-    title: 'Chức năng của Hệ điều hành',
-    content: 'Hệ điều hành giống như người nhạc trưởng, điều khiển mọi hoạt động của máy tính để chúng phối hợp nhịp nhàng với nhau.',
+    topic: 'Phần 2 · Điện thoại',
+    title: 'Hệ điều hành dành cho điện thoại',
+    content: 'Trên điện thoại thông minh, hai hệ điều hành "thống trị" là <b>iOS</b> và <b>Android</b>.',
     imageUrl: null,
     things: [
-      { icon: '🖨️', name: 'Quản lí phần cứng', en: 'Giao tiếp với các thiết bị' },
-      { icon: '🎬', name: 'Quản lí phần mềm', en: 'Kiểm soát các ứng dụng' },
-      { icon: '📁', name: 'Quản lí tập tin', en: 'Sao chép, di chuyển, xóa dữ liệu' }
+      { icon: '📱', name: 'iOS (Apple)', en: 'Chạy trên iPhone, iPad, mượt mà' },
+      { icon: '🤖', name: 'Android (Google)', en: 'Phổ biến nhất, linh hoạt, nhiều hãng dùng' }
     ],
-    remember: ''
+    remember: 'Điện thoại Samsung, Xiaomi, Oppo thường dùng <b>Android</b>. Điện thoại iPhone thì luôn dùng <b>iOS</b>.'
   },
   {
-    type: 'quiz_single',
-    topic: 'Luyện tập',
-    question: 'Loại phần mềm hệ thống nào quản lí tất cả các phần mềm và phần cứng trên máy tính?',
-    options: [
-      'Hệ điều hành (OS)',
-      'Trình điều khiển thiết bị (Driver)',
-      'Phần mềm tiện ích (Utility)',
-      'Phần mềm chống virus'
+    type: 'quiz_matching',
+    topic: 'Vận dụng',
+    question: 'Hãy nối Hệ điều hành với công ty phát hành ra nó.',
+    pairs: [
+      { icon: '🪟', left: 'Windows', right: 'Microsoft' },
+      { icon: '🍏', left: 'macOS và iOS', right: 'Apple' },
+      { icon: '🤖', left: 'Android', right: 'Google' }
     ],
-    correctAnswer: 0,
-    hint: 'Đây là nội dung chính của bài học hôm nay.',
-    explain: 'Hệ điều hành (OS) chính là phần mềm quản lí mọi hoạt động của phần mềm và phần cứng.'
+    hint: 'Windows là của ai? Ai làm ra iPhone?',
+    explain: 'Windows của Microsoft, macOS/iOS của Apple, Android của Google.'
   },
   {
     type: 'info',
-    topic: 'Phần 3 · Nhận diện thiết bị mới',
-    title: 'Driver — Trình điều khiển thiết bị',
-    content: 'Khi em kết nối thiết bị mới (ví dụ: máy in) vào máy tính, hệ điều hành cần một phần mềm đặc biệt gọi là <b>Driver</b>. Driver giúp hệ điều hành hiểu và giao tiếp với thiết bị đó.',
+    topic: 'Phần 3 · Phiên bản và Ấn bản',
+    title: 'Phiên bản (Version) và Ấn bản (Edition)',
+    content: 'Một hệ điều hành thường có nhiều <b>phiên bản</b> (cũ/mới) và <b>ấn bản</b> (dành cho các nhóm người dùng khác nhau).',
     imageUrl: null,
     things: [
-      { icon: '🔌', name: 'Kết nối', en: 'Cắm thiết bị vào máy tính' },
-      { icon: '⚙️', name: 'Cài Driver', en: 'Cài đặt phần mềm điều khiển' },
-      { icon: '✅', name: 'Hoạt động', en: 'Hệ điều hành nhận diện và sử dụng' }
+      { icon: '🔄', name: 'Phiên bản (Version)', en: 'Windows 10, Windows 11...' },
+      { icon: '🏠', name: 'Ấn bản Home', en: 'Dành cho cá nhân' },
+      { icon: '🏢', name: 'Ấn bản Pro', en: 'Dành cho doanh nghiệp' },
+      { icon: '🏫', name: 'Ấn bản Education', en: 'Dành cho trường học' }
     ],
-    remember: 'Mỗi thiết bị phần cứng cần một <b>Driver riêng</b> để có thể hoạt động trên hệ thống.'
+    remember: 'Ví dụ: <b>Windows 11 Home</b> nghĩa là Hệ điều hành Windows, phiên bản 11, ấn bản dành cho cá nhân.'
   },
   {
-    type: 'quiz_single',
-    topic: 'Luyện tập',
-    question: 'Chương trình nào sau đây phải được cài đặt để hệ điều hành có thể hiểu được một máy in mới?',
-    options: [
-      'Driver',
-      'Wizard',
-      'Firewall',
-      'Installer'
+    type: 'quiz_dropdown',
+    topic: 'Vận dụng',
+    question: 'Windows 10 và Windows 11 là các ___ khác nhau. Còn Home và Pro là các ___ khác nhau.',
+    blanks: [
+      { options: ['thiết bị', 'phiên bản', 'phần cứng'], correctAnswer: 1 },
+      { options: ['ấn bản', 'công ty', 'điện thoại'], correctAnswer: 0 }
     ],
-    correctAnswer: 0,
-    hint: 'Nó giống như một người phiên dịch giữa máy tính và thiết bị mới.',
-    explain: 'Cần cài đặt <b>Driver</b> (Trình điều khiển) để hệ điều hành giao tiếp được với thiết bị mới.'
+    hint: 'Số (10, 11) chỉ độ mới/cũ, chữ (Home, Pro) chỉ đối tượng sử dụng.',
+    explain: '10 và 11 là các phiên bản (Version). Home và Pro là các ấn bản (Edition).'
   },
   {
     type: 'info',
-    topic: 'Phần 4 · Hệ điều hành và AI',
-    title: 'Vai trò của Hệ điều hành khi dùng AI',
-    content: 'AI thường chạy trên ứng dụng, trình duyệt hoặc máy chủ trực tuyến. Hệ điều hành đóng vai trò như <b>cầu nối</b> giữa em, công cụ AI và phần cứng máy tính.',
+    topic: 'Phần 4 · HĐH Khác & AI',
+    title: 'Các hệ điều hành khác và Trợ lí AI',
+    content: 'Ngoài ra còn có <b>ChromeOS</b> (nhanh, làm việc trực tuyến) và <b>Linux</b> (mã nguồn mở, cho lập trình viên). Ngày nay, các HĐH đều tích hợp trí tuệ nhân tạo (AI).',
     imageUrl: null,
     things: [
-      { icon: '⌨️', name: 'Nhận tín hiệu', en: 'Từ bàn phím, chuột, micrô' },
-      { icon: '🌐', name: 'Chuyển yêu cầu', en: 'Đưa yêu cầu đến công cụ AI' },
-      { icon: '🖥️', name: 'Hiển thị', en: 'Hiện kết quả lên màn hình' }
+      { icon: '💡', name: 'Windows', en: 'Tích hợp AI Copilot' },
+      { icon: '🗣️', name: 'macOS / iOS', en: 'Tích hợp Siri, Apple Intelligence' },
+      { icon: '✨', name: 'Android / ChromeOS', en: 'Tích hợp Google Assistant, Gemini' }
     ],
-    remember: 'AI <b>không phải</b> là phần cứng. Thiết bị cần có hệ điều hành thì em mới sử dụng được các công cụ AI.'
+    remember: 'AI giúp tìm kiếm, viết, dịch và điều khiển máy tính dễ dàng hơn.'
   },
   {
     type: 'info',
     final: true,
     topic: 'Hoàn thành',
-    title: 'Em đã học xong bài Giới thiệu về Hệ điều hành!',
-    content: 'Bây giờ em đã biết Hệ điều hành là gì, các chức năng cơ bản, vai trò của Driver và cách Hệ điều hành giúp chúng ta tương tác với AI.',
+    title: 'Em đã học xong bài Các HĐH thông dụng!',
+    content: 'Bây giờ em đã biết tên các Hệ điều hành quen thuộc trên máy tính và điện thoại, phân biệt được phiên bản và ấn bản, cũng như biết tên các trợ lí AI.',
     imageUrl: null,
-    remember: 'Hãy thử quan sát máy tính của em và tìm xem có những thiết bị phần cứng và phần mềm nào đang được Hệ điều hành quản lí nhé!'
+    remember: 'Lần tới dùng máy tính hay điện thoại, em hãy thử tìm xem thiết bị đó đang chạy Hệ điều hành nào nhé!'
   }
 ];
 
