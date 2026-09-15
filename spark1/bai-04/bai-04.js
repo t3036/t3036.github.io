@@ -26,7 +26,7 @@ const slidesData = [
   },
   {
     type: 'quiz_single',
-    topic: 'Luyện tập',
+    topic: 'Luyện tập',n
     question: 'Phần mềm nào được khởi chạy đầu tiên khi khởi động một máy tính?',
     options: [
       'Trình quản lý cơ sở dữ liệu',
