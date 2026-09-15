@@ -121,18 +121,18 @@ const slidesData = [
     remember: 'Các ứng dụng học tập như Duolingo hay Khan Academy cũng đã tích hợp AI để giúp em học tốt hơn.'
   },
 
-  {
-    type: 'quiz_dragdrop',
-    topic: 'Vận dụng',
-    question: 'Hãy kéo tên công cụ AI vào tình huống sử dụng phù hợp.',
-    zones: [
-      { label: 'Em muốn kiểm tra lỗi chính tả và ngữ pháp tiếng Anh.', item: 'Grammarly' },
-      { label: 'Em muốn hỏi cách giải một bài toán đố.', item: 'ChatGPT / Gemini' },
-      { label: 'Em muốn tạo một bức ảnh phi hành gia bay trên sao Hỏa.', item: 'Canva AI' }
-    ],
-    hint: 'Công cụ nào chuyên vẽ? Công cụ nào chuyên sửa lỗi chữ?',
-    explain: 'Grammarly chuyên sửa lỗi văn bản. ChatGPT/Gemini là Chatbot để hỏi đáp. Canva AI là công cụ thiết kế hình ảnh.'
-  },
+  // {
+  //   type: 'quiz_dragdrop',
+  //   topic: 'Vận dụng',
+  //   question: 'Hãy kéo tên công cụ AI vào tình huống sử dụng phù hợp.',
+  //   zones: [
+  //     { label: 'Em muốn kiểm tra lỗi chính tả và ngữ pháp tiếng Anh.', item: 'Grammarly' },
+  //     { label: 'Em muốn hỏi cách giải một bài toán đố.', item: 'ChatGPT / Gemini' },
+  //     { label: 'Em muốn tạo một bức ảnh phi hành gia bay trên sao Hỏa.', item: 'Canva AI' }
+  //   ],
+  //   hint: 'Công cụ nào chuyên vẽ? Công cụ nào chuyên sửa lỗi chữ?',
+  //   explain: 'Grammarly chuyên sửa lỗi văn bản. ChatGPT/Gemini là Chatbot để hỏi đáp. Canva AI là công cụ thiết kế hình ảnh.'
+  // },
 
   {
     type: 'info',
