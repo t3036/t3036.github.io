@@ -124,18 +124,18 @@ const slidesData = [
   },
 
   /* ---------- 9. Kéo thả (Mô hình Client - Server) ---------- */
-  {
-    type: 'quiz_dragdrop',
-    topic: 'Vận dụng',
-    question: 'Hãy kéo các thiết bị vào đúng vai trò của nó trong mạng.',
-    zones: [
-      { label: 'Máy tính đặc biệt cung cấp tài nguyên/dịch vụ cho máy khác.', item: 'Máy chủ (Server)' },
-      { label: 'Máy tính/Điện thoại của em dùng để gửi yêu cầu.', item: 'Máy khách (Client)' },
-      { label: 'Máy chủ đặc biệt chỉ dùng để lưu trữ và gửi trang Web.', item: 'Máy chủ Web (Web Server)' }
-    ],
-    hint: 'Server là người phục vụ (cung cấp), Client là khách hàng (gửi yêu cầu).',
-    explain: 'Máy chủ (Server) cung cấp tài nguyên, Máy khách (Client) nhận tài nguyên, Máy chủ Web chuyên cung cấp dữ liệu web.'
-  },
+  // {
+  //   type: 'quiz_dragdrop',
+  //   topic: 'Vận dụng',
+  //   question: 'Hãy kéo các thiết bị vào đúng vai trò của nó trong mạng.',
+  //   zones: [
+  //     { label: 'Máy tính đặc biệt cung cấp tài nguyên/dịch vụ cho máy khác.', item: 'Máy chủ (Server)' },
+  //     { label: 'Máy tính/Điện thoại của em dùng để gửi yêu cầu.', item: 'Máy khách (Client)' },
+  //     { label: 'Máy chủ đặc biệt chỉ dùng để lưu trữ và gửi trang Web.', item: 'Máy chủ Web (Web Server)' }
+  //   ],
+  //   hint: 'Server là người phục vụ (cung cấp), Client là khách hàng (gửi yêu cầu).',
+  //   explain: 'Máy chủ (Server) cung cấp tài nguyên, Máy khách (Client) nhận tài nguyên, Máy chủ Web chuyên cung cấp dữ liệu web.'
+  // },
 
   /* ---------- 10. AI trên Máy chủ ---------- */
   {
