@@ -1,148 +1,58 @@
 /* ============================================================
-   BÀI GIẢNG TƯƠNG TÁC — TEMPLATE TRỐNG
+   BÀI GIẢNG TƯƠNG TÁC — BỘ MÁY CHẠY
    ------------------------------------------------------------
-   Bạn chỉ cần sửa hai khối bên dưới (CONFIG và slidesData).
-   Toàn bộ phần từ mục 2 trở xuống là bộ máy chạy, giữ nguyên.
+   File này không cần sửa. Muốn đổi nội dung/mật khẩu, sửa
+   lesson-data.js. Muốn đổi màu sắc/giao diện, sửa style.css.
    ============================================================ */
 
 
-// /* ============================================================
-//    0. THÔNG TIN BÀI HỌC (hiện ở thanh trên cùng)
-//    ============================================================ */
-// const CONFIG = {
-//   icon:  '📘',                // biểu tượng nhỏ đứng trước tên bài
-//   title: 'Tên bài học'        // ví dụ: 'Bài 2 — Lưu trữ thông tin'
-// };
+/* ============================================================
+   1. GHÉP DỮ LIỆU: từ LESSON.sections → mảng phẳng slidesData
+   ------------------------------------------------------------
+   Mỗi slide được gắn thêm 3 trường nội bộ (bắt đầu bằng "_")
+   để biết nó thuộc section nào — không đụng đến dữ liệu gốc
+   của bạn trong lesson-data.js.
+   ============================================================ */
+const slidesData = [];
+LESSON.sections.forEach((sec, si) => {
+  sec.slides.forEach((sl, li) => {
+    const copy = Object.assign({}, sl);
+    copy._sectionIndex = si;
+    copy._slideIndexInSection = li;
+    copy._isFirstOfSection = li === 0;
+    slidesData.push(copy);
+  });
+});
 
-
-// /* ============================================================
-//    1. DỮ LIỆU BÀI HỌC
-//    ------------------------------------------------------------
-//    Mỗi phần tử của mảng là 1 slide. Thêm / bớt / đổi chỗ thoải mái.
-//    Trường 'type' quyết định slide được vẽ như thế nào:
-
-//      'info'            slide lý thuyết, đọc xong bấm Tiếp theo
-//      'quiz_single'     trắc nghiệm 1 đáp án
-//      'quiz_multiple'   trắc nghiệm nhiều đáp án
-//      'quiz_dragdrop'   kéo thả thẻ vào đúng ô
-//      'quiz_dropdown'   chọn từ trong danh sách thả xuống
-//      'quiz_matching'   nối cặp trái – phải
-//      'quiz_hotspot'    bấm đúng vùng trên hình
-
-//    Mọi dạng câu hỏi đều phải trả lời đúng mới sang được trang sau.
-//    Các trường title / content / hint / explain / remember cho phép
-//    dùng thẻ HTML đơn giản như <b>, <i>, <br>.
-//    ============================================================ */
-// const slidesData = [
-
-//   /* ---------- Slide lý thuyết ---------- */
-//   {
-//     type: 'info',
-//     topic: '',        // nhãn nhỏ ở đầu slide, vd: 'Phần 1 · Khái niệm'
-//     title: '',        // tiêu đề lớn
-//     content: '',      // đoạn dẫn dắt
-//     imageUrl: null,   // 'anh/hinh-1.png' — có ảnh thì app hiện ảnh, bỏ qua things
-//     things: [         // lưới thẻ minh hoạ, để [] nếu không dùng
-//       { icon: '', name: '', en: '' },
-//       { icon: '', name: '', en: '' },
-//       { icon: '', name: '', en: '' }
-//     ],
-//     remember: ''      // hộp ghi nhớ nền xanh lá, để '' nếu không dùng
-//   },
-
-//   /* ---------- Trắc nghiệm 1 đáp án ---------- */
-//   {
-//     type: 'quiz_single',
-//     topic: '',
-//     question: '',
-//     options: ['', '', '', ''],   // từ 2 đến 6 đáp án
-//     correctAnswer: 0,            // vị trí đáp án đúng, đếm từ 0
-//     hint: '',                    // gợi ý, hiện khi trả lời sai
-//     explain: ''                  // giải thích, hiện khi trả lời đúng
-//   },
-
-//   /* ---------- Trắc nghiệm nhiều đáp án ---------- */
-//   {
-//     type: 'quiz_multiple',
-//     topic: '',
-//     question: '',
-//     options: ['', '', '', ''],
-//     correctAnswers: [0, 2],      // danh sách vị trí đúng, phải chọn đủ và không dư
-//     hint: '',
-//     explain: ''
-//   },
-
-//   /* ---------- Kéo thả ---------- */
-//   {
-//     type: 'quiz_dragdrop',
-//     topic: '',
-//     question: '',
-//     zones: [                     // thẻ ở kho sẽ tự xáo trộn khi hiển thị
-//       { label: '', item: '' },   // label = ô đích, item = thẻ đúng của ô đó
-//       { label: '', item: '' },
-//       { label: '', item: '' }
-//     ],
-//     hint: '',
-//     explain: ''
-//   },
-
-//   /* ---------- Danh sách thả xuống ---------- */
-//   {
-//     type: 'quiz_dropdown',
-//     topic: '',
-//     question: '',                // đặt ___ tại mỗi chỗ cần chọn
-//     blanks: [                    // mỗi ___ ứng với 1 phần tử ở đây, đúng thứ tự
-//       { options: ['', '', ''], correctAnswer: 0 },
-//       { options: ['', '', ''], correctAnswer: 0 }
-//     ],
-//     hint: '',
-//     explain: ''
-//   },
-
-//   /* ---------- Nối cặp ---------- */
-//   {
-//     type: 'quiz_matching',
-//     topic: '',
-//     question: '',
-//     pairs: [                     // cột phải sẽ tự xáo trộn khi hiển thị
-//       { icon: '', left: '', right: '' },
-//       { icon: '', left: '', right: '' },
-//       { icon: '', left: '', right: '' }
-//     ],
-//     hint: '',
-//     explain: ''
-//   },
-
-//   /* ---------- Bấm đúng vùng trên hình ---------- */
-//   {
-//     type: 'quiz_hotspot',
-//     topic: '',
-//     question: '',
-//     imageUrl: null,   // 'anh/ban-phim.png' — bỏ trống thì hiện khung kẻ sẵn để canh vùng
-//     spots: [          // toạ độ tính theo phần trăm của khung hình
-//       { label: '', x: 10, y: 15, w: 25, h: 25, correct: true  },
-//       { label: '', x: 45, y: 15, w: 25, h: 25, correct: false },
-//       { label: '', x: 10, y: 55, w: 25, h: 25, correct: false }
-//     ],
-//     hint: '',
-//     explain: ''
-//   },
-
-//   /* ---------- Slide kết thúc ---------- */
-//   {
-//     type: 'info',
-//     final: true,      // bật bảng tổng kết số câu trả lời đúng
-//     topic: '',
-//     title: '',
-//     content: '',
-//     imageUrl: null,
-//     remember: ''
-//   }
-// ];
+function sectionOf(i){ return LESSON.sections[slidesData[i]._sectionIndex]; }
+function firstIndexOfSection(si){
+  return slidesData.findIndex(s => s._sectionIndex === si);
+}
 
 
 /* ============================================================
-   2. TRẠNG THÁI
+   2. TIẾN TRÌNH MỞ KHÓA
+   ------------------------------------------------------------
+   Không lưu gì lại — mỗi lần tải trang là một lượt học mới,
+   mọi phần có mật khẩu đều khóa lại từ đầu. Chỉ phần nào có
+   password === "" (hoặc không khai báo .password) trong
+   lesson-data.js mới luôn mở sẵn.
+   ============================================================ */
+const progress = { unlocked: [] };
+
+LESSON.sections.forEach((sec, si) => {
+  if(!sec.password) progress.unlocked.push(si);
+});
+
+function isUnlocked(si){ return progress.unlocked.indexOf(si) !== -1; }
+
+function unlockSection(si){
+  if(!isUnlocked(si)) progress.unlocked.push(si);
+}
+
+
+/* ============================================================
+   3. TRẠNG THÁI
    ============================================================ */
 const state = {
   index: 0,
@@ -150,16 +60,20 @@ const state = {
   answers: {}   // { [slideIndex]: { checked, solved, ...dữ liệu riêng của từng dạng } }
 };
 
+let gateError = '';
+
 const el = {
-  slide:    document.getElementById('slide'),
-  barFill:  document.getElementById('barFill'),
-  bar:      document.getElementById('bar'),
-  counter:  document.getElementById('counter'),
-  prevBtn:  document.getElementById('prevBtn'),
-  mainBtn:  document.getElementById('mainBtn'),
-  retryBtn: document.getElementById('retryBtn'),
-  soundBtn: document.getElementById('soundBtn'),
-  fullBtn:  document.getElementById('fullBtn')
+  slide:      document.getElementById('slide'),
+  slideInner: document.getElementById('slideInner'),
+  barFill:   document.getElementById('barFill'),
+  bar:       document.getElementById('bar'),
+  counter:   document.getElementById('counter'),
+  prevBtn:   document.getElementById('prevBtn'),
+  mainBtn:   document.getElementById('mainBtn'),
+  retryBtn:  document.getElementById('retryBtn'),
+  soundBtn:  document.getElementById('soundBtn'),
+  fullBtn:   document.getElementById('fullBtn'),
+  secChips:  document.getElementById('secChips')
 };
 
 const LETTERS = ['A','B','C','D','E','F'];
@@ -167,7 +81,7 @@ const PAIR_COLORS = ['var(--pair-1)','var(--pair-2)','var(--pair-3)','var(--pair
 
 
 /* ============================================================
-   3. TIỆN ÍCH
+   4. TIỆN ÍCH
    ============================================================ */
 function esc(s){
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
@@ -242,16 +156,36 @@ function confetti(){
 
 
 /* ============================================================
-   4. VẼ GIAO DIỆN THEO type
+   5. VẼ GIAO DIỆN THEO type
    ============================================================ */
 function render(animate){
   const slide = slidesData[state.index];
+  const locked = !isUnlocked(slide._sectionIndex);
   const a = ans(state.index);
 
   el.slide.classList.remove('enter');
-  el.slide.innerHTML = viewOf(slide, a);
+  el.slideInner.innerHTML = locked ? viewGate(slide) : viewOf(slide, a);
   if(animate){ void el.slide.offsetWidth; el.slide.classList.add('enter'); }
-  el.slide.scrollTop = 0;
+  el.slideInner.scrollTop = 0;
+
+  /* Gợi ý cuộn: nếu nội dung cao hơn khung hiển thị, thêm 1 dòng nhắc nhỏ
+     ngay cạnh ô "topic" (Luyện tập / Ôn tập...) để học sinh biết cần cuộn
+     xuống, tránh bỏ sót câu hỏi/đáp án nằm ở phần dưới. Ghép chung 1 dòng
+     với ô topic để không chiếm thêm chỗ, đỡ đẩy nội dung xuống thấp hơn. */
+  if(!locked && el.slideInner.scrollHeight > el.slideInner.clientHeight + 4){
+    const hintText = '⬇️ Trang này dài hơn khung hiển thị — em cuộn xuống để xem đầy đủ nội dung nhé.';
+    const topicEl = el.slideInner.querySelector('.topic');
+    if(topicEl){
+      const row = document.createElement('div');
+      row.className = 'topic-row';
+      topicEl.replaceWith(row);
+      row.appendChild(topicEl);
+      row.insertAdjacentHTML('beforeend', '<span class="scroll-hint">' + hintText + '</span>');
+    } else {
+      el.slideInner.insertAdjacentHTML('afterbegin',
+        '<p class="scroll-hint scroll-hint--standalone">' + hintText + '</p>');
+    }
+  }
 
   const pct = Math.round(((state.index + 1) / slidesData.length) * 100);
   el.barFill.style.width = pct + '%';
@@ -259,7 +193,16 @@ function render(animate){
   el.counter.textContent = 'Trang ' + (state.index + 1) + ' / ' + slidesData.length;
 
   el.prevBtn.hidden = state.index === 0;
-  updateButtons(slide, a);
+
+  if(locked) updateButtonsGate();
+  else       updateButtons(slide, a);
+
+  renderSectionChips(slide._sectionIndex);
+
+  if(locked){
+    const input = document.getElementById('gateInput');
+    if(input) input.focus();
+  }
 }
 
 function viewOf(slide, a){
@@ -284,7 +227,7 @@ function head(s, note){
   return h;
 }
 
-/* ---------- 4.1 Slide lý thuyết ---------- */
+/* ---------- 5.1 Slide lý thuyết ---------- */
 function viewInfo(s){
   let html = '';
   if(s.topic)   html += '<p class="topic">' + esc(s.topic) + '</p>';
@@ -292,8 +235,13 @@ function viewInfo(s){
   if(s.content) html += '<p class="lead">' + s.content + '</p>';
 
   if(s.final){
-    const quizzes = slidesData.filter(x => x.type !== 'info').length;
-    const done = Object.values(state.answers).filter(x => x.solved).length;
+    let quizzes = 0, done = 0;
+    slidesData.forEach((sl, idx) => {
+      if(sl.type === 'info') return;
+      if(s.resetScope === 'section' && sl._sectionIndex !== s._sectionIndex) return;
+      quizzes++;
+      if(state.answers[idx] && state.answers[idx].solved) done++;
+    });
     html += '<div class="score"><em>🏆</em><div>' +
             '<strong>' + done + ' / ' + quizzes + ' câu đúng</strong>' +
             '<span>Em đã trả lời đúng ' + done + ' trên ' + quizzes + ' câu hỏi của bài.</span>' +
@@ -316,11 +264,13 @@ function viewInfo(s){
   return html;
 }
 
-/* ---------- 4.2 Trắc nghiệm 1 đáp án ---------- */
+/* ---------- 5.2 Trắc nghiệm 1 đáp án ---------- */
 function viewSingle(s, a){
+  if(!a.order) a.order = shuffle(s.options.map((_, i) => i));
   let html = head(s, 'Em hãy chọn một đáp án.');
   html += '<div class="options" role="radiogroup" aria-label="Các đáp án">';
-  s.options.forEach((opt, i) => {
+  a.order.forEach((i, pos) => {
+    const opt = s.options[i];
     let cls = 'option';
     if(a.checked){
       cls += ' locked';
@@ -331,7 +281,7 @@ function viewSingle(s, a){
     html += '<label class="' + cls + '">' +
               '<input type="radio" name="choice" value="' + i + '"' +
                 (a.picked === i ? ' checked' : '') + (a.checked ? ' disabled' : '') + '>' +
-              '<span class="letter">' + LETTERS[i] + '</span>' +
+              '<span class="letter">' + LETTERS[pos] + '</span>' +
               '<span class="option-text">' + esc(opt) + '</span>' +
             '</label>';
   });
@@ -339,12 +289,14 @@ function viewSingle(s, a){
   return html;
 }
 
-/* ---------- 4.3 Trắc nghiệm nhiều đáp án ---------- */
+/* ---------- 5.3 Trắc nghiệm nhiều đáp án ---------- */
 function viewMultiple(s, a){
   if(!a.picks) a.picks = [];
+  if(!a.order) a.order = shuffle(s.options.map((_, i) => i));
   let html = head(s, 'Câu này có nhiều hơn một đáp án đúng.');
   html += '<div class="options" role="group" aria-label="Các đáp án">';
-  s.options.forEach((opt, i) => {
+  a.order.forEach((i, pos) => {
+    const opt = s.options[i];
     const picked = a.picks.indexOf(i) !== -1;
     let cls = 'option';
     if(a.checked){
@@ -356,7 +308,7 @@ function viewMultiple(s, a){
     html += '<label class="' + cls + '">' +
               '<input type="checkbox" name="multi" value="' + i + '"' +
                 (picked ? ' checked' : '') + (a.checked ? ' disabled' : '') + '>' +
-              '<span class="letter letter--box">' + LETTERS[i] + '</span>' +
+              '<span class="letter letter--box">' + LETTERS[pos] + '</span>' +
               '<span class="option-text">' + esc(opt) + '</span>' +
             '</label>';
   });
@@ -364,7 +316,7 @@ function viewMultiple(s, a){
   return html;
 }
 
-/* ---------- 4.4 Kéo thả ---------- */
+/* ---------- 5.4 Kéo thả ---------- */
 function viewDragDrop(s, a){
   if(!a.order)  a.order  = shuffle(s.zones.map((_, i) => i));
   if(!a.placed) a.placed = {};
@@ -373,7 +325,6 @@ function viewDragDrop(s, a){
 
   let html = head(s, 'Kéo thẻ vào đúng ô, hoặc bấm thẻ rồi bấm ô muốn thả.');
 
-  // Kho thẻ chưa dùng
   html += '<div class="pool" id="pool">';
   a.order.forEach(i => {
     if(used.indexOf(i) !== -1) return;
@@ -383,7 +334,6 @@ function viewDragDrop(s, a){
   });
   html += '</div>';
 
-  // Các ô đích
   html += '<div class="zones">';
   s.zones.forEach((z, i) => {
     const item = a.placed[i];
@@ -400,88 +350,77 @@ function viewDragDrop(s, a){
   return html;
 }
 
-/* ---------- 4.5 Danh sách thả xuống ---------- */
+/* ---------- 5.5 Danh sách thả xuống ---------- */
 function viewDropdown(s, a){
   if(!a.sel) a.sel = s.blanks.map(() => -1);
+  if(!a.order) a.order = shuffle(s.blanks.map((_, i) => i));
 
-  // Vẽ 1 đoạn văn bản có thể chứa nhiều "___", trả về HTML với các <select> tương ứng.
-  // blankIndex là chỉ số của ô trống ĐẦU TIÊN xuất hiện trong đoạn "text" này (tính theo s.blanks).
-  function renderLine(text, blankIndex){
-    const parts = text.split('___');
-    let out = '';
-    parts.forEach((part, i) => {
-      out += esc(part);
-      if(i < parts.length - 1){
-        const bi = blankIndex + i;
-        const b = s.blanks[bi];
-        let cls = 'pick';
-        if(a.checked) cls += (a.sel[bi] === b.correctAnswer ? ' right' : ' wrong');
-        out += '<select class="' + cls + '" data-b="' + bi + '"' + (a.checked ? ' disabled' : '') + '>' +
-                  '<option value="-1"' + (a.sel[bi] === -1 ? ' selected' : '') + '>— chọn —</option>';
-        b.options.forEach((opt, j) => {
-          out += '<option value="' + j + '"' + (a.sel[bi] === j ? ' selected' : '') + '>' + esc(opt) + '</option>';
-        });
-        out += '</select>';
-      }
+  function selectHTML(bi){
+    const b = s.blanks[bi];
+    let cls = 'pick';
+    if(a.checked) cls += (a.sel[bi] === b.correctAnswer ? ' right' : ' wrong');
+    let out = '<select class="' + cls + '" data-b="' + bi + '"' + (a.checked ? ' disabled' : '') + '>' +
+                '<option value="-1"' + (a.sel[bi] === -1 ? ' selected' : '') + '>— chọn —</option>';
+    b.options.forEach((opt, j) => {
+      out += '<option value="' + j + '"' + (a.sel[bi] === j ? ' selected' : '') + '>' + esc(opt) + '</option>';
     });
+    out += '</select>';
     return out;
   }
 
   let html = '';
   if(s.topic) html += '<p class="topic">' + esc(s.topic) + '</p>';
 
-  // Cố gắng tách câu thành từng phát biểu riêng (mỗi phát biểu chứa đúng 1 ô trống,
-  // kết thúc bằng dấu chấm), để mỗi phát biểu được xuống hàng và tách khỏi câu dẫn/yêu cầu.
-  // Nếu văn bản không theo đúng quy ước này (số câu tách được khác số ô trống),
-  // sẽ dùng lại cách hiển thị liền mạch như cũ để đảm bảo an toàn.
-  let sentences = s.question.split(/(?<=___\.)\s*/).filter(Boolean);
-  const splitMatchesBlanks = sentences.filter(t => t.includes('___')).length === s.blanks.length;
+  /* Chia câu hỏi thành các đoạn theo đúng vị trí "___" — không dựa vào dấu
+     chấm hay bất kỳ dấu câu nào theo sau nữa. Nhờ vậy dấu câu (nếu có) luôn
+     thuộc về phần văn bản bên trái, và ô chọn bên phải không bao giờ có
+     kí tự gì theo sau nó. */
+  const parts = s.question.split('___');
+  const splitMatchesBlanks = parts.length - 1 === s.blanks.length;
 
   if(splitMatchesBlanks){
-    // Nếu câu đầu tiên có phần dẫn nhập trước dấu ":" (VD: "Hãy phân loại ... vào đúng nhóm:"),
-    // tách phần đó ra làm TIÊU ĐỀ của câu hỏi, định dạng giống hệt tiêu đề (h2.question)
-    // của các dạng câu hỏi khác — in đậm, nổi bật ở trên cùng.
-    const colonIdx = sentences[0].indexOf(':');
-    if(colonIdx !== -1 && colonIdx < sentences[0].indexOf('___')){
-      const intro = sentences[0].slice(0, colonIdx + 1).trim();
-      sentences[0] = sentences[0].slice(colonIdx + 1).trim();
+    let firstText = parts[0];
+    const colonIdx = firstText.indexOf(':');
+    if(colonIdx !== -1){
+      const intro = firstText.slice(0, colonIdx + 1).trim();
+      firstText = firstText.slice(colonIdx + 1).trim();
       html += '<h2 class="question">' + esc(intro) + '</h2>';
     }
+    /* Văn bản gốc của từng ô, theo đúng chỉ số ban đầu (chưa xáo trộn) —
+       dùng để tra cứu khi vẽ theo thứ tự đã xáo trộn ở a.order. */
+    const texts = s.blanks.map((b, i) => (i === 0 ? firstText : parts[i]).trim());
 
     html += '<p class="qnote">Em hãy chọn từ đúng trong mỗi ô.</p>';
 
     html += '<div class="sentence-list">';
-    let blankIndex = 0;
-    sentences.forEach(sent => {
-      const blanksInSent = (sent.match(/___/g) || []).length;
-      if(blanksInSent === 1){
-        // Chỉ có 1 ô trống trong phát biểu này: tách riêng phần chữ (bên trái)
-        // và khung chọn đáp án (bên phải, nằm ngoài dòng chữ) thành 2 cột.
-        const idx = sent.indexOf('___');
-        const before = sent.slice(0, idx);
-        const after = sent.slice(idx + 3); // phần còn lại, thường là dấu "."
+    a.order.forEach(bi => {
+      const text = texts[bi];
+      if(text){
         html += '<div class="sentence-row">' +
-                  '<span class="sentence-text">' + esc(before) + '</span>' +
-                  '<span class="sentence-control">' + renderLine('___' + after, blankIndex) + '</span>' +
+                  '<span class="sentence-text">' + esc(text) + '</span>' +
+                  '<span class="sentence-control">' + selectHTML(bi) + '</span>' +
                 '</div>';
       } else {
-        // Nhiều hơn 1 ô trống trong cùng 1 phát biểu: hiển thị liền mạch như cũ.
-        html += '<div class="sentence-row sentence-row--inline">' + renderLine(sent, blankIndex) + '</div>';
+        /* Không có văn bản riêng cho ô này (vd nhiều ô trống liên tiếp) —
+           cho ô chọn chiếm cả dòng để không lệch cột với các dòng khác. */
+        html += '<div class="sentence-row sentence-row--inline">' + selectHTML(bi) + '</div>';
       }
-      blankIndex += blanksInSent;
     });
     html += '</div>';
   } else {
     html += '<p class="qnote">Em hãy chọn từ đúng trong mỗi ô.</p>';
-    html += '<p class="sentence-plain">' + renderLine(s.question, 0) + '</p>';
+    html += '<p class="sentence-plain">' + esc(parts[0]) + selectHTML(0) +
+              parts.slice(1).map((p, i) => esc(p) + (i + 1 < s.blanks.length ? selectHTML(i + 1) : '')).join('') +
+            '</p>';
   }
 
   html += feedbackHTML(s, a);
   return html;
 }
 
-/* ---------- 4.6 Nối cặp ---------- */
+/* ---------- 5.6 Nối cặp ---------- */
 function viewMatching(s, a){
+  if(!a.orderLeft) a.orderLeft = shuffle(s.pairs.map((_, i) => i));
   if(!a.order) a.order = shuffle(s.pairs.map((_, i) => i));
   if(!a.links) a.links = {};
 
@@ -489,7 +428,8 @@ function viewMatching(s, a){
   html += '<div class="match">';
 
   html += '<div class="match__col"><p class="match__head">Cột A</p>';
-  s.pairs.forEach((p, i) => {
+  a.orderLeft.forEach(i => {
+    const p = s.pairs[i];
     const linked = a.links[i] !== undefined;
     let cls = 'card' + (a.sel === i ? ' active' : '') + (linked ? ' linked' : '');
     if(a.checked && linked) cls += (a.links[i] === i ? ' correct' : ' incorrect');
@@ -518,7 +458,7 @@ function viewMatching(s, a){
   return html;
 }
 
-/* ---------- 4.7 Bấm đúng vùng trên hình ---------- */
+/* ---------- 5.7 Bấm đúng vùng trên hình ---------- */
 function viewHotspot(s, a){
   if(!a.hits) a.hits = [];
   const many = s.spots.filter(p => p.correct).length > 1;
@@ -545,7 +485,7 @@ function viewHotspot(s, a){
   return html;
 }
 
-/* ---------- 4.8 Ô phản hồi ---------- */
+/* ---------- 5.8 Ô phản hồi ---------- */
 function feedbackHTML(s, a){
   if(!a.checked) return '';
   if(a.solved){
@@ -555,23 +495,78 @@ function feedbackHTML(s, a){
          (s.hint || 'Em hãy bấm Thử lại và làm lại lần nữa nhé.') + '</p></div>';
 }
 
+/* ---------- 5.9 Màn hình khóa (mật khẩu) ---------- */
+function viewGate(slide){
+  const sec = LESSON.sections[slide._sectionIndex];
+  let html = '<div class="gate">';
+  html += '<div class="gate__icon">🔒</div>';
+  html += '<p class="topic">Phần ' + (slide._sectionIndex + 1) + '</p>';
+  html += '<h1>' + esc(sec.title) + '</h1>';
+  html += '<p class="lead">Nhập mật khẩu cô/thầy đã cho để mở khóa phần học này nhé.</p>';
+  html += '<div class="gate__form">' +
+            '<input type="text" id="gateInput" class="gate__input" ' +
+              'placeholder="Nhập mật khẩu" autocomplete="off" spellcheck="false" autocapitalize="characters">' +
+          '</div>';
+  if(gateError){
+    html += '<div class="feedback no"><em>🔐</em><p>' + esc(gateError) + '</p></div>';
+  }
+  html += '</div>';
+  return html;
+}
+
+/* ---------- 5.10 Dải tiến trình theo phần (bấm để nhảy tới phần đó) ---------- */
+function renderSectionChips(currentSectionIndex){
+  if(!el.secChips) return;
+  el.secChips.innerHTML = LESSON.sections.map((sec, i) => {
+    const locked = !isUnlocked(i);
+    const active = i === currentSectionIndex;
+    let cls = 'sec-chip';
+    if(active) cls += ' active';
+    cls += locked ? ' is-locked' : ' is-unlocked';
+    return '<span class="' + cls + '" data-si="' + i + '" role="button" tabindex="0" ' +
+              'aria-label="Đi tới phần: ' + esc(sec.title) + (locked ? ' (chưa mở khóa)' : '') + '">' +
+              '<span class="sec-chip__mark">' + (locked ? '🔒' : '✓') + '</span>' +
+              esc(sec.title) +
+           '</span>';
+  }).join('');
+}
+
+/** Nhảy tới slide đầu tiên của một phần — nếu phần đó chưa mở khóa,
+    render() sẽ tự hiện màn hình nhập mật khẩu thay vì nội dung. */
+function jumpToSection(si){
+  const idx = firstIndexOfSection(si);
+  if(idx === -1 || idx === state.index) return;
+  state.index = idx;
+  gateError = '';
+  soundTurn();
+  render(true);
+}
+
 
 /* ============================================================
-   5. HAI NÚT DƯỚI CÙNG
+   6. HAI NÚT DƯỚI CÙNG
    ------------------------------------------------------------
-   Chưa kiểm tra   -> [Kiểm tra]
-   Kiểm tra mà sai -> [Thử lại]        (nút Kiểm tra bị ẩn)
-   Đã đúng         -> [Tiếp theo]
+   Màn hình khóa      -> [Mở khóa]
+   Chưa kiểm tra       -> [Kiểm tra]
+   Kiểm tra mà sai     -> [Thử lại]        (nút Kiểm tra bị ẩn)
+   Đã đúng             -> [Tiếp theo]
    Nút Quay lại luôn hiện, trừ trang đầu tiên.
    ============================================================ */
 function isQuiz(slide){ return slide.type !== 'info'; }
+
+function updateButtonsGate(){
+  el.retryBtn.hidden = true;
+  el.mainBtn.hidden  = false;
+  el.mainBtn.textContent = 'Mở khóa';
+  el.mainBtn.dataset.act = 'unlock';
+}
 
 function updateButtons(slide, a){
   const last = state.index === slidesData.length - 1;
 
   if(isQuiz(slide) && !a.solved){
     if(a.checked){
-      el.mainBtn.hidden  = true;    // trả lời sai: bỏ hẳn nút Kiểm tra
+      el.mainBtn.hidden  = true;
       el.retryBtn.hidden = false;
     }else{
       el.mainBtn.hidden  = false;
@@ -584,13 +579,20 @@ function updateButtons(slide, a){
 
   el.retryBtn.hidden = true;
   el.mainBtn.hidden  = false;
+
+  if(last && slide.final && slide.resetScope === 'section'){
+    el.mainBtn.textContent = 'Làm lại phần này';
+    el.mainBtn.dataset.act = 'restart-section';
+    return;
+  }
+
   el.mainBtn.textContent = last ? 'Học lại từ đầu' : 'Tiếp theo';
   el.mainBtn.dataset.act = last ? 'restart' : 'next';
 }
 
 
 /* ============================================================
-   6. CHẤM BÀI
+   7. CHẤM BÀI
    ============================================================ */
 function check(){
   const s = slidesData[state.index];
@@ -651,9 +653,9 @@ function nudge(msg){
   el.slide.classList.add('shake');
   setTimeout(() => el.slide.classList.remove('shake'), 450);
   soundWrong();
-  const old = el.slide.querySelector('.feedback');
+  const old = el.slideInner.querySelector('.feedback');
   if(old) old.remove();
-  el.slide.insertAdjacentHTML('beforeend',
+  el.slideInner.insertAdjacentHTML('beforeend',
     '<div class="feedback no"><em>✋</em><p>' + esc(msg) + '</p></div>');
 }
 
@@ -663,9 +665,18 @@ function retry(){
   const a = ans();
   a.checked = false;
 
-  if(s.type === 'quiz_single')   a.picked = undefined;
-  if(s.type === 'quiz_multiple') a.picks = [];
-  if(s.type === 'quiz_dropdown') a.sel = s.blanks.map(() => -1);
+  if(s.type === 'quiz_single'){
+    a.picked = undefined;
+    a.order = shuffle(s.options.map((_, i) => i));
+  }
+  if(s.type === 'quiz_multiple'){
+    a.picks = [];
+    a.order = shuffle(s.options.map((_, i) => i));
+  }
+  if(s.type === 'quiz_dropdown'){
+    a.sel = s.blanks.map(() => -1);
+    a.order = shuffle(s.blanks.map((_, i) => i));
+  }
   if(s.type === 'quiz_hotspot')  a.hits = [];
 
   if(s.type === 'quiz_matching'){
@@ -673,6 +684,8 @@ function retry(){
     Object.keys(a.links).forEach(k => { if(a.links[k] === Number(k)) kept[k] = a.links[k]; });
     a.links = kept;
     a.sel = null;
+    a.order = shuffle(s.pairs.map((_, i) => i));
+    a.orderLeft = shuffle(s.pairs.map((_, i) => i));
   }
   if(s.type === 'quiz_dragdrop'){
     const kept = {};
@@ -684,14 +697,39 @@ function retry(){
   render(false);
 }
 
+/** Kiểm tra mật khẩu của section chứa slide hiện tại. */
+function tryUnlock(){
+  const slide = slidesData[state.index];
+  const sec = LESSON.sections[slide._sectionIndex];
+  const input = document.getElementById('gateInput');
+  const val = (input ? input.value : '').trim();
+
+  if(!val) return nudge('Em hãy nhập mật khẩu trước nhé.');
+
+  if(val.toUpperCase() === String(sec.password).toUpperCase()){
+    gateError = '';
+    unlockSection(slide._sectionIndex);
+    soundRight();
+    confetti();
+    render(true);
+  }else{
+    gateError = 'Hmm... chưa đúng rồi! Thử lại nhé 🔐';
+    soundWrong();
+    render(false);
+    el.slide.classList.add('shake');
+    setTimeout(() => el.slide.classList.remove('shake'), 450);
+  }
+}
+
 
 /* ============================================================
-   7. ĐIỀU HƯỚNG
+   8. ĐIỀU HƯỚNG
    ============================================================ */
 function go(step){
   const next = state.index + step;
   if(next < 0 || next >= slidesData.length) return;
   state.index = next;
+  gateError = '';
   soundTurn();
   render(true);
   el.slide.focus({ preventScroll:true });
@@ -700,21 +738,37 @@ function go(step){
 function restart(){
   state.index = 0;
   state.answers = {};
+  gateError = '';
+  render(true);
+}
+
+/** Làm lại chỉ 1 phần (dùng cho slide tổng kết có resetScope:'section',
+    ví dụ phần "Ôn tập") — xoá đáp án của riêng các slide trong phần đó
+    và quay về slide đầu tiên của phần, không đụng tới các phần khác. */
+function restartSection(){
+  const si = slidesData[state.index]._sectionIndex;
+  Object.keys(state.answers).forEach(idx => {
+    if(slidesData[idx] && slidesData[idx]._sectionIndex === si) delete state.answers[idx];
+  });
+  state.index = firstIndexOfSection(si);
+  gateError = '';
   render(true);
 }
 
 
 /* ============================================================
-   8. SỰ KIỆN
+   9. SỰ KIỆN
    ============================================================ */
 el.prevBtn.addEventListener('click', () => go(-1));
 el.retryBtn.addEventListener('click', retry);
 
 el.mainBtn.addEventListener('click', () => {
   const act = el.mainBtn.dataset.act;
-  if(act === 'check')        check();
-  else if(act === 'restart') restart();
-  else                       go(1);
+  if(act === 'check')                check();
+  else if(act === 'restart')         restart();
+  else if(act === 'restart-section') restartSection();
+  else if(act === 'unlock')          tryUnlock();
+  else                                go(1);
 });
 
 /* --- Chọn đáp án: radio, checkbox, dropdown --- */
@@ -737,12 +791,20 @@ el.slide.addEventListener('change', e => {
   }
 });
 
+/* --- Bấm vào chip "Phần X" trên đầu trang: nhảy tới trang đầu của phần đó --- */
+if(el.secChips){
+  el.secChips.addEventListener('click', e => {
+    const chip = e.target.closest('.sec-chip');
+    if(!chip) return;
+    jumpToSection(Number(chip.dataset.si));
+  });
+}
+
 /* --- Bấm: nối cặp, kéo thả (chế độ chạm), hotspot --- */
 el.slide.addEventListener('click', e => {
   const a = ans();
   if(a.checked) return;
 
-  // Nối cặp
   const card = e.target.closest('.card');
   if(card){
     const i = Number(card.dataset.i);
@@ -757,7 +819,6 @@ el.slide.addEventListener('click', e => {
     return render(false);
   }
 
-  // Kéo thả — bấm thẻ để cầm
   const chip = e.target.closest('.chip');
   if(chip){
     const i = Number(chip.dataset.i);
@@ -765,14 +826,12 @@ el.slide.addEventListener('click', e => {
     return render(false);
   }
 
-  // Kéo thả — bấm ô để thả hoặc lấy thẻ ra
   const zone = e.target.closest('.zone');
   if(zone){
     dropInto(Number(zone.dataset.i));
     return;
   }
 
-  // Hotspot
   const spot = e.target.closest('.spot');
   if(spot){
     const i = Number(spot.dataset.spot);
@@ -785,7 +844,7 @@ el.slide.addEventListener('click', e => {
 
 function dropInto(zoneIndex){
   const a = ans();
-  if(a.placed[zoneIndex] !== undefined){      // ô đang có thẻ: lấy thẻ ra
+  if(a.placed[zoneIndex] !== undefined){
     delete a.placed[zoneIndex];
     a.grab = null;
   }else if(a.grab !== null && a.grab !== undefined){
@@ -829,10 +888,16 @@ el.slide.addEventListener('drop', e => {
 /* --- Phím tắt cho lớp học / máy chiếu --- */
 document.addEventListener('keydown', e => {
   const t = e.target;
+
+  // Ô nhập mật khẩu: Enter để thử mở khóa ngay
+  if(t.id === 'gateInput'){
+    if(e.key === 'Enter'){ e.preventDefault(); tryUnlock(); }
+    return;
+  }
+
   if(t.tagName === 'INPUT' || t.tagName === 'SELECT') return;
 
-  // Đang đứng trên một thẻ tương tác thì Enter / Space kích hoạt chính thẻ đó
-  const piece = t.closest && t.closest('.chip, .zone, .card, .spot');
+  const piece = t.closest && t.closest('.chip, .zone, .card, .spot, .sec-chip');
   if(piece && (e.key === 'Enter' || e.key === ' ')){
     e.preventDefault();
     piece.click();
@@ -851,11 +916,12 @@ document.addEventListener('keydown', e => {
     else if(!el.retryBtn.hidden) el.retryBtn.click();
   }
   else if(/^[1-6]$/.test(e.key) && !a.checked){
-    const i = Number(e.key) - 1;
-    if(s.type === 'quiz_single' && i < s.options.length){
-      a.picked = i; render(false);
+    const pos = Number(e.key) - 1;
+    if(s.type === 'quiz_single' && a.order && pos < a.order.length){
+      a.picked = a.order[pos]; render(false);
     }
-    else if(s.type === 'quiz_multiple' && i < s.options.length){
+    else if(s.type === 'quiz_multiple' && a.order && pos < a.order.length){
+      const i = a.order[pos];
       const at = a.picks.indexOf(i);
       if(at === -1) a.picks.push(i); else a.picks.splice(at, 1);
       render(false);
@@ -877,10 +943,10 @@ el.fullBtn.addEventListener('click', () => {
 
 
 /* ============================================================
-   9. KHỞI ĐỘNG
+   10. KHỞI ĐỘNG
    ============================================================ */
 document.getElementById('lessonName').innerHTML =
-  '<span>' + CONFIG.icon + '</span> ' + CONFIG.title;
-document.title = CONFIG.title;
+  '<span>' + LESSON.icon + '</span> ' + LESSON.title;
+document.title = LESSON.title;
 
 render(true);
