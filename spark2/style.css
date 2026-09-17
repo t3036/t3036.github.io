@@ -1,0 +1,780 @@
+/* ===========================================================
+   BÀI GIẢNG TƯƠNG TÁC — BẢNG MÀU & GIAO DIỆN
+   -----------------------------------------------------------
+   Muốn đổi "tông" cả ứng dụng: chỉ cần sửa các biến trong
+   khối :root ngay bên dưới, không cần đụng tới phần còn lại.
+   =========================================================== */
+
+/* ============================================================
+   1. TOKEN HỆ THỐNG
+   ============================================================ */
+:root{
+  --ink:        #252a52;   /* mực xanh đậm: chữ + viền */
+  --ink-soft:   #5f6693;
+  --paper:      #ffffff;
+  --sky:        #d7ebff;   /* nền lớp học */
+  --sky-deep:   #b4d8fb;
+  --sun:        #ffc93c;   /* nút chính */
+  --sun-deep:   #f0a92b;
+  --grass:      #1faf6d;   /* đúng */
+  --grass-soft: #e0f7ec;
+  --berry:      #ff566c;   /* sai */
+  --berry-soft: #ffe7ea;
+  --lilac:      #8b7bff;
+
+  --pair-1:#ff8a3d; --pair-2:#3aa9ff; --pair-3:#8b7bff; --pair-4:#1faf6d;
+
+  --r-lg: 30px;
+  --r-md: 20px;
+  --r-sm: 14px;
+
+  --shadow-card: 0 12px 0 rgba(37,42,82,.10);
+  --shadow-btn:  0 5px 0 var(--ink);
+
+  --font-display: "Baloo 2", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Be Vietnam Pro", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+html,body{height:100%}
+
+body{
+  font-family:var(--font-body);
+  color:var(--ink);
+  background:var(--sky);
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(37,42,82,.10) 1.5px, transparent 0);
+  background-size:22px 22px;
+  -webkit-font-smoothing:antialiased;
+  overflow:hidden;
+}
+
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,select{font-family:inherit}
+
+:focus-visible{outline:4px solid var(--lilac);outline-offset:3px;border-radius:6px}
+
+/* ============================================================
+   2. KHUNG ỨNG DỤNG
+   ============================================================ */
+.app{
+  height:100dvh;
+  display:grid;
+  grid-template-rows:auto 1fr auto;
+  gap:clamp(6px,1vh,14px);
+  padding:0 clamp(10px,2.2vw,28px) clamp(8px,1.6vh,18px);
+  max-width:1180px;
+  margin:0 auto;
+}
+
+/* ---- 2.1 Thanh trên cùng: tiến trình ---- */
+.topbar{padding-top:clamp(6px,1vh,12px)}
+
+.progress{
+  height:12px;
+  background:var(--paper);
+  border:3px solid var(--ink);
+  border-radius:999px;
+  overflow:hidden;
+}
+.progress__fill{
+  height:100%;
+  width:0%;
+  background:repeating-linear-gradient(115deg,var(--sun) 0 14px,var(--sun-deep) 14px 28px);
+  border-radius:999px;
+  transition:width .45s cubic-bezier(.34,1.3,.64,1);
+}
+
+.topbar__row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:7px;
+  flex-wrap:wrap;
+}
+
+.lesson-name{
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:clamp(15px,2vw,20px);
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.lesson-name span{font-size:1.25em;line-height:1}
+
+.tools{display:flex;align-items:center;gap:8px}
+
+.counter{
+  font-weight:700;
+  font-size:15px;
+  background:var(--paper);
+  border:3px solid var(--ink);
+  border-radius:999px;
+  padding:4px 14px;
+  white-space:nowrap;
+}
+
+.icon-btn{
+  width:44px;height:44px;
+  display:grid;place-items:center;
+  font-size:20px;
+  background:var(--paper);
+  border:3px solid var(--ink);
+  border-radius:50%;
+  transition:transform .12s;
+}
+.icon-btn:hover{transform:translateY(-2px)}
+.icon-btn[aria-pressed="false"]{opacity:.45}
+
+/* ---- 2.1c Nút "Toàn màn hình" — to hơn, có chữ, để không bị bỏ sót ---- */
+.fs-btn{
+  display:flex;align-items:center;gap:8px;
+  height:44px;
+  padding:0 16px 0 14px;
+  font-weight:700;
+  font-size:clamp(13px,1.6vw,15px);
+  background:var(--paper);
+  border:3px solid var(--ink);
+  border-radius:999px;
+  white-space:nowrap;
+  transition:transform .12s, background .15s;
+}
+.fs-btn:hover{transform:translateY(-2px);background:var(--sky)}
+.fs-btn__icon{font-size:19px;line-height:1}
+
+/* ---- 2.1b Dải chip các phần học (Phần 1 / Phần 2 / Phần 3...) ---- */
+.sec-chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:6px;
+}
+.sec-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-weight:600;
+  font-size:clamp(12px,1.4vw,14px);
+  background:var(--paper);
+  border:3px solid var(--ink);
+  border-radius:999px;
+  padding:3px 10px 3px 7px;
+  opacity:.55;
+  cursor:pointer;
+  transition:opacity .15s, background .15s, transform .15s;
+}
+.sec-chip:hover{opacity:.9;transform:translateY(-1px)}
+.sec-chip:active{transform:translateY(0)}
+.sec-chip__mark{
+  display:grid;place-items:center;
+  width:20px;height:20px;
+  font-size:11px;
+  border-radius:50%;
+  background:var(--sky);
+}
+.sec-chip.is-unlocked{opacity:.85}
+.sec-chip.is-unlocked .sec-chip__mark{background:var(--grass-soft);color:var(--grass)}
+.sec-chip.active{
+  opacity:1;
+  background:var(--sun);
+  transform:translateY(-1px);
+}
+.sec-chip.active .sec-chip__mark{background:var(--paper)}
+.sec-chip.is-locked.active .sec-chip__mark{background:var(--paper)}
+
+/* ---- 2.2 Sân khấu + thẻ slide ---- */
+.stage{min-height:0;display:flex}
+
+.slide{
+  flex:1;
+  min-height:0;
+  background:var(--paper);
+  border:4px solid var(--ink);
+  border-radius:var(--r-lg);
+  box-shadow:var(--shadow-card);
+  overflow:hidden;         /* viền/bo góc cố định, không bao giờ bị thanh cuộn đè lên */
+  display:flex;
+  flex-direction:column;
+}
+.slide.enter{animation:slideIn .34s cubic-bezier(.34,1.2,.64,1) both}
+@keyframes slideIn{
+  from{opacity:0;transform:translateY(14px) scale(.985)}
+  to{opacity:1;transform:none}
+}
+.slide.shake{animation:shake .42s}
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  20%{transform:translateX(-9px)}
+  40%{transform:translateX(8px)}
+  60%{transform:translateX(-5px)}
+  80%{transform:translateX(3px)}
+}
+
+/* Phần thật sự cuộn — nằm bên trong .slide, có thêm đệm phải riêng để
+   thanh cuộn (kể cả thanh cuộn "mặc định" to của Windows/Chrome) luôn
+   nằm tách biệt khỏi viền ngoài, không bao giờ đè lên góc bo tròn. */
+.slide__inner{
+  flex:1;
+  min-height:0;
+  padding:clamp(12px,2.2vh,26px) clamp(6px,1.4vw,16px) clamp(12px,2.2vh,26px) clamp(16px,3.4vw,40px);
+  margin-right:clamp(6px,1vw,10px);
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  display:flex;
+  flex-direction:column;
+  gap:clamp(8px,1.5vh,16px);
+  scrollbar-width:thin;
+  scrollbar-color:var(--sky-deep) transparent;
+}
+.slide__inner::-webkit-scrollbar{width:8px}
+.slide__inner::-webkit-scrollbar-track{background:transparent}
+.slide__inner::-webkit-scrollbar-thumb{
+  background:var(--sky-deep);
+  border-radius:999px;
+}
+.slide__inner::-webkit-scrollbar-thumb:hover{background:var(--ink-soft)}
+
+/* Dòng nhắc nhỏ "cần cuộn xuống" — ghép cùng dòng với ô "topic" (Luyện tập /
+   Ôn tập...) qua .topic-row, chỉ tự xuất hiện khi nội dung dài hơn khung
+   (xem logic thêm/không thêm trong app.js, hàm render()). */
+.topic-row{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:10px;
+}
+.scroll-hint{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:clamp(12px,1.4vw,14px);
+  font-weight:600;
+  color:var(--ink-soft);
+  background:var(--sky);
+  border:2px dashed var(--sky-deep);
+  border-radius:999px;
+  padding:4px 14px;
+}
+/* Trường hợp hiếm: slide không có ô topic để ghép cạnh — hiện thành
+   dòng riêng như trước, thay vì mất hẳn dòng nhắc. */
+.scroll-hint--standalone{align-self:flex-start}
+/* Topic nằm trong .topic-row (cùng dòng với dòng nhắc cuộn) cần căn giữa
+   theo chiều dọc, thay vì kế thừa align-self:flex-start dành cho ngữ
+   cảnh đứng 1 mình theo cột như trước. */
+.topic-row .topic{align-self:center}
+
+/* ---- 2.3 Chân trang điều hướng ---- */
+.nav{display:flex;align-items:center;gap:10px}
+.nav__spacer{flex:1}
+
+.btn{
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:clamp(17px,2.1vw,22px);
+  padding:10px clamp(18px,2.8vw,30px);
+  border:4px solid var(--ink);
+  border-radius:999px;
+  box-shadow:var(--shadow-btn);
+  transition:transform .1s, box-shadow .1s, background .15s;
+  white-space:nowrap;
+}
+.btn:active{transform:translateY(5px);box-shadow:0 0 0 var(--ink)}
+.btn--primary{background:var(--sun)}
+.btn--primary:hover{background:var(--sun-deep)}
+.btn--ghost{background:var(--paper)}
+.btn--ghost:hover{background:var(--sky)}
+.btn--retry{background:var(--berry);color:var(--paper)}
+.btn--retry:hover{background:#f0455c}
+.btn[hidden]{display:none}
+
+/* ============================================================
+   3. NỘI DUNG SLIDE LÝ THUYẾT
+   ============================================================ */
+.topic{
+  align-self:flex-start;
+  font-weight:700;
+  font-size:14px;
+  background:var(--sky);
+  border:3px solid var(--ink);
+  border-radius:999px;
+  padding:4px 14px;
+}
+
+.slide h1{
+  font-family:var(--font-display);
+  font-weight:800;
+  font-size:clamp(28px,4.4vw,44px);
+  line-height:1.12;
+  letter-spacing:-.01em;
+  text-wrap:balance;
+}
+
+.lead{
+  font-size:clamp(17px,2.1vw,22px);
+  line-height:1.55;
+  max-width:90ch; /* chỉ để chặn dòng quá dài trên màn hình siêu rộng, không bó hẹp khung bình thường */
+}
+.lead b{color:var(--lilac)}
+
+.slide-photo{
+  width:100%;
+  max-height:38vh;
+  object-fit:contain;
+  border:4px solid var(--ink);
+  border-radius:var(--r-md);
+  background:var(--sky);
+}
+
+.things{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(128px,1fr));
+  gap:clamp(10px,1.6vw,16px);
+}
+.thing{
+  background:var(--sky);
+  border:3px solid var(--ink);
+  border-radius:var(--r-md);
+  padding:10px 8px 8px;
+  text-align:center;
+}
+.thing em{
+  display:block;font-style:normal;
+  font-size:clamp(32px,4.6vw,44px);line-height:1.1;margin-bottom:6px;
+}
+.thing span{display:block;font-weight:600;font-size:clamp(15px,1.7vw,17px);line-height:1.3}
+.thing small{display:block;font-weight:500;font-size:13px;color:var(--ink-soft)}
+
+.remember{
+  display:flex;gap:14px;align-items:flex-start;
+  background:var(--grass-soft);
+  border:3px solid var(--grass);
+  border-radius:var(--r-md);
+  padding:10px 16px;
+  font-size:clamp(16px,1.9vw,19px);
+  line-height:1.5;
+}
+.remember em{font-style:normal;font-size:26px;line-height:1}
+
+.score{
+  display:flex;align-items:center;gap:18px;
+  background:var(--sun);
+  border:4px solid var(--ink);
+  border-radius:var(--r-md);
+  padding:18px 24px;
+}
+.score em{font-style:normal;font-size:clamp(38px,6vw,58px);line-height:1}
+.score strong{display:block;font-family:var(--font-display);font-size:clamp(26px,3.6vw,36px)}
+.score span{font-size:clamp(16px,2vw,19px);font-weight:500}
+
+/* ============================================================
+   3b. MÀN HÌNH KHÓA MẬT KHẨU (giữa các phần học)
+   ============================================================ */
+.gate{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+  gap:clamp(12px,2vh,18px);
+}
+.gate__icon{
+  align-self:center;
+  font-size:clamp(48px,7vw,72px);
+  line-height:1;
+  filter:drop-shadow(0 4px 0 rgba(37,42,82,.12));
+}
+.gate .topic{align-self:center}
+.gate h1{align-self:center;text-align:center}
+.gate .lead{
+  align-self:center;
+  text-align:center;
+  max-width:52ch;
+  text-wrap:balance; /* chia đều các dòng, tránh rớt 1-2 từ lẻ xuống dòng cuối */
+}
+.gate .feedback{align-self:stretch;max-width:420px;margin:0 auto}
+
+.gate__form{
+  align-self:center;
+  display:flex;
+  gap:10px;
+  width:100%;
+  max-width:360px;
+}
+.gate__input{
+  flex:1;
+  min-width:0;
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:clamp(20px,2.8vw,26px);
+  letter-spacing:.06em;
+  text-align:center;
+  text-transform:uppercase;
+  color:var(--ink);
+  background:var(--sky);
+  border:4px solid var(--ink);
+  border-radius:var(--r-md);
+  padding:12px 14px;
+}
+.gate__input::placeholder{
+  font-family:var(--font-body);
+  font-weight:500;
+  letter-spacing:normal;
+  text-transform:none;
+  color:var(--ink-soft);
+}
+.gate__input:focus-visible{outline:4px solid var(--lilac);outline-offset:3px}
+
+/* ============================================================
+   4. PHẦN CHUNG CỦA CÂU HỎI
+   ============================================================ */
+.question{
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:clamp(22px,3.2vw,34px);
+  line-height:1.25;
+}
+
+.qnote{
+  font-size:clamp(16px,1.9vw,19px);
+  font-weight:500;
+  color:var(--ink-soft);
+  margin-top:-6px;
+}
+
+.feedback{
+  display:flex;gap:12px;align-items:flex-start;
+  border:3px solid;
+  border-radius:var(--r-md);
+  padding:9px 16px;
+  font-size:clamp(16px,1.9vw,19px);
+  line-height:1.5;
+  font-weight:500;
+}
+.feedback em{font-style:normal;font-size:24px;line-height:1.1}
+.feedback.ok{background:var(--grass-soft);border-color:var(--grass)}
+.feedback.no{background:var(--berry-soft);border-color:var(--berry)}
+.feedback b{font-weight:700}
+
+/* ============================================================
+   5. DẠNG 1 & 2 — TRẮC NGHIỆM MỘT / NHIỀU ĐÁP ÁN
+   ============================================================ */
+.options{display:grid;gap:clamp(6px,1vh,10px)}
+
+.option{
+  display:flex;align-items:center;gap:14px;
+  background:var(--paper);
+  border:4px solid var(--ink);
+  border-radius:var(--r-md);
+  padding:clamp(7px,1.1vh,12px) 16px;
+  cursor:pointer;
+  transition:transform .12s, background .15s;
+}
+.option:hover{transform:translateX(5px);background:var(--sky)}
+.option input{position:absolute;opacity:0;width:1px;height:1px}
+.option input:focus-visible + .letter{outline:4px solid var(--lilac);outline-offset:3px}
+
+.letter{
+  flex:none;
+  width:clamp(36px,4.2vw,44px);
+  height:clamp(36px,4.2vw,44px);
+  display:grid;place-items:center;
+  font-family:var(--font-display);
+  font-weight:800;
+  font-size:clamp(17px,2.2vw,22px);
+  background:var(--sky);
+  border:3px solid var(--ink);
+  border-radius:50%;
+}
+.letter--box{border-radius:12px}      /* ô vuông = được chọn nhiều đáp án */
+
+.option-text{font-size:clamp(16px,2vw,21px);font-weight:600;line-height:1.35}
+
+.option.picked{background:var(--sun)}
+.option.picked .letter{background:var(--paper)}
+.option.right{background:var(--grass);color:var(--paper);transform:none}
+.option.right .letter{background:var(--paper);color:var(--grass)}
+.option.wrong{background:var(--berry);color:var(--paper);transform:none}
+.option.wrong .letter{background:var(--paper);color:var(--berry)}
+.option.locked{pointer-events:none}
+.option.locked:not(.right):not(.wrong){opacity:.55}
+
+/* ============================================================
+   6. DẠNG 3 — KÉO THẢ
+   ============================================================ */
+.pool{
+  display:flex;flex-wrap:wrap;gap:10px;
+  min-height:56px;
+  padding:10px;
+  background:var(--sky);
+  border:4px dashed var(--ink);
+  border-radius:var(--r-md);
+}
+.pool:empty{display:grid;place-items:center}
+.pool:empty::after{
+  content:'Em đã thả hết thẻ rồi';
+  font-weight:600;color:var(--ink-soft);
+}
+
+.chip{
+  display:inline-block;
+  background:var(--paper);
+  border:4px solid var(--ink);
+  border-radius:999px;
+  box-shadow:0 4px 0 var(--ink);
+  padding:7px 16px;
+  font-size:clamp(15px,1.9vw,20px);
+  font-weight:600;
+  cursor:grab;
+  user-select:none;
+  transition:transform .12s, background .15s;
+}
+.chip:hover{transform:translateY(-3px)}
+.chip.active{background:var(--sun);transform:translateY(-4px)}
+.chip:active{cursor:grabbing}
+
+.zones{display:grid;gap:clamp(6px,1vh,10px)}
+
+.zone{
+  display:flex;align-items:center;gap:14px;
+  background:var(--paper);
+  border:4px solid var(--ink);
+  border-radius:var(--r-md);
+  padding:clamp(6px,1vh,10px) 14px;
+  cursor:pointer;
+}
+.zone__label{
+  flex:1;
+  font-size:clamp(16px,2vw,21px);
+  font-weight:600;line-height:1.35;
+}
+.zone__slot{
+  flex:none;
+  width:min(48%,280px);
+  min-height:52px;
+  display:grid;place-items:center;
+  text-align:center;
+  padding:6px 12px;
+  background:var(--sky);
+  border:3px dashed var(--ink);
+  border-radius:var(--r-sm);
+  font-size:clamp(15px,1.9vw,20px);
+  font-weight:600;
+  color:var(--ink-soft);
+}
+.zone.over .zone__slot{background:var(--sun);color:var(--ink)}
+.zone.right .zone__slot{
+  background:var(--grass);color:var(--paper);
+  border-style:solid;border-color:var(--grass);
+}
+.zone.wrong .zone__slot{
+  background:var(--berry);color:var(--paper);
+  border-style:solid;border-color:var(--berry);
+}
+
+/* ============================================================
+   7. DẠNG 4 — DANH SÁCH THẢ XUỐNG
+   ============================================================ */
+/* Mỗi phát biểu là 1 hàng: chữ bên trái, khung chọn đáp án tách riêng bên phải
+   (không còn dạng danh sách có dấu chấm đầu dòng) */
+.sentence-list{
+  display:grid;
+  grid-template-columns:1fr auto;
+  align-items:center;
+  column-gap:18px;
+}
+
+/* .sentence-row chỉ là nhóm logic trong lúc render, không tạo khung riêng —
+   nhờ vậy 2 con của nó (text + control) trở thành 2 ô thẳng trong lưới trên,
+   luôn nằm đúng cột trái/phải và không bao giờ bị đẩy xuống dòng khác. */
+.sentence-row{display:contents}
+.sentence-row .sentence-text,
+.sentence-row .sentence-control{
+  padding:9px 0;
+}
+.sentence-row .sentence-text{
+  border-bottom:2px dashed var(--sky-deep);
+}
+.sentence-row:last-child .sentence-text{
+  border-bottom:none;
+  padding-bottom:0;
+}
+.sentence-row:last-child .sentence-control{
+  padding-bottom:0;
+}
+/* Trường hợp dự phòng: 1 dòng có nhiều hơn 1 ô chọn gộp chung (không tách
+   được thành text/control riêng) — cho chiếm hết chiều ngang để luôn bắt
+   đầu một dòng lưới mới, tránh lệch cột với các dòng khác. */
+.sentence-row--inline{
+  display:block;
+  grid-column:1 / -1;
+}
+
+.sentence-text{
+  font-family:var(--font-body);
+  font-weight:400;
+  font-size:clamp(17px,2.2vw,23px);
+  line-height:1.5;
+  color:var(--ink);
+}
+
+.sentence-control{
+  display:flex;
+  align-items:center;
+  gap:2px;
+  justify-self:end;
+  font-family:var(--font-body);
+  font-weight:400;
+  font-size:clamp(17px,2.2vw,23px);
+}
+
+/* Dự phòng: khi không tách được thành danh sách phát biểu riêng,
+   hiển thị liền mạch như câu văn bình thường */
+.sentence-plain{
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:clamp(20px,2.8vw,30px);
+  line-height:1.85;
+}
+
+.pick{
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:clamp(16px,2vw,22px);
+  color:var(--ink);
+  background:var(--sun);
+  border:4px solid var(--ink);
+  border-radius:var(--r-sm);
+  box-shadow:0 4px 0 var(--ink);
+  padding:4px 10px;
+  margin:0 4px;
+  cursor:pointer;
+  max-width:min(100%,320px);
+}
+.pick.right{background:var(--grass);color:var(--paper)}
+.pick.wrong{background:var(--berry);color:var(--paper)}
+.pick option{background:var(--paper);color:var(--ink);font-size:17px}
+
+/* ============================================================
+   8. DẠNG 5 — NỐI CẶP
+   ============================================================ */
+.match{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:clamp(8px,1.6vw,20px);
+  align-items:start;
+}
+.match__col{display:grid;gap:7px;align-content:start}
+.match__head{
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:clamp(14px,1.8vw,18px);
+  color:var(--ink-soft);
+}
+
+.card{
+  display:flex;align-items:center;gap:10px;
+  text-align:left;width:100%;
+  background:var(--paper);
+  border:4px solid var(--ink);
+  border-radius:var(--r-md);
+  padding:clamp(6px,1vh,10px) 12px;
+  font-size:clamp(15px,1.9vw,20px);
+  font-weight:600;line-height:1.3;
+  cursor:pointer;
+  transition:transform .12s, background .15s;
+}
+.card:hover{transform:translateY(-3px)}
+.card em{font-style:normal;font-size:clamp(22px,3vw,28px);line-height:1}
+.card.active{background:var(--sun);transform:translateY(-3px)}
+.card.linked{border-color:var(--dot,var(--lilac))}
+.card.correct{background:var(--grass-soft);border-color:var(--grass);pointer-events:none}
+.card.incorrect{background:var(--berry-soft);border-color:var(--berry)}
+
+.pin{
+  flex:none;margin-left:auto;
+  width:26px;height:26px;
+  display:grid;place-items:center;
+  border-radius:50%;
+  background:var(--dot,var(--lilac));
+  color:#fff;
+  font-family:var(--font-display);
+  font-weight:800;font-size:14px;
+}
+.card.correct .pin{background:var(--grass)}
+
+/* ============================================================
+   9. DẠNG 6 — BẤM ĐÚNG VÙNG TRÊN HÌNH
+   ============================================================ */
+.hotspot{
+  position:relative;
+  border:4px solid var(--ink);
+  border-radius:var(--r-md);
+  overflow:hidden;
+  background:var(--sky);
+}
+.hotspot img{display:block;width:100%;height:auto}
+.hotspot--empty{
+  aspect-ratio:16/9;
+  max-height:46vh;
+  background-image:
+    linear-gradient(rgba(37,42,82,.10) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(37,42,82,.10) 1px, transparent 1px);
+  background-size:10% 10%;
+}
+
+.spot{
+  position:absolute;
+  display:grid;place-items:center;
+  text-align:center;
+  padding:4px;
+  background:rgba(255,255,255,.45);
+  border:4px solid var(--ink);
+  border-radius:var(--r-sm);
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:clamp(14px,1.7vw,18px);
+  line-height:1.2;
+  transition:transform .12s, background .15s;
+}
+.spot:hover{transform:scale(1.04)}
+.spot.picked{background:var(--sun)}
+.spot.right{background:rgba(31,175,109,.85);border-color:var(--grass);color:var(--paper)}
+.spot.wrong{background:rgba(255,86,108,.85);border-color:var(--berry);color:var(--paper)}
+
+/* ============================================================
+   10. PHÁO GIẤY
+   ============================================================ */
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:60;overflow:hidden}
+.confetti i{position:absolute;top:-30px;font-size:24px;animation:fall 1.5s linear forwards}
+@keyframes fall{
+  to{transform:translateY(105vh) rotate(540deg);opacity:.2}
+}
+
+/* ============================================================
+   11. ĐÁP ỨNG + TRỢ NĂNG
+   ============================================================ */
+@media (max-width:640px){
+  .slide{border-radius:22px}
+  .slide__inner{padding:18px 10px 18px 16px;margin-right:4px}
+  .match{grid-template-columns:1fr;gap:8px}
+  .match__col:last-child{margin-top:6px}
+  .lesson-name{font-size:14px}
+  .counter{font-size:13px;padding:3px 10px}
+  .fs-btn{padding:0;width:44px;justify-content:center}
+  .fs-btn__text{display:none}
+  .option{gap:10px;padding:10px 12px}
+  .zone{flex-direction:column;align-items:stretch;gap:8px}
+  .zone__slot{width:100%}
+  .sentence-list{grid-template-columns:1fr}
+  .sentence-text{border-bottom:none;padding-bottom:2px}
+  .sentence-control{justify-self:start;padding-top:0}
+  .sentence-text,.sentence-control{line-height:1.6}
+  .sentence-plain{line-height:2.1}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms !important;transition-duration:.001ms !important}
+}
