@@ -228,7 +228,7 @@ const LESSON = {
             'Biểu tượng đồng hồ / ngày giờ',
             'Biểu tượng loa (âm lượng)'
           ],
-          correctAnswer: 1,
+          correctAnswer: 0,
           hint: 'Ô nào cho phép em gõ tên trò chơi để tìm kiếm ngay?',
           explain: 'Ô tìm kiếm (Search Box) cho phép gõ tên trò chơi và tìm ngay ứng dụng đã cài đặt, nhanh hơn cách lục qua danh sách ở nút Start.'
         }
