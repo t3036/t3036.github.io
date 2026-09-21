@@ -17,10 +17,10 @@
    Để trống '' cho phần nào muốn luôn mở sẵn (không cần mật khẩu).
    ============================================================ */
 const PASSWORDS = {
-  s1: 'SC01',   // Phần 1 — Xử lí sự cố công nghệ
-  s2: 'SC02',   // Phần 2 — Các sự cố công nghệ phổ biến và cách xử lí
-  s3: 'SC03',   // Phần 3 — Sử dụng AI để gợi ý kiểm tra lỗi đơn giản
-  s4: 'SC04'    // Phần 4 — Ôn tập
+  s1: '',   // Phần 1 — Xử lí sự cố công nghệ
+  s2: '',   // Phần 2 — Các sự cố công nghệ phổ biến và cách xử lí
+  s3: '',   // Phần 3 — Sử dụng AI để gợi ý kiểm tra lỗi đơn giản
+  s4: ''    // Phần 4 — Ôn tập
 };
 
 const LESSON = {

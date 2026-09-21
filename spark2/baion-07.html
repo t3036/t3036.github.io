@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ôn tập Bài 7 - Mạng máy tính và Internet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ===========================================================
+   BÀI GIẢNG TƯƠNG TÁC — BẢNG MÀU & GIAO DIỆN
+   =========================================================== */
+:root{
+  --ink:        #252a52;   
+  --ink-soft:   #5f6693;
+  --paper:      #ffffff;
+  --sky:        #d7ebff;   
+  --sky-deep:   #b4d8fb;
+  --sun:        #ffc93c;   
+  --sun-deep:   #f0a92b;
+  --grass:      #1faf6d;   
+  --grass-soft: #e0f7ec;
+  --berry:      #ff566c;   
+  --berry-soft: #ffe7ea;
+  --lilac:      #8b7bff;
+
+  --pair-1:#ff8a3d; --pair-2:#3aa9ff; --pair-3:#8b7bff; --pair-4:#1faf6d;
+
+  --r-lg: 30px;
+  --r-md: 20px;
+  --r-sm: 14px;
+
+  --shadow-card: 0 12px 0 rgba(37,42,82,.10);
+  --shadow-btn:  0 5px 0 var(--ink);
+
+  --font-display: "Baloo 2", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Be Vietnam Pro", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:var(--font-body); color:var(--ink); background:var(--sky);
+  background-image: radial-gradient(circle at 1px 1px, rgba(37,42,82,.10) 1.5px, transparent 0);
+  background-size:22px 22px; -webkit-font-smoothing:antialiased; overflow:hidden;
+}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,select{font-family:inherit}
+:focus-visible{outline:4px solid var(--lilac);outline-offset:3px;border-radius:6px}
+
+.app{
+  height:100dvh; display:grid; grid-template-rows:auto 1fr auto;
+  gap:clamp(6px,1vh,14px); padding:0 clamp(10px,2.2vw,28px) clamp(8px,1.6vh,18px);
+  max-width:1180px; margin:0 auto;
+}
+.topbar{padding-top:clamp(6px,1vh,12px)}
+.progress{height:12px; background:var(--paper); border:3px solid var(--ink); border-radius:999px; overflow:hidden;}
+.progress__fill{height:100%; width:0%; background:repeating-linear-gradient(115deg,var(--sun) 0 14px,var(--sun-deep) 14px 28px); border-radius:999px; transition:width .45s cubic-bezier(.34,1.3,.64,1);}
+.topbar__row{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:7px; flex-wrap:wrap;}
+.lesson-name{font-family:var(--font-display); font-weight:700; font-size:clamp(15px,2vw,20px); display:flex; align-items:center; gap:8px;}
+.lesson-name span{font-size:1.25em;line-height:1}
+.tools{display:flex;align-items:center;gap:8px}
+.counter{font-weight:700; font-size:15px; background:var(--paper); border:3px solid var(--ink); border-radius:999px; padding:4px 14px; white-space:nowrap;}
+.icon-btn{width:44px;height:44px; display:grid;place-items:center; font-size:20px; background:var(--paper); border:3px solid var(--ink); border-radius:50%; transition:transform .12s;}
+.icon-btn:hover{transform:translateY(-2px)}
+.icon-btn[aria-pressed="false"]{opacity:.45}
+.fs-btn{display:flex;align-items:center;gap:8px; height:44px; padding:0 16px 0 14px; font-weight:700; font-size:clamp(13px,1.6vw,15px); background:var(--paper); border:3px solid var(--ink); border-radius:999px; white-space:nowrap; transition:transform .12s, background .15s;}
+.fs-btn:hover{transform:translateY(-2px);background:var(--sky)}
+.fs-btn__icon{font-size:19px;line-height:1}
+.sec-chips{display:flex; flex-wrap:wrap; gap:6px; margin-top:6px;}
+.sec-chip{display:inline-flex; align-items:center; gap:6px; font-weight:600; font-size:clamp(12px,1.4vw,14px); background:var(--paper); border:3px solid var(--ink); border-radius:999px; padding:3px 10px 3px 7px; opacity:.55; cursor:pointer; transition:opacity .15s, background .15s, transform .15s;}
+.sec-chip:hover{opacity:.9;transform:translateY(-1px)}
+.sec-chip__mark{display:grid;place-items:center; width:20px;height:20px; font-size:11px; border-radius:50%; background:var(--sky);}
+.sec-chip.is-unlocked{opacity:.85}
+.sec-chip.is-unlocked .sec-chip__mark{background:var(--paper);border:2px solid var(--sky-deep)}
+.sec-chip.is-complete{opacity:.85}
+.sec-chip.is-complete .sec-chip__mark{background:var(--grass-soft);color:var(--grass)}
+.sec-chip.active{opacity:1; background:var(--sun); transform:translateY(-1px);}
+.sec-chip.active .sec-chip__mark{background:var(--paper)}
+.stage{min-height:0;display:flex}
+.slide{flex:1; min-height:0; background:var(--paper); border:4px solid var(--ink); border-radius:var(--r-lg); box-shadow:var(--shadow-card); overflow:hidden; display:flex; flex-direction:column;}
+.slide.enter{animation:slideIn .34s cubic-bezier(.34,1.2,.64,1) both}
+@keyframes slideIn{from{opacity:0;transform:translateY(14px) scale(.985)} to{opacity:1;transform:none}}
+.slide.shake{animation:shake .42s}
+@keyframes shake{0%,100%{transform:translateX(0)} 20%{transform:translateX(-9px)} 40%{transform:translateX(8px)} 60%{transform:translateX(-5px)} 80%{transform:translateX(3px)}}
+.slide__inner{flex:1; min-height:0; padding:clamp(12px,2.2vh,26px) clamp(6px,1.4vw,16px) clamp(12px,2.2vh,26px) clamp(16px,3.4vw,40px); margin-right:clamp(6px,1vw,10px); overflow-y:auto; overscroll-behavior:contain; display:flex; flex-direction:column; gap:clamp(8px,1.5vh,16px); scrollbar-width:thin; scrollbar-color:var(--sky-deep) transparent;}
+.slide__inner::-webkit-scrollbar{width:8px}
+.slide__inner::-webkit-scrollbar-track{background:transparent}
+.slide__inner::-webkit-scrollbar-thumb{background:var(--sky-deep); border-radius:999px;}
+.slide__inner::-webkit-scrollbar-thumb:hover{background:var(--ink-soft)}
+.topic-row{display:flex; align-items:center; flex-wrap:wrap; gap:10px;}
+.scroll-hint{display:inline-flex; align-items:center; gap:6px; font-size:clamp(12px,1.4vw,14px); font-weight:600; color:var(--ink-soft); background:var(--sky); border:2px dashed var(--sky-deep); border-radius:999px; padding:4px 14px;}
+.scroll-hint--standalone{align-self:flex-start}
+.topic-row .topic{align-self:center}
+.nav{display:flex;align-items:center;gap:10px}
+.nav__spacer{flex:1}
+.btn{font-family:var(--font-display); font-weight:700; font-size:clamp(17px,2.1vw,22px); padding:10px clamp(18px,2.8vw,30px); border:4px solid var(--ink); border-radius:999px; box-shadow:var(--shadow-btn); transition:transform .1s, box-shadow .1s, background .15s; white-space:nowrap;}
+.btn:active{transform:translateY(5px);box-shadow:0 0 0 var(--ink)}
+.btn--primary{background:var(--sun)}
+.btn--primary:hover{background:var(--sun-deep)}
+.btn--ghost{background:var(--paper)}
+.btn--ghost:hover{background:var(--sky)}
+.btn--retry{background:var(--berry);color:var(--paper)}
+.btn--retry:hover{background:#f0455c}
+.btn[hidden]{display:none}
+.topic{align-self:flex-start; font-weight:700; font-size:14px; background:var(--sky); border:3px solid var(--ink); border-radius:999px; padding:4px 14px;}
+.slide h1{font-family:var(--font-display); font-weight:800; font-size:clamp(28px,4.4vw,44px); line-height:1.12; letter-spacing:-.01em; text-wrap:balance;}
+.lead{font-size:clamp(17px,2.1vw,22px); line-height:1.55; max-width:90ch;}
+.lead b{color:var(--lilac)}
+.slide-photo{width:100%; max-height:38vh; object-fit:contain; border:4px solid var(--ink); border-radius:var(--r-md); background:var(--sky);}
+.things{display:grid; grid-template-columns:repeat(auto-fit,minmax(128px,1fr)); gap:clamp(10px,1.6vw,16px);}
+.thing{background:var(--sky); border:3px solid var(--ink); border-radius:var(--r-md); padding:10px 8px 8px; text-align:center;}
+.thing em{display:block;font-style:normal; font-size:clamp(32px,4.6vw,44px);line-height:1.1;margin-bottom:6px;}
+.thing span{display:block;font-weight:600;font-size:clamp(15px,1.7vw,17px);line-height:1.3}
+.thing small{display:block;font-weight:500;font-size:13px;color:var(--ink-soft)}
+.remember{display:flex;gap:14px;align-items:flex-start; background:var(--grass-soft); border:3px solid var(--grass); border-radius:var(--r-md); padding:10px 16px; font-size:clamp(16px,1.9vw,19px); line-height:1.5;}
+.score{display:flex;align-items:center;gap:18px; background:var(--sun); border:4px solid var(--ink); border-radius:var(--r-md); padding:18px 24px;}
+.score em{font-style:normal;font-size:clamp(38px,6vw,58px);line-height:1}
+.score strong{display:block;font-family:var(--font-display);font-size:clamp(26px,3.6vw,36px)}
+.score span{font-size:clamp(16px,2vw,19px);font-weight:500}
+.question{font-family:var(--font-display); font-weight:700; font-size:clamp(22px,3.2vw,34px); line-height:1.25;}
+.qnote{font-size:clamp(16px,1.9vw,19px); font-weight:500; color:var(--ink-soft); margin-top:-6px;}
+.info-note{align-self:flex-start; display:flex; align-items:center; gap:6px; font-size:clamp(12px,1.4vw,14px); font-weight:600; font-style:italic; color:var(--ink-soft); margin-top:auto; padding-top:4px;}
+.feedback{display:flex;gap:12px;align-items:flex-start; border:3px solid; border-radius:var(--r-md); padding:9px 16px; font-size:clamp(16px,1.9vw,19px); line-height:1.5; font-weight:500;}
+.feedback em{font-style:normal;font-size:24px;line-height:1.1}
+.feedback.ok{background:var(--grass-soft);border-color:var(--grass)}
+.feedback.no{background:var(--berry-soft);border-color:var(--berry)}
+.options{display:grid;gap:clamp(6px,1vh,10px)}
+.option{display:flex;align-items:center;gap:14px; background:var(--paper); border:4px solid var(--ink); border-radius:var(--r-md); padding:clamp(7px,1.1vh,12px) 16px; cursor:pointer; transition:transform .12s, background .15s;}
+.option:hover{transform:translateX(5px);background:var(--sky)}
+.option input{position:absolute;opacity:0;width:1px;height:1px}
+.letter{flex:none; width:clamp(36px,4.2vw,44px); height:clamp(36px,4.2vw,44px); display:grid;place-items:center; font-family:var(--font-display); font-weight:800; font-size:clamp(17px,2.2vw,22px); background:var(--sky); border:3px solid var(--ink); border-radius:50%;}
+.letter--box{border-radius:12px}
+.option-text{font-size:clamp(16px,2vw,21px);font-weight:600;line-height:1.35}
+.option.picked{background:var(--sun)}
+.option.picked .letter{background:var(--paper)}
+.option.right{background:var(--grass);color:var(--paper);transform:none}
+.option.right .letter{background:var(--paper);color:var(--grass)}
+.option.wrong{background:var(--berry);color:var(--paper);transform:none}
+.option.wrong .letter{background:var(--paper);color:var(--berry)}
+.option.locked{pointer-events:none}
+.option.locked:not(.right):not(.wrong){opacity:.55}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:60;overflow:hidden}
+.confetti i{position:absolute;top:-30px;font-size:24px;animation:fall 1.5s linear forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(540deg);opacity:.2}}
+@media (max-width:640px){
+  .slide{border-radius:22px}
+  .slide__inner{padding:18px 10px 18px 16px;margin-right:4px}
+  .lesson-name{font-size:14px}
+  .counter{font-size:13px;padding:3px 10px}
+  .fs-btn{padding:0;width:44px;justify-content:center}
+  .fs-btn__text{display:none}
+  .option{gap:10px;padding:10px 12px}
+}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.001ms !important;transition-duration:.001ms !important}}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <header class="topbar">
+    <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="bar">
+      <div class="progress__fill" id="barFill"></div>
+    </div>
+    <div class="topbar__row">
+      <p class="lesson-name" id="lessonName"></p>
+      <div class="tools">
+        <p class="counter" id="counter"></p>
+        <button class="icon-btn" id="soundBtn" aria-pressed="true" title="Bật / tắt âm thanh">🔊</button>
+        <button class="fs-btn" id="fullBtn" title="Phóng to toàn màn hình">
+          <span class="fs-btn__icon">⛶</span><span class="fs-btn__text">Toàn màn hình</span>
+        </button>
+      </div>
+    </div>
+    <div class="sec-chips" id="secChips"></div>
+  </header>
+
+  <main class="stage">
+    <section class="slide" id="slide" tabindex="-1"><div class="slide__inner" id="slideInner"></div></section>
+  </main>
+
+  <footer class="nav">
+    <button class="btn btn--ghost" id="prevBtn">Quay lại</button>
+    <div class="nav__spacer"></div>
+    <button class="btn btn--retry" id="retryBtn" hidden>Thử lại</button>
+    <button class="btn btn--primary" id="mainBtn">Tiếp theo</button>
+  </footer>
+</div>
+
+<script>
+const LESSON = {
+  id:    'bai7',
+  icon:  '🌐',
+  title: 'Ôn tập Bài 7 — Mạng máy tính và Internet',
+  sections: [
+    {
+      id: 's1',
+      title: 'Luyện tập',
+      password: '',
+      slides: [
+        {
+          type: 'info',
+          topic: 'Khởi động',
+          title: 'Chào mừng em đến với bài ôn tập!',
+          content: 'Trong phần này, chúng ta sẽ ôn lại các kiến thức về Mạng máy tính, Internet và Lưu trữ đám mây.',
+          imageUrl: null,
+          remember: 'Hãy đọc kỹ từng câu hỏi trước khi trả lời.'
+        },
+        {
+          type: 'quiz_single',
+          topic: 'Câu hỏi 1',
+          question: 'Em gọi các thiết bị máy tính được kết nối với nhau có thể trao đổi dữ liệu và chia sẻ tài nguyên là gì?',
+          options: ['Bộ nhớ (Memory)', 'Ethernet', 'Bluetooth', 'Mạng máy tính (Computer network)'],
+          correctAnswer: 3
+        },
+        {
+          type: 'quiz_multiple',
+          topic: 'Câu hỏi 2',
+          question: 'Em hãy cho biết, trong các tùy chọn sau, tùy chọn nào là những ưu điểm của điện toán đám mây? (Chọn 4)',
+          options: ['Dung lượng lưu trữ có trả phí.', 'Cần có kết nối Internet để hoạt động.', 'Tự động sao lưu dự phòng.', 'Nhóm quyền truy cập vào cùng một tài liệu.', 'Truy cập bất cứ nơi nào có kết nối Internet.', 'Khả năng chia sẻ mọi thứ với nhiều người.'],
+          correctAnswers: [2, 3, 4, 5]
+        },
+        {
+          type: 'quiz_multiple',
+          topic: 'Câu hỏi 3',
+          question: 'Em hãy cho biết, những thiết bị nào sau đây phụ thuộc nhiều vào công nghệ lưu trữ điện toán đám mây? (Chọn 2)',
+          options: ['Smartphone', 'Tablet', 'Desktop', 'Laptop'],
+          correctAnswers: [0, 1]
+        },
+        {
+          type: 'quiz_multiple',
+          topic: 'Câu hỏi 4',
+          question: 'Em hãy cho biết, tùy chọn nào sau đây là lợi thế của việc sử dụng USB để lưu trữ các tập tin so với lưu trữ điện toán đám mây? (Chọn 2)',
+          options: ['USB có thể chứa nhiều dữ liệu hơn.', 'Em không cần kết nối Internet để truy cập các tập tin.', 'USB không có giới hạn dung lượng.', 'Các tập tin của em an toàn hơn (khỏi các cuộc tấn công trực tuyến).'],
+          correctAnswers: [1, 3]
+        },
+        {
+          type: 'quiz_single',
+          topic: 'Câu hỏi 5',
+          question: 'Hầu hết các điện thoại thông minh đều có tùy chọn gói dữ liệu di động. Tùy chọn nào sau đây mô tả chính xác dữ liệu di động là gì?',
+          options: ['Điện thoại của em có bao nhiêu bộ nhớ.', 'Truy cập Internet không dây có tính phí, được đo bằng mức tiêu thụ dữ liệu.', 'Em được phép gửi bao nhiêu tin nhắn văn bản.', 'Em được phân bổ bao nhiêu thời gian để gọi điện thoại.'],
+          correctAnswer: 1
+        },
+        {
+          type: 'quiz_single',
+          topic: 'Câu hỏi 6',
+          question: 'Em hãy cho biết, trong các tùy chọn sau, tùy chọn nào là loại lưu trữ dữ liệu được truy cập từ xa thông qua kết nối Internet?',
+          options: ['Lưu trữ đám mây', 'Ổ cứng ngoài', 'Bộ lưu trữ USB', 'Đĩa CD'],
+          correctAnswer: 0
+        },
+        {
+          type: 'quiz_single',
+          topic: 'Câu hỏi 7',
+          question: 'Em hãy cho biết, tùy chọn nào là phương pháp cho phép truy cập và cập nhật các tập tin trực tuyến?',
+          options: ['Ổ cứng ngoài', 'Email', 'Bộ lưu trữ USB', 'Lưu trữ đám mây'],
+          correctAnswer: 3
+        },
+        {
+          type: 'quiz_single',
+          topic: 'Câu hỏi 8',
+          question: 'Địa chỉ của một trang web được gọi là gì?',
+          options: ['URL', 'Tác giả (Author)', 'Nhà xuất bản (Publisher)', 'Tiêu đề trang (Page title)'],
+          correctAnswer: 0
+        },
+        {
+          type: 'quiz_single',
+          topic: 'Câu hỏi 9',
+          question: 'Hành động nỗ lực khai thác hệ thống máy tính hoặc mạng riêng bên trong máy tính được gọi là gì?',
+          options: ['Hacking', 'Công dân kỷ nguyên số', 'Dấu chân kỹ thuật số', 'Bystander'],
+          correctAnswer: 0
+        },
+        {
+          type: 'quiz_multiple',
+          topic: 'Câu hỏi 10',
+          question: 'Em hãy cho biết, phần mềm Virus ảnh hưởng đến hệ thống máy tính như thế nào? (Chọn 2)',
+          options: ['Phá hủy bo mạch chủ.', 'Xóa hoặc làm hỏng dữ liệu.', 'Liên quan đến một cuộc tấn công DoS.', 'Thu thập và chuyển thông tin cá nhân.'],
+          correctAnswers: [1, 3]
+        },
+        {
+          type: 'quiz_multiple',
+          topic: 'Câu hỏi 11',
+          question: 'Hai lợi ích của việc tải xuống (Download) tập tin thay vì phát trực tuyến (Stream) tập tin đó là gì? (Chọn 2)',
+          options: ['Không cần phải đợi trước khi chạy tập tin.', 'Phát trực tuyến có khả năng phát lại mượt mà hơn.', 'Sau khi tải xuống hoàn tất, quá trình phát lại đáng tin cậy hơn.', 'Tập tin đã được tải xuống không yêu cầu kết nối Internet để phát lại.', 'Không yêu cầu dung lượng lưu trữ.'],
+          correctAnswers: [2, 3]
+        },
+        {
+          type: 'quiz_single',
+          topic: 'Câu hỏi 12',
+          question: 'Em hãy cho biết, mạng kết nối các máy tính trên toàn cầu được gọi là gì?',
+          options: ['Internet', 'RAM', 'Computer', 'Social Network'],
+          correctAnswer: 0
+        },
+        {
+          type: 'quiz_multiple',
+          topic: 'Câu hỏi 13',
+          question: 'Em hãy cho biết, tùy chọn nào sau đây là đúng khi nói về ứng dụng của mạng máy tính trong đời sống? (Chọn 2)',
+          options: ['Mua sắm trực tuyến.', 'Giúp các máy tính có thể hoạt động.', 'Tạo ra năng lượng điện.', 'Giao lưu với nhiều người bạn trên mạng xã hội.'],
+          correctAnswers: [0, 3]
+        },
+        {
+          type: 'quiz_single',
+          topic: 'Câu hỏi 14',
+          question: 'Tùy chọn nào sau đây KHÔNG thể hiện ứng dụng của Mạng trong "Hệ thống an ninh và giám sát"?',
+          options: ['Camera kết nối với Mạng để cung cấp hình ảnh, Video tại các cảng hàng không.', 'Cảm biến hồng ngoại kết nối với Mạng để cung cấp các tín hiệu thu được tại các cổng bảo vệ.', 'Điện thoại kết nối với Mạng có kết nối Internet để xem Video trên Youtube.'],
+          correctAnswer: 2
+        },
+        {
+          type: 'info',
+          final: true,
+          topic: 'Hoàn thành',
+          title: 'Tuyệt vời, em đã hoàn thành bài ôn tập!',
+          content: 'Em đã ôn lại thành công các kiến thức về Mạng máy tính và Internet.',
+          remember: 'Hãy tiếp tục cố gắng ở các bài học tiếp theo nhé!'
+        }
+      ]
+    }
+  ]
+};
+
+/* ============================================================
+   BỘ MÁY CHẠY ỨNG DỤNG (APP.JS)
+   ============================================================ */
+const slidesData = [];
+LESSON.sections.forEach((sec, si) => {
+  sec.slides.forEach((sl, li) => {
+    const copy = Object.assign({}, sl);
+    copy._sectionIndex = si; copy._slideIndexInSection = li; copy._isFirstOfSection = li === 0;
+    slidesData.push(copy);
+  });
+});
+function sectionOf(i){ return LESSON.sections[slidesData[i]._sectionIndex]; }
+function firstIndexOfSection(si){ return slidesData.findIndex(s => s._sectionIndex === si); }
+
+const progress = { unlocked: [] };
+LESSON.sections.forEach((sec, si) => { if(!sec.password) progress.unlocked.push(si); });
+function isUnlocked(si){ return progress.unlocked.indexOf(si) !== -1; }
+function unlockSection(si){ if(!isUnlocked(si)) progress.unlocked.push(si); }
+
+const state = { index: 0, sound: true, answers: {}, visited: new Set() };
+let gateError = '';
+
+const el = {
+  slide: document.getElementById('slide'), slideInner: document.getElementById('slideInner'),
+  barFill: document.getElementById('barFill'), bar: document.getElementById('bar'), counter: document.getElementById('counter'),
+  prevBtn: document.getElementById('prevBtn'), mainBtn: document.getElementById('mainBtn'), retryBtn: document.getElementById('retryBtn'),
+  soundBtn: document.getElementById('soundBtn'), fullBtn: document.getElementById('fullBtn'), secChips: document.getElementById('secChips')
+};
+
+const LETTERS = ['A','B','C','D','E','F'];
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+function ans(i){ if(i === undefined) i = state.index; if(!state.answers[i]) state.answers[i] = { checked:false, solved:false, tries:0 }; return state.answers[i]; }
+function shuffle(arr){ const a = arr.slice(); for(let i=a.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]] = [a[j],a[i]]; } return a; }
+function sameSet(a, b){ if(a.length !== b.length) return false; const x = a.slice().sort((m,n)=>m-n), y = b.slice().sort((m,n)=>m-n); return x.every((v,i)=> v === y[i]); }
+
+let audioCtx = null;
+function beep(notes){
+  if(!state.sound) return;
+  try{
+    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+    if(audioCtx.state === 'suspended') audioCtx.resume();
+    notes.forEach(([freq, at, dur]) => {
+      const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+      osc.type = 'triangle'; osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0.0001, audioCtx.currentTime + at);
+      gain.gain.exponentialRampToValueAtTime(0.22, audioCtx.currentTime + at + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + at + dur);
+      osc.connect(gain).connect(audioCtx.destination);
+      osc.start(audioCtx.currentTime + at); osc.stop(audioCtx.currentTime + at + dur + 0.02);
+    });
+  }catch(e){}
+}
+const soundRight = () => beep([[660,0,.14],[880,.12,.2]]);
+const soundWrong = () => beep([[220,0,.22]]);
+const soundTurn  = () => beep([[520,0,.07]]);
+
+function confetti(){
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const box = document.createElement('div'); box.className = 'confetti';
+  const bits = ['⭐','🎉','✨','🎈','🌟','💛'];
+  for(let i=0;i<26;i++){
+    const b = document.createElement('i'); b.textContent = bits[Math.floor(Math.random()*bits.length)];
+    b.style.left = Math.random()*100 + '%'; b.style.animationDelay = (Math.random()*0.35) + 's';
+    b.style.animationDuration = (1.1 + Math.random()*0.8) + 's'; b.style.fontSize = (16 + Math.random()*18) + 'px';
+    box.appendChild(b);
+  }
+  document.body.appendChild(box); setTimeout(() => box.remove(), 2200);
+}
+
+function render(animate){
+  const slide = slidesData[state.index];
+  const locked = !isUnlocked(slide._sectionIndex);
+  const a = ans(state.index);
+
+  el.slide.classList.remove('enter');
+  el.slideInner.innerHTML = locked ? viewGate(slide) : viewOf(slide, a);
+  if(animate){ void el.slide.offsetWidth; el.slide.classList.add('enter'); }
+  el.slideInner.scrollTop = 0;
+  if(!locked) state.visited.add(state.index);
+  updateScrollHint();
+
+  const pct = Math.round(((state.index + 1) / slidesData.length) * 100);
+  el.barFill.style.width = pct + '%'; el.bar.setAttribute('aria-valuenow', pct);
+  el.counter.textContent = 'Trang ' + (state.index + 1) + ' / ' + slidesData.length;
+  el.prevBtn.hidden = state.index === 0;
+
+  if(locked) updateButtonsGate(); else updateButtons(slide, a);
+  renderSectionChips(slide._sectionIndex);
+  if(locked){ const input = document.getElementById('gateInput'); if(input) input.focus(); }
+}
+
+function updateScrollHint(){
+  const oldHint = el.slideInner.querySelector('.scroll-hint'); if(oldHint) oldHint.remove();
+  const oldRow = el.slideInner.querySelector('.topic-row');
+  if(oldRow){ const topicEl = oldRow.querySelector('.topic'); if(topicEl) oldRow.replaceWith(topicEl); else oldRow.remove(); }
+  const slide = slidesData[state.index]; if(!isUnlocked(slide._sectionIndex)) return;
+  if(el.slideInner.scrollHeight <= el.slideInner.clientHeight + 4) return;
+  const hintText = '⬇️ Trang này dài hơn khung hiển thị — em cuộn xuống để xem đầy đủ nội dung nhé.';
+  const topicEl = el.slideInner.querySelector('.topic');
+  if(topicEl){
+    const row = document.createElement('div'); row.className = 'topic-row';
+    topicEl.replaceWith(row); row.appendChild(topicEl);
+    row.insertAdjacentHTML('beforeend', '<span class="scroll-hint">' + hintText + '</span>');
+  } else {
+    el.slideInner.insertAdjacentHTML('afterbegin', '<p class="scroll-hint scroll-hint--standalone">' + hintText + '</p>');
+  }
+}
+
+function viewOf(slide, a){
+  switch(slide.type){
+    case 'info': return viewInfo(slide, a);
+    case 'quiz_single': return viewSingle(slide, a);
+    case 'quiz_multiple': return viewMultiple(slide, a);
+    default: return '<p class="lead">Chưa hỗ trợ loại slide này.</p>';
+  }
+}
+
+function head(s, note){
+  let h = '';
+  if(s.topic) h += '<p class="topic">' + esc(s.topic) + '</p>';
+  h += '<h2 class="question">' + s.question + '</h2>';
+  if(note) h += '<p class="qnote">' + note + '</p>';
+  return h;
+}
+
+function viewInfo(s){
+  let html = '';
+  if(s.topic) html += '<p class="topic">' + esc(s.topic) + '</p>';
+  html += '<h1>' + s.title + '</h1>';
+  if(s.content) html += '<p class="lead">' + s.content + '</p>';
+
+  if(s.final){
+    let quizzes = 0, done = 0;
+    slidesData.forEach((sl, idx) => {
+      if(sl.type === 'info') return;
+      if(s.resetScope === 'section' && sl._sectionIndex !== s._sectionIndex) return;
+      quizzes++; if(state.answers[idx] && state.answers[idx].solved) done++;
+    });
+    html += '<div class="score"><em>🏆</em><div><strong>' + done + ' / ' + quizzes + ' câu đúng</strong><span>Em đã trả lời đúng ' + done + ' trên ' + quizzes + ' câu hỏi của bài.</span></div></div>';
+  }
+  if(s.remember) html += '<div class="remember"><em>💡</em><p>' + s.remember + '</p></div>';
+  if(!s.final) html += '<p class="info-note">📖 Đây là trang thông tin — em đọc xong thì bấm nút bên dưới để tiếp tục nhé.</p>';
+  return html;
+}
+
+function viewSingle(s, a){
+  if(!a.order) a.order = shuffle(s.options.map((_, i) => i));
+  let html = head(s, 'Em hãy chọn một đáp án.');
+  html += '<div class="options" role="radiogroup" aria-label="Các đáp án">';
+  a.order.forEach((i, pos) => {
+    const opt = s.options[i];
+    let cls = 'option';
+    if(a.checked){ cls += ' locked'; if(i === s.correctAnswer) cls += ' right'; else if(i === a.picked) cls += ' wrong'; }
+    else if(a.picked === i) cls += ' picked';
+    html += '<label class="' + cls + '"><input type="radio" name="choice" value="' + i + '"' + (a.picked === i ? ' checked' : '') + (a.checked ? ' disabled' : '') + '><span class="letter">' + LETTERS[pos] + '</span><span class="option-text">' + esc(opt) + '</span></label>';
+  });
+  html += '</div>' + feedbackHTML(s, a); return html;
+}
+
+function viewMultiple(s, a){
+  if(!a.picks) a.picks = []; if(!a.order) a.order = shuffle(s.options.map((_, i) => i));
+  let html = head(s, 'Câu này có nhiều hơn một đáp án đúng.');
+  html += '<div class="options" role="group" aria-label="Các đáp án">';
+  a.order.forEach((i, pos) => {
+    const opt = s.options[i]; const picked = a.picks.indexOf(i) !== -1; let cls = 'option';
+    if(a.checked){ cls += ' locked'; if(s.correctAnswers.indexOf(i) !== -1) cls += ' right'; else if(picked) cls += ' wrong'; }
+    else if(picked) cls += ' picked';
+    html += '<label class="' + cls + '"><input type="checkbox" name="multi" value="' + i + '"' + (picked ? ' checked' : '') + (a.checked ? ' disabled' : '') + '><span class="letter letter--box">' + LETTERS[pos] + '</span><span class="option-text">' + esc(opt) + '</span></label>';
+  });
+  html += '</div>' + feedbackHTML(s, a); return html;
+}
+
+function feedbackHTML(s, a){
+  if(!a.checked) return '';
+  if(a.solved) return '<div class="feedback ok"><em>🎉</em><p><b>Chính xác!</b> ' + (s.explain || '') + '</p></div>';
+  return '<div class="feedback no"><em>🤔</em><p><b>Chưa đúng rồi.</b> ' + (s.hint || 'Em hãy bấm Thử lại và làm lại lần nữa nhé.') + '</p></div>';
+}
+
+function viewGate(slide){ return '<p>Bị khóa</p>'; }
+
+function isSectionComplete(si){
+  return slidesData.every((sl, idx) => {
+    if(sl._sectionIndex !== si) return true;
+    if(sl.type === 'info') return state.visited.has(idx);
+    return !!(state.answers[idx] && state.answers[idx].solved);
+  });
+}
+
+function renderSectionChips(currentSectionIndex){
+  if(!el.secChips) return;
+  el.secChips.innerHTML = LESSON.sections.map((sec, i) => {
+    const locked = !isUnlocked(i); const complete = !locked && isSectionComplete(i); const active = i === currentSectionIndex;
+    let cls = 'sec-chip'; if(active) cls += ' active'; cls += locked ? ' is-locked' : (complete ? ' is-complete' : ' is-unlocked');
+    const mark = locked ? '🔒' : (complete ? '✓' : '');
+    return '<span class="' + cls + '" data-si="' + i + '" role="button" tabindex="0"><span class="sec-chip__mark">' + mark + '</span>' + esc(sec.title) + '</span>';
+  }).join('');
+}
+
+function jumpToSection(si){
+  const idx = firstIndexOfSection(si); if(idx === -1 || idx === state.index) return;
+  state.index = idx; gateError = ''; soundTurn(); render(true);
+}
+
+function isQuiz(slide){ return slide.type !== 'info'; }
+function updateButtonsGate(){ el.retryBtn.hidden = true; el.mainBtn.hidden = false; el.mainBtn.textContent = 'Mở khóa'; el.mainBtn.dataset.act = 'unlock'; }
+function updateButtons(slide, a){
+  const last = state.index === slidesData.length - 1;
+  if(isQuiz(slide) && !a.solved){
+    if(a.checked){ el.mainBtn.hidden = true; el.retryBtn.hidden = false; }
+    else{ el.mainBtn.hidden = false; el.mainBtn.textContent = 'Kiểm tra'; el.mainBtn.dataset.act = 'check'; el.retryBtn.hidden = true; }
+    return;
+  }
+  el.retryBtn.hidden = true; el.mainBtn.hidden = false;
+  if(last && slide.final && slide.resetScope === 'section'){ el.mainBtn.textContent = 'Làm lại phần này'; el.mainBtn.dataset.act = 'restart-section'; return; }
+  el.mainBtn.textContent = last ? 'Học lại từ đầu' : 'Tiếp theo'; el.mainBtn.dataset.act = last ? 'restart' : 'next';
+}
+
+function check(){
+  const s = slidesData[state.index]; const a = ans();
+  switch(s.type){
+    case 'quiz_single':
+      if(a.picked === undefined) return nudge('Em hãy chọn một đáp án trước nhé.');
+      a.solved = a.picked === s.correctAnswer; break;
+    case 'quiz_multiple':
+      if(!a.picks || !a.picks.length) return nudge('Em hãy chọn ít nhất một đáp án nhé.');
+      a.solved = sameSet(a.picks, s.correctAnswers); break;
+  }
+  a.checked = true; a.tries++; render(false);
+  if(a.solved){ soundRight(); confetti(); }else{ soundWrong(); el.slide.classList.add('shake'); setTimeout(() => el.slide.classList.remove('shake'), 450); }
+}
+
+function nudge(msg){
+  el.slide.classList.add('shake'); setTimeout(() => el.slide.classList.remove('shake'), 450); soundWrong();
+  const old = el.slideInner.querySelector('.feedback'); if(old) old.remove();
+  el.slideInner.insertAdjacentHTML('beforeend', '<div class="feedback no"><em>✋</em><p>' + esc(msg) + '</p></div>');
+}
+
+function retry(){
+  const s = slidesData[state.index]; const a = ans(); a.checked = false;
+  if(s.type === 'quiz_single'){ a.picked = undefined; a.order = shuffle(s.options.map((_, i) => i)); }
+  if(s.type === 'quiz_multiple'){ a.picks = []; a.order = shuffle(s.options.map((_, i) => i)); }
+  render(false);
+}
+
+function tryUnlock(){ return; }
+
+function go(step){
+  const next = state.index + step; if(next < 0 || next >= slidesData.length) return;
+  state.index = next; gateError = ''; soundTurn(); render(true); el.slide.focus({ preventScroll:true });
+}
+function restart(){ state.index = 0; state.answers = {}; gateError = ''; render(true); }
+
+el.prevBtn.addEventListener('click', () => go(-1));
+el.retryBtn.addEventListener('click', retry);
+el.mainBtn.addEventListener('click', () => {
+  const act = el.mainBtn.dataset.act;
+  if(act === 'check') check(); else if(act === 'restart') restart(); else go(1);
+});
+
+el.slide.addEventListener('change', e => {
+  const a = ans(); if(a.checked) return;
+  if(e.target.name === 'choice'){ a.picked = Number(e.target.value); render(false); }
+  else if(e.target.name === 'multi'){
+    const v = Number(e.target.value); const at = a.picks.indexOf(v);
+    if(at === -1) a.picks.push(v); else a.picks.splice(at, 1);
+    render(false);
+  }
+});
+if(el.secChips){ el.secChips.addEventListener('click', e => { const chip = e.target.closest('.sec-chip'); if(!chip) return; jumpToSection(Number(chip.dataset.si)); }); }
+el.soundBtn.addEventListener('click', () => { state.sound = !state.sound; el.soundBtn.textContent = state.sound ? '🔊' : '🔇'; el.soundBtn.setAttribute('aria-pressed', String(state.sound)); if(state.sound) soundTurn(); });
+el.fullBtn.addEventListener('click', () => { if(document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen().catch(() => {}); });
+document.addEventListener('fullscreenchange', () => updateScrollHint()); window.addEventListener('resize', () => updateScrollHint());
+
+document.getElementById('lessonName').innerHTML = '<span>' + LESSON.icon + '</span> ' + LESSON.title;
+document.title = LESSON.title;
+render(true);
+</script>
+</body>
+</html>

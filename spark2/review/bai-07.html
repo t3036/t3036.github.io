@@ -3,49 +3,42 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Bài giảng tương tác</title>
+<title>Bài 7 — Mạng là gì?</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
 <div class="app">
-
-  <!-- ===== Thanh trên cùng: tiến trình + công cụ ===== -->
   <header class="topbar">
-    <div class="progress" role="progressbar" aria-label="Tiến trình bài học"
-         aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="bar">
+    <div class="progress" role="progressbar" aria-label="Tiến trình bài học" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="bar">
       <div class="progress__fill" id="barFill"></div>
     </div>
-
     <div class="topbar__row">
       <p class="lesson-name" id="lessonName"></p>
       <div class="tools">
         <p class="counter" id="counter"></p>
         <button class="icon-btn" id="soundBtn" aria-pressed="true" title="Bật / tắt âm thanh">🔊</button>
-        <button class="icon-btn" id="fullBtn" title="Phóng to toàn màn hình">⛶</button>
+        <button class="fs-btn" id="fullBtn" title="Phóng to toàn màn hình">
+          <span class="fs-btn__icon">⛶</span>
+          <span class="fs-btn__text">Toàn màn hình</span>
+        </button>
       </div>
     </div>
+    <div class="sec-chips" id="secChips"></div>
   </header>
-
-  <!-- ===== Sân khấu: nơi slide được vẽ ra ===== -->
   <main class="stage">
-    <section class="slide" id="slide" tabindex="-1"></section>
+    <section class="slide" id="slide" tabindex="-1"><div class="slide__inner" id="slideInner"></div></section>
   </main>
-
-  <!-- ===== Thanh điều hướng ===== -->
   <footer class="nav">
     <button class="btn btn--ghost" id="prevBtn">Quay lại</button>
     <div class="nav__spacer"></div>
     <button class="btn btn--retry" id="retryBtn" hidden>Thử lại</button>
     <button class="btn btn--primary" id="mainBtn">Tiếp theo</button>
   </footer>
-
 </div>
-
-<script src="bai-04/bai-04.js"></script>
+<script src="bai-07.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
