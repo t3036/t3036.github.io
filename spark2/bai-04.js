@@ -25,6 +25,17 @@
    giữ nguyên như bộ máy app.js đang hỗ trợ — xem chú thích mẫu ở cuối file.
    ============================================================ */
 
+/* ============================================================
+   MẬT KHẨU TỪNG PHẦN — sửa ở đây, không cần đi tìm trong từng phần
+   ------------------------------------------------------------
+   Để trống '' cho phần nào muốn luôn mở sẵn (không cần mật khẩu).
+   ============================================================ */
+const PASSWORDS = {
+  s1: 'APP01',   // Phần 1 — Tải và sử dụng ứng dụng
+  s2: 'APP02',   // Phần 2 — Lưu ý khi sử dụng
+  s3: 'APP03'    // Phần 3 — Công cụ AI & Tổng kết
+};
+
 const LESSON = {
   id:    'bai4-app',
   icon:  '📱',
@@ -38,7 +49,7 @@ const LESSON = {
     {
       id: 's1',
       title: 'Tải và sử dụng ứng dụng',
-      password: 'APP01',
+      password: PASSWORDS.s1,
       slides: [
         /* Slide 1 (Trang 1 / 9) */
         {
@@ -105,7 +116,7 @@ const LESSON = {
     {
       id: 's2',
       title: 'Lưu ý khi sử dụng',
-      password: 'APP02',
+      password: PASSWORDS.s2,
       slides: [
         /* Slide 5 (Trang 5 / 9) */
         {
@@ -162,7 +173,7 @@ const LESSON = {
     {
       id: 's3',
       title: 'Công cụ AI & Tổng kết',
-      password: 'APP03',
+      password: PASSWORDS.s3,
       slides: [
         /* Slide 8 (Trang 8 / 9) */
         {
@@ -207,6 +218,13 @@ const LESSON = {
    slide này (không đụng các phần khác) thay vì học lại từ đầu cả bài,
    thêm resetScope:'section' — điểm số hiển thị cũng chỉ tính trong
    phần đó (dùng cho các phần "Ôn tập" gộp câu hỏi từ nhiều phần khác).
+
+   Ngược lại, nếu bài có thêm phần "Ôn tập" ở cuối và muốn slide hoàn
+   thành của BÀI CHÍNH (trước khi vào Ôn tập) không bị cộng nhầm điểm
+   của các câu Ôn tập vào, khai báo thêm scoreSections:[0,1,2,...] —
+   liệt kê đúng chỉ số (thứ tự, bắt đầu từ 0) của các phần muốn tính
+   điểm. Ví dụ bài có 4 phần chính (0-3) rồi mới tới phần Ôn tập (4):
+   slide hoàn thành của phần chính dùng scoreSections:[0,1,2,3].
    ============================================================ */
 
 // { type:'info', topic:'', title:'', content:'', imageUrl:null,

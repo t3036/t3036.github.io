@@ -176,7 +176,9 @@ input,select{font-family:inherit}
   background:var(--sky);
 }
 .sec-chip.is-unlocked{opacity:.85}
-.sec-chip.is-unlocked .sec-chip__mark{background:var(--grass-soft);color:var(--grass)}
+.sec-chip.is-unlocked .sec-chip__mark{background:var(--paper);border:2px solid var(--sky-deep)}
+.sec-chip.is-complete{opacity:.85}
+.sec-chip.is-complete .sec-chip__mark{background:var(--grass-soft);color:var(--grass)}
 .sec-chip.active{
   opacity:1;
   background:var(--sun);
@@ -442,6 +444,20 @@ input,select{font-family:inherit}
   font-weight:500;
   color:var(--ink-soft);
   margin-top:-6px;
+}
+
+/* Ghi chú cuối slide thông tin: "đây là trang đọc, bấm nút để tiếp tục" */
+.info-note{
+  align-self:flex-start;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:clamp(12px,1.4vw,14px);
+  font-weight:600;
+  font-style:italic;
+  color:var(--ink-soft);
+  margin-top:auto;
+  padding-top:4px;
 }
 
 .feedback{

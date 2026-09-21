@@ -17,6 +17,20 @@
    chữ / mật khẩu nếu cần.
    ============================================================ */
 
+/* ============================================================
+   MẬT KHẨU TỪNG PHẦN — sửa ở đây, không cần đi tìm trong từng phần
+   ------------------------------------------------------------
+   Để trống '' cho phần nào muốn luôn mở sẵn (không cần mật khẩu).
+   ============================================================ */
+const PASSWORDS = {
+  s1: 'HDH01',   // Phần 1 — Khái niệm hệ điều hành
+  s2: 'HDH02',   // Phần 2 — Một số hệ điều hành thông dụng
+  s3: 'HDH03',   // Phần 3 — Thanh tác vụ của hệ điều hành Windows
+  s4: 'HDH04',   // Phần 4 — Một số chương trình ứng dụng trên máy tính để bàn
+  s5: 'HDH05',   // Phần 5 — Khởi động công cụ AI an toàn
+  s6: 'HDH06'    // Phần 6 — Ôn tập
+};
+
 const LESSON = {
   id:    'bai4-hdh',
   icon:  '🖥️',
@@ -30,9 +44,9 @@ const LESSON = {
     {
       id: 's1',
       title: 'Khái niệm hệ điều hành',
-      password: '3',
+      password: PASSWORDS.s1,
       slides: [
-        /* Slide 1 (Trang 1 / 31) */
+        /* Slide 1 (Trang 1 / 32) */
         {
           type: 'info',
           topic: 'Phần 1 · Khái niệm HĐH',
@@ -47,7 +61,7 @@ const LESSON = {
           remember: 'Không có hệ điều hành? Máy tính sẽ <b>không hoạt động được</b> — mọi thứ đều do hệ điều hành điều phối.'
         },
 
-        /* Slide 2 (Trang 2 / 31) */
+        /* Slide 2 (Trang 2 / 32) */
         {
           type: 'info',
           topic: 'Phần 1 · Khái niệm HĐH',
@@ -56,7 +70,7 @@ const LESSON = {
           imageUrl: null
         },
 
-        /* Slide 3 (Trang 3 / 31) */
+        /* Slide 3 (Trang 3 / 32) */
         {
           type: 'quiz_single',
           topic: 'Luyện tập',
@@ -72,7 +86,7 @@ const LESSON = {
           explain: 'Hệ điều hành phải được khởi chạy đầu tiên để quản lí phần cứng, sau đó các phần mềm/ứng dụng khác mới có thể hoạt động.'
         },
 
-        /* Slide 4 (Trang 4 / 31) */
+        /* Slide 4 (Trang 4 / 32) */
         {
           type: 'info',
           topic: 'Phần 1 · Chức năng của HĐH',
@@ -85,7 +99,7 @@ const LESSON = {
           ]
         },
 
-        /* Slide 5 (Trang 5 / 31) */
+        /* Slide 5 (Trang 5 / 32) */
         {
           type: 'quiz_multiple',
           topic: 'Luyện tập',
@@ -110,9 +124,9 @@ const LESSON = {
     {
       id: 's2',
       title: 'Một số hệ điều hành thông dụng',
-      password: '0',
+      password: PASSWORDS.s2,
       slides: [
-        /* Slide 6 (Trang 6 / 31) */
+        /* Slide 6 (Trang 6 / 32) */
         {
           type: 'info',
           topic: 'Phần 2 · HĐH thông dụng',
@@ -130,7 +144,7 @@ const LESSON = {
           ]
         },
 
-        /* Slide 7 (Trang 7 / 31)
+        /* Slide 7 (Trang 7 / 32)
            Ghi chú: PDF gốc yêu cầu nối tên HĐH với ẢNH logo. Vì không có
            file ảnh logo, mình đổi "right" thành mô tả ngắn của logo đó
            bằng chữ, để vẫn giữ được tinh thần "nối tên với biểu tượng". */
@@ -149,7 +163,7 @@ const LESSON = {
           explain: 'Android dùng logo robot xanh lá, iOS dùng logo quả táo, Windows dùng 4 ô vuông màu, Symbian dùng chữ S, BlackBerry dùng hình quả dâu đen.'
         },
 
-        /* Slide 8 (Trang 8 / 31) */
+        /* Slide 8 (Trang 8 / 32) */
         {
           type: 'quiz_single',
           topic: 'Luyện tập',
@@ -160,7 +174,7 @@ const LESSON = {
           explain: 'Microsoft Windows là hệ điều hành. Google là công cụ tìm kiếm, Apple iPad là thiết bị, Microsoft Word là phần mềm ứng dụng.'
         },
 
-        /* Slide 9 (Trang 9 / 31) */
+        /* Slide 9 (Trang 9 / 32) */
         {
           type: 'quiz_dropdown',
           topic: 'Luyện tập',
@@ -184,9 +198,9 @@ const LESSON = {
     {
       id: 's3',
       title: 'Thanh tác vụ của hệ điều hành Windows',
-      password: '3',
+      password: PASSWORDS.s3,
       slides: [
-        /* Slide 10 (Trang 10 / 31) */
+        /* Slide 10 (Trang 10 / 32) */
         {
           type: 'info',
           topic: 'Phần 3 · Thanh tác vụ Windows',
@@ -195,7 +209,7 @@ const LESSON = {
           imageUrl: null
         },
 
-        /* Slide 11 (Trang 11 / 31) */
+        /* Slide 11 (Trang 11 / 32) */
         {
           type: 'info',
           topic: 'Phần 3 · Thanh tác vụ Windows',
@@ -205,7 +219,7 @@ const LESSON = {
           remember: 'Khi nhấn <b>nút Start</b> và xem qua danh sách ứng dụng, em sẽ tìm thấy các ứng dụng đã cài đặt theo <b>thứ tự bảng chữ cái</b>.'
         },
 
-        /* Slide 12 (Trang 12 / 31) */
+        /* Slide 12 (Trang 12 / 32) */
         {
           type: 'info',
           topic: 'Phần 3 · Thanh tác vụ Windows',
@@ -214,7 +228,7 @@ const LESSON = {
           imageUrl: null
         },
 
-        /* Slide 13 (Trang 13 / 31)
+        /* Slide 13 (Trang 13 / 32)
            Ghi chú: PDF gốc cho hình thanh tác vụ có đánh dấu A/B/C.../G và
            hỏi "nhấp vào đâu". Vì không có ảnh, mình chuyển thành mô tả
            bằng lời cho từng vị trí thay cho hình. */
@@ -242,9 +256,9 @@ const LESSON = {
     {
       id: 's4',
       title: 'Một số chương trình ứng dụng trên máy tính để bàn',
-      password: '6',
+      password: PASSWORDS.s4,
       slides: [
-        /* Slide 14 (Trang 14 / 31) */
+        /* Slide 14 (Trang 14 / 32) */
         {
           type: 'info',
           topic: 'Phần 4 · Chương trình ứng dụng',
@@ -259,7 +273,7 @@ const LESSON = {
           ]
         },
 
-        /* Slide 15 (Trang 15 / 31) */
+        /* Slide 15 (Trang 15 / 32) */
         {
           type: 'quiz_single',
           topic: 'Luyện tập',
@@ -270,7 +284,7 @@ const LESSON = {
           explain: 'Microsoft Word là phần mềm ứng dụng (dùng để soạn văn bản). iOS và Windows là hệ điều hành, Flash drive là phần cứng lưu trữ.'
         },
 
-        /* Slide 16 (Trang 16 / 31) */
+        /* Slide 16 (Trang 16 / 32) */
         {
           type: 'quiz_dropdown',
           topic: 'Luyện tập',
@@ -284,7 +298,7 @@ const LESSON = {
           explain: 'Nhấp đúp vào biểu tượng lối tắt trên Desktop là cách đúng để khởi động ứng dụng (Có). Hai cách còn lại không phải cách khởi động ứng dụng thông thường (Không).'
         },
 
-        /* Slide 17 (Trang 17 / 31) */
+        /* Slide 17 (Trang 17 / 32) */
         {
           type: 'quiz_dropdown',
           topic: 'Luyện tập',
@@ -298,7 +312,7 @@ const LESSON = {
           explain: 'Nhấp vào dấu "X" hoặc chuột phải chọn Close/Exit đều là cách đúng để thoát ứng dụng (Có). Rút phích cắm màn hình không đóng được ứng dụng (Không).'
         },
 
-        /* Slide 18 (Trang 18 / 31) */
+        /* Slide 18 (Trang 18 / 32) */
         {
           type: 'quiz_single',
           topic: 'Luyện tập',
@@ -317,9 +331,9 @@ const LESSON = {
     {
       id: 's5',
       title: 'Khởi động công cụ AI an toàn',
-      password: '3',
+      password: PASSWORDS.s5,
       slides: [
-        /* Slide 19 (Trang 19 / 31) */
+        /* Slide 19 (Trang 19 / 32) */
         {
           type: 'info',
           topic: 'Phần 5 · Khởi động công cụ AI an toàn',
@@ -335,7 +349,7 @@ const LESSON = {
           ]
         },
 
-        /* Slide 20 (Trang 20 / 31) */
+        /* Slide 20 (Trang 20 / 32) */
         {
           type: 'info',
           topic: 'Phần 5 · Khởi động công cụ AI an toàn',
@@ -343,6 +357,22 @@ const LESSON = {
           content: 'Một số công cụ AI chạy trên Web nên cần trình duyệt và Internet. Một số công cụ AI nằm ngay trong ứng dụng học tập.',
           imageUrl: null,
           remember: '<b>Lưu ý:</b> Khi một ứng dụng AI yêu cầu <b>cài đặt, cập nhật, dùng camera, micro, vị trí hoặc tệp</b>, em cần <b>dừng lại</b> và <b>hỏi giáo viên hoặc người lớn</b> trước khi đồng ý.'
+        },
+
+        /* Slide 21 (Trang 21 / 32) — slide hoàn thành RIÊNG cho bài học
+           chính (5 phần lý thuyết + luyện tập), tách biệt với slide hoàn
+           thành của phần Ôn tập ở cuối bài. Không có resetScope nên nút
+           ở đây dùng hành vi mặc định: "Tiếp theo" (vì chưa phải slide
+           cuối cùng của toàn bài — Ôn tập vẫn còn ở sau). */
+        {
+          type: 'info',
+          final: true,
+          scoreSections: [0, 1, 2, 3, 4],
+          topic: 'Hoàn thành',
+          title: 'Chúc mừng em đã học xong Bài 4!',
+          content: 'Em đã hiểu được khái niệm hệ điều hành, biết một số hệ điều hành thông dụng, cách dùng thanh tác vụ Windows, một số chương trình ứng dụng trên máy tính để bàn, và cách khởi động công cụ AI an toàn.',
+          imageUrl: null,
+          remember: 'Muốn ôn lại toàn bộ câu hỏi của bài, bấm "Tiếp theo" để sang phần <b>Ôn tập</b> ngay sau đây.'
         }
       ]
     },
@@ -357,9 +387,9 @@ const LESSON = {
     {
       id: 's6',
       title: 'Ôn tập',
-      password: '0',
+      password: PASSWORDS.s6,
       slides: [
-        /* Slide 21 (Trang 21 / 31) */
+        /* Slide 22 (Trang 22 / 32) */
         {
           type: 'quiz_single',
           topic: 'Ôn tập',
@@ -375,7 +405,7 @@ const LESSON = {
           explain: 'Hệ điều hành phải được khởi chạy đầu tiên để quản lí phần cứng, sau đó các phần mềm/ứng dụng khác mới có thể hoạt động.'
         },
 
-        /* Slide 22 (Trang 22 / 31) */
+        /* Slide 23 (Trang 23 / 32) */
         {
           type: 'quiz_multiple',
           topic: 'Ôn tập',
@@ -392,7 +422,7 @@ const LESSON = {
           explain: 'Hệ điều hành quản lí các thiết bị phần cứng và quản lí tập tin trên máy tính — 3 lựa chọn còn lại là việc của các phần mềm ứng dụng khác.'
         },
 
-        /* Slide 23 (Trang 23 / 31) */
+        /* Slide 24 (Trang 24 / 32) */
         {
           type: 'quiz_matching',
           topic: 'Ôn tập',
@@ -408,7 +438,7 @@ const LESSON = {
           explain: 'Android dùng logo robot xanh lá, iOS dùng logo quả táo, Windows dùng 4 ô vuông màu, Symbian dùng chữ S, BlackBerry dùng hình quả dâu đen.'
         },
 
-        /* Slide 24 (Trang 24 / 31) */
+        /* Slide 25 (Trang 25 / 32) */
         {
           type: 'quiz_single',
           topic: 'Ôn tập',
@@ -419,7 +449,7 @@ const LESSON = {
           explain: 'Microsoft Windows là hệ điều hành. Google là công cụ tìm kiếm, Apple iPad là thiết bị, Microsoft Word là phần mềm ứng dụng.'
         },
 
-        /* Slide 25 (Trang 25 / 31) */
+        /* Slide 26 (Trang 26 / 32) */
         {
           type: 'quiz_dropdown',
           topic: 'Ôn tập',
@@ -435,7 +465,7 @@ const LESSON = {
           explain: 'Windows là độc quyền (Đúng). Linux là mã nguồn mở, không phải độc quyền (Sai). iOS chỉ chạy trên thiết bị di động của Apple, không phải máy tính (Sai). Android dành cho điện thoại Android, không phải iPhone (Sai). BlackBerry OS đúng là dành cho điện thoại BlackBerry (Đúng).'
         },
 
-        /* Slide 26 (Trang 26 / 31) */
+        /* Slide 27 (Trang 27 / 32) */
         {
           type: 'quiz_single',
           topic: 'Ôn tập',
@@ -451,7 +481,7 @@ const LESSON = {
           explain: 'Ô tìm kiếm (Search Box) cho phép gõ tên trò chơi và tìm ngay ứng dụng đã cài đặt, nhanh hơn cách lục qua danh sách ở nút Start.'
         },
 
-        /* Slide 27 (Trang 27 / 31) */
+        /* Slide 28 (Trang 28 / 32) */
         {
           type: 'quiz_single',
           topic: 'Ôn tập',
@@ -462,7 +492,7 @@ const LESSON = {
           explain: 'Microsoft Word là phần mềm ứng dụng (dùng để soạn văn bản). iOS và Windows là hệ điều hành, Flash drive là phần cứng lưu trữ.'
         },
 
-        /* Slide 28 (Trang 28 / 31) */
+        /* Slide 29 (Trang 29 / 32) */
         {
           type: 'quiz_dropdown',
           topic: 'Ôn tập',
@@ -476,7 +506,7 @@ const LESSON = {
           explain: 'Nhấp đúp vào biểu tượng lối tắt trên Desktop là cách đúng để khởi động ứng dụng (Có). Hai cách còn lại không phải cách khởi động ứng dụng thông thường (Không).'
         },
 
-        /* Slide 29 (Trang 29 / 31) */
+        /* Slide 30 (Trang 30 / 32) */
         {
           type: 'quiz_dropdown',
           topic: 'Ôn tập',
@@ -490,7 +520,7 @@ const LESSON = {
           explain: 'Nhấp vào dấu "X" hoặc chuột phải chọn Close/Exit đều là cách đúng để thoát ứng dụng (Có). Rút phích cắm màn hình không đóng được ứng dụng (Không).'
         },
 
-        /* Slide 30 (Trang 30 / 31) */
+        /* Slide 31 (Trang 31 / 32) */
         {
           type: 'quiz_single',
           topic: 'Ôn tập',
@@ -501,7 +531,7 @@ const LESSON = {
           explain: 'Thẻ "File" chứa các lệnh quản lí tệp như Open, Save, Close, Print... — đây là nơi có lệnh Đóng (Close).'
         },
 
-        /* Slide 31 (Trang 31 / 31) — slide hoàn thành RIÊNG của phần Ôn tập.
+        /* Slide 32 (Trang 32 / 32) — slide hoàn thành RIÊNG của phần Ôn tập.
            resetScope:'section' báo cho app.js biết: nút ở đây chỉ làm lại
            10 câu của phần Ôn tập (giữ nguyên tiến trình 5 phần trước), và
            điểm số hiển thị cũng chỉ tính trong phạm vi phần này. */
@@ -532,6 +562,10 @@ const LESSON = {
    slide này (không đụng các phần khác) thay vì học lại từ đầu cả bài,
    thêm resetScope:'section' — điểm số hiển thị cũng chỉ tính trong
    phần đó (dùng cho các phần "Ôn tập" gộp câu hỏi từ nhiều phần khác).
+
+   Ngược lại, slide hoàn thành của BÀI CHÍNH (đứng trước phần Ôn tập)
+   nên khai báo scoreSections:[0,1,2,3,4] (liệt kê đúng chỉ số các phần
+   chính, bắt đầu từ 0) để không cộng nhầm điểm của các câu Ôn tập vào.
    ============================================================ */
 
 // { type:'info', topic:'', title:'', content:'', imageUrl:null,

@@ -12,6 +12,19 @@
    bạn xem qua và chỉnh lại câu chữ / mật khẩu nếu cần.
    ============================================================ */
 
+/* ============================================================
+   MẬT KHẨU TỪNG PHẦN — sửa ở đây, không cần đi tìm trong từng phần
+   ------------------------------------------------------------
+   Để trống '' cho phần nào muốn luôn mở sẵn (không cần mật khẩu).
+   ============================================================ */
+const PASSWORDS = {
+  s1: 'PM01',   // Phần 1 — Khái niệm về phần mềm
+  s2: 'PM02',   // Phần 2 — Phân biệt các loại phần mềm
+  s3: 'PM03',   // Phần 3 — Một số khái niệm liên quan đến phần mềm
+  s4: 'PM04',   // Phần 4 — Công cụ AI và phần mềm
+  s5: 'PM05'    // Phần 5 — Ôn tập
+};
+
 const LESSON = {
   id:    'bai3-phanmem',
   icon:  '💾',
@@ -25,7 +38,7 @@ const LESSON = {
     {
       id: 's1',
       title: 'Khái niệm về phần mềm',
-      password: '1',
+      password: PASSWORDS.s1,
       slides: [
         /* Slide 1 (Trang 1 / 27) */
         {
@@ -83,7 +96,7 @@ const LESSON = {
     {
       id: 's2',
       title: 'Phân biệt các loại phần mềm',
-      password: '3',
+      password: PASSWORDS.s2,
       slides: [
         /* Slide 4 (Trang 4 / 27) */
         {
@@ -177,7 +190,7 @@ const LESSON = {
     {
       id: 's3',
       title: 'Một số khái niệm liên quan đến phần mềm',
-      password: '7',
+      password: PASSWORDS.s3,
       slides: [
         /* Slide 10 (Trang 10 / 27) */
         {
@@ -257,7 +270,7 @@ const LESSON = {
     {
       id: 's4',
       title: 'Công cụ AI và phần mềm',
-      password: '5',
+      password: PASSWORDS.s4,
       slides: [
         /* Slide 15 (Trang 15 / 27) */
         {
@@ -287,6 +300,7 @@ const LESSON = {
         {
           type: 'info',
           final: true,
+          scoreSections: [0, 1, 2, 3],
           topic: 'Hoàn thành',
           title: 'Chúc mừng em đã học xong Bài 3!',
           content: 'Em đã hiểu được khái niệm phần mềm, biết phân biệt các loại phần mềm (mã nguồn mở/độc quyền, chương trình để bàn/ứng dụng Web), và nắm được sự khác nhau giữa phần cứng, phần mềm và công cụ AI.',
@@ -307,7 +321,7 @@ const LESSON = {
     {
       id: 's5',
       title: 'Ôn tập',
-      password: '0',
+      password: PASSWORDS.s5,
       slides: [
         /* Slide 18 (Trang 18 / 27) */
         {
@@ -471,6 +485,9 @@ const LESSON = {
 // nút cuối trang. Nếu muốn nút đó chỉ làm lại RIÊNG phần chứa slide này
 // (không đụng các phần khác) thay vì học lại từ đầu cả bài, thêm
 // resetScope:'section' — điểm số hiển thị cũng sẽ chỉ tính trong phần đó.
+// Ngược lại, slide hoàn thành của BÀI CHÍNH (đứng trước phần Ôn tập) nên
+// khai báo scoreSections:[0,1,2,3] (liệt kê đúng chỉ số các phần chính,
+// bắt đầu từ 0) để không cộng nhầm điểm của các câu Ôn tập vào.
 
 // { type:'quiz_single', topic:'', question:'', options:['','','',''],
 //   correctAnswer:0, hint:'', explain:'' }

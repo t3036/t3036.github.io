@@ -57,7 +57,8 @@ function unlockSection(si){
 const state = {
   index: 0,
   sound: true,
-  answers: {}   // { [slideIndex]: { checked, solved, ...dữ liệu riêng của từng dạng } }
+  answers: {},          // { [slideIndex]: { checked, solved, ...dữ liệu riêng của từng dạng } }
+  visited: new Set()    // các chỉ số slide đã thực sự hiển thị (dùng để biết 1 phần đã "đi hết" chưa)
 };
 
 let gateError = '';
@@ -168,24 +169,9 @@ function render(animate){
   if(animate){ void el.slide.offsetWidth; el.slide.classList.add('enter'); }
   el.slideInner.scrollTop = 0;
 
-  /* Gợi ý cuộn: nếu nội dung cao hơn khung hiển thị, thêm 1 dòng nhắc nhỏ
-     ngay cạnh ô "topic" (Luyện tập / Ôn tập...) để học sinh biết cần cuộn
-     xuống, tránh bỏ sót câu hỏi/đáp án nằm ở phần dưới. Ghép chung 1 dòng
-     với ô topic để không chiếm thêm chỗ, đỡ đẩy nội dung xuống thấp hơn. */
-  if(!locked && el.slideInner.scrollHeight > el.slideInner.clientHeight + 4){
-    const hintText = '⬇️ Trang này dài hơn khung hiển thị — em cuộn xuống để xem đầy đủ nội dung nhé.';
-    const topicEl = el.slideInner.querySelector('.topic');
-    if(topicEl){
-      const row = document.createElement('div');
-      row.className = 'topic-row';
-      topicEl.replaceWith(row);
-      row.appendChild(topicEl);
-      row.insertAdjacentHTML('beforeend', '<span class="scroll-hint">' + hintText + '</span>');
-    } else {
-      el.slideInner.insertAdjacentHTML('afterbegin',
-        '<p class="scroll-hint scroll-hint--standalone">' + hintText + '</p>');
-    }
-  }
+  if(!locked) state.visited.add(state.index);
+
+  updateScrollHint();
 
   const pct = Math.round(((state.index + 1) / slidesData.length) * 100);
   el.barFill.style.width = pct + '%';
@@ -202,6 +188,41 @@ function render(animate){
   if(locked){
     const input = document.getElementById('gateInput');
     if(input) input.focus();
+  }
+}
+
+/** Gợi ý cuộn: nếu nội dung cao hơn khung hiển thị, thêm 1 dòng nhắc nhỏ
+    ngay cạnh ô "topic" (Luyện tập / Ôn tập...) để học sinh biết cần cuộn
+    xuống, tránh bỏ sót câu hỏi/đáp án nằm ở phần dưới. Tách riêng khỏi
+    render() và gọi lại khi bật/tắt toàn màn hình hoặc đổi cỡ cửa sổ, vì
+    khung hiển thị đổi kích thước KHÔNG kèm theo một lượt render() mới —
+    nếu không tính lại, dòng nhắc có thể bị "kẹt" hiện (hoặc kẹt ẩn) sai
+    với kích thước khung thực tế lúc đó. */
+function updateScrollHint(){
+  const oldHint = el.slideInner.querySelector('.scroll-hint');
+  if(oldHint) oldHint.remove();
+  const oldRow = el.slideInner.querySelector('.topic-row');
+  if(oldRow){
+    const topicEl = oldRow.querySelector('.topic');
+    if(topicEl) oldRow.replaceWith(topicEl);
+    else oldRow.remove();
+  }
+
+  const slide = slidesData[state.index];
+  if(!isUnlocked(slide._sectionIndex)) return;
+  if(el.slideInner.scrollHeight <= el.slideInner.clientHeight + 4) return;
+
+  const hintText = '⬇️ Trang này dài hơn khung hiển thị — em cuộn xuống để xem đầy đủ nội dung nhé.';
+  const topicEl = el.slideInner.querySelector('.topic');
+  if(topicEl){
+    const row = document.createElement('div');
+    row.className = 'topic-row';
+    topicEl.replaceWith(row);
+    row.appendChild(topicEl);
+    row.insertAdjacentHTML('beforeend', '<span class="scroll-hint">' + hintText + '</span>');
+  } else {
+    el.slideInner.insertAdjacentHTML('afterbegin',
+      '<p class="scroll-hint scroll-hint--standalone">' + hintText + '</p>');
   }
 }
 
@@ -239,6 +260,7 @@ function viewInfo(s){
     slidesData.forEach((sl, idx) => {
       if(sl.type === 'info') return;
       if(s.resetScope === 'section' && sl._sectionIndex !== s._sectionIndex) return;
+      if(Array.isArray(s.scoreSections) && s.scoreSections.indexOf(sl._sectionIndex) === -1) return;
       quizzes++;
       if(state.answers[idx] && state.answers[idx].solved) done++;
     });
@@ -261,6 +283,15 @@ function viewInfo(s){
   }
 
   if(s.remember) html += '<div class="remember"><em>💡</em><p>' + s.remember + '</p></div>';
+
+  /* Nhắc học sinh đây là trang đọc thông tin, không có gì để bấm/chọn —
+     đọc xong thì bấm nút bên dưới để sang trang kế tiếp. Bỏ qua ở slide
+     hoàn thành (final) vì slide đó đã có hướng dẫn riêng (điểm số + nút
+     làm lại/học lại), không cần thêm ghi chú này nữa. */
+  if(!s.final){
+    html += '<p class="info-note">📖 Đây là trang thông tin — em đọc xong thì bấm nút bên dưới để tiếp tục nhé.</p>';
+  }
+
   return html;
 }
 
@@ -514,18 +545,35 @@ function viewGate(slide){
   return html;
 }
 
+/** Đã "đi hết" 1 phần chưa? — true khi mọi slide thuộc phần đó đều đã
+    được hiển thị ít nhất 1 lần (ghi trong state.visited), không phải
+    chỉ vì phần đó đang ở trạng thái mở khóa. */
+/** Đã "đi hết" 1 phần chưa? — true khi:
+    - mọi slide THÔNG TIN (info) trong phần đã được xem qua ít nhất 1 lần, và
+    - mọi slide CÂU HỎI trong phần đã được trả lời ĐÚNG (state.answers[idx].solved),
+      không chỉ đơn thuần đã lướt tới trang đó mà chưa bấm Kiểm tra. */
+function isSectionComplete(si){
+  return slidesData.every((sl, idx) => {
+    if(sl._sectionIndex !== si) return true;
+    if(sl.type === 'info') return state.visited.has(idx);
+    return !!(state.answers[idx] && state.answers[idx].solved);
+  });
+}
+
 /* ---------- 5.10 Dải tiến trình theo phần (bấm để nhảy tới phần đó) ---------- */
 function renderSectionChips(currentSectionIndex){
   if(!el.secChips) return;
   el.secChips.innerHTML = LESSON.sections.map((sec, i) => {
     const locked = !isUnlocked(i);
+    const complete = !locked && isSectionComplete(i);
     const active = i === currentSectionIndex;
     let cls = 'sec-chip';
     if(active) cls += ' active';
-    cls += locked ? ' is-locked' : ' is-unlocked';
+    cls += locked ? ' is-locked' : (complete ? ' is-complete' : ' is-unlocked');
+    const mark = locked ? '🔒' : (complete ? '✓' : '');
     return '<span class="' + cls + '" data-si="' + i + '" role="button" tabindex="0" ' +
-              'aria-label="Đi tới phần: ' + esc(sec.title) + (locked ? ' (chưa mở khóa)' : '') + '">' +
-              '<span class="sec-chip__mark">' + (locked ? '🔒' : '✓') + '</span>' +
+              'aria-label="Đi tới phần: ' + esc(sec.title) + (locked ? ' (chưa mở khóa)' : (complete ? ' (đã hoàn thành)' : ' (đang học)')) + '">' +
+              '<span class="sec-chip__mark">' + mark + '</span>' +
               esc(sec.title) +
            '</span>';
   }).join('');
@@ -940,6 +988,13 @@ el.fullBtn.addEventListener('click', () => {
   if(document.fullscreenElement) document.exitFullscreen();
   else document.documentElement.requestFullscreen().catch(() => {});
 });
+
+/* Bật/tắt toàn màn hình hoặc đổi cỡ cửa sổ làm khung hiển thị đổi kích
+   thước ngay, nhưng không tự gọi lại render() — nếu không tính lại gợi ý
+   cuộn ở đây, dòng nhắc có thể còn "kẹt" hiện dù giờ đã đủ chỗ (hoặc kẹt
+   ẩn dù giờ lại thiếu chỗ). */
+document.addEventListener('fullscreenchange', () => updateScrollHint());
+window.addEventListener('resize', () => updateScrollHint());
 
 
 /* ============================================================
