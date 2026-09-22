@@ -21,9 +21,9 @@
    Để trống '' cho phần nào muốn luôn mở sẵn (không cần mật khẩu).
    ============================================================ */
 const PASSWORDS = {
-  s1: 'B0501',   // Phần 1 — Các loại máy tính
-  s2: 'B0502',   // Phần 2 — Thiết bị nhập
-  s3: 'B0503'    // Phần 3 — Ôn tập
+  s1: '',   // Phần 1 — Các loại máy tính
+  s2: '',   // Phần 2 — Thiết bị nhập
+  s3: ''    // Phần 3 — Ôn tập
 };
 
 const LESSON = {

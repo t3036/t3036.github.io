@@ -28,10 +28,10 @@
    Để trống '' cho phần nào muốn luôn mở sẵn (không cần mật khẩu).
    ============================================================ */
 const PASSWORDS = {
-  s1: 'B0601',   // Phần 1 — Thiết bị xuất
-  s2: 'B0602',   // Phần 2 — Thiết bị vừa nhập vừa xuất
-  s3: 'B0603',   // Phần 3 — Tương tác với AI bằng thiết bị nhập, xuất
-  s4: 'B0604'    // Phần 4 — Ôn tập
+  s1: '',   // Phần 1 — Thiết bị xuất
+  s2: '',   // Phần 2 — Thiết bị vừa nhập vừa xuất
+  s3: '',   // Phần 3 — Tương tác với AI bằng thiết bị nhập, xuất
+  s4: ''    // Phần 4 — Ôn tập
 };
 
 const LESSON = {

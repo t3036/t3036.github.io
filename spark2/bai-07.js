@@ -19,13 +19,13 @@
    Để trống '' cho phần nào muốn luôn mở sẵn (không cần mật khẩu).
    ============================================================ */
 const PASSWORDS = {
-  s1: 'B0701',   // Phần 1 — Mạng máy tính
-  s2: 'B0702',   // Phần 2 — Kết nối mạng Internet
-  s3: 'B0703',   // Phần 3 — Lưu trữ điện toán đám mây
-  s4: 'B0704',   // Phần 4 — Một số ứng dụng của mạng trong đời sống
-  s5: 'B0705',   // Phần 5 — Công cụ AI và Internet
-  s6: 'B0706',   // Phần 6 — An toàn khi dùng mạng và AI
-  s7: 'B0707'    // Phần 7 — Ôn tập
+  s1: '468',   // Phần 1 — Mạng máy tính
+  s2: '762',   // Phần 2 — Kết nối mạng Internet
+  s3: '164',   // Phần 3 — Lưu trữ điện toán đám mây
+  s4: '287',   // Phần 4 — Một số ứng dụng của mạng trong đời sống
+  s5: '591',   // Phần 5 — Công cụ AI và Internet
+  s6: '055',   // Phần 6 — An toàn khi dùng mạng và AI
+  s7: '189'    // Phần 7 — Ôn tập
 };
 
 const LESSON = {
