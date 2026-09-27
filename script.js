@@ -12,4 +12,20 @@ document.addEventListener('DOMContentLoaded', function () {
       h1.focus();
     }
   }
+
+  // Menu di động trên trang chủ (nút hamburger mở/đóng danh sách liên kết).
+  var nutMenu = document.getElementById('nutMenu');
+  var danhSachMenu = document.getElementById('danhSachMenu');
+  if (nutMenu && danhSachMenu) {
+    nutMenu.addEventListener('click', function () {
+      var dangMo = danhSachMenu.classList.toggle('mo');
+      nutMenu.setAttribute('aria-expanded', dangMo ? 'true' : 'false');
+    });
+    danhSachMenu.querySelectorAll('a').forEach(function (lienKet) {
+      lienKet.addEventListener('click', function () {
+        danhSachMenu.classList.remove('mo');
+        nutMenu.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
 });

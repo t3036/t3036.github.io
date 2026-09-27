@@ -3,32 +3,94 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Chương trình học &mdash; IC3 GS6</title>
+<title>IC3 GS6 &mdash; Vui học Tin học</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bitter:wght@600;700&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body id="trang-chu">
 
-<header class="thanh-dau">
-  IC3 GS6
-  <span class="phu">Chương trình học &middot; 35 bài mỗi cấp độ</span>
+<header class="thanh-menu">
+  <div class="menu-trong">
+    <a class="logo" href="index.html">
+      <span class="logo-icon" aria-hidden="true">🚀</span>
+      <span class="logo-chu">Trang chủ</span>
+    </a>
+
+    <button class="nut-menu" id="nutMenu" aria-expanded="false" aria-controls="danhSachMenu">
+      <span></span><span></span><span></span>
+      <span class="sr-only">Mở menu</span>
+    </button>
+
+    <!-- <nav class="dieu-huong" id="danhSachMenu">
+      <a href="#trang-chu">🏠 Trang chủ</a>
+    </nav> -->
+  </div>
 </header>
 
-<div class="khung">
+<main>
 
-    <div class="hang-ct">
-      <a class="nut-ct spark" href="spark-lv1.html">SPARK LEVEL 1</a>
-      <a class="nut-ct spark" href="spark-lv2.html">SPARK LEVEL 2</a>
-      <a class="nut-ct spark" href="spark-lv3.html">SPARK LEVEL 3</a>
+  <section class="cap-do" id="cap-do">
+    <!-- <h2 class="tieu-de-khu">Chọn Level của bạn 🧭</h2>
+    <p class="mo-ta-khu">Chọn level phù hợp với bạn để bắt đầu cuộc phiêu lưu!</p> -->
+
+    <h3 class="tieu-de-nhom" id="spark">⭐ Chương trình IC3 SPARK GS6</h3>
+    <div class="luoi-cap-do">
+      <a class="the-cap-do spark1" href="spark-lv1.html">
+        <span class="the-icon" aria-hidden="true">🌱</span>
+        <span class="the-hang">IC3 SPARK GS6</span>
+        <span class="the-ten">Level 1</span>
+        <span class="the-mo-ta">Những bước chân đầu tiên với máy tính</span>
+        <span class="the-nut">Vào học →</span>
+      </a>
+      <a class="the-cap-do spark2" href="spark-lv2.html">
+        <span class="the-icon" aria-hidden="true">🌿</span>
+        <span class="the-hang">IC3 SPARK GS6</span>
+        <span class="the-ten">Level 2</span>
+        <span class="the-mo-ta">Khám phá thêm nhiều điều thú vị hơn</span>
+        <span class="the-nut">Vào học →</span>
+      </a>
+      <a class="the-cap-do spark3" href="spark-lv3.html">
+        <span class="the-icon" aria-hidden="true">🌳</span>
+        <span class="the-hang">IC3 SPARK GS6</span>
+        <span class="the-ten">Level 3</span>
+        <span class="the-mo-ta">Chinh phục các kỹ năng nâng cao</span>
+        <span class="the-nut">Vào học →</span>
+      </a>
     </div>
-    <div class="hang-ct">
-      <a class="nut-ct gs6" href="level1.html">LEVEL 1</a>
-      <a class="nut-ct gs6" href="level2.html">LEVEL 2</a>
-      <a class="nut-ct gs6" href="level3.html">LEVEL 3</a>
+
+    <h3 class="tieu-de-nhom" id="gs6">🧩 Chương trình IC3 GS6</h3>
+    <div class="luoi-cap-do">
+      <a class="the-cap-do gs61" href="level1.html">
+        <span class="the-icon" aria-hidden="true">🥉</span>
+        <span class="the-hang">IC3 GS6</span>
+        <span class="the-ten">Level 1</span>
+        <span class="the-mo-ta">Làm quen với thế giới Tin học</span>
+        <span class="the-nut">Vào học →</span>
+      </a>
+      <a class="the-cap-do gs62" href="level2.html">
+        <span class="the-icon" aria-hidden="true">🥈</span>
+        <span class="the-hang">IC3 GS6</span>
+        <span class="the-ten">Level 2</span>
+        <span class="the-mo-ta">Rèn luyện kỹ năng thành thạo hơn</span>
+        <span class="the-nut">Vào học →</span>
+      </a>
+      <a class="the-cap-do gs63" href="level3.html">
+        <span class="the-icon" aria-hidden="true">🥇</span>
+        <span class="the-hang">IC3 GS6</span>
+        <span class="the-ten">Level 3</span>
+        <span class="the-mo-ta">Trở thành chuyên gia nhỏ tuổi</span>
+        <span class="the-nut">Vào học →</span>
+      </a>
     </div>
-</div>
+  </section>
+
+</main>
+
+<footer class="chan-trang">
+  <p class="chan-ai">Trang web này được xây dựng với sự hỗ trợ của AI</p>
+</footer>
 
 <script src="script.js"></script>
 </body>

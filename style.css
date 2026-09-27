@@ -32,31 +32,117 @@ h1:focus-visible{outline:none}
 .nut-ct.gs6{background:var(--xanh)}
 @media(max-width:620px){.hang-ct{grid-template-columns:1fr;gap:.7rem}.nut-ct{padding:1rem}}
 
-/* --- Trang 35 bài --- */
-.dau-bai{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1.3rem}
-.dau-bai h1{font-size:1.55rem}
-.quay-lai{background:var(--giay);border:1px solid var(--ke-dam);border-radius:7px;
-  padding:.4rem .85rem;font-size:.9rem;font-weight:500}
-.quay-lai:hover{border-color:var(--muc)}
+/* --- Trang 35 bài (giao diện thân thiện với học sinh tiểu học) --- */
+.dau-bai{border-radius:22px;color:#fff;padding:1.5rem 1.4rem 1.7rem;
+  margin-bottom:1.8rem;box-shadow:0 10px 24px rgba(20,30,60,.16)}
+.dau-bai-tren{display:flex;margin-bottom:.9rem}
+.quay-lai{background:rgba(255,255,255,.22);color:#fff;border:1px solid rgba(255,255,255,.45);
+  border-radius:999px;padding:.5rem 1rem;font-size:.9rem;font-weight:700;transition:background .15s}
+.quay-lai:hover{background:rgba(255,255,255,.36)}
+.dau-bai h1{font-size:1.7rem;color:#fff;gap:.6rem}
+.dau-bai .bieu-tuong{font-size:2.1rem}
 
-.luoi{display:grid;grid-template-columns:repeat(auto-fill,minmax(196px,1fr));gap:.7rem}
-.bai{display:flex;align-items:center;gap:.6rem;text-decoration:none;
-  border:1.5px solid transparent;border-radius:8px;padding:.65rem .75rem;
-  font-size:.95rem;font-weight:500;line-height:1.35;min-height:56px;
-  transition:border-color .15s,background .15s}
-.bai .stt{flex:none;width:30px;height:30px;border-radius:7px;display:grid;place-items:center;
-  font-family:Bitter,serif;font-weight:700;font-size:.9rem;color:#fff}
+.luoi{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.9rem}
+.bai{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;gap:.4rem;text-decoration:none;border:2px solid transparent;border-radius:16px;
+  padding:1rem .6rem 1.1rem;font-size:.95rem;font-weight:700;line-height:1.3;min-height:108px;
+  box-shadow:0 4px 10px rgba(20,30,60,.08);
+  transition:transform .15s,box-shadow .15s,border-color .15s}
+.bai:hover{transform:translateY(-4px) scale(1.04);box-shadow:0 12px 22px rgba(20,30,60,.16)}
+.bai .stt{flex:none;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;
+  font-family:"Baloo 2",Bitter,serif;font-weight:800;font-size:1.05rem;color:#fff}
 .bai .nhan{overflow-wrap:anywhere}
 
 .spark .bai{background:var(--vang-nhat);color:var(--vang-dam)}
 .spark .bai .stt{background:var(--vang)}
-.spark .bai:hover{border-color:var(--vang);background:#F8E9C9}
+.spark .bai:hover{border-color:var(--vang)}
 .gs6 .bai{background:var(--xanh-nhat);color:var(--xanh-dam)}
 .gs6 .bai .stt{background:var(--xanh)}
-.gs6 .bai:hover{border-color:var(--xanh);background:#D6E0FC}
+.gs6 .bai:hover{border-color:var(--xanh)}
+
+@media(max-width:480px){.dau-bai h1{font-size:1.4rem}.dau-bai .bieu-tuong{font-size:1.8rem}}
 
 [hidden]{display:none !important}
 
 /* Bổ sung: .nut-ct và .quay-lai giờ là thẻ <a> (liên kết) thay vì <button> */
 .nut-ct{display:flex;align-items:center;justify-content:center;text-align:center;text-decoration:none}
 .quay-lai{display:inline-block;text-decoration:none}
+
+/* =======================================================
+   TRANG CHỦ MỚI — dành cho học sinh tiểu học (index.html)
+   ======================================================= */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+  clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+body:has(.thanh-menu){font-family:"Be Vietnam Pro",-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  background:linear-gradient(180deg,#FFF9EC 0%,#EFF3FA 320px)}
+
+/* --- Thanh menu --- */
+.thanh-menu{position:sticky;top:0;z-index:50;background:#fff;
+  box-shadow:0 2px 10px rgba(20,30,60,.08)}
+.menu-trong{max-width:1080px;margin:0 auto;padding:.7rem 1.25rem;
+  display:flex;align-items:center;gap:1rem}
+.logo{display:flex;align-items:center;gap:.5rem;text-decoration:none;color:var(--muc);
+  font-family:"Baloo 2",Bitter,serif;font-weight:800;font-size:1.35rem}
+.logo-icon{font-size:1.6rem}
+.dieu-huong{display:flex;align-items:center;gap:.3rem;margin-left:auto;flex-wrap:wrap}
+.dieu-huong a{color:var(--muc);text-decoration:none;font-weight:600;font-size:.95rem;
+  padding:.5rem .8rem;border-radius:999px;transition:background .15s,color .15s}
+.dieu-huong a:hover{background:var(--xanh-nhat);color:var(--xanh-dam)}
+.nut-menu{display:none;flex-direction:column;justify-content:center;gap:5px;
+  background:none;border:0;width:38px;height:38px;margin-left:auto}
+.nut-menu span{display:block;height:3px;border-radius:2px;background:var(--muc)}
+
+@media(max-width:760px){
+  .nut-menu{display:flex}
+  .dieu-huong{position:absolute;top:100%;left:0;right:0;background:#fff;
+    flex-direction:column;align-items:stretch;gap:0;max-height:0;overflow:hidden;
+    box-shadow:0 8px 16px rgba(20,30,60,.1);transition:max-height .25s ease}
+  .dieu-huong.mo{max-height:320px}
+  .dieu-huong a{padding:.85rem 1.25rem;border-radius:0;border-bottom:1px solid var(--ke)}
+}
+
+/* --- Khu vực cấp độ --- */
+.cap-do{max-width:1080px;margin:0 auto;padding:2.5rem 1.25rem}
+.tieu-de-khu{font-family:"Baloo 2",Bitter,serif;font-weight:800;font-size:1.7rem;
+  color:var(--xanh-dam);text-align:center;margin-bottom:.5rem}
+.mo-ta-khu{text-align:center;color:var(--mo);max-width:560px;margin:0 auto 2rem}
+.tieu-de-nhom{font-family:"Baloo 2",Bitter,serif;font-weight:700;font-size:1.25rem;
+  color:var(--muc);margin:0 0 1rem}
+
+.luoi-cap-do{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;margin-bottom:2.2rem}
+.the-cap-do{display:flex;flex-direction:column;align-items:center;text-align:center;
+  text-decoration:none;color:#fff;border-radius:18px;padding:1.8rem 1.1rem 1.5rem;
+  gap:.25rem;box-shadow:0 8px 20px rgba(20,30,60,.12);
+  transition:transform .15s,box-shadow .15s}
+.the-cap-do:hover{transform:translateY(-6px) scale(1.02);box-shadow:0 14px 26px rgba(20,30,60,.18)}
+.the-icon{font-size:2.6rem;margin-bottom:.3rem}
+.the-hang{font-weight:700;font-size:.8rem;letter-spacing:.08em;opacity:.85}
+.the-ten{font-family:"Baloo 2",Bitter,serif;font-weight:800;font-size:1.4rem;margin-bottom:.2rem}
+.the-mo-ta{font-size:.88rem;opacity:.92;margin-bottom:1rem}
+.the-nut{margin-top:auto;background:rgba(255,255,255,.25);border-radius:999px;
+  padding:.45rem 1.1rem;font-weight:700;font-size:.9rem}
+
+.spark1{background:linear-gradient(160deg,#FFC94A,#E8A209)}
+.spark2{background:linear-gradient(160deg,#FF9F4A,#E17300)}
+.spark3{background:linear-gradient(160deg,#FF7A59,#D8461F)}
+.gs61{background:linear-gradient(160deg,#6FA8FF,#2A4BD8)}
+.gs62{background:linear-gradient(160deg,#7CD4FF,#1D8FCC)}
+.gs63{background:linear-gradient(160deg,#8CE0B0,#157F4A)}
+
+@media(max-width:760px){.luoi-cap-do{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.luoi-cap-do{grid-template-columns:1fr}}
+
+.chan-trang{text-align:center;padding:1.5rem 1rem;color:var(--mo);font-size:.85rem}
+.chan-trang p{margin:.25rem 0}
+.chan-ai{opacity:.75;font-size:.8rem}
+
+/* --- Trang danh sách 35 bài: màu banner theo từng cấp độ (khớp giao diện trang chủ) --- */
+.dau-bai h1{font-family:"Baloo 2",Bitter,serif;font-weight:800;
+  display:flex;align-items:center;gap:.55rem}
+.chuong-trinh.muc-spark1 .dau-bai{background:linear-gradient(160deg,#FFC94A,#E8A209)}
+.chuong-trinh.muc-spark2 .dau-bai{background:linear-gradient(160deg,#FF9F4A,#E17300)}
+.chuong-trinh.muc-spark3 .dau-bai{background:linear-gradient(160deg,#FF7A59,#D8461F)}
+.chuong-trinh.muc-gs61 .dau-bai{background:linear-gradient(160deg,#6FA8FF,#2A4BD8)}
+.chuong-trinh.muc-gs62 .dau-bai{background:linear-gradient(160deg,#7CD4FF,#1D8FCC)}
+.chuong-trinh.muc-gs63 .dau-bai{background:linear-gradient(160deg,#8CE0B0,#157F4A)}
