@@ -32,7 +32,7 @@ h1:focus-visible{outline:none}
 .nut-ct.gs6{background:var(--xanh)}
 @media(max-width:620px){.hang-ct{grid-template-columns:1fr;gap:.7rem}.nut-ct{padding:1rem}}
 
-/* --- Trang 35 bài (giao diện thân thiện với học sinh tiểu học) --- */
+/* --- Trang 35 bài (giao diện lưới vuông cũ) --- */
 .dau-bai{border-radius:22px;color:#fff;padding:1.5rem 1.4rem 1.7rem;
   margin-bottom:1.8rem;box-shadow:0 10px 24px rgba(20,30,60,.16)}
 .dau-bai-tren{display:flex;margin-bottom:.9rem}
@@ -137,7 +137,7 @@ body:has(.thanh-menu){font-family:"Be Vietnam Pro",-apple-system,"Segoe UI",Robo
 .chan-trang p{margin:.25rem 0}
 .chan-ai{opacity:.75;font-size:.8rem}
 
-/* --- Trang danh sách 35 bài: màu banner theo từng cấp độ (khớp giao diện trang chủ) --- */
+/* --- Trang danh sách bài (cập nhật header) --- */
 .dau-bai h1{font-family:"Baloo 2",Bitter,serif;font-weight:800;
   display:flex;align-items:center;gap:.55rem}
 .chuong-trinh.muc-spark1 .dau-bai{background:linear-gradient(160deg,#FFC94A,#E8A209)}
@@ -146,3 +146,159 @@ body:has(.thanh-menu){font-family:"Be Vietnam Pro",-apple-system,"Segoe UI",Robo
 .chuong-trinh.muc-gs61 .dau-bai{background:linear-gradient(160deg,#6FA8FF,#2A4BD8)}
 .chuong-trinh.muc-gs62 .dau-bai{background:linear-gradient(160deg,#7CD4FF,#1D8FCC)}
 .chuong-trinh.muc-gs63 .dau-bai{background:linear-gradient(160deg,#8CE0B0,#157F4A)}
+
+/* =======================================================
+   CSS BỔ SUNG: GIAO DIỆN DANH SÁCH DẠNG DÒNG NGANG
+   ======================================================= */
+.danh-sach-bai {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2.2rem;
+}
+
+.dong-bai {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border: 2px solid transparent;
+  border-radius: 16px;
+  padding: 1rem 1.25rem;
+  box-shadow: 0 4px 10px rgba(20,30,60,.08);
+  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+}
+
+.khung.spark .dong-bai:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(20,30,60,.12);
+  border-color: var(--vang);
+}
+
+.thong-tin-bai {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.khung.spark .thong-tin-bai .stt {
+  flex: none;
+  min-width: 42px;
+  height: 42px;
+  padding: 0 0.5rem;
+  border-radius: 999px;
+  background: var(--vang);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Baloo 2", Bitter, serif;
+  font-weight: 800;
+  font-size: 1.05rem;
+}
+
+.khung.spark .thong-tin-bai .nhan {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--vang-dam);
+}
+
+.hanh-dong-bai {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.khung.spark .nut-hd {
+  text-decoration: none;
+  background: var(--vang-nhat);
+  color: var(--vang-dam);
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: background 0.15s, color 0.15s;
+}
+
+.khung.spark .nut-hd:hover {
+  background: var(--vang);
+  color: #fff;
+}
+
+/* Responsive cho màn hình điện thoại */
+@media (max-width: 650px) {
+  .dong-bai {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .hanh-dong-bai {
+    width: 100%;
+    justify-content: flex-start;
+    padding-left: 58px; /* Thụt vào bằng chiều rộng của hình tròn số thứ tự */
+  }
+}
+
+/* =======================================================
+   TRANG ĐANG CẬP NHẬT (dang-cap-nhat.html)
+   ======================================================= */
+/* Ghi đè nền gradient bằng 1 tone màu đồng nhất của biến --nen */
+body.trang-cap-nhat { 
+  background: var(--nen) !important; 
+}
+
+.thong-bao-khu { 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  min-height: 80vh; 
+  padding: 2rem 1rem; 
+}
+
+.thong-bao { 
+  max-width: 520px; 
+  text-align: center; 
+  background: #fff; 
+  border-radius: 22px; 
+  padding: 2.4rem 1.8rem 2.2rem; 
+  box-shadow: 0 10px 30px rgba(20,30,60,.08); 
+}
+
+.thong-bao__icon { 
+  font-size: 3.2rem; 
+  display: block; 
+  margin-bottom: 0.6rem; 
+}
+
+.thong-bao h1 { 
+  font-family: "Baloo 2", Bitter, serif; 
+  font-weight: 800; 
+  font-size: 1.5rem; 
+  margin: 0.2rem 0 0.8rem; 
+}
+
+.thong-bao p { 
+  font-family: "Be Vietnam Pro", sans-serif; 
+  color: #5b6472; 
+  line-height: 1.6; 
+  margin: 0 0 1.6rem; 
+}
+
+/* Nút quay lại */
+.thong-bao .quay-lai { 
+  background: var(--xanh); 
+  color: #fff; 
+  border: none; 
+  display: inline-block; 
+  padding: 0.6rem 1.25rem; 
+  border-radius: 999px; 
+  text-decoration: none; 
+  font-weight: 600; 
+  font-size: 0.95rem; 
+  transition: background 0.15s, transform 0.1s; 
+}
+
+.thong-bao .quay-lai:hover { 
+  background: var(--xanh-dam); 
+  transform: translateY(-1px); 
+}
