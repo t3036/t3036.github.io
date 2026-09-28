@@ -77,7 +77,7 @@ const el = {
   secChips:  document.getElementById('secChips')
 };
 
-const LETTERS = ['A','B','C','D','E','F'];
+const LETTERS = ['A','B','C','D','E','F','G','H'];
 const PAIR_COLORS = ['var(--pair-1)','var(--pair-2)','var(--pair-3)','var(--pair-4)'];
 
 
@@ -963,7 +963,7 @@ document.addEventListener('keydown', e => {
     if(!el.mainBtn.hidden)       el.mainBtn.click();
     else if(!el.retryBtn.hidden) el.retryBtn.click();
   }
-  else if(/^[1-6]$/.test(e.key) && !a.checked){
+  else if(/^[1-8]$/.test(e.key) && !a.checked){
     const pos = Number(e.key) - 1;
     if(s.type === 'quiz_single' && a.order && pos < a.order.length){
       a.picked = a.order[pos]; render(false);

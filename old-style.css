@@ -6,10 +6,9 @@
   --xanh:#2A4BD8; --xanh-nhat:#E4EAFD; --xanh-dam:#1B307F;
 }
 *{box-sizing:border-box}
-html{font-size:112.5%}
 body{margin:0;background:var(--nen);color:var(--muc);
   font-family:"Be Vietnam Pro",-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-  font-size:1rem;line-height:1.6;-webkit-text-size-adjust:100%}
+  font-size:16px;line-height:1.6;-webkit-text-size-adjust:100%}
 h1{font-family:Bitter,Georgia,serif;margin:0;line-height:1.3}
 button{font-family:inherit;font-size:inherit;color:inherit;cursor:pointer}
 :focus-visible{outline:3px solid var(--vang);outline-offset:2px}
@@ -36,12 +35,10 @@ h1:focus-visible{outline:none}
 /* --- Trang 35 bài (giao diện lưới vuông cũ) --- */
 .dau-bai{border-radius:22px;color:#fff;padding:1.5rem 1.4rem 1.7rem;
   margin-bottom:1.8rem;box-shadow:0 10px 24px rgba(20,30,60,.16)}
-.dau-bai-tren{display:flex;justify-content:space-between;align-items:center;gap:.6rem;margin-bottom:.9rem}
+.dau-bai-tren{display:flex;margin-bottom:.9rem}
 .quay-lai{background:rgba(255,255,255,.22);color:#fff;border:1px solid rgba(255,255,255,.45);
   border-radius:999px;padding:.5rem 1rem;font-size:.9rem;font-weight:700;transition:background .15s}
-.quay-lai:hover,.tai-lieu:hover{background:rgba(255,255,255,.36)}
-.tai-lieu{background:rgba(255,255,255,.22);color:#fff;border:1px solid rgba(255,255,255,.45);
-  border-radius:999px;padding:.5rem 1rem;font-size:.9rem;font-weight:700;text-decoration:none;transition:background .15s}
+.quay-lai:hover{background:rgba(255,255,255,.36)}
 .dau-bai h1{font-size:1.7rem;color:#fff;gap:.6rem}
 .dau-bai .bieu-tuong{font-size:2.1rem}
 
@@ -110,10 +107,6 @@ body:has(.thanh-menu){font-family:"Be Vietnam Pro",-apple-system,"Segoe UI",Robo
 .tieu-de-khu{font-family:"Baloo 2",Bitter,serif;font-weight:800;font-size:1.7rem;
   color:var(--xanh-dam);text-align:center;margin-bottom:.5rem}
 .mo-ta-khu{text-align:center;color:var(--mo);max-width:560px;margin:0 auto 2rem}
-.tieu-de-nhom:has(.nhan-cap){display:flex;justify-content:space-between;align-items:center;gap:.6rem}
-.nhan-cap{flex:none;padding:.3rem 1rem;
-  border-radius:999px;background:#FFF1D6;color:#B45F06;border:1px solid #F5C879;
-  font-family:"Be Vietnam Pro",sans-serif;font-size:1.15rem;font-weight:800}
 .tieu-de-nhom{font-family:"Baloo 2",Bitter,serif;font-weight:700;font-size:1.25rem;
   color:var(--muc);margin:0 0 1rem}
 
