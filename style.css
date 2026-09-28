@@ -247,7 +247,7 @@ body:has(.thanh-menu){font-family:"Be Vietnam Pro",-apple-system,"Segoe UI",Robo
 }
 
 /* =======================================================
-   TRANG ĐANG CẬP NHẬT (dang-cap-nhat.html)
+   TRANG ĐANG CẬP NHẬT (update.html)
    ======================================================= */
 /* Ghi đè nền gradient bằng 1 tone màu đồng nhất của biến --nen */
 body.trang-cap-nhat { 

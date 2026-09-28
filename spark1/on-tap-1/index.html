@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hành Trình Đến Trường - Trò Chơi Công Nghệ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="on-tap-1.css">
+</head>
+<body>
+
+    <!-- Đồ họa Trò chơi -->
+    <div class="game-scene flex-none border-b-4 border-gray-300">
+        <!-- Thông tin tiến độ -->
+        <div class="absolute top-4 left-4 bg-white/90 px-4 py-2 rounded-xl shadow-md border-2 border-blue-400 z-20 font-bold text-blue-700">
+            Hành Trình Tri Thức
+        </div>
+        <div class="absolute top-4 right-4 bg-white/90 px-4 py-2 rounded-xl shadow-md border-2 border-blue-400 z-20 font-bold">
+            Câu: <span id="progress-text" class="text-blue-600 text-xl">1/29</span>
+        </div>
+
+        <!-- Cảnh quan -->
+        <div class="cloud w-32 h-10 top-6" style="animation-duration: 25s; animation-delay: -5s;"></div>
+        <div class="cloud w-40 h-12 top-12" style="animation-duration: 35s; animation-delay: -15s; opacity: 0.5;"></div>
+        
+        <div class="grass"></div>
+        <div class="road">
+            <div class="school">🏫</div>
+            
+            <!-- Học sinh chạy xe đạp (SVG) -->
+            <div id="player-bike" class="bike-container">
+                <svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Bánh sau -->
+                    <g class="wheel">
+                        <circle cx="20" cy="60" r="16" fill="none" stroke="#1f2937" stroke-width="4"/>
+                        <line x1="20" y1="44" x2="20" y2="76" stroke="#4b5563" stroke-width="1.5"/>
+                        <line x1="4" y1="60" x2="36" y2="60" stroke="#4b5563" stroke-width="1.5"/>
+                    </g>
+                    <!-- Bánh trước -->
+                    <g class="wheel">
+                        <circle cx="80" cy="60" r="16" fill="none" stroke="#1f2937" stroke-width="4"/>
+                        <line x1="80" y1="44" x2="80" y2="76" stroke="#4b5563" stroke-width="1.5"/>
+                        <line x1="64" y1="60" x2="96" y2="60" stroke="#4b5563" stroke-width="1.5"/>
+                    </g>
+                    <!-- Khung xe -->
+                    <polyline points="20,60 40,35 70,35 80,60" fill="none" stroke="#ef4444" stroke-width="3"/>
+                    <line x1="40" y1="35" x2="35" y2="60" stroke="#ef4444" stroke-width="3"/>
+                    <line x1="70" y1="35" x2="65" y2="15" stroke="#9ca3af" stroke-width="3"/> <!-- Ghi đông -->
+                    <line x1="60" y1="15" x2="70" y2="15" stroke="#111" stroke-width="4"/>
+                    <line x1="40" y1="35" x2="38" y2="25" stroke="#9ca3af" stroke-width="3"/> <!-- Yên xe -->
+                    <path d="M 32 25 L 44 25" stroke="#111" stroke-width="5" stroke-linecap="round"/>
+                    
+                    <!-- Học sinh -->
+                    <circle cx="45" cy="12" r="8" fill="#fcd34d"/> <!-- Đầu -->
+                    <path d="M 45 20 Q 55 25 65 15" fill="none" stroke="#2563eb" stroke-width="5" stroke-linecap="round"/> <!-- Tay -->
+                    <path d="M 45 20 L 40 38 L 48 50" fill="none" stroke="#1e40af" stroke-width="6" stroke-linejoin="round"/> <!-- Chân & Thân -->
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bảng câu hỏi -->
+    <div class="flex-1 overflow-y-auto w-full flex flex-col items-center bg-white">
+        
+        <!-- Khung Game chính -->
+        <!-- Đã xóa max-w-..., border-4, border-blue-200 và rounded-2xl -->
+        <div id="question-panel" class="w-full bg-white p-6 md:p-8 md:px-12 shadow-sm transition-all">
+            <h2 id="q-text" class="text-xl md:text-2xl font-bold text-gray-800 mb-6 leading-relaxed text-justify">Đang tải dữ liệu...</h2>
+            <img id="q-image" src="" alt="Hình ảnh minh họa" class="hidden mb-6 max-h-80 mx-auto object-contain rounded-xl shadow-sm border border-gray-200">
+            
+            <div id="q-content" class="mb-6 w-full"></div>
+
+            <!-- Khu vực hiển thị đáp án khi sai -->
+            <div id="feedback-area" class="hidden mb-6 p-4 bg-red-50 border-2 border-red-200 rounded-xl">
+                <p id="correct-ans-text" class="text-red-700 text-lg"></p>
+            </div>
+
+            <div class="flex justify-end gap-4 border-t-2 border-gray-100 pt-5 mt-4">
+                <button id="retry-btn" onclick="retryQuestion()" class="hidden bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-8 rounded-xl shadow-lg transform active:scale-95 text-lg md:text-xl transition-all">
+                    Thử Lại 🔄
+                </button>
+                <button id="check-btn" onclick="checkAnswer()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg transform active:scale-95 text-lg md:text-xl transition-all">
+                    Kiểm Tra Đáp Án 🚀
+                </button>
+            </div>
+        </div>
+
+        <!-- Khung Chiến Thắng -->
+        <!-- Đã áp dụng tương tự: xóa max-w-..., border và rounded -->
+        <div id="win-panel" class="hidden w-full bg-yellow-50 p-10 shadow-sm text-center flex-col items-center">
+            <div class="text-7xl mb-4 animate-bounce">🏆🌟</div>
+            <h2 class="text-3xl md:text-4xl font-bold text-green-600 mb-4 uppercase">Hoàn Thành Xuất Sắc!</h2>
+            <p class="text-lg md:text-xl text-gray-700 mb-8 font-bold">Em đã trả lời đúng toàn bộ 29 câu hỏi và đến trường thành công!</p>
+            <button onclick="initGame()" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-4 px-10 rounded-xl shadow-lg text-xl transform active:scale-95">
+                Chơi Lại Từ Đầu 🔄
+            </button>
+        </div>
+    </div>
+
+    <!-- Thông báo (Toast) -->
+    <div id="toast" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-8 py-4 rounded-xl font-bold text-white text-xl shadow-2xl opacity-0 transition-opacity duration-300 pointer-events-none z-50"></div>
+
+    <script src="data.js"></script>
+    <script src="on-tap-1.js"></script>
+</body>
+</html>

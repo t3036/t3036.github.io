@@ -31,13 +31,13 @@
    Để trống '' cho phần nào muốn luôn mở sẵn (không cần mật khẩu).
    ============================================================ */
 const PASSWORDS = {
-  s1: 'MI01',  // Phần 1 — Mạng là gì?
-  s2: 'MI02',  // Phần 2 — Internet
-  s3: 'MI03',  // Phần 3 — Kết nối máy tính, điện thoại thông minh với Internet
-  s4: 'MI04',  // Phần 4 — Gói dữ liệu di động
-  s5: 'MI05',  // Phần 5 — Thiết bị đa phương tiện
-  s6: 'MI06',  // Phần 6 — Trực tuyến cùng AI
-  s7: 'MI07'   // Phần 7 — Ôn tập
+  s1: '735',  // Phần 1 — Mạng là gì?
+  s2: '449',  // Phần 2 — Internet
+  s3: '685',  // Phần 3 — Kết nối máy tính, điện thoại thông minh với Internet
+  s4: '393',  // Phần 4 — Gói dữ liệu di động
+  s5: '150',  // Phần 5 — Thiết bị đa phương tiện
+  s6: '832',  // Phần 6 — Trực tuyến cùng AI
+  s7: '420'   // Phần 7 — Ôn tập
 };
 
 const LESSON = {
@@ -60,11 +60,16 @@ const LESSON = {
           topic: 'Phần 1 · Mạng là gì?',
           title: 'Mạng là gì?',
           content: '<b>Mạng</b> là một hệ thống để truyền thông tin. Có nhiều loại mạng khác nhau: mạng di động, mạng điện thoại, Internet, …',
-          imageUrl: null,
+          // imageUrl: 'null',
+          // imageUrls: [
+          //   'https://www.phucanh.vn/media/news/0511_meo-su-dung-google-dich.jpg',
+          //   'https://www.phucanh.vn/media/news/0511_meo-su-dung-google-dich.jpg',
+          //   'https://www.phucanh.vn/media/news/0511_meo-su-dung-google-dich.jpg',
+          // ],
           things: [
-            { icon: '💻', name: 'Mạng máy tính', en: 'Các máy tính được kết nối với nhau' },
-            { icon: '📱', name: 'Mạng di động', en: 'Các điện thoại được kết nối với nhau' }
-          ]
+            { icon: '💻💻💻', name: 'Mạng máy tính', en: 'Các máy tính được kết nối với nhau' },
+            { icon: '📱📱📱', name: 'Mạng di động', en: 'Các điện thoại được kết nối với nhau' }
+          ],
         },
 
         /* Slide 2 (Trang 2 / 30) */
@@ -72,8 +77,8 @@ const LESSON = {
           type: 'info',
           topic: 'Phần 1 · Mạng là gì?',
           title: 'Thiết bị kết nối mạng',
-          content: 'Để truyền thông tin trong mạng, em phải sử dụng các <b>thiết bị mạng</b>. Một số thiết bị mạng cơ bản: Card mạng, Hub, Switch, Router, …',
-          imageUrl: null,
+          content: 'Để truyền thông tin trong mạng, em phải sử dụng các <b>thiết bị mạng</b>. Một số thiết bị mạng cơ bản:',
+          imageUrl: 'img/slide2.png',
           things: [
             { icon: '🔌', name: 'Card mạng', en: 'Cho máy tính kết nối vào mạng' },
             { icon: '🔀', name: 'Hub', en: 'Chia tín hiệu mạng đến nhiều thiết bị' },
@@ -96,7 +101,7 @@ const LESSON = {
         {
           type: 'quiz_dropdown',
           topic: 'Vận dụng',
-          question: 'Em hãy lựa chọn Đúng (T) hoặc Sai (F) với các phát biểu sau: Hệ thống các điện thoại được kết nối với nhau để truyền và nhận thông tin được gọi là mạng điện thoại. ___ Hệ thống các máy tính được kết nối với nhau để truyền và nhận thông tin được gọi là mạng máy tính. ___ Mạng là hệ thống các thiết bị kĩ thuật số được đặt tại vị trí gần nhau. ___ Mạng là hệ thống kết nối các thiết bị kĩ thuật số để chia sẻ (truyền và nhận) thông tin. ___',
+          question: 'Em hãy lựa chọn Đúng hoặc Sai với các phát biểu sau: Hệ thống các điện thoại được kết nối với nhau để truyền và nhận thông tin được gọi là mạng điện thoại. ___ Hệ thống các máy tính được kết nối với nhau để truyền và nhận thông tin được gọi là mạng máy tính. ___ Mạng là hệ thống các thiết bị kĩ thuật số được đặt tại vị trí gần nhau. ___ Mạng là hệ thống kết nối các thiết bị kĩ thuật số để chia sẻ (truyền và nhận) thông tin. ___',
           blanks: [
             { options: ['Đúng', 'Sai'], correctAnswer: 0 },
             { options: ['Đúng', 'Sai'], correctAnswer: 0 },
@@ -123,7 +128,7 @@ const LESSON = {
           topic: 'Phần 2 · Internet',
           title: 'Internet',
           content: '<b>Internet</b> là một mạng lưới toàn cầu liên kết nhiều máy tính với nhau. Ngoài việc tìm kiếm thông tin qua sách, báo,… chúng ta có thể tìm kiếm thông tin trên Internet.',
-          imageUrl: null,
+          imageUrl: 'img/slide5.png',
           things: [
             { icon: '🔎', name: 'Tìm kiếm thông tin', en: '' },
             { icon: '📖', name: 'Đọc sách, giải trí', en: '' }
@@ -171,7 +176,7 @@ const LESSON = {
           imageUrl: null,
           things: [
             { icon: '🔌', name: 'Kết nối có dây', en: 'Ví dụ: máy tính để bàn' },
-            { icon: '📶', name: 'Kết nối không dây', en: 'Ví dụ: máy tính xách tay' }
+            { icon: '<i class="fa-solid fa-wifi"></i><i class="fa-solid fa-tower-broadcast" style="color: rgb(6, 75, 131);"></i>', name: 'Kết nối không dây', en: 'Ví dụ: máy tính xách tay' }
           ]
         },
 

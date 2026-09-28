@@ -270,8 +270,15 @@ function viewInfo(s){
             '</div></div>';
   }
 
-  if(s.imageUrl){
-    html += '<img class="slide-photo" src="' + esc(s.imageUrl) + '" alt="' + esc(s.title) + '">';
+  const images = (s.imageUrls && s.imageUrls.length) ? s.imageUrls
+               : (s.imageUrl ? [s.imageUrl] : []);
+  if(images.length){
+    const multi = images.length > 1;
+    html += '<div class="slide-gallery' + (multi ? ' slide-gallery--multi' : '') + '">';
+    images.forEach(url => {
+      html += '<img class="slide-photo" src="' + esc(url) + '" alt="' + esc(s.title) + '">';
+    });
+    html += '</div>';
   }else if(s.things && s.things.length){
     html += '<div class="things">';
     s.things.forEach(t => {
