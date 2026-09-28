@@ -27,11 +27,11 @@
    Để trống '' cho phần nào muốn luôn mở sẵn (không cần mật khẩu).
    ============================================================ */
 const PASSWORDS = {
-  s1: 'KN01',  // Phần 1 — Các hình thức kết nối thiết bị kĩ thuật số
-  s2: 'KN02',  // Phần 2 — Kết nối có dây
-  s3: 'KN03',  // Phần 3 — Kết nối không dây
-  s4: 'KN04',  // Phần 4 — Kết nối thiết bị khi sử dụng AI (Đọc thêm)
-  s5: 'KN05'   // Phần 5 — Ôn tập
+  s1: '',  // Phần 1 — Các hình thức kết nối thiết bị kĩ thuật số
+  s2: '',  // Phần 2 — Kết nối có dây
+  s3: '',  // Phần 3 — Kết nối không dây
+  s4: '',  // Phần 4 — Kết nối thiết bị khi sử dụng AI (Đọc thêm)
+  s5: ''   // Phần 5 — Ôn tập
 };
 
 const LESSON = {
