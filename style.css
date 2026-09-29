@@ -232,6 +232,13 @@ body:has(.thanh-menu){font-family:"Be Vietnam Pro",-apple-system,"Segoe UI",Robo
   color: #fff;
 }
 
+/* Nút chưa có nội dung (liên kết tới update.html) */
+.khung.spark .nut-hd[href$="update.html"],
+.khung.spark .nut-hd[href$="update.html"]:hover {
+  background: #e5e5e5;
+  color: #9a9a9a;
+}
+
 /* Responsive cho màn hình điện thoại */
 @media (max-width: 650px) {
   .dong-bai {
