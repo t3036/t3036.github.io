@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chuyến Tàu Tri Thức</title>
+<!-- Thư viện ngoài duy nhất: phông chữ Nunito từ Google Fonts (CDN). Offline vẫn chạy bình thường với phông hệ thống. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+
+  <!-- ========== MÀN HÌNH MỞ ĐẦU ========== -->
+  <section id="screen-start" class="card center">
+    <div class="hero-train">🚂</div>
+    <h1>CHUYẾN TÀU TRI THỨC</h1>
+    <p class="sub" id="start-sub"></p>
+    <p>Cùng đoàn tàu vượt qua các trạm để đến Ga Kho Báu Tri Thức.</p>
+    <div class="chips" id="start-chips"></div>
+    <button class="btn go" id="btn-start">🚂 KHỞI HÀNH</button>
+  </section>
+
+  <!-- ========== MÀN HÌNH HƯỚNG DẪN ========== -->
+  <section id="screen-guide" class="card center hidden">
+    <h1>📖 Hướng dẫn</h1>
+    <ul class="guide-list">
+      <li>🚂 Mỗi câu hỏi là một trạm.</li>
+      <li>⭐ Trả lời đúng để nhận Mảnh Tri Thức.</li>
+      <li>💡 Nếu trả lời sai, hãy đọc lời giải thích và tiếp tục.</li>
+      <li id="guide-last">🏆 Hoàn thành các trạm để đến Kho Báu Tri Thức.</li>
+    </ul>
+    <button class="btn go" id="btn-begin">BẮT ĐẦU</button>
+  </section>
+
+  <!-- ========== MÀN HÌNH CHƠI ========== -->
+  <section id="screen-game" class="hidden">
+    <div class="topbar">
+      <div class="brand">🚂 CHUYẾN TÀU TRI THỨC</div>
+      <button class="btn small" id="btn-sound" aria-pressed="false">🔇 Âm thanh: TẮT</button>
+    </div>
+    <div class="stats">
+      <span class="stat" id="st-station"></span>
+      <span class="stat" id="st-done"></span>
+      <span class="stat star" id="st-star"></span>
+    </div>
+    <div class="bar"><i id="bar-fill"></i></div>
+    <div class="counts"><span id="c-ok"></span><span id="c-no"></span><span id="c-left"></span></div>
+    <div class="badges" id="badges"></div>
+    <div class="track-wrap"><div class="track" id="track"></div></div>
+
+    <div class="card" id="qcard">
+      <span class="lesson-tag" id="q-lesson"></span>
+      <div class="qlabel">CÂU HỎI</div>
+      <div id="q-body"></div>
+      <div class="answers" id="q-answers"></div>
+      <div id="q-feedback"></div>
+      <div class="actions"><button class="btn" id="btn-confirm" disabled>XÁC NHẬN</button><button class="btn go hidden" id="btn-next"></button></div>
+    </div>
+  </section>
+
+  <!-- ========== MÀN HÌNH HOÀN THÀNH ========== -->
+  <section id="screen-end" class="card center hidden">
+    <h1>🎉 BẠN ĐÃ ĐẾN GA KHO BÁU TRI THỨC!</h1>
+    <div class="chest" id="chest">🎁</div>
+    <div class="result-lines">
+      <div>⭐ Số câu đúng: <span class="big-score" id="e-score"></span></div>
+      <div id="e-done"></div>
+      <div id="e-achv"></div>
+    </div>
+    <div class="encourage" id="e-msg"></div>
+    <div class="review" id="e-review"></div>
+    <div class="actions"><button class="btn warm" id="btn-replay">🔄 CHƠI LẠI</button></div>
+  </section>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
