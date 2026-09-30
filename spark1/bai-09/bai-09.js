@@ -30,12 +30,12 @@
    Để trống '' cho phần nào muốn luôn mở sẵn (không cần mật khẩu).
    ============================================================ */
 const PASSWORDS = {
-  s1: 'AT01',  // Phần 1 — Bắt nạt trực tuyến
-  s2: 'AT02',  // Phần 2 — Digital Drama
-  s3: 'AT03',  // Phần 3 — Một số mối nguy hiểm khác
-  s4: 'AT04',  // Phần 4 — Phương tiện truyền thông
-  s5: 'AT05',  // Phần 5 — AI trong giao tiếp trực tuyến
-  s6: 'AT06'   // Phần 6 — Ôn tập
+  s1: '',  // Phần 1 — Bắt nạt trực tuyến
+  s2: '',  // Phần 2 — Digital Drama
+  s3: '',  // Phần 3 — Một số mối nguy hiểm khác
+  s4: '',  // Phần 4 — Phương tiện truyền thông
+  s5: '',  // Phần 5 — AI trong giao tiếp trực tuyến
+  s6: ''   // Phần 6 — Ôn tập
 };
 
 const LESSON = {

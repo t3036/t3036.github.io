@@ -31,9 +31,9 @@
    Để trống '' cho phần nào muốn luôn mở sẵn (không cần mật khẩu).
    ============================================================ */
 const PASSWORDS = {
-  s1: 'APP01',   // Phần 1 — Tải và sử dụng ứng dụng
-  s2: 'APP02',   // Phần 2 — Lưu ý khi sử dụng
-  s3: 'APP03'    // Phần 3 — Công cụ AI & Tổng kết
+  s1: '',   // Phần 1 — Tải và sử dụng ứng dụng
+  s2: '',   // Phần 2 — Lưu ý khi sử dụng
+  s3: ''    // Phần 3 — Công cụ AI & Tổng kết
 };
 
 const LESSON = {

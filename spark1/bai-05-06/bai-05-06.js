@@ -22,11 +22,11 @@
    Để trống '' cho phần nào muốn luôn mở sẵn (không cần mật khẩu).
    ============================================================ */
 const PASSWORDS = {
-  s1: '156',   // Phần 1 — Tập tin
-  s2: '564',   // Phần 2 — Thư mục
-  s3: '215',   // Phần 3 — File Explorer
-  s4: '848',   // Phần 4 — AI hỗ trợ lưu trữ và sắp xếp
-  s5: '689'    // Phần 5 — Ôn tập
+  s1: '',   // Phần 1 — Tập tin
+  s2: '',   // Phần 2 — Thư mục
+  s3: '',   // Phần 3 — File Explorer
+  s4: '',   // Phần 4 — AI hỗ trợ lưu trữ và sắp xếp
+  s5: ''    // Phần 5 — Ôn tập
 };
 
 const LESSON = {

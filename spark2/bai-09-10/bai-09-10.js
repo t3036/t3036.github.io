@@ -37,13 +37,13 @@
    Để trống '' cho phần nào muốn luôn mở sẵn (không cần mật khẩu).
    ============================================================ */
 const PASSWORDS = {
-  s1: '159',  // Phần 1 — Trình duyệt Web
-  s2: '454',  // Phần 2 — Điều hướng và tải lại trang
-  s3: '485',  // Phần 3 — Đăng bài, biểu mẫu và tự động điền
-  s4: '110',  // Phần 4 — Dấu trang (Bookmark)
-  s5: '487',  // Phần 5 — Cookies và xác thực đa yếu tố
-  s6: '987',  // Phần 6 — Trình duyệt Web và công cụ AI
-  s7: '642'   // Phần 7 — Ôn tập
+  s1: '',  // Phần 1 — Trình duyệt Web
+  s2: '',  // Phần 2 — Điều hướng và tải lại trang
+  s3: '',  // Phần 3 — Đăng bài, biểu mẫu và tự động điền
+  s4: '',  // Phần 4 — Dấu trang (Bookmark)
+  s5: '',  // Phần 5 — Cookies và xác thực đa yếu tố
+  s6: '',  // Phần 6 — Trình duyệt Web và công cụ AI
+  s7: ''   // Phần 7 — Ôn tập
 };
 
 const LESSON = {
