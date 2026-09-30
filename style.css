@@ -190,9 +190,10 @@ body:has(.thanh-menu){font-family:"Be Vietnam Pro",-apple-system,"Segoe UI",Robo
 
 .khung.spark .thong-tin-bai .stt {
   flex: none;
-  width: 68px;
+  width: 104px;
   height: 42px;
   padding: 0;
+  white-space: nowrap;
   border-radius: 999px;
   background: var(--vang);
   color: #fff;
