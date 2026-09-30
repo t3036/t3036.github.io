@@ -220,6 +220,8 @@ body:has(.thanh-menu){font-family:"Be Vietnam Pro",-apple-system,"Segoe UI",Robo
   text-decoration: none;
   background: var(--vang-nhat);
   color: var(--vang-dam);
+  min-width: 6.5rem;
+  text-align: center;
   padding: 0.5rem 1rem;
   border-radius: 999px;
   font-weight: 600;
@@ -229,6 +231,24 @@ body:has(.thanh-menu){font-family:"Be Vietnam Pro",-apple-system,"Segoe UI",Robo
 
 .khung.spark .nut-hd:hover {
   background: var(--vang);
+  color: #fff;
+}
+
+/* Màu riêng cho từng loại nút */
+.khung.spark .nut-hd.nut-on-tap {
+  background: #dbeafe;
+  color: #1e4fa8;
+}
+.khung.spark .nut-hd.nut-on-tap:hover {
+  background: #2f6fd6;
+  color: #fff;
+}
+.khung.spark .nut-hd.nut-kiem-tra {
+  background: #dcf5e3;
+  color: #1c7a3d;
+}
+.khung.spark .nut-hd.nut-kiem-tra:hover {
+  background: #2e9b57;
   color: #fff;
 }
 
