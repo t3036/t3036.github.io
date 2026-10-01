@@ -5,6 +5,7 @@
    lesson-data.js. Muốn đổi màu sắc/giao diện, sửa style.css.
    ============================================================ */
 
+const LESSON_ROOT = document.currentScript ? document.currentScript.src : location.href;
 
 /* ============================================================
    1. GHÉP DỮ LIỆU: từ LESSON.sections → mảng phẳng slidesData
@@ -39,6 +40,7 @@ function firstIndexOfSection(si){
    lesson-data.js mới luôn mở sẵn.
    ============================================================ */
 const progress = { unlocked: [] };
+const TEACHER_PASSWORD = 'asdf';
 
 LESSON.sections.forEach((sec, si) => {
   if(!sec.password) progress.unlocked.push(si);
@@ -761,7 +763,14 @@ function tryUnlock(){
 
   if(!val) return nudge('Em hãy nhập mật khẩu trước nhé.');
 
-  if(val.toUpperCase() === String(sec.password).toUpperCase()){
+  /* Mật khẩu dành cho giáo viên: nhập vào Phần 1 sẽ mở khóa tất cả các phần. */
+  if(slide._sectionIndex === 0 && val.toLowerCase() === TEACHER_PASSWORD){
+    gateError = '';
+    LESSON.sections.forEach((_, si) => unlockSection(si));
+    soundRight();
+    confetti();
+    render(true);
+  }else if(val.toUpperCase() === String(sec.password).toUpperCase()){
     gateError = '';
     unlockSection(slide._sectionIndex);
     soundRight();
@@ -1010,5 +1019,95 @@ window.addEventListener('resize', () => updateScrollHint());
 document.getElementById('lessonName').innerHTML =
   '<span>' + LESSON.icon + '</span> ' + LESSON.title;
 document.title = LESSON.title;
+
+/* Ngăn điều hướng bên trái: danh sách bài của khối, lấy từ spark-lv1/2/3.html.
+   Mở bằng nút ☰; bấm ra ngoài, nút ✕ hoặc Esc để đóng. */
+(function(){
+  const m = location.pathname.match(/\/spark(\d)\//);
+  const tools = document.querySelector('.tools');
+  if(!m || !tools) return;
+  const listUrl = new URL('spark-lv' + m[1] + '.html', LESSON_ROOT).href;
+
+  const toggle = document.createElement('button');
+  toggle.className = 'icon-btn nav-toggle';
+  toggle.setAttribute('aria-label', 'Danh sách bài học');
+  toggle.title = 'Danh sách bài học';
+  toggle.textContent = '☰';
+  document.body.appendChild(toggle);
+
+  const pane = document.createElement('aside');
+  pane.className = 'side-nav';
+  pane.innerHTML = '<div class="side-nav__head"><strong>Danh sách bài học</strong>' +
+    '<button class="side-nav__close" aria-label="Đóng">✕</button></div>' +
+    '<div class="side-nav__body">Đang tải…</div>';
+  const scrim = document.createElement('div');
+  scrim.className = 'side-nav__scrim';
+  document.body.appendChild(scrim);
+  document.body.appendChild(pane);
+  document.body.classList.add('has-side-nav');
+
+  const body = pane.querySelector('.side-nav__body');
+  const norm = u => u.split('#')[0].replace(/index\.html$/, '');
+  const here = norm(location.href);
+
+  function setOpen(open){ document.body.classList.toggle('side-nav-open', open); }
+  toggle.addEventListener('click', () => setOpen(!document.body.classList.contains('side-nav-open')));
+  scrim.addEventListener('click', () => setOpen(false));
+  pane.querySelector('.side-nav__close').addEventListener('click', () => setOpen(false));
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') setOpen(false); });
+
+  /* Danh sách bài nằm trong lessons-index.js (sinh bằng build-lesson-index.ps1),
+     nạp bằng thẻ script nên chạy được cả khi mở thẳng file từ ổ đĩa. */
+  function build(){
+    const items = (typeof LESSON_INDEX !== 'undefined' && LESSON_INDEX[m[1]]) || [];
+    const out = document.createElement('div');
+    items.forEach(it => {
+      if(it.topic){
+        const h = document.createElement('h4');
+        h.textContent = it.topic;
+        out.appendChild(h);
+        return;
+      }
+      const row = document.createElement('div');
+      row.className = 'side-nav__row';
+      const label = document.createElement('div');
+      label.className = 'side-nav__label';
+      label.textContent = (it.stt ? it.stt + '. ' : '') + it.name;
+      row.appendChild(label);
+      const links = document.createElement('div');
+      links.className = 'side-nav__links';
+      [].concat(it.links || []).forEach(l => {
+        const item = document.createElement(l.href ? 'a' : 'span');
+        item.textContent = l.text;
+        if(l.href){
+          const abs = new URL(l.href, listUrl).href;
+          item.href = abs;
+          item.target = '_blank';
+          item.rel = 'noopener';
+          if(norm(abs) === here) item.classList.add('is-current');
+        }else{
+          item.className = 'is-soon';
+          item.title = 'Sắp có';
+        }
+        links.appendChild(item);
+      });
+      row.appendChild(links);
+      if(links.querySelector('.is-current')) row.classList.add('is-current-row');
+      out.appendChild(row);
+    });
+    body.replaceChildren(out);
+    const cur = body.querySelector('.is-current-row');
+    if(cur) cur.scrollIntoView({block:'center'});
+  }
+
+  const s = document.createElement('script');
+  s.src = new URL('lessons-index.js', LESSON_ROOT).href;
+  s.onload = build;
+  s.onerror = () => {
+    body.innerHTML = '<a href="' + listUrl + '">← Về trang danh sách bài học</a>';
+  };
+  document.head.appendChild(s);
+})();
+
 
 render(true);
