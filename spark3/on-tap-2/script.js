@@ -14,7 +14,7 @@ Các dạng (type):
    ============================================================ */
 const GAME_TITLE = "Chuyến Tàu Tri Thức";
 
-const questions = [
+const QUESTION_BANK = [
   /* ===== Bài 9: Dữ liệu, thông tin và kiến thức ===== */
   { id:1, group:"Bài 9", short:"Câu hỏi “vì sao” và “như thế nào”", type:"single",
     question:"Em hãy cho biết, tùy chọn nào trả lời cho các câu hỏi vì sao và như thế nào?",
@@ -104,7 +104,7 @@ const questions = [
       {text:"Mùa hè năm nay mát hơn mùa hè năm ngoái.", answer:false},
       {text:"Hầu hết những người tin vào biến đổi khí hậu là những người đưa ra thuyết âm mưu.", answer:true}
     ],
-    explanation:"Câu 1 và câu 3 có thiên kiến vì nghiêng về một phía và chê người khác. Câu 2 chỉ so sánh thời tiết." },
+    explanation:"Phát biểu về việc Orson bỏ phiếu và phát biểu về “những người tin vào biến đổi khí hậu” có thiên kiến vì nghiêng về một phía và chê người khác. Phát biểu về mùa hè chỉ so sánh thời tiết." },
 
   { id:10, group:"Bài 11", short:"Thiên kiến trong tin nhắn: áo khoác", type:"tf-set",
     question:"Em nhận được tin nhắn sau:",
@@ -278,6 +278,9 @@ const milestones = [
   {at:28, icon:"🏆", name:"Chủ nhân Kho Báu Tri Thức"}
 ];
 
+/* Tỉ lệ câu đúng tối thiểu để được chúc mừng "ĐẠT" */
+const PASS_RATE = 0.9;
+
 /* Lời động viên ở màn hình cuối (từ điểm cao xuống thấp) */
 const endMessages = [
   {min:28, text:"Kho báu Tri Thức đã được mở! Tuyệt vời!"},
@@ -286,7 +289,8 @@ const endMessages = [
   {min:0,  text:"Bạn đã hoàn thành chuyến tàu! Hãy xem lại lời giải và thử lại để khám phá thêm."}
 ];
 
-const TOTAL = questions.length;
+let questions = QUESTION_BANK;
+const TOTAL = QUESTION_BANK.length;
 const $ = s => document.querySelector(s);
 
 /* Tạo phần tử DOM an toàn (dùng textContent, không dùng innerHTML với dữ liệu câu hỏi) */
@@ -302,6 +306,20 @@ function h(tag, props = {}, ...kids) {
   return e;
 }
 const shuffle = a => { a = [...a]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+
+/* Xáo trộn thứ tự câu hỏi và thứ tự đáp án (single/multi) mỗi lượt chơi; đáp án đúng được ánh xạ lại theo vị trí mới */
+function randomizeQuestions() {
+  return shuffle(QUESTION_BANK).map(q => {
+    if (q.type === "tf-set") return { ...q, items: shuffle(q.items) };
+    if (q.type !== "single" && q.type !== "multi") return q;
+    const order = shuffle(q.options.map((_, i) => i));   // order[vị trí mới] = chỉ số cũ
+    const pos = old => order.indexOf(old);
+    const c = { ...q, options: order.map(i => q.options[i]) };
+    if (q.type === "single") c.answer = pos(q.answer);
+    else c.answers = q.answers.map(pos);
+    return c;
+  });
+}
 
 /* ---------- Âm thanh (mặc định TẮT) ---------- */
 let soundOn = false, actx = null;
@@ -588,7 +606,11 @@ function showEnd() {
   $("#e-done").textContent = `📚 Đã hoàn thành: ${c.done}/${TOTAL}`;
   const top = [...milestones].reverse().find(m => c.done >= m.at);
   $("#e-achv").textContent = top ? `🏆 Thành tích: ${top.icon} ${top.name}` : "";
-  $("#e-msg").textContent = endMessages.find(m => state.score >= m.min).text;
+  const passed = state.score / TOTAL >= PASS_RATE;
+  $("#e-msg").textContent = (passed
+    ? "🎉 Chúc mừng bạn đã ĐẠT (" + Math.round(state.score / TOTAL * 100) + "% câu đúng)! "
+    : "💪 Chưa đạt (" + Math.round(state.score / TOTAL * 100) + "% câu đúng, cần từ " + Math.round(PASS_RATE * 100) + "%). Đừng nản nhé, hãy xem lại lời giải rồi bấm chơi lại — lần sau bạn sẽ làm tốt hơn! ")
+    + endMessages.find(m => state.score >= m.min).text;
   $("#e-msg").classList.add("hidden");
   // rương kho báu mở ra
   const chest = $("#chest"); chest.textContent = "🎁"; chest.className = "chest";
@@ -605,7 +627,7 @@ function showEnd() {
   }
 }
 
-function startGame() { state = newState(); show("game"); showQuestion(); }
+function startGame() { questions = randomizeQuestions(); state = newState(); show("game"); showQuestion(); }
 
 /* ---------- Khởi tạo ---------- */
 $("#start-sub").textContent = `${TOTAL} trạm đang chờ bạn khám phá!`;
