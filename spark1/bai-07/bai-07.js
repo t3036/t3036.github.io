@@ -278,20 +278,6 @@ const LESSON = {
           content: 'Điện thoại thông minh và máy tính bảng có thể mở ứng dụng học tập, trình duyệt hoặc công cụ AI. AI có thể hỗ trợ em học từ mới, gợi ý ý tưởng, luyện phát âm hoặc tóm tắt đơn giản.',
           imageUrl: null,
           remember: 'Khi ứng dụng AI xin quyền dùng <b>camera, micro, vị trí, ảnh hoặc thông báo</b>, em không tự bấm cho phép nếu chưa có hướng dẫn. Em cần dùng AI <b>đúng mục đích học tập</b>, không dùng AI làm thay bài và không dùng thiết bị quá lâu.'
-        },
-
-        /* Slide 17 (Trang 17 / 27) — slide hoàn thành RIÊNG cho bài học
-           chính (4 phần lý thuyết + luyện tập), tách biệt với slide hoàn
-           thành của phần Ôn tập ở cuối bài. */
-        {
-          type: 'info',
-          final: true,
-          scoreSections: [0, 1, 2, 3],
-          topic: 'Hoàn thành',
-          title: 'Chúc mừng em đã học xong Bài 7!',
-          content: 'Em đã biết thiết bị di động là gì, các thao tác sử dụng cơ bản, cách sạc thiết bị an toàn, và cách học với AI trên thiết bị di động một cách an toàn.',
-          imageUrl: null,
-          remember: 'Muốn ôn lại toàn bộ câu hỏi của bài, bấm "Tiếp theo" để sang phần <b>Ôn tập</b> ngay sau đây.'
         }
       ]
     },
@@ -308,6 +294,14 @@ const LESSON = {
       title: 'Ôn tập',
       password: PASSWORDS.s5,
       slides: [
+        {
+          type: 'info',
+          topic: 'Ôn tập',
+          title: 'ÔN TẬP',
+          content: 'Cùng ôn lại những kiến thức đã học trong Bài 7 qua các câu hỏi dưới đây nhé!',
+          imageUrl: null
+        },
+
         /* Slide 18 (Trang 18 / 27) */
         {
           type: 'quiz_matching',

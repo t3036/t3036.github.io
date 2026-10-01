@@ -186,6 +186,7 @@ function render(animate){
   else       updateButtons(slide, a);
 
   renderSectionChips(slide._sectionIndex);
+  exitFullscreenWhenDone();
 
   if(locked){
     const input = document.getElementById('gateInput');
@@ -612,6 +613,7 @@ function jumpToSection(si){
 function isQuiz(slide){ return slide.type !== 'info'; }
 
 function updateButtonsGate(){
+  el.mainBtn.classList.remove('btn--redo');
   el.retryBtn.hidden = true;
   el.mainBtn.hidden  = false;
   el.mainBtn.textContent = 'Mở khóa';
@@ -620,6 +622,7 @@ function updateButtonsGate(){
 
 function updateButtons(slide, a){
   const last = state.index === slidesData.length - 1;
+  el.mainBtn.classList.remove('btn--redo');
 
   if(isQuiz(slide) && !a.solved){
     if(a.checked){
@@ -638,13 +641,29 @@ function updateButtons(slide, a){
   el.mainBtn.hidden  = false;
 
   if(last && slide.final && slide.resetScope === 'section'){
-    el.mainBtn.textContent = 'Làm lại phần này';
+    setRedoBtn('Làm lại phần này');
     el.mainBtn.dataset.act = 'restart-section';
     return;
   }
 
-  el.mainBtn.textContent = last ? 'Học lại từ đầu' : 'Tiếp theo';
-  el.mainBtn.dataset.act = last ? 'restart' : 'next';
+  if(last){
+    setRedoBtn('Học lại từ đầu');
+    el.mainBtn.dataset.act = 'restart';
+    return;
+  }
+
+  el.mainBtn.textContent = 'Tiếp theo';
+  el.mainBtn.dataset.act = 'next';
+}
+
+const REDO_ICON =
+  '<svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+  'stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+  '<path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>';
+
+function setRedoBtn(label){
+  el.mainBtn.innerHTML = REDO_ICON + label;
+  el.mainBtn.classList.add('btn--redo');
 }
 
 
@@ -800,6 +819,7 @@ function go(step){
 }
 
 function restart(){
+  autoFullArmed = true;
   state.index = 0;
   state.answers = {};
   gateError = '';
@@ -810,6 +830,7 @@ function restart(){
     ví dụ phần "Ôn tập") — xoá đáp án của riêng các slide trong phần đó
     và quay về slide đầu tiên của phần, không đụng tới các phần khác. */
 function restartSection(){
+  autoFullArmed = true;
   const si = slidesData[state.index]._sectionIndex;
   Object.keys(state.answers).forEach(idx => {
     if(slidesData[idx] && slidesData[idx]._sectionIndex === si) delete state.answers[idx];
@@ -1005,11 +1026,45 @@ el.fullBtn.addEventListener('click', () => {
   else document.documentElement.requestFullscreen().catch(() => {});
 });
 
+/* Tự bật toàn màn hình khi học sinh bắt đầu học. Trình duyệt chỉ cho phép
+   khi có thao tác của người dùng, nên chờ lần bấm/phím đầu tiên (hoặc lần
+   đầu sau khi "Học lại"). Chỉ thoát khi tới trang hoàn thành CUỐI CÙNG của
+   cả bài (kể cả phần "Ôn tập"), không thoát ở trang hoàn thành giữa chừng. */
+let autoFullArmed = true;
+function autoEnterFullscreen(e){
+  if(!autoFullArmed) return;
+  if(e.target.closest && e.target.closest('#fullBtn, .nav-toggle, .side-nav')) return;
+  autoFullArmed = false;
+  if(!document.fullscreenElement)
+    document.documentElement.requestFullscreen().catch(() => {});
+}
+document.addEventListener('click', autoEnterFullscreen, true);
+document.addEventListener('keydown', autoEnterFullscreen, true);
+
+function exitFullscreenWhenDone(){
+  const s = slidesData[state.index];
+  if(s.final && state.index === slidesData.length - 1 && isUnlocked(s._sectionIndex) && document.fullscreenElement)
+    document.exitFullscreen().catch(() => {});
+}
+
 /* Bật/tắt toàn màn hình hoặc đổi cỡ cửa sổ làm khung hiển thị đổi kích
    thước ngay, nhưng không tự gọi lại render() — nếu không tính lại gợi ý
    cuộn ở đây, dòng nhắc có thể còn "kẹt" hiện dù giờ đã đủ chỗ (hoặc kẹt
    ẩn dù giờ lại thiếu chỗ). */
-document.addEventListener('fullscreenchange', () => updateScrollHint());
+document.addEventListener('fullscreenchange', () => {
+  updateFullBtn();
+  updateScrollHint();
+});
+
+/* Đổi chữ/biểu tượng nút theo trạng thái: đang toàn màn hình → "Thoát". */
+function updateFullBtn(){
+  const on = !!document.fullscreenElement;
+  const text = el.fullBtn.querySelector('.fs-btn__text');
+  const icon = el.fullBtn.querySelector('.fs-btn__icon');
+  if(text) text.textContent = on ? 'Thoát toàn màn hình' : 'Toàn màn hình';
+  if(icon) icon.textContent = on ? '✕' : '⛶';
+  el.fullBtn.title = on ? 'Thoát toàn màn hình' : 'Phóng to toàn màn hình';
+}
 window.addEventListener('resize', () => updateScrollHint());
 
 
@@ -1111,3 +1166,5 @@ document.title = LESSON.title;
 
 
 render(true);
+/* Chặn chuột phải */
+document.addEventListener('contextmenu', e => e.preventDefault());

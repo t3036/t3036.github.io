@@ -290,6 +290,9 @@ input,select{font-family:inherit}
 .btn--ghost:hover{background:var(--sky)}
 .btn--retry{background:var(--berry);color:var(--paper)}
 .btn--retry:hover{background:#f0455c}
+.btn--redo{background:var(--lilac);color:var(--paper)}
+.btn--redo:hover{background:#7566f0}
+.btn__icon{width:1em;height:1em;vertical-align:-.12em;margin-right:.4em}
 .btn[hidden]{display:none}
 
 /* ============================================================

@@ -277,3 +277,5 @@ function retryQuestion() {
 
 // Bắt đầu ngay khi load web
 window.onload = initGame;
+/* Chặn chuột phải */
+document.addEventListener('contextmenu', e => e.preventDefault());

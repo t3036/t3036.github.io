@@ -648,3 +648,6 @@ $("#btn-sound").onclick = () => {
   $("#btn-sound").setAttribute("aria-pressed", soundOn);
   beep(SND.click);
 };
+
+/* Chặn chuột phải */
+document.addEventListener('contextmenu', e => e.preventDefault());
