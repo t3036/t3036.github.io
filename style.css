@@ -111,7 +111,7 @@ body:has(.thanh-menu){font-family:"Be Vietnam Pro",-apple-system,"Segoe UI",Robo
   color:var(--xanh-dam);text-align:center;margin-bottom:.5rem}
 .mo-ta-khu{text-align:center;color:var(--mo);max-width:560px;margin:0 auto 2rem}
 .tieu-de-nhom:has(.nhan-cap){display:flex;justify-content:space-between;align-items:center;gap:.6rem}
-.nhan-cap{flex:none;padding:.3rem 1rem;
+.nhan-cap{flex:none;width:6.5rem;text-align:center;padding:.3rem 0;
   border-radius:999px;background:#FFF1D6;color:#B45F06;border:1px solid #F5C879;
   font-family:"Be Vietnam Pro",sans-serif;font-size:1.15rem;font-weight:800}
 .tieu-de-nhom{font-family:"Baloo 2",Bitter,serif;font-weight:700;font-size:1.25rem;
@@ -136,6 +136,7 @@ body:has(.thanh-menu){font-family:"Be Vietnam Pro",-apple-system,"Segoe UI",Robo
 .gs61{background:linear-gradient(160deg,#6FA8FF,#2A4BD8)}
 .gs62{background:linear-gradient(160deg,#7CD4FF,#1D8FCC)}
 .gs63{background:linear-gradient(160deg,#8CE0B0,#157F4A)}
+.k12{background:linear-gradient(160deg,#C79BFF,#7A3FD1)}
 
 @media(max-width:760px){.luoi-cap-do{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:480px){.luoi-cap-do{grid-template-columns:1fr}}
