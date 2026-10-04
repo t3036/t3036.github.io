@@ -286,7 +286,7 @@ function viewInfo(s){
     html += '<div class="things">';
     s.things.forEach(t => {
       html += '<div class="thing"><em>' + t.icon + '</em>' +
-              '<span>' + esc(t.name) + '</span>' +
+              '<span>' + esc(t.name).replace(/\n/g, '<br>') + '</span>' +
               '<small>' + esc(t.en) + '</small></div>';
     });
     html += '</div>';

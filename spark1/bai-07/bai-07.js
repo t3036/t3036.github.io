@@ -294,6 +294,7 @@ const LESSON = {
       title: 'Ôn tập',
       password: PASSWORDS.s5,
       slides: [
+        /* Slide 17 (Trang 17 / 27) */
         {
           type: 'info',
           topic: 'Ôn tập',

@@ -1277,7 +1277,7 @@ const LESSON_INDEX = {
                   "links":  [
                                 {
                                     "text":  "Bài học",
-                                    "href":  ""
+                                    "href":  "spark3/bai-16/index.html"
                                 },
                                 {
                                     "text":  "Ôn tập",
