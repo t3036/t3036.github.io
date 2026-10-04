@@ -82,10 +82,10 @@ const LESSON = {
           content: '<b>Trình duyệt Web</b> là một phần mềm cho phép người dùng truy cập và xem các trang Web, tài liệu, hình ảnh, Video,... trên Internet.',
           imageUrl: null,
           things: [
-            { icon: '🟢', name: 'Google Chrome', en: 'Phổ biến nhất, nhanh, nhiều tiện ích mở rộng' },
-            { icon: '🔷', name: 'Microsoft Edge', en: 'Tích hợp sẵn trong Windows 11, có Copilot AI' },
-            { icon: '🦊', name: 'Mozilla Firefox', en: 'Mã nguồn mở, bảo mật tốt' },
-            { icon: '🧭', name: 'Safari', en: 'Mặc định trên iPhone, iPad và Mac của Apple' }
+            { icon: '<img src="img/chrome.svg" alt="" style="height:1.1em">', name: 'Google Chrome', en: 'Phổ biến nhất, nhanh, nhiều tiện ích mở rộng' },
+            { icon: '<img src="img/edge.svg" alt="" style="height:1.1em">', name: 'Microsoft Edge', en: 'Tích hợp sẵn trong Windows 11, có Copilot AI' },
+            { icon: '<img src="img/firefox.svg" alt="" style="height:1.1em">', name: 'Mozilla Firefox', en: 'Mã nguồn mở, bảo mật tốt' },
+            { icon: '<img src="img/safari.png" alt="" style="height:1.1em">', name: 'Safari', en: 'Mặc định trên iPhone, iPad và Mac của Apple' }
           ]
         },
 
@@ -99,7 +99,7 @@ const LESSON = {
           things: [
             { icon: '⬅️', name: 'Nút quay lại (Back)', en: 'Quay về trang đã xem trước đó' },
             { icon: '➡️', name: 'Nút Tiến tới (Forward)', en: 'Chuyển đến trang đã từng xem rồi quay lại' },
-            { icon: '🔄', name: 'Nút Tải lại (Reload)', en: 'Tải lại trang web hiện tại' },
+            { icon: '↻', name: 'Nút Tải lại (Reload)', en: 'Tải lại trang web hiện tại' },
             { icon: '🏠', name: 'Nút Home', en: 'Quay về trang chủ mặc định' },
             { icon: '🔗', name: 'Thanh địa chỉ (Address Bar)', en: 'Nơi em nhập URL để truy cập' }
           ]
@@ -251,7 +251,7 @@ const LESSON = {
           topic: 'Phần 3 · Biểu mẫu',
           title: 'Biểu mẫu (Form)',
           content: '<b>Biểu mẫu</b> là một cửa sổ hoặc màn hình chứa nhiều trường (ô trống) để nhập dữ liệu. Biểu mẫu trên trang Web được gọi là <b>Webform</b>, cho phép người dùng nhập thông tin và gửi đến máy chủ Web (Web Server) để xử lí.',
-          imageUrl: null,
+          imageUrl: 'img/form-example.svg',
           remember: 'Ví dụ: biểu mẫu nhập thông tin đăng kí tài khoản trực tuyến, thông tin mua hàng,…'
         },
 
@@ -293,18 +293,18 @@ const LESSON = {
       password: PASSWORDS.s4,
       slides: [
         /* Slide 17 (Trang 17 / 54) */
-        {
-          type: 'info',
-          topic: 'Khởi động',
-          title: 'Khởi động',
-          content: 'Em hãy suy nghĩ và trả lời ba câu hỏi sau:',
-          imageUrl: null,
-          things: [
-            { icon: '1️⃣', name: 'Em có trang web nào hay truy cập mà không cần gõ địa chỉ không? Em mở nó bằng cách nào?', en: '' },
-            { icon: '2️⃣', name: 'Nếu em muốn lưu lại trang web đang xem để xem lại sau, em có thể làm gì?', en: '' },
-            { icon: '3️⃣', name: 'Khi giáo viên giới thiệu một công cụ AI học tập, em muốn dùng lại sau, em nên làm gì?', en: '' }
-          ]
-        },
+        // {
+        //   type: 'info',
+        //   topic: 'Khởi động',
+        //   title: 'Khởi động',
+        //   content: 'Em hãy suy nghĩ và trả lời ba câu hỏi sau:',
+        //   imageUrl: null,
+        //   things: [
+        //     { icon: '1️⃣', name: 'Em có trang web nào hay truy cập mà không cần gõ địa chỉ không? Em mở nó bằng cách nào?', en: '' },
+        //     { icon: '2️⃣', name: 'Nếu em muốn lưu lại trang web đang xem để xem lại sau, em có thể làm gì?', en: '' },
+        //     { icon: '3️⃣', name: 'Khi giáo viên giới thiệu một công cụ AI học tập, em muốn dùng lại sau, em nên làm gì?', en: '' }
+        //   ]
+        // },
 
         /* Slide 18 (Trang 18 / 54) */
         {
@@ -329,10 +329,10 @@ const LESSON = {
           content: 'Chức năng đều giống nhau, chỉ khác tên gọi:',
           imageUrl: null,
           things: [
-            { icon: '🟢', name: 'Google Chrome', en: 'Bookmark (Dấu trang)' },
-            { icon: '🔷', name: 'Microsoft Edge', en: 'Favorite (Yêu thích)' },
-            { icon: '🦊', name: 'Mozilla Firefox', en: 'Bookmark' },
-            { icon: '🧭', name: 'Safari', en: 'Bookmark' }
+            { icon: '<img src="img/chrome.svg" alt="" style="height:1.1em">', name: 'Google Chrome', en: 'Bookmark (Dấu trang)' },
+            { icon: '<img src="img/edge.svg" alt="" style="height:1.1em">', name: 'Microsoft Edge', en: 'Favorite (Yêu thích)' },
+            { icon: '<img src="img/firefox.svg" alt="" style="height:1.1em">', name: 'Mozilla Firefox', en: 'Bookmark' },
+            { icon: '<img src="img/safari.png" alt="" style="height:1.1em">', name: 'Safari', en: 'Bookmark' }
           ]
         },
 
