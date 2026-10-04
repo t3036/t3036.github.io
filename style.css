@@ -113,7 +113,7 @@ body:has(.thanh-menu){font-family:"Be Vietnam Pro",-apple-system,"Segoe UI",Robo
 .tieu-de-nhom:has(.nhan-cap){display:flex;justify-content:space-between;align-items:center;gap:.6rem}
 .nhan-cap{flex:none;width:6.5rem;text-align:center;padding:.3rem 0;
   border-radius:999px;background:#FFF1D6;color:#B45F06;border:1px solid #F5C879;
-  font-family:"Be Vietnam Pro",sans-serif;font-size:1.15rem;font-weight:800}
+  font-family:"Baloo 2",Bitter,serif;font-size:1.15rem;font-weight:700}
 .tieu-de-nhom{font-family:"Baloo 2",Bitter,serif;font-weight:700;font-size:1.25rem;
   color:var(--muc);margin:0 0 1rem}
 
