@@ -138,8 +138,16 @@ body:has(.thanh-menu){font-family:"Be Vietnam Pro",-apple-system,"Segoe UI",Robo
 .gs63{background:linear-gradient(160deg,#8CE0B0,#157F4A)}
 .k12{background:linear-gradient(160deg,#C79BFF,#7A3FD1)}
 
+.huong-dan{grid-column:span 2;background:#F4EBFF;border:1px solid #D9C2FF;border-radius:18px;
+  padding:1.2rem 1.4rem;color:var(--muc);text-align:left}
+.huong-dan-tieu-de{font-family:"Baloo 2",Bitter,serif;font-weight:700;font-size:1.15rem;
+  color:#5B2AA8;margin:0 0 .5rem}
+.huong-dan ol{margin:0;padding-left:1.3rem;font-size:.95rem;line-height:1.6}
+.huong-dan-video{margin:.7rem 0 0;font-size:.95rem;font-weight:700}
+.huong-dan-video a{color:#5B2AA8;text-decoration:underline}
+
 @media(max-width:760px){.luoi-cap-do{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:480px){.luoi-cap-do{grid-template-columns:1fr}}
+@media(max-width:480px){.luoi-cap-do{grid-template-columns:1fr}.huong-dan{grid-column:auto}}
 
 .chan-trang{text-align:center;padding:1.5rem 1rem;color:var(--mo);font-size:.85rem}
 .chan-trang p{margin:.25rem 0}
