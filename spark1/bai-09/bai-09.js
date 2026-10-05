@@ -41,7 +41,7 @@ const PASSWORDS = {
 const LESSON = {
   id:    'l1-bai9-an-toan-bao-mat',
   icon:  '🛡️',
-  title: 'Bài 9 — An toàn và bảo mật',
+  title: 'Bài 9 — Bắt nạt trực tuyến và ứng xử có trách nhiệm',
 
   sections: [
     /* ============================================================

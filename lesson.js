@@ -283,7 +283,7 @@ function viewInfo(s){
     });
     html += '</div>';
   }else if(s.things && s.things.length){
-    html += '<div class="things">';
+    html += '<div class="things"' + (s.columns ? ' style="grid-template-columns:repeat(' + s.columns + ',1fr)"' : '') + '>';
     s.things.forEach(t => {
       html += '<div class="thing"><em>' + t.icon + '</em>' +
               '<span>' + esc(t.name).replace(/\n/g, '<br>') + '</span>' +

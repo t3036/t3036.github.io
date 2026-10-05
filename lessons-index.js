@@ -125,7 +125,7 @@ const LESSON_INDEX = {
                   "links":  [
                                 {
                                     "text":  "Bài học",
-                                    "href":  ""
+                                    "href":  "spark1/bai-11/index.html"
                                 },
                                 {
                                     "text":  "Ôn tập",
@@ -620,7 +620,7 @@ const LESSON_INDEX = {
               },
               {
                   "stt":  "9",
-                  "name":  "An toàn và bảo mật (1)",
+                  "name":  "Bắt nạt trực tuyến và ứng xử có trách nhiệm",
                   "links":  [
                                 {
                                     "text":  "Bài học",
@@ -634,11 +634,11 @@ const LESSON_INDEX = {
               },
               {
                   "stt":  "10",
-                  "name":  "An toàn và bảo mật (2)",
+                  "name":  "Mật khẩu và dữ liệu cá nhân",
                   "links":  [
                                 {
                                     "text":  "Bài học",
-                                    "href":  ""
+                                    "href":  "spark1/bai-10/index.html"
                                 },
                                 {
                                     "text":  "Ôn tập",
@@ -648,7 +648,7 @@ const LESSON_INDEX = {
               },
               {
                   "stt":  "11",
-                  "name":  "An toàn và bảo mật (3)",
+                  "name":  "Bảo mật máy tính, thiết bị và tài khoản",
                   "links":  [
                                 {
                                     "text":  "Bài học",
