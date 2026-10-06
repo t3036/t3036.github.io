@@ -1,31 +1,12 @@
 /* ============================================================
-   DỮ LIỆU BÀI HỌC — BÀI 11: BẢO MẬT MÁY TÍNH, THIẾT BỊ VÀ TÀI KHOẢN
-   (IC3 GS6 Spark — Level 1 — Chủ đề: An toàn bảo mật)
-   ------------------------------------------------------------
-   Dùng chung engine với các bài khác (lesson.js + lesson.css),
-   cấu trúc và các dạng slide giống bai-09.js / bai-10.js.
-
-   Nguồn: PPTX gốc K3_B11_BaoMatMayTinh-ThietBi-TaiKhoan.pptx (41 slide).
-
-   Ghi chú:
-   - Đáp án các câu trắc nghiệm lấy theo nội dung bài học.
-   - Slide 6 và slide 18–22 gốc ("Cách bảo mật mật khẩu", "Bảo vệ
-     tài khoản AI") phần lớn là hình ảnh; nội dung ở đây được viết
-     lại ngắn gọn, nhất quán với các slide còn lại — giáo viên có
-     thể chỉnh sửa theo hình gốc.
-   - Phần Ôn tập dùng lại 12 câu hỏi đã học (slide 29–40 gốc).
-   - Hình minh họa được thay bằng emoji (imageUrl: null).
+   DỮ LIỆU TRANG ÔN TẬP — Bài 11 — Bảo mật máy tính, thiết bị và tài khoản
+   (tách từ phần Ôn tập của bai-11.js; dùng chung engine lesson.js)
    ============================================================ */
 
-/* ============================================================
-   MẬT KHẨU TỪNG PHẦN — để trống '' nếu muốn luôn mở sẵn.
-   ============================================================ */
 const PASSWORDS = {
-  s1: '',  // Phần 1 — Bảo mật máy tính
-  s2: '',  // Phần 2 — Một số cách bảo mật mật khẩu
-  s3: '',  // Phần 3 — Sử dụng thiết bị an toàn
-  s4: '',  // Phần 4 — Bảo vệ tài khoản AI (Đọc thêm)
+  s5: ''   // Phần 5 — Ôn tập
 };
+
 
 /* ------------------------------------------------------------
    NGÂN HÀNG CÂU HỎI — mỗi câu dùng 2 lần: trong phần học (topic
@@ -190,165 +171,43 @@ const Q = {
 };
 
 /* Tạo bản sao câu hỏi với topic tương ứng */
-const hoc    = (q) => Object.assign({}, q, { topic: 'Vận dụng' });
+const onTap  = (q) => Object.assign({}, q, { topic: 'Ôn tập' });
 
 const LESSON = {
-  id:    'l1-bai11-bao-mat-may-tinh-thiet-bi-tai-khoan',
+  id:    'l1-bai11-bao-mat-may-tinh-thiet-bi-tai-khoan-on-tap',
   icon:  '🔒',
-  title: 'Bài 11 — Bảo mật máy tính, thiết bị và tài khoản',
+  title: 'Ôn tập Bài 11 — Bảo mật máy tính, thiết bị và tài khoản',
 
   sections: [
     /* ============================================================
-       PHẦN 1 — Bảo mật máy tính
+       PHẦN 5 — Ôn tập
        ============================================================ */
     {
-      id: 's1',
-      title: 'Bảo mật máy tính',
-      password: PASSWORDS.s1,
+      id: 's5',
+      title: 'Ôn tập',
+      password: PASSWORDS.s5,
       slides: [
-        /* Slide 4 */
-        {
-          type: 'info',
-          topic: 'Phần 1 · Bảo mật máy tính',
-          title: 'Bảo mật máy tính',
-          content: '<b>Bảo mật</b> là cách để em tránh được phần mềm độc hại, phòng ngừa các hành vi tấn công trực tiếp vào máy tính và tránh đánh mất thông tin cá nhân của em.',
-          imageUrl: null,
-          things: [
-            { icon: '🔑', name: 'Đặt mật khẩu', en: '' },
-            { icon: '🛡️', name: 'Dùng phần mềm chống Virus', en: '' }
-          ]
-        },
-        hoc(Q.baoMatMayTinh)
-      ]
-    },
+        onTap(Q.cheBanPhim),
+        onTap(Q.vanChuyenLaptop),
+        onTap(Q.baoMatSoCo),
+        onTap(Q.cachSacAnToan),
+        onTap(Q.hongLaptop),
+        onTap(Q.yeuToHuHong),
+        onTap(Q.viTriSac),
+        onTap(Q.baoMatTrucTuyen),
+        onTap(Q.baoVeThietBiDiDong),
+        onTap(Q.baoMatMayTinh),
+        onTap(Q.dungSaiMatKhau),
+        onTap(Q.cachDungThietBiAnToan),
 
-    /* ============================================================
-       PHẦN 2 — Một số cách bảo mật mật khẩu
-       ============================================================ */
-    {
-      id: 's2',
-      title: 'Một số cách bảo mật mật khẩu',
-      password: PASSWORDS.s2,
-      slides: [
-        /* Slide 6 */
-        {
-          type: 'info',
-          topic: 'Phần 2 · Một số cách bảo mật mật khẩu',
-          title: 'Cách bảo mật mật khẩu',
-          content: 'Để giữ mật khẩu của em an toàn, hãy nhớ:',
-          imageUrl: null,
-          things: [
-            { icon: '🤐', name: 'Không chia sẻ mật khẩu', en: 'Mật khẩu là bí mật của riêng em, không nói cho bất kì ai.' },
-            { icon: '🗝️', name: 'Mỗi tài khoản một mật khẩu', en: 'Sử dụng một mật khẩu khác nhau cho mỗi tài khoản.' },
-            { icon: '💻', name: 'Không lưu mật khẩu trên máy tính', en: 'Tránh lưu mật khẩu ở nơi người khác có thể thấy.' }
-          ]
-        },
-        hoc(Q.baoMatSoCo),
-        hoc(Q.dungSaiMatKhau),
-        hoc(Q.baoMatTrucTuyen)
-      ]
-    },
-
-    /* ============================================================
-       PHẦN 3 — Sử dụng thiết bị an toàn
-       ============================================================ */
-    {
-      id: 's3',
-      title: 'Sử dụng thiết bị an toàn',
-      password: PASSWORDS.s3,
-      slides: [
-        /* Slide 9 */
-        {
-          type: 'info',
-          topic: 'Phần 3 · Sử dụng thiết bị an toàn',
-          title: 'Đặt và giữ thiết bị an toàn',
-          content: 'Em cần chú ý khi đặt máy tính và các thiết bị di động:',
-          imageUrl: null,
-          things: [
-            { icon: '🖥️', name: 'Đặt máy ở vị trí cố định', en: 'Đặt máy tính cố định trên bàn, không để máy trên đệm vì sẽ làm nóng máy, tránh nơi bụi bẩn và ẩm ướt.' },
-            { icon: '📱', name: 'Tránh vật nặng', en: 'Tránh để vật nặng lên thiết bị di động vì có thể làm nứt, vỡ màn hình.' },
-            { icon: '🥤', name: 'Tránh nước và thức ăn', en: 'Không để nước uống hoặc thức ăn gần máy tính và các thiết bị di động.' }
-          ]
-        },
-
-        /* Slide 10 */
-        {
-          type: 'info',
-          topic: 'Phần 3 · Sử dụng thiết bị an toàn',
-          title: 'Sạc, vận chuyển và vệ sinh thiết bị',
-          content: 'Em cũng cần nhớ những điều sau:',
-          imageUrl: null,
-          things: [
-            { icon: '🔌', name: 'Không vừa sạc vừa dùng', en: 'Không cắm sạc khi đang sử dụng thiết bị di động để tránh cháy nổ gây mất an toàn.' },
-            { icon: '⏻', name: 'Tắt máy trước khi vận chuyển', en: '' },
-            { icon: '🎒', name: 'Túi chống nước, chống sốc', en: 'Sử dụng túi hoặc balo chống nước và chống sốc để bảo vệ thiết bị khi di chuyển.' },
-            { icon: '🧽', name: 'Vệ sinh thường xuyên', en: 'Vệ sinh sạch sẽ thường xuyên giúp máy tính hoạt động tốt hơn.' }
-          ]
-        },
-        hoc(Q.baoVeThietBiDiDong),
-        hoc(Q.yeuToHuHong),
-        hoc(Q.viTriSac),
-        hoc(Q.cachSacAnToan),
-        hoc(Q.hongLaptop),
-        hoc(Q.vanChuyenLaptop),
-        hoc(Q.cheBanPhim),
-        hoc(Q.cachDungThietBiAnToan)
-      ]
-    },
-
-    /* ============================================================
-       PHẦN 4 — Bảo vệ tài khoản AI (Đọc thêm)
-       ============================================================ */
-    {
-      id: 's4',
-      title: 'Bảo vệ tài khoản AI',
-      password: PASSWORDS.s4,
-      slides: [
-        /* Slide 18–19 */
-        {
-          type: 'info',
-          topic: 'Đọc thêm · Bảo vệ tài khoản AI',
-          title: 'Bảo vệ tài khoản AI',
-          columns: 4,
-          content: 'Em cần bảo vệ tài khoản AI như bảo vệ tài khoản học tập hoặc email. <b>Không chia sẻ mật khẩu</b> cho người khác để giữ an toàn. Những thông tin nào <b>không nên</b> chia sẻ cho AI để bảo vệ tài khoản và bản thân?',
-          imageUrl: null,
-          things: [
-            { icon: '🔑', name: 'Mật khẩu', en: '' },
-            { icon: '🔢', name: 'Mã xác nhận', en: '' },
-            { icon: '🏠', name: 'Địa chỉ nhà', en: '' },
-            { icon: '📞', name: 'Số điện thoại', en: '' },
-            { icon: '🪪', name: 'Họ tên đầy đủ', en: '' },
-            { icon: '🖼️', name: 'Ảnh riêng tư', en: '' },
-            { icon: '👨‍👩‍👧‍👦', name: 'Thông tin gia đình', en: '' },
-            { icon: '💬', name: 'Nội dung riêng tư', en: '' }
-          ],
-          remember: 'Những thông tin như mật khẩu và dữ liệu cá nhân không nên chia sẻ cho AI để bảo vệ tài khoản và bản thân.'
-        },
-
-        /* Slide 21 */
-        {
-          type: 'info',
-          topic: 'Đọc thêm · Bảo vệ tài khoản AI',
-          title: 'Dừng lại trước khi bấm',
-          content: 'Khi nhận được yêu cầu mở liên kết, tải tệp hoặc cài ứng dụng, em hãy làm theo 3 bước:',
-          imageUrl: null,
-          things: [
-            { icon: '✋', name: '1. Dừng lại', en: 'Khi nhận được yêu cầu mở liên kết, tải tệp hoặc cài ứng dụng, em hãy DỪNG LẠI, không bấm vội.' },
-            { icon: '🔍', name: '2. Kiểm tra', en: 'Đọc kĩ nội dung, kiểm tra nguồn, xem xét địa chỉ trang Web hoặc tệp trước khi quyết định.' },
-            { icon: '🙋', name: '3. Hỏi người lớn', en: 'Nếu vẫn không chắc chắn, hãy hỏi giáo viên hoặc người lớn tin cậy trước khi thao tác.' }
-          ]
-        },
-
-        /* Slide hoàn thành RIÊNG cho bài học chính (scoreSections) */
+        /* Slide hoàn thành */
         {
           type: 'info',
           final: true,
-          scoreSections: [0, 1, 2],
           topic: 'Hoàn thành',
-          title: 'Chúc mừng em đã học xong Bài 11!',
-          content: 'Em đã biết cách bảo mật máy tính, bảo mật mật khẩu, sử dụng thiết bị an toàn và bảo vệ tài khoản AI của mình.',
-          imageUrl: null,
-          remember: 'Hãy vào trang <b>Ôn tập</b> để luyện thêm.'
+          title: 'Em đã ôn tập xong Bài 11!',
+          content: 'Xem lại điểm số bên dưới. Nếu muốn luyện thêm lần nữa, bấm nút làm lại.',
+          imageUrl: null
         }
       ]
     }

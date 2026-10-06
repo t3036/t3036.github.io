@@ -22,7 +22,6 @@
 const PASSWORDS = {
   s1: '',   // Phần 1 — Các thuật ngữ liên quan đến đánh giá thông tin
   s2: '',   // Phần 2 — Đánh giá kết quả đầu ra của AI
-  s3: ''    // Phần 3 — Ôn tập
 };
 
 const LESSON = {
@@ -113,48 +112,7 @@ const LESSON = {
           title: 'Chúc mừng em đã học xong Bài 10!',
           content: 'Em đã biết 4 tiêu chí đánh giá thông tin (chính xác, tin cậy, hợp lệ, liên quan), và biết cách áp dụng chúng để đánh giá kết quả đầu ra của AI.',
           imageUrl: null,
-          remember: 'Muốn ôn lại câu hỏi của bài, bấm "Tiếp theo" để sang phần <b>Ôn tập</b> ngay sau đây.'
-        }
-      ]
-    },
-
-    /* ============================================================
-       PHẦN 3 — Ôn tập (mật khẩu: DGTT03)
-       ------------------------------------------------------------
-       PDF gốc chỉ có duy nhất 1 bài luyện tập trong toàn bài, nên
-       phần Ôn tập ở đây cũng chỉ có 1 câu — đúng theo tài liệu gốc,
-       không phải thiếu sót.
-       ============================================================ */
-    {
-      id: 's3',
-      title: 'Ôn tập',
-      password: PASSWORDS.s3,
-      slides: [
-        /* Slide 6 (Trang 6 / 7) */
-        {
-          type: 'quiz_matching',
-          topic: 'Ôn tập',
-          question: 'Em hãy di chuyển từng thuật ngữ từ danh sách ở bên phải sang phát biểu tương ứng ở bên trái.',
-          pairs: [
-            { icon: '🛡️', left: 'Thông tin có thể tin được hay đáng tin cậy như thế nào', right: 'Credibility (Sự uy tín)' },
-            { icon: '🔍', left: 'Mức độ áp dụng hoặc hữu ích của thông tin, kết quả tìm kiếm hoặc nội dung', right: 'Relevance (Mức độ liên quan)' }
-          ],
-          hint: '"Tin được hay không" là Độ tin cậy; "Hữu ích/áp dụng được" là Mức độ liên quan.',
-          explain: 'Credibility (Độ tin cậy) nói về việc thông tin có đáng tin hay không. Relevance (Mức độ liên quan) nói về việc thông tin có hữu ích/áp dụng được hay không.'
-        },
-
-        /* Slide 7 (Trang 7 / 7) — slide hoàn thành RIÊNG của phần Ôn tập.
-           resetScope:'section' báo cho app.js biết: nút ở đây chỉ làm lại
-           câu của phần Ôn tập (giữ nguyên tiến trình 2 phần trước), và
-           điểm số hiển thị cũng chỉ tính trong phạm vi phần này. */
-        {
-          type: 'info',
-          final: true,
-          resetScope: 'section',
-          topic: 'Hoàn thành',
-          title: 'Em đã ôn tập xong Bài 10!',
-          content: 'Xem lại điểm số bên dưới. Nếu muốn luyện lại, bấm nút "Làm lại phần này" — các đáp án của 2 phần học trước sẽ không bị ảnh hưởng.',
-          imageUrl: null
+          remember: 'Muốn ôn lại câu hỏi của bài, hãy vào trang <b>Ôn tập</b> để luyện thêm.'
         }
       ]
     }

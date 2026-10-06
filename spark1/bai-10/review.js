@@ -1,31 +1,12 @@
 /* ============================================================
-   DỮ LIỆU BÀI HỌC — BÀI 10: MẬT KHẨU VÀ DỮ LIỆU CÁ NHÂN
-   (IC3 GS6 Spark — Level 1 — Chủ đề: An toàn bảo mật)
-   ------------------------------------------------------------
-   Dùng chung engine với các bài khác (lesson.js + lesson.css),
-   cấu trúc và các dạng slide giống bai-09.js / bai-08.js.
-
-   Nguồn: PPTX gốc K3_B10_MatKhauVaDuLieuCaNhan.pptx (60 slide).
-
-   Ghi chú:
-   - Đáp án các câu trắc nghiệm lấy theo nội dung bài học; riêng câu
-     "cửa sổ bật lên" (Có / Không) đáp án dựa trên hình trong slide gốc
-     nên cần giáo viên kiểm tra lại nếu khác.
-   - Slide 33–36 gốc ("Dữ liệu cá nhân và AI") là phần Đọc thêm,
-     chỉ là slide đọc, không chấm điểm.
-   - Phần Ôn tập dùng lại 22 câu hỏi đã học (slide 38–59 gốc).
-   - Hình minh họa được thay bằng emoji (imageUrl: null).
+   DỮ LIỆU TRANG ÔN TẬP — Bài 10 — Mật khẩu và dữ liệu cá nhân
+   (tách từ phần Ôn tập của bai-10.js; dùng chung engine lesson.js)
    ============================================================ */
 
-/* ============================================================
-   MẬT KHẨU TỪNG PHẦN — để trống '' nếu muốn luôn mở sẵn.
-   ============================================================ */
 const PASSWORDS = {
-  s1: '',  // Phần 1 — Khái niệm mật khẩu
-  s2: '',  // Phần 2 — Dữ liệu cá nhân và tầm quan trọng
-  s3: '',  // Phần 3 — Ứng xử trực tuyến phù hợp
-  s4: '',  // Phần 4 — Dữ liệu cá nhân và AI (Đọc thêm)
+  s5: ''   // Phần 5 — Ôn tập
 };
+
 
 /* ------------------------------------------------------------
    NGÂN HÀNG CÂU HỎI — mỗi câu dùng 2 lần: trong phần học (topic
@@ -311,188 +292,53 @@ const Q = {
 };
 
 /* Tạo bản sao câu hỏi với topic tương ứng */
-const hoc    = (q) => Object.assign({}, q, { topic: 'Vận dụng' });
+const onTap  = (q) => Object.assign({}, q, { topic: 'Ôn tập' });
 
 const LESSON = {
-  id:    'l1-bai10-mat-khau-du-lieu-ca-nhan',
+  id:    'l1-bai10-mat-khau-du-lieu-ca-nhan-on-tap',
   icon:  '🔑',
-  title: 'Bài 10 — Mật khẩu và dữ liệu cá nhân',
+  title: 'Ôn tập Bài 10 — Mật khẩu và dữ liệu cá nhân',
 
   sections: [
     /* ============================================================
-       PHẦN 1 — Khái niệm mật khẩu
+       PHẦN 5 — Ôn tập
        ============================================================ */
     {
-      id: 's1',
-      title: 'Khái niệm mật khẩu',
-      password: PASSWORDS.s1,
+      id: 's5',
+      title: 'Ôn tập',
+      password: PASSWORDS.s5,
       slides: [
-        /* Slide 4 */
-        {
-          type: 'info',
-          topic: 'Phần 1 · Khái niệm mật khẩu',
-          title: 'Khái niệm mật khẩu',
-          content: '<b>Mật khẩu</b> là chuỗi kí tự bí mật do người dùng tự đặt. <b>Mật khẩu an toàn</b> phải đảm bảo các yếu tố sau:',
-          imageUrl: null,
-          things: [
-            { icon: '📏', name: 'Dài ít nhất 8 kí tự', en: '' },
-            { icon: '🔢', name: 'Chữ số', en: '0, 1, 2, …' },
-            { icon: '🔡', name: 'Chữ thường', en: 'a, b, c, …' },
-            { icon: '🔠', name: 'Chữ in', en: 'A, B, C, …' },
-            { icon: '✳️', name: 'Kí tự đặc biệt', en: '!, @, #, …' }
-          ],
-          remember: 'Ví dụ mật khẩu an toàn: <b>IC#gs6l3v3l!</b>'
-        },
-        hoc(Q.matKhauAnToan),
-        hoc(Q.matKhauJenny),
-        hoc(Q.manhYeu),
-        hoc(Q.meoMatKhau),
-        hoc(Q.lolMatKhau)
-      ]
-    },
+        onTap(Q.manhYeu),
+        onTap(Q.anToanChiaSe),
+        onTap(Q.loiMoiDuTiec),
+        onTap(Q.khongAnToanGps),
+        onTap(Q.khongNenChiaSe),
+        onTap(Q.meoMatKhau),
+        onTap(Q.cuaSoBatLen),
+        onTap(Q.hanhViTucTiu),
+        onTap(Q.nhomBanBe),
+        onTap(Q.nguoiLa),
+        onTap(Q.matKhauAnToan),
+        onTap(Q.chon3KhongChiaSe),
+        onTap(Q.banBeThichHop),
+        onTap(Q.yeuCauDiaChi),
+        onTap(Q.emailTrungThuong),
+        onTap(Q.tuyChonBanBe),
+        onTap(Q.xoaAnh),
+        onTap(Q.matKhauJenny),
+        onTap(Q.lolMatKhau),
+        onTap(Q.thongTinCoTheChiaSe),
+        onTap(Q.ruiRoHinhAnh),
+        onTap(Q.thongBaoTrungThuong),
 
-    /* ============================================================
-       PHẦN 2 — Dữ liệu cá nhân và tầm quan trọng
-       ============================================================ */
-    {
-      id: 's2',
-      title: 'Dữ liệu cá nhân và tầm quan trọng',
-      password: PASSWORDS.s2,
-      slides: [
-        /* Slide 10 */
-        {
-          type: 'info',
-          topic: 'Phần 2 · Dữ liệu cá nhân',
-          title: 'Dữ liệu cá nhân',
-          columns: 4,
-          content: '<b>Dữ liệu cá nhân</b> là các thông tin cá nhân của em như:',
-          imageUrl: null,
-          things: [
-            { icon: '👤', name: 'Họ tên', en: '' },
-            { icon: '🎂', name: 'Ngày sinh', en: '' },
-            { icon: '🏠', name: 'Địa chỉ nhà', en: '' },
-            { icon: '📍', name: 'Địa điểm yêu thích em hay đến', en: '' },
-            { icon: '🛰️', name: 'GPS vị trí của em', en: '' },
-            { icon: '🏫', name: 'Trường em', en: '' },
-            { icon: '📞', name: 'Số điện thoại', en: '' }
-          ],
-          remember: '<b>GPS (Global Positioning System — Hệ thống định vị toàn cầu)</b> là một mạng lưới các vệ tinh và thiết bị thu tín hiệu được sử dụng để xác định vị trí của một đối tượng trên bề mặt trái đất.'
-        },
-
-        /* Slide 11 */
-        {
-          type: 'info',
-          topic: 'Phần 2 · Tầm quan trọng',
-          title: 'Vì sao phải bảo vệ dữ liệu cá nhân?',
-          content: 'Nếu dữ liệu cá nhân bị lộ, kẻ xấu có thể sử dụng để gây hậu quả cả về vật chất và tinh thần của em.',
-          imageUrl: null,
-          things: [
-            { icon: '💸', name: 'Tống tiền', en: '' },
-            { icon: '🎭', name: 'Lừa đảo', en: '' },
-            { icon: '🏦', name: 'Chiếm đoạt tài sản', en: '' },
-            { icon: '😢', name: 'Xâm phạm danh dự', en: '' }
-          ]
-        },
-        hoc(Q.khongNenChiaSe),
-        hoc(Q.chon3KhongChiaSe),
-        hoc(Q.thongTinCoTheChiaSe),
-        hoc(Q.anToanChiaSe),
-        hoc(Q.khongAnToanGps),
-        hoc(Q.xoaAnh),
-        hoc(Q.ruiRoHinhAnh)
-      ]
-    },
-
-    /* ============================================================
-       PHẦN 3 — Ứng xử trực tuyến phù hợp
-       ============================================================ */
-    {
-      id: 's3',
-      title: 'Ứng xử trực tuyến phù hợp',
-      password: PASSWORDS.s3,
-      slides: [
-        /* Slide 18 */
-        {
-          type: 'info',
-          topic: 'Phần 3 · Ứng xử trực tuyến phù hợp',
-          title: 'Ứng xử trực tuyến phù hợp',
-          content: 'Em nên <b>chọn lọc bạn bè trực tuyến</b> phù hợp để chia sẻ và học hỏi được nhiều điều hay, có thêm nhiều niềm vui.',
-          imageUrl: null,
-          things: [
-            { icon: '🖼️', name: 'Hình ảnh', en: '' },
-            { icon: '🔑', name: 'Mật khẩu', en: '' },
-            { icon: '👤', name: 'Tài khoản', en: '' },
-            { icon: '🏠', name: 'Địa chỉ nhà', en: '' }
-          ],
-          remember: 'Em <b>KHÔNG</b> nên cung cấp thông tin cá nhân như hình ảnh, mật khẩu, tài khoản, địa chỉ nhà, … do ai đó yêu cầu.'
-        },
-        hoc(Q.nhomBanBe),
-        hoc(Q.banBeThichHop),
-        hoc(Q.tuyChonBanBe),
-        hoc(Q.nguoiLa),
-        hoc(Q.yeuCauDiaChi),
-        hoc(Q.loiMoiDuTiec),
-        hoc(Q.hanhViTucTiu),
-        hoc(Q.emailTrungThuong),
-        hoc(Q.thongBaoTrungThuong),
-        hoc(Q.cuaSoBatLen)
-      ]
-    },
-
-    /* ============================================================
-       PHẦN 4 — Dữ liệu cá nhân và AI (Đọc thêm)
-       ============================================================ */
-    {
-      id: 's4',
-      title: 'Dữ liệu cá nhân và AI',
-      password: PASSWORDS.s4,
-      slides: [
-        /* Slide 29 */
-        {
-          type: 'info',
-          topic: 'Đọc thêm · Dữ liệu cá nhân và AI',
-          title: 'Không nhập dữ liệu cá nhân vào AI',
-          content: '<b>Mật khẩu</b> và <b>dữ liệu cá nhân</b> không được nhập vào AI hoặc website lạ.',
-          imageUrl: null
-        },
-
-        /* Slide 30 */
-        {
-          type: 'info',
-          topic: 'Đọc thêm · Dữ liệu cá nhân và AI',
-          title: 'Dữ liệu cá nhân, mật khẩu và cách hỏi AI',
-          content: 'Em cần nhớ ba điều sau khi dùng AI:',
-          imageUrl: null,
-          things: [
-            { icon: '👤', name: 'Dữ liệu cá nhân', en: 'Có thể là họ tên đầy đủ, địa chỉ, số điện thoại, tên tài khoản, mật khẩu, ảnh cá nhân, giọng nói hoặc thông tin gia đình.' },
-            { icon: '🔑', name: 'Mật khẩu', en: 'Mật khẩu không bao giờ là nội dung để hỏi AI. Em không nhờ AI kiểm tra mật khẩu thật và không chia sẻ mật khẩu với bạn bè.' },
-            { icon: '💬', name: 'Cách hỏi AI', en: 'Khi cần hỏi AI, em có thể dùng dữ liệu giả lập hoặc mô tả chung.' }
-          ]
-        },
-
-        /* Slide 31 */
-        {
-          type: 'info',
-          topic: 'Đọc thêm · Dữ liệu cá nhân và AI',
-          title: 'So sánh hai yêu cầu gửi AI',
-          content: 'Hãy so sánh hai cách hỏi AI dưới đây:',
-          imageUrl: null,
-          things: [
-            { icon: '⚠️', name: 'Yêu cầu chưa an toàn', en: '"AI ơi, mật khẩu email của em là Rian1234!, em quên mất rồi, giúp em kiểm tra nhé."' },
-            { icon: '✅', name: 'Yêu cầu an toàn hơn', en: '"AI ơi, giúp em cách tạo mật khẩu mạnh và những lưu ý để bảo vệ tài khoản nhé."' }
-          ]
-        },
-
-        /* Slide hoàn thành RIÊNG cho bài học chính (scoreSections) */
+        /* Slide hoàn thành */
         {
           type: 'info',
           final: true,
-          scoreSections: [0, 1, 2],
           topic: 'Hoàn thành',
-          title: 'Chúc mừng em đã học xong Bài 10!',
-          content: 'Em đã biết cách đặt mật khẩu an toàn, hiểu dữ liệu cá nhân và vì sao phải bảo vệ nó, biết ứng xử phù hợp với bạn bè trực tuyến và không nhập dữ liệu cá nhân vào AI.',
-          imageUrl: null,
-          remember: 'Hãy vào trang <b>Ôn tập</b> để luyện thêm.'
+          title: 'Em đã ôn tập xong Bài 10!',
+          content: 'Xem lại điểm số bên dưới. Nếu muốn luyện thêm lần nữa, bấm nút làm lại.',
+          imageUrl: null
         }
       ]
     }

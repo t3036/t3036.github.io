@@ -70,7 +70,7 @@ const LESSON_INDEX = {
                                 },
                                 {
                                     "text":  "Ôn tập",
-                                    "href":  ""
+                                    "href":  "spark2/bai-07/review.html"
                                 }
                             ]
               },
@@ -84,7 +84,7 @@ const LESSON_INDEX = {
                                 },
                                 {
                                     "text":  "Ôn tập",
-                                    "href":  ""
+                                    "href":  "spark2/bai-08/review.html"
                                 }
                             ]
               },
@@ -115,7 +115,7 @@ const LESSON_INDEX = {
                                 },
                                 {
                                     "text":  "Ôn tập",
-                                    "href":  ""
+                                    "href":  "spark2/bai-09-10/review.html"
                                 }
                             ]
               },
@@ -129,7 +129,7 @@ const LESSON_INDEX = {
                                 },
                                 {
                                     "text":  "Ôn tập",
-                                    "href":  ""
+                                    "href":  "spark1/bai-11/review.html"
                                 }
                             ]
               },
@@ -569,7 +569,7 @@ const LESSON_INDEX = {
                                 },
                                 {
                                     "text":  "Ôn tập",
-                                    "href":  ""
+                                    "href":  "spark1/bai-05-06/review.html"
                                 }
                             ]
               },
@@ -583,7 +583,7 @@ const LESSON_INDEX = {
                                 },
                                 {
                                     "text":  "Ôn tập",
-                                    "href":  ""
+                                    "href":  "spark1/bai-07/review.html"
                                 }
                             ]
               },
@@ -597,7 +597,7 @@ const LESSON_INDEX = {
                                 },
                                 {
                                     "text":  "Ôn tập",
-                                    "href":  ""
+                                    "href":  "spark1/bai-08/review.html"
                                 }
                             ]
               },
@@ -642,7 +642,7 @@ const LESSON_INDEX = {
                                 },
                                 {
                                     "text":  "Ôn tập",
-                                    "href":  ""
+                                    "href":  "spark1/bai-10/review.html"
                                 }
                             ]
               },
@@ -1149,7 +1149,7 @@ const LESSON_INDEX = {
                                 },
                                 {
                                     "text":  "Ôn tập",
-                                    "href":  ""
+                                    "href":  "spark3/bai-08/review.html"
                                 }
                             ]
               },
@@ -1180,7 +1180,7 @@ const LESSON_INDEX = {
                                 },
                                 {
                                     "text":  "Ôn tập",
-                                    "href":  ""
+                                    "href":  "spark3/bai-09/review.html"
                                 }
                             ]
               },
@@ -1194,7 +1194,7 @@ const LESSON_INDEX = {
                                 },
                                 {
                                     "text":  "Ôn tập",
-                                    "href":  ""
+                                    "href":  "spark3/bai-10/review.html"
                                 }
                             ]
               },
@@ -1208,7 +1208,7 @@ const LESSON_INDEX = {
                                 },
                                 {
                                     "text":  "Ôn tập",
-                                    "href":  ""
+                                    "href":  "spark3/bai-11/review.html"
                                 }
                             ]
               },
@@ -1222,7 +1222,7 @@ const LESSON_INDEX = {
                                 },
                                 {
                                     "text":  "Ôn tập",
-                                    "href":  ""
+                                    "href":  "spark3/bai-12-13/review.html"
                                 }
                             ]
               },
@@ -1236,7 +1236,7 @@ const LESSON_INDEX = {
                                 },
                                 {
                                     "text":  "Ôn tập",
-                                    "href":  ""
+                                    "href":  "spark3/bai-14/review.html"
                                 }
                             ]
               },
@@ -1250,7 +1250,7 @@ const LESSON_INDEX = {
                                 },
                                 {
                                     "text":  "Ôn tập",
-                                    "href":  ""
+                                    "href":  "spark3/bai-15/review.html"
                                 }
                             ]
               },
