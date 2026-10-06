@@ -29,3 +29,24 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 });
+document.addEventListener('DOMContentLoaded', function () {
+  var nut = document.getElementById('nutSaoChep');
+  var mk = document.getElementById('matKhau');
+  if (!nut || !mk) return;
+  nut.addEventListener('click', function () {
+    var van = mk.textContent.trim();
+    function xong() {
+      nut.textContent = 'Đã sao chép ✓';
+      setTimeout(function () { nut.textContent = 'Sao chép'; }, 1500);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(van).then(xong, function () { duPhong(); });
+    } else { duPhong(); }
+    function duPhong() {
+      var o = document.createElement('textarea');
+      o.value = van; document.body.appendChild(o); o.select();
+      try { document.execCommand('copy'); xong(); } catch (e) {}
+      document.body.removeChild(o);
+    }
+  });
+});
