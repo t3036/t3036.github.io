@@ -628,7 +628,7 @@ const LESSON_INDEX = {
                                 },
                                 {
                                     "text":  "Ôn tập",
-                                    "href":  ""
+                                    "href":  "spark1/bai-09/review.html"
                                 }
                             ]
               },

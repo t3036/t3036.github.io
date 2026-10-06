@@ -5,7 +5,7 @@
    Dùng chung engine với các bài khác (lesson.js + lesson.css),
    cấu trúc và các dạng slide giống bai-09.js / bai-10.js.
 
-   Nguồn: PPTX gốc K3_B11_BaoMatMayTinh-ThietBi-TaiKhoan.pptx (31 slide).
+   Nguồn: PPTX gốc K3_B11_BaoMatMayTinh-ThietBi-TaiKhoan.pptx (41 slide).
 
    Ghi chú:
    - Đáp án các câu trắc nghiệm lấy theo nội dung bài học.
@@ -13,7 +13,7 @@
      tài khoản AI") phần lớn là hình ảnh; nội dung ở đây được viết
      lại ngắn gọn, nhất quán với các slide còn lại — giáo viên có
      thể chỉnh sửa theo hình gốc.
-   - Phần Ôn tập dùng lại 7 câu hỏi đã học (slide 24–30 gốc).
+   - Phần Ôn tập dùng lại 12 câu hỏi đã học (slide 29–40 gốc).
    - Hình minh họa được thay bằng emoji (imageUrl: null).
    ============================================================ */
 
@@ -44,6 +44,75 @@ const Q = {
     ],
     hint: 'Mật khẩu là bí mật của riêng em và mỗi tài khoản nên có một mật khẩu riêng.',
     explain: 'Không chia sẻ mật khẩu và dùng mật khẩu khác nhau cho mỗi tài khoản là phù hợp (Có). Lưu mật khẩu trên máy tính hay nói mật khẩu cho người khác đều không an toàn (Không).'
+  },
+
+  baoMatMayTinh: {
+    type: 'quiz_single',
+    question: 'Em hãy cho biết, để bảo mật máy tính em nên làm gì?',
+    options: [
+      'Đặt mật khẩu cho máy tính',
+      'Sử dụng phần mềm chống Virus',
+      'Không truy cập Internet',
+      'Đặt mật khẩu cho máy tính và sử dụng phần mềm chống Virus'
+    ],
+    correctAnswer: 3,
+    hint: 'Có hai cách bảo mật đã học trong bài, em cần dùng cả hai.',
+    explain: 'Để bảo mật máy tính, em đặt mật khẩu cho máy tính và sử dụng phần mềm chống Virus. Không truy cập Internet không phải là cách bảo mật thực tế.'
+  },
+
+  dungSaiMatKhau: {
+    type: 'quiz_dropdown',
+    question: 'Em hãy chọn Đúng hoặc Sai cho các phát biểu sau: Dùng chung một mật khẩu cho các tài khoản khác nhau ___ Không chia sẻ mật khẩu của em cho người khác ___ Lưu trữ thông tin dữ liệu tại một nơi duy nhất ___ Không sử dụng thông tin cá nhân làm mật khẩu ___',
+    blanks: [
+      { options: ['Đúng', 'Sai'], correctAnswer: 1 },
+      { options: ['Đúng', 'Sai'], correctAnswer: 0 },
+      { options: ['Đúng', 'Sai'], correctAnswer: 1 },
+      { options: ['Đúng', 'Sai'], correctAnswer: 0 }
+    ],
+    hint: 'Mỗi tài khoản cần mật khẩu riêng, mật khẩu là bí mật và không dựa trên thông tin cá nhân.',
+    explain: 'Không nên dùng chung mật khẩu (Sai) và không nên chỉ lưu dữ liệu ở một nơi duy nhất (Sai). Không chia sẻ mật khẩu và không dùng thông tin cá nhân làm mật khẩu là đúng (Đúng).'
+  },
+
+  baoMatTrucTuyen: {
+    type: 'quiz_multiple',
+    question: 'Em hãy cho biết, khi hoạt động trực tuyến để bảo mật thông tin của mình em nên làm gì? (Chọn 2)',
+    options: [
+      'Sử dụng cùng một mật khẩu cho các tài khoản',
+      'Chia sẻ mật khẩu cho nhiều người',
+      'Hạn chế sử dụng thông tin cá nhân làm mật khẩu',
+      'Tránh dùng chung một mật khẩu cho các tài khoản khác nhau'
+    ],
+    correctAnswers: [2, 3],
+    hint: 'Mật khẩu cần khó đoán, bí mật và riêng cho từng tài khoản.',
+    explain: 'Em nên hạn chế dùng thông tin cá nhân làm mật khẩu và tránh dùng chung một mật khẩu cho nhiều tài khoản. Dùng chung mật khẩu hay chia sẻ cho nhiều người đều không an toàn.'
+  },
+
+  baoVeThietBiDiDong: {
+    type: 'quiz_single',
+    question: 'Em hãy cho biết, làm thế nào để bảo vệ các thiết bị di động?',
+    options: [
+      'Để vật nặng lên thiết bị di động',
+      'Đặt thức ăn và nước uống gần thiết bị di động',
+      'Để máy trên đệm khi làm việc',
+      'Sử dụng balo chống sốc để bảo vệ thiết bị khi di chuyển'
+    ],
+    correctAnswer: 3,
+    hint: 'Ba cách còn lại đều có thể làm hỏng thiết bị.',
+    explain: 'Dùng balo chống sốc giúp bảo vệ thiết bị khi di chuyển. Vật nặng làm vỡ màn hình, thức ăn và nước làm hỏng máy, còn để máy trên đệm làm máy nóng.'
+  },
+
+  cachDungThietBiAnToan: {
+    type: 'quiz_single',
+    question: 'Trong các tùy chọn sau, tùy chọn nào là cách sử dụng thiết bị an toàn?',
+    options: [
+      'Đặt máy tính ở vị trí cố định trên bàn, không nên để máy trên đệm sẽ làm nóng máy, tránh để máy ở nơi bụi bẩn và ẩm ướt',
+      'Tránh để những vật nặng lên trên các thiết bị di động vì có thể làm nứt, vỡ màn hình',
+      'Không cắm sạc khi đang sử dụng thiết bị di động để tránh cháy nổ gây mất an toàn',
+      'Tất cả các cách trên đều an toàn khi sử dụng thiết bị'
+    ],
+    correctAnswer: 3,
+    hint: 'Hãy xem lại từng cách: có cách nào sai không?',
+    explain: 'Cả ba cách trên đều đúng: đặt máy cố định nơi sạch khô ráo, không để vật nặng lên thiết bị di động và không vừa sạc vừa dùng. Vì vậy đáp án là tất cả các cách trên.'
   },
 
   yeuToHuHong: {
@@ -150,7 +219,8 @@ const LESSON = {
             { icon: '🔑', name: 'Đặt mật khẩu', en: '' },
             { icon: '🛡️', name: 'Dùng phần mềm chống Virus', en: '' }
           ]
-        }
+        },
+        hoc(Q.baoMatMayTinh)
       ]
     },
 
@@ -175,7 +245,9 @@ const LESSON = {
             { icon: '💻', name: 'Không lưu mật khẩu trên máy tính', en: 'Tránh lưu mật khẩu ở nơi người khác có thể thấy.' }
           ]
         },
-        hoc(Q.baoMatSoCo)
+        hoc(Q.baoMatSoCo),
+        hoc(Q.dungSaiMatKhau),
+        hoc(Q.baoMatTrucTuyen)
       ]
     },
 
@@ -215,12 +287,14 @@ const LESSON = {
             { icon: '🧽', name: 'Vệ sinh thường xuyên', en: 'Vệ sinh sạch sẽ thường xuyên giúp máy tính hoạt động tốt hơn.' }
           ]
         },
+        hoc(Q.baoVeThietBiDiDong),
         hoc(Q.yeuToHuHong),
         hoc(Q.viTriSac),
         hoc(Q.cachSacAnToan),
         hoc(Q.hongLaptop),
         hoc(Q.vanChuyenLaptop),
-        hoc(Q.cheBanPhim)
+        hoc(Q.cheBanPhim),
+        hoc(Q.cachDungThietBiAnToan)
       ]
     },
 
@@ -237,11 +311,18 @@ const LESSON = {
           type: 'info',
           topic: 'Đọc thêm · Bảo vệ tài khoản AI',
           title: 'Bảo vệ tài khoản AI',
-          content: 'Em cần bảo vệ tài khoản AI như bảo vệ tài khoản học tập hoặc email. <b>Không chia sẻ mật khẩu</b> cho người khác để giữ an toàn.',
+          columns: 4,
+          content: 'Em cần bảo vệ tài khoản AI như bảo vệ tài khoản học tập hoặc email. <b>Không chia sẻ mật khẩu</b> cho người khác để giữ an toàn. Những thông tin nào <b>không nên</b> chia sẻ cho AI để bảo vệ tài khoản và bản thân?',
           imageUrl: null,
           things: [
-            { icon: '🔑', name: 'Mật khẩu', en: 'Không chia sẻ cho AI hay bất kì ai.' },
-            { icon: '👤', name: 'Dữ liệu cá nhân', en: 'Họ tên đầy đủ, địa chỉ, số điện thoại, ảnh cá nhân, thông tin gia đình.' }
+            { icon: '🔑', name: 'Mật khẩu', en: '' },
+            { icon: '🔢', name: 'Mã xác nhận', en: '' },
+            { icon: '🏠', name: 'Địa chỉ nhà', en: '' },
+            { icon: '📞', name: 'Số điện thoại', en: '' },
+            { icon: '🪪', name: 'Họ tên đầy đủ', en: '' },
+            { icon: '🖼️', name: 'Ảnh riêng tư', en: '' },
+            { icon: '👨‍👩‍👧‍👦', name: 'Thông tin gia đình', en: '' },
+            { icon: '💬', name: 'Nội dung riêng tư', en: '' }
           ],
           remember: 'Những thông tin như mật khẩu và dữ liệu cá nhân không nên chia sẻ cho AI để bảo vệ tài khoản và bản thân.'
         },
@@ -251,11 +332,12 @@ const LESSON = {
           type: 'info',
           topic: 'Đọc thêm · Bảo vệ tài khoản AI',
           title: 'Dừng lại trước khi bấm',
-          content: 'Khi nhận được yêu cầu mở liên kết, tải tệp hoặc cài ứng dụng, em hãy <b>DỪNG LẠI</b>, không bấm vội.',
+          content: 'Khi nhận được yêu cầu mở liên kết, tải tệp hoặc cài ứng dụng, em hãy làm theo 3 bước:',
           imageUrl: null,
           things: [
-            { icon: '🔍', name: 'Đọc kĩ và kiểm tra', en: 'Đọc kĩ nội dung, kiểm tra nguồn, xem xét địa chỉ trang Web hoặc tệp trước khi quyết định.' },
-            { icon: '🙋', name: 'Hỏi người lớn', en: 'Nếu vẫn không chắc chắn, hãy hỏi giáo viên hoặc người lớn tin cậy trước khi thao tác.' }
+            { icon: '✋', name: '1. Dừng lại', en: 'Khi nhận được yêu cầu mở liên kết, tải tệp hoặc cài ứng dụng, em hãy DỪNG LẠI, không bấm vội.' },
+            { icon: '🔍', name: '2. Kiểm tra', en: 'Đọc kĩ nội dung, kiểm tra nguồn, xem xét địa chỉ trang Web hoặc tệp trước khi quyết định.' },
+            { icon: '🙋', name: '3. Hỏi người lớn', en: 'Nếu vẫn không chắc chắn, hãy hỏi giáo viên hoặc người lớn tin cậy trước khi thao tác.' }
           ]
         },
 
@@ -288,6 +370,11 @@ const LESSON = {
         onTap(Q.hongLaptop),
         onTap(Q.yeuToHuHong),
         onTap(Q.viTriSac),
+        onTap(Q.baoMatTrucTuyen),
+        onTap(Q.baoVeThietBiDiDong),
+        onTap(Q.baoMatMayTinh),
+        onTap(Q.dungSaiMatKhau),
+        onTap(Q.cachDungThietBiAnToan),
 
         /* Slide hoàn thành RIÊNG của phần Ôn tập */
         {

@@ -5,15 +5,15 @@
    Dùng chung engine với các bài khác (lesson.js + lesson.css),
    cấu trúc và các dạng slide giống bai-09.js / bai-08.js.
 
-   Nguồn: PPTX gốc K3_B10_MatKhauVaDuLieuCaNhan.pptx (50 slide).
+   Nguồn: PPTX gốc K3_B10_MatKhauVaDuLieuCaNhan.pptx (60 slide).
 
    Ghi chú:
    - Đáp án các câu trắc nghiệm lấy theo nội dung bài học; riêng câu
      "cửa sổ bật lên" (Có / Không) đáp án dựa trên hình trong slide gốc
      nên cần giáo viên kiểm tra lại nếu khác.
-   - Slide 28–31 gốc ("Dữ liệu cá nhân và AI") là phần Đọc thêm,
+   - Slide 33–36 gốc ("Dữ liệu cá nhân và AI") là phần Đọc thêm,
      chỉ là slide đọc, không chấm điểm.
-   - Phần Ôn tập dùng lại 17 câu hỏi đã học (slide 33–49 gốc).
+   - Phần Ôn tập dùng lại 22 câu hỏi đã học (slide 38–59 gốc).
    - Hình minh họa được thay bằng emoji (imageUrl: null).
    ============================================================ */
 
@@ -240,6 +240,64 @@ const Q = {
     explain: 'Email báo trúng thưởng từ người lạ thường là lừa đảo. Cách an toàn nhất là báo cho người lớn, không trả lời và không gửi thông tin.'
   },
 
+  matKhauJenny: {
+    type: 'quiz_single',
+    question: 'Em hãy cho biết, mật khẩu nào dưới đây là mật khẩu an toàn?',
+    options: ['Jenny', 'Jenny@', 'J64ny@123', 'Jenny123'],
+    correctAnswer: 2,
+    hint: 'Mật khẩu an toàn có đủ chữ in, chữ thường, chữ số và kí tự đặc biệt, không dùng cả một cái tên.',
+    explain: 'J64ny@123 có chữ in, chữ thường, chữ số và kí tự đặc biệt nên an toàn. Jenny, Jenny@ và Jenny123 đều dựa trên một cái tên, thiếu loại kí tự hoặc quá ngắn nên dễ bị đoán.'
+  },
+
+  lolMatKhau: {
+    type: 'quiz_single',
+    question: 'Em mới vừa chia sẻ mật khẩu cho một người bạn và nhận ra rằng em không nên làm như thế. Trong tình huống này, em cần phải làm gì?',
+    options: ['Đổi tên tài khoản', 'Xóa tài khoản', 'Khởi động lại máy', 'Tạo một mật khẩu mới'],
+    correctAnswer: 3,
+    hint: 'Mật khẩu cũ đã bị người khác biết, em cần làm cho nó không còn dùng được nữa.',
+    explain: 'Khi lỡ chia sẻ mật khẩu, em cần tạo một mật khẩu mới để người khác không thể dùng mật khẩu cũ truy cập tài khoản của em.'
+  },
+
+  thongTinCoTheChiaSe: {
+    type: 'quiz_single',
+    question: 'Em hãy cho biết, tùy chọn nào sau đây là ví dụ về thông tin mà em có thể chia sẻ trực tuyến?',
+    options: [
+      'Danh sách các bộ phim yêu thích',
+      'Kỳ nghỉ sắp tới của gia đình em',
+      'Tên trường học của em'
+    ],
+    correctAnswer: 0,
+    hint: 'Hãy chọn thông tin không cho biết em ở đâu hoặc khi nào cả nhà vắng mặt.',
+    explain: 'Danh sách phim yêu thích là thông tin an toàn. Kỳ nghỉ sắp tới cho biết khi nào nhà vắng người, còn tên trường cho biết nơi em hay đến.'
+  },
+
+  ruiRoHinhAnh: {
+    type: 'quiz_multiple',
+    question: 'Em hãy cho biết, tùy chọn nào sau đây mô tả những rủi ro của việc đăng một hình ảnh cá nhân trực tuyến? (Chọn 2)',
+    options: [
+      'Chúng sẽ chiếm toàn bộ không gian lưu trữ của em trên mạng',
+      'Những bức ảnh vô tình có thể tiết lộ thông tin cá nhân cho người lạ',
+      'Rất khó để loại bỏ hoàn toàn hình ảnh khi đã được đăng trực tuyến',
+      'Nếu máy tính bị treo trong quá trình gửi, có thể làm hỏng ổ đĩa cứng của em'
+    ],
+    correctAnswers: [1, 2],
+    hint: 'Hãy nghĩ đến việc ai có thể nhìn thấy ảnh và ảnh có thể bị xóa hoàn toàn hay không.',
+    explain: 'Ảnh có thể vô tình tiết lộ thông tin cá nhân (nhà, trường, biển số…) và rất khó xóa hoàn toàn khi đã đăng. Việc đăng ảnh không chiếm hết dung lượng của em hay làm hỏng ổ cứng.'
+  },
+
+  thongBaoTrungThuong: {
+    type: 'quiz_multiple',
+    question: 'Em hãy cho biết, khi em đang sử dụng máy tính, xuất hiện một thông báo yêu cầu nhập số điện thoại để nhận tiền trúng thưởng. Em xử lí như thế nào khi gặp tình huống trên? (Chọn 2)',
+    options: [
+      'Nhập số điện thoại và tiếp tục làm theo hướng dẫn',
+      'Không nhập số điện thoại và tắt thông báo',
+      'Hỏi ý kiến của ba mẹ'
+    ],
+    correctAnswers: [1, 2],
+    hint: 'Thông báo trúng thưởng yêu cầu thông tin cá nhân thường là lừa đảo.',
+    explain: 'Em không nhập số điện thoại, hãy tắt thông báo và hỏi ý kiến ba mẹ. Nhập thông tin vào thông báo lạ có thể bị lừa đảo.'
+  },
+
   cuaSoBatLen: {
     type: 'quiz_dropdown',
     question: 'Em đang truy cập Internet và cửa sổ hiển thị bên dưới bật lên. Em hãy chọn Có nếu là điều em nên làm hoặc chọn Không nếu không phải: Nhập địa chỉ Email và mật khẩu thông thường của em ___ Đồng ý với các Điều khoản và Điều kiện ___ Nhấp vào Get More Free Games!!! để nhận thêm Game miễn phí ___',
@@ -288,8 +346,10 @@ const LESSON = {
           remember: 'Ví dụ mật khẩu an toàn: <b>IC#gs6l3v3l!</b>'
         },
         hoc(Q.matKhauAnToan),
+        hoc(Q.matKhauJenny),
         hoc(Q.manhYeu),
-        hoc(Q.meoMatKhau)
+        hoc(Q.meoMatKhau),
+        hoc(Q.lolMatKhau)
       ]
     },
 
@@ -337,9 +397,11 @@ const LESSON = {
         },
         hoc(Q.khongNenChiaSe),
         hoc(Q.chon3KhongChiaSe),
+        hoc(Q.thongTinCoTheChiaSe),
         hoc(Q.anToanChiaSe),
         hoc(Q.khongAnToanGps),
-        hoc(Q.xoaAnh)
+        hoc(Q.xoaAnh),
+        hoc(Q.ruiRoHinhAnh)
       ]
     },
 
@@ -374,6 +436,7 @@ const LESSON = {
         hoc(Q.loiMoiDuTiec),
         hoc(Q.hanhViTucTiu),
         hoc(Q.emailTrungThuong),
+        hoc(Q.thongBaoTrungThuong),
         hoc(Q.cuaSoBatLen)
       ]
     },
@@ -461,6 +524,11 @@ const LESSON = {
         onTap(Q.emailTrungThuong),
         onTap(Q.tuyChonBanBe),
         onTap(Q.xoaAnh),
+        onTap(Q.matKhauJenny),
+        onTap(Q.lolMatKhau),
+        onTap(Q.thongTinCoTheChiaSe),
+        onTap(Q.ruiRoHinhAnh),
+        onTap(Q.thongBaoTrungThuong),
 
         /* Slide hoàn thành RIÊNG của phần Ôn tập */
         {
