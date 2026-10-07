@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ong Vàng vượt mê cung phần cứng — IC3 GS6 Spark Level 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="review.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">🐝 Ong Vàng vượt mê cung phần cứng
+    <small>IC3 GS6 Spark Level 1 — Bài 1 + 2: Phần cứng máy tính</small>
+  </div>
+  <div class="spacer"></div>
+  <div class="pill" id="pillLv" hidden>Level <b id="lvNow">1</b></div>
+  <div class="pill" id="pillQ" hidden>Câu <b id="qNow">1</b>/<span id="qTotal">10</span></div>
+  <div class="pill" id="pillScore" hidden>⭐ <b id="scoreNow">0</b></div>
+  <button class="iconbtn" id="btnHome" title="Về màn chọn level" aria-label="Về màn chọn level" hidden>🏠</button>
+  <button class="iconbtn" id="btnMute" title="Bật hoặc tắt âm thanh" aria-label="Bật hoặc tắt âm thanh">🔊</button>
+</header>
+
+<main id="stage">
+
+  <!-- CHỌN LEVEL -->
+  <section class="screen scroll on" id="scStart">
+    <div class="intro">
+      <h1>Chọn mê cung để Ong Vàng bắt đầu bay</h1>
+      <p>Trả lời đúng, Ong Vàng tiến một chốt và thắp sáng đoạn mạch phía sau. Trả lời sai hoặc hết giờ, Ong Vàng lùi lại một chốt và đoạn mạch đó tắt. Chỉ khi đi hết đường mạch, Ong Vàng mới chạm được con chip kho báu.</p>
+    </div>
+    <div class="namebar">
+      <label for="playerName">Tên học sinh hoặc nhóm</label>
+      <input id="playerName" type="text" maxlength="30" autocomplete="off" placeholder="Ví dụ: Nhóm 1 — Minh và Lan">
+      <button class="btn ghost" id="btnHist">📋 Bảng thành tích (<span id="histCount">0</span>)</button>
+    </div>
+    <div class="levels" id="levelCards"></div>
+    <p class="hint-line">Trả lời càng nhanh, điểm càng cao. Đúng liền 3 câu trở lên được thưởng thêm. Bấm phím A, B, C, D để chọn đáp án và Enter để sang câu tiếp theo.</p>
+  </section>
+
+  <!-- CHƠI -->
+  <section class="screen play" id="scPlay">
+    <div class="board-col">
+      <div class="board-head">
+        <h2 id="mazeName">Mê cung mạch đồng</h2>
+        <span id="mazeProg">Đã thắp 0/10 đoạn mạch</span>
+      </div>
+      <div class="board">
+        <svg id="maze" role="img" aria-label="Bản đồ mê cung mạch điện" preserveAspectRatio="xMidYMid meet">
+          <defs><radialGradient id="glow">
+            <stop offset="0%" stop-color="#FFE9A8" stop-opacity=".9"/>
+            <stop offset="100%" stop-color="#FFE9A8" stop-opacity="0"/>
+          </radialGradient></defs>
+          <g id="gWalls"></g><g id="segBase"></g><g id="segLit"></g>
+          <g id="gNodes"></g><g id="gChip"></g>
+          <g class="bee" id="bee"><g class="bee-float">
+            <ellipse cx="-1" cy="-8" rx="10" ry="6" fill="#fff" opacity=".8" transform="rotate(-28 -1 -8)"/>
+            <ellipse cx="8" cy="-8" rx="10" ry="6" fill="#fff" opacity=".8" transform="rotate(28 8 -8)"/>
+            <ellipse cx="4" cy="0" rx="13" ry="10" fill="#FFC531" stroke="#3B2A0A" stroke-width="2"/>
+            <path d="M2 -8.5 L2 8.5 M8.5 -7.5 L8.5 7.5" stroke="#3B2A0A" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="-8" cy="-1.5" r="6.5" fill="#3B2A0A"/>
+            <circle cx="-10" cy="-3" r="1.7" fill="#fff"/>
+            <path d="M-10 -7.5 q-3 -5.5 -6 -6.5" stroke="#3B2A0A" stroke-width="1.7" fill="none" stroke-linecap="round"/>
+          </g></g>
+        </svg>
+      </div>
+      <p class="legend">🐝 đúng thì tiến một chốt và thắp sáng mạch, sai thì lùi một chốt và mạch tắt</p>
+    </div>
+
+    <div class="q-col">
+      <div class="timer">
+        <div class="timer-track"><div class="timer-fill" id="timerFill"></div></div>
+        <div class="timer-num" id="timerNum">30s</div>
+      </div>
+      <div class="card">
+        <div class="qmeta"><span class="tag" id="tagLevel">Nhận biết</span><span class="tag topic" id="tagTopic">Phần cứng</span></div>
+        <p class="qtext" id="qText">…</p>
+        <div class="opts" id="opts"></div>
+        <div class="hintbox" id="hintBox"></div>
+        <div class="feedback" id="feedback" role="status" aria-live="polite"></div>
+        <div class="actions">
+          <button class="linkbtn" id="btnHint">💡 Gợi ý (−25 điểm)</button>
+          <span class="score-pop" id="scorePop"></span>
+          <span class="grow"></span>
+          <button class="btn" id="btnNext" style="display:none">Câu tiếp theo</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KẾT QUẢ -->
+  <section class="screen scroll" id="scEnd">
+    <div class="result">
+      <div class="stars" id="stars">⭐⭐⭐</div>
+      <h2 id="endTitle">Tuyệt vời!</h2>
+      <div class="badge" id="endBadge">Kỹ sư phần cứng nhí</div>
+      <p class="whoami" id="whoAmI"></p>
+      <div class="stats">
+        <div class="stat"><b id="endRight">0</b><span>câu đúng</span></div>
+        <div class="stat"><b id="endSteps">0</b><span>đoạn mạch đã thắp</span></div>
+        <div class="stat"><b id="endScore">0</b><span>tổng điểm</span></div>
+        <div class="stat"><b id="endBest">0</b><span>chuỗi đúng dài nhất</span></div>
+      </div>
+      <div class="endbtns">
+        <button class="btn" id="btnNextLv">Sang Level 2</button>
+        <button class="btn ghost" id="btnReplay">Chơi lại level này</button>
+        <button class="btn ghost" id="btnPick">Chọn level khác</button>
+        <button class="btn ghost" id="btnHist2">📋 Bảng thành tích</button>
+      </div>
+      <div class="review">
+        <h3 id="reviewTitle">Cùng xem lại các câu hỏi</h3>
+        <div id="reviewList"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BẢNG THÀNH TÍCH -->
+  <section class="screen scroll" id="scHist">
+    <div class="hist">
+      <h2>Bảng thành tích</h2>
+      <p class="note">Ghi lại mọi lượt chơi trong buổi học này. Bấm “Tải bảng điểm” để lưu thành file mở được bằng Excel.</p>
+      <div class="records" id="bestCards"></div>
+      <div id="histEmpty" class="empty">Chưa có lượt chơi nào được ghi.<br>Hoàn thành một level để ghi tên vào bảng thành tích.</div>
+      <div class="tablewrap" id="tableWrap">
+        <table class="histtable">
+          <thead><tr>
+            <th>#</th><th>Tên</th><th>Level</th><th>Câu đúng</th>
+            <th>Đoạn mạch</th><th>Điểm</th><th>Sao</th><th>Lúc</th>
+          </tr></thead>
+          <tbody id="histBody"></tbody>
+        </table>
+      </div>
+      <div class="endbtns">
+        <button class="btn" id="btnExport">⬇ Tải bảng điểm (.csv)</button>
+        <button class="btn ghost" id="btnClearHist">Xoá bảng thành tích</button>
+        <button class="btn ghost" id="btnBackHome">Quay lại chọn level</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script src="review.js"></script>
+</body>
+</html>

@@ -5,30 +5,44 @@ const LESSON_INDEX = {
                   "topic":  "Chủ đề 1. Căn bản về công nghệ"
               },
               {
-                  "stt":  "1, 2",
-                  "name":  "Hệ điều hành",
+                  "stt":  "1",
+                  "name":  "Giới thiệu về Hệ điều hành",
                   "links":  [
                                 {
                                     "text":  "Bài học",
-                                    "href":  ""
+                                    "href":  "spark2/bai-01/index.html"
                                 },
                                 {
                                     "text":  "Ôn tập",
-                                    "href":  ""
+                                    "href":  "spark2/bai-01/review.html"
+                                }
+                            ]
+              },
+              {
+                  "stt":  "2",
+                  "name":  "Các hệ điều hành thông dụng",
+                  "links":  [
+                                {
+                                    "text":  "Bài học",
+                                    "href":  "spark2/bai-02/index.html"
+                                },
+                                {
+                                    "text":  "Ôn tập",
+                                    "href":  "spark2/bai-02/review.html"
                                 }
                             ]
               },
               {
                   "stt":  "3",
-                  "name":  "Thông tin đầu vào - đầu ra; bộ nhớ; thiết bị lưu trữ",
+                  "name":  "Thông tin đầu vào, đầu ra, bộ nhớ và thiết bị lưu trữ",
                   "links":  [
                                 {
                                     "text":  "Bài học",
-                                    "href":  ""
+                                    "href":  "spark2/bai-03/index.html"
                                 },
                                 {
                                     "text":  "Ôn tập",
-                                    "href":  ""
+                                    "href":  "spark2/bai-03/review.html"
                                 }
                             ]
               },
@@ -42,21 +56,35 @@ const LESSON_INDEX = {
                                 },
                                 {
                                     "text":  "Ôn tập",
-                                    "href":  ""
+                                    "href":  "spark2/bai-04/review.html"
                                 }
                             ]
               },
               {
-                  "stt":  "5, 6",
-                  "name":  "Thiết bị nhập và thiết bị xuất",
+                  "stt":  "5",
+                  "name":  "Máy tính và các thiết bị nhập, xuất (1)",
                   "links":  [
                                 {
                                     "text":  "Bài học",
-                                    "href":  ""
+                                    "href":  "spark2/bai-05/index.html"
                                 },
                                 {
                                     "text":  "Ôn tập",
-                                    "href":  ""
+                                    "href":  "spark2/bai-05/review.html"
+                                }
+                            ]
+              },
+              {
+                  "stt":  "6",
+                  "name":  "Máy tính và các thiết bị nhập, xuất (2)",
+                  "links":  [
+                                {
+                                    "text":  "Bài học",
+                                    "href":  "spark2/bai-06/index.html"
+                                },
+                                {
+                                    "text":  "Ôn tập",
+                                    "href":  "spark2/bai-06/review.html"
                                 }
                             ]
               },
@@ -541,21 +569,35 @@ const LESSON_INDEX = {
                                 },
                                 {
                                     "text":  "Ôn tập",
-                                    "href":  ""
+                                    "href":  "spark1/bai-01/review.html"
                                 }
                             ]
               },
               {
-                  "stt":  "3, 4",
-                  "name":  "Phần mềm máy tính",
+                  "stt":  "3",
+                  "name":  "Phần mềm và các loại phần mềm",
                   "links":  [
                                 {
                                     "text":  "Bài học",
-                                    "href":  ""
+                                    "href":  "spark1/bai-03/index.html"
                                 },
                                 {
                                     "text":  "Ôn tập",
-                                    "href":  ""
+                                    "href":  "spark1/bai-03/review.html"
+                                }
+                            ]
+              },
+              {
+                  "stt":  "4",
+                  "name":  "Hệ điều hành và chương trình ứng dụng",
+                  "links":  [
+                                {
+                                    "text":  "Bài học",
+                                    "href":  "spark1/bai-04/index.html"
+                                },
+                                {
+                                    "text":  "Ôn tập",
+                                    "href":  "spark1/bai-04/review.html"
                                 }
                             ]
               },
@@ -1079,7 +1121,7 @@ const LESSON_INDEX = {
                                 },
                                 {
                                     "text":  "Ôn tập",
-                                    "href":  ""
+                                    "href":  "spark3/bai-01/review.html"
                                 }
                             ]
               },
@@ -1089,53 +1131,81 @@ const LESSON_INDEX = {
                   "links":  [
                                 {
                                     "text":  "Bài học",
-                                    "href":  ""
+                                    "href":  "spark3/bai-02/index.html"
                                 },
                                 {
                                     "text":  "Ôn tập",
-                                    "href":  ""
+                                    "href":  "spark3/bai-02/review.html"
                                 }
                             ]
               },
               {
                   "stt":  "3",
-                  "name":  "(Máy học); Khả năng tiếp cận công nghệ",
+                  "name":  "Máy học",
                   "links":  [
                                 {
                                     "text":  "Bài học",
-                                    "href":  ""
+                                    "href":  "spark3/bai-03/index.html"
                                 },
                                 {
                                     "text":  "Ôn tập",
-                                    "href":  ""
+                                    "href":  "spark3/bai-03/review.html"
                                 }
                             ]
               },
               {
-                  "stt":  "4, 5",
+                  "stt":  "4",
                   "name":  "Mạng máy tính",
                   "links":  [
                                 {
                                     "text":  "Bài học",
-                                    "href":  ""
+                                    "href":  "spark3/bai-04/index.html"
                                 },
                                 {
                                     "text":  "Ôn tập",
-                                    "href":  ""
+                                    "href":  "spark3/bai-04/review.html"
                                 }
                             ]
               },
               {
-                  "stt":  "6, 7",
-                  "name":  "Trình duyệt web",
+                  "stt":  "5",
+                  "name":  "URL: Bộ định vị tài nguyên thống nhất",
                   "links":  [
                                 {
                                     "text":  "Bài học",
-                                    "href":  ""
+                                    "href":  "spark3/bai-05/index.html"
                                 },
                                 {
                                     "text":  "Ôn tập",
-                                    "href":  ""
+                                    "href":  "spark3/bai-05/review.html"
+                                }
+                            ]
+              },
+              {
+                  "stt":  "6",
+                  "name":  "Trình duyệt Web",
+                  "links":  [
+                                {
+                                    "text":  "Bài học",
+                                    "href":  "spark3/bai-06/index.html"
+                                },
+                                {
+                                    "text":  "Ôn tập",
+                                    "href":  "spark3/bai-06/review.html"
+                                }
+                            ]
+              },
+              {
+                  "stt":  "7",
+                  "name":  "Các tính năng trên trình duyệt Web",
+                  "links":  [
+                                {
+                                    "text":  "Bài học",
+                                    "href":  "spark3/bai-07/index.html"
+                                },
+                                {
+                                    "text":  "Ôn tập",
+                                    "href":  "spark3/bai-07/review.html"
                                 }
                             ]
               },
@@ -1281,7 +1351,7 @@ const LESSON_INDEX = {
                                 },
                                 {
                                     "text":  "Ôn tập",
-                                    "href":  ""
+                                    "href":  "spark3/bai-16/review.html"
                                 }
                             ]
               },
@@ -1291,11 +1361,11 @@ const LESSON_INDEX = {
                   "links":  [
                                 {
                                     "text":  "Bài học",
-                                    "href":  ""
+                                    "href":  "spark3/bai-17/index.html"
                                 },
                                 {
                                     "text":  "Ôn tập",
-                                    "href":  ""
+                                    "href":  "spark3/bai-17/review.html"
                                 }
                             ]
               },

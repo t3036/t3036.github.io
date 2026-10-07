@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bài 1 – Ứng dụng công nghệ đa dạng | Ôn bài lớp 5</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="review.css">
+</head>
+<body>
+
+<header class="thanh">
+  <div class="khung thanh-trong">
+    <div class="nhan-bai">Bài 1 · <span>Ứng dụng công nghệ đa dạng</span></div>
+    <nav class="tab" role="tablist" aria-label="Chuyển phần">
+      <button role="tab" aria-selected="true" data-trang="bai-hoc">Bài học</button>
+      <button role="tab" aria-selected="false" data-trang="ghi-nho">Thẻ ghi nhớ</button>
+      <button role="tab" aria-selected="false" data-trang="trac-nghiem">Trắc nghiệm</button>
+      <button role="tab" aria-selected="false" data-trang="tro-choi">Trò chơi nối</button>
+    </nav>
+  </div>
+</header>
+
+<main class="khung">
+
+<!-- ============ BÀI HỌC ============ -->
+<section class="trang hien" id="bai-hoc">
+  <div class="hero">
+    <div>
+      <div class="mon">Chủ đề: Căn bản về công nghệ</div>
+      <h1>Công nghệ đang giúp con người mỗi ngày</h1>
+      <p class="dan">Bốn trạm dưới đây là toàn bộ nội dung Bài 1. Em đọc từng trạm, đánh dấu “Đã học xong”, rồi qua phần Trắc nghiệm để tự kiểm tra.</p>
+    </div>
+    <div class="tram" aria-hidden="true">
+      <i></i><i></i><i></i>
+      <div class="cham">1</div>
+    </div>
+  </div>
+
+  <div class="tien-do">
+    <small id="chu-tien-do">Đã học 0/4 trạm</small>
+    <div class="rang"><b id="rang-tien-do"></b></div>
+  </div>
+
+  <div class="tuyen">
+
+    <!-- Trạm 1 -->
+    <article class="tram-hoc">
+      <div class="so-tram" style="background:var(--xanh)">1</div>
+      <div class="the">
+        <h2>Dữ liệu thời gian thực</h2>
+        <div class="dinh-nghia">
+          <b>Dữ liệu thời gian thực</b> (Real-time Data) là dữ liệu được tạo ra hoặc thu thập liên tục và được cung cấp cho người dùng <b>ngay lập tức</b>.
+        </div>
+        <p>Nói đơn giản: chuyện đang xảy ra ở đâu đó, em biết được ngay lúc này, không phải chờ đến ngày mai.</p>
+        <div class="nganh">
+          <div><span class="bieu">⛏️</span><h3>Cùng làm việc từ xa</h3><p>Công nhân ở các khu mỏ khác nhau chia sẻ dữ liệu thời gian thực để phối hợp làm việc.</p></div>
+          <div><span class="bieu">🩺</span><h3>Chăm sóc bệnh nhân</h3><p>Y tá theo dõi dữ liệu y tế thời gian thực để hỗ trợ bệnh nhân đang ở nhà.</p></div>
+          <div><span class="bieu">🗺️</span><h3>Bản đồ giao thông</h3><p>Bản đồ báo đoạn đường đang tắc ngay lúc em nhìn vào.</p></div>
+        </div>
+        <button class="xong" data-tram="1" data-xong="0">Đã học xong trạm này</button>
+      </div>
+    </article>
+
+    <!-- Trạm 2 -->
+    <article class="tram-hoc">
+      <div class="so-tram" style="background:var(--luc)">2</div>
+      <div class="the">
+        <h2>Hệ thống định vị toàn cầu GPS</h2>
+        <div class="dinh-nghia">
+          <b>GPS</b> (Global Positioning System) là một mạng lưới các vệ tinh và thiết bị thu tín hiệu, dùng để xác định <b>vị trí</b> của một đối tượng trên bề mặt Trái Đất.
+        </div>
+        <p><strong>GPS hoạt động qua 4 bước:</strong></p>
+        <ul class="buoc">
+          <li><b>1</b><span><strong>Vệ tinh GPS.</strong> Các vệ tinh bay quanh Trái Đất và phát tín hiệu.</span></li>
+          <li><b>2</b><span><strong>Tín hiệu.</strong> Tín hiệu từ vệ tinh được gửi đến thiết bị của em.</span></li>
+          <li><b>3</b><span><strong>Thiết bị nhận tín hiệu.</strong> Thiết bị nhận tín hiệu và tính toán vị trí.</span></li>
+          <li><b>4</b><span><strong>Hiển thị vị trí.</strong> Vị trí hiện lên trên bản đồ để giúp em tìm đường.</span></li>
+        </ul>
+        <button class="xong" data-tram="2" data-xong="0">Đã học xong trạm này</button>
+      </div>
+    </article>
+
+    <!-- Trạm 3 -->
+    <article class="tram-hoc">
+      <div class="so-tram" style="background:var(--cam)">3</div>
+      <div class="the">
+        <h2>Công nghệ trong các ngành nghề</h2>
+        <p>Mỗi nghề dùng công nghệ theo một cách riêng để làm việc nhanh hơn và chính xác hơn.</p>
+        <div class="nganh" id="luoi-nganh"></div>
+        <button class="xong" data-tram="3" data-xong="0">Đã học xong trạm này</button>
+      </div>
+    </article>
+
+    <!-- Trạm 4 -->
+    <article class="tram-hoc">
+      <div class="so-tram" style="background:var(--tim)">4</div>
+      <div class="the">
+        <h2>Trí tuệ nhân tạo tạo sinh</h2>
+        <div class="dinh-nghia">
+          <b>AI tạo sinh</b> là trí tuệ nhân tạo có thể tạo ra nội dung <b>hoàn toàn mới</b>: văn bản, hình ảnh, câu hỏi, bản tóm tắt, gợi ý…
+        </div>
+        <div class="so-sanh">
+          <div class="ai">
+            <h3>🤖 AI tạo sinh</h3>
+            <ul>
+              <li>Tạo ra nội dung mới</li>
+              <li>Tổng hợp và trả lời theo cách dễ hiểu</li>
+              <li>Tóm tắt, gợi ý, giải thích thêm</li>
+            </ul>
+          </div>
+          <div class="tim-kiem">
+            <h3>🔎 Công cụ tìm kiếm</h3>
+            <ul>
+              <li>Chỉ liệt kê các đường dẫn trang web</li>
+              <li>Không tổng hợp</li>
+              <li>Không giải thích thêm cho em</li>
+            </ul>
+          </div>
+        </div>
+        <p style="margin-top:1rem"><strong>AI hỗ trợ cuộc sống:</strong></p>
+        <div class="nganh">
+          <div><span class="bieu">🌤️</span><h3>Thời tiết</h3><p>Phân tích dữ liệu thời tiết và gợi ý tuyến đường.</p></div>
+          <div><span class="bieu">🏥</span><h3>Y tế</h3><p>Hỗ trợ bác sĩ đọc hình ảnh và chẩn đoán.</p></div>
+          <div><span class="bieu">🏭</span><h3>Sản xuất</h3><p>Nhận diện vật thể và phát hiện lỗi sản phẩm.</p></div>
+        </div>
+        <div class="luu-y">
+          <strong>⚠️ Ba điều cần nhớ khi dùng AI</strong>
+          <ul>
+            <li>AI không phải con người – không tự hiểu mọi thứ như chúng ta.</li>
+            <li>AI tạo câu trả lời dựa trên dữ liệu đã học được trước đó.</li>
+            <li>Luôn kiểm tra lại kết quả của AI trước khi sử dụng!</li>
+          </ul>
+        </div>
+        <button class="xong" data-tram="4" data-xong="0">Đã học xong trạm này</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="van-dung">
+    <h2>Vận dụng ở nhà</h2>
+    <p>Dùng Google Maps trên điện thoại hoặc máy tính (có người lớn cùng làm nhé), em hãy:</p>
+    <ol>
+      <li>Tìm vị trí hiện tại của em trên bản đồ;</li>
+      <li>Nhập một địa điểm em muốn đến (trường học, siêu thị, nhà bạn…);</li>
+      <li>Quan sát tuyến đường mà ứng dụng gợi ý.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ THẺ GHI NHỚ ============ -->
+<section class="trang" id="ghi-nho">
+  <div class="hero"><div>
+    <div class="mon">Ôn nhanh</div>
+    <h1>Thẻ ghi nhớ</h1>
+    <p class="dan">Đọc mặt trước, tự trả lời trong đầu, rồi bấm vào thẻ để lật xem đáp án.</p>
+  </div></div>
+
+  <div class="the-lat" id="the-lat">
+    <button class="mat" id="mat-the" aria-live="polite">
+      <span class="truoc"><strong id="the-truoc"></strong><em>Bấm để lật thẻ</em></span>
+      <span class="sau"><p id="the-sau"></p></span>
+    </button>
+  </div>
+  <div class="dieu-khien">
+    <button class="nut" id="the-truoc-nut">← Thẻ trước</button>
+    <span class="dem" id="the-dem"></span>
+    <button class="nut chinh" id="the-sau-nut">Thẻ sau →</button>
+    <button class="nut" id="the-xao">Xáo trộn</button>
+  </div>
+</section>
+
+<!-- ============ TRẮC NGHIỆM ============ -->
+<section class="trang" id="trac-nghiem">
+  <div class="hero"><div>
+    <div class="mon">Tự kiểm tra</div>
+    <h1>Trắc nghiệm 14 câu</h1>
+    <p class="dan">Chọn một đáp án cho mỗi câu. Sai cũng không sao — em sẽ được giải thích ngay.</p>
+  </div></div>
+  <div class="quiz" id="quiz"></div>
+</section>
+
+<!-- ============ TRÒ CHƠI NỐI ============ -->
+<section class="trang" id="tro-choi">
+  <div class="hero"><div>
+    <div class="mon">Luyện tập</div>
+    <h1>Nối nghề với công việc</h1>
+    <p class="dan">Bấm một nghề ở cột trái, rồi bấm việc mà công nghệ giúp họ làm ở cột phải.</p>
+  </div></div>
+  <div class="dieu-khien" style="justify-content:flex-start">
+    <span class="dem" id="noi-dem" style="min-width:auto"></span>
+    <button class="nut" id="noi-lam-lai">Chơi lại</button>
+  </div>
+  <div class="noi">
+    <div class="cot"><h3>Ngành nghề</h3><div id="cot-trai"></div></div>
+    <div class="cot"><h3>Công nghệ giúp họ làm gì</h3><div id="cot-phai"></div></div>
+  </div>
+  <div id="noi-xong"></div>
+</section>
+
+<footer>Tài liệu ôn tập Bài 1 – Ứng dụng công nghệ đa dạng · IC3 GS6 Spark Level 3</footer>
+</main>
+
+<script src="review.js"></script>
+</body>
+</html>
