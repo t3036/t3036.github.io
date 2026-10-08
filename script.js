@@ -50,3 +50,20 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 });
+
+// Nhấp đúp chuột phải vào "SnowT" ở chân trang để mở liên kết ẩn trong tab mới.
+document.addEventListener('DOMContentLoaded', function () {
+  var snowt = document.querySelector('.snowt');
+  if (!snowt) return;
+  var lanCuoi = 0;
+  snowt.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
+    var bayGio = Date.now();
+    if (bayGio - lanCuoi < 500) {
+      lanCuoi = 0;
+      window.open(snowt.dataset.url, '_blank', 'noopener');
+    } else {
+      lanCuoi = bayGio;
+    }
+  });
+});

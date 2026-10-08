@@ -157,6 +157,8 @@ body:has(.thanh-menu){font-family:"Be Vietnam Pro",-apple-system,"Segoe UI",Robo
 .chan-trang{text-align:center;padding:1.5rem 1rem;color:var(--mo);font-size:.85rem}
 .chan-trang p{margin:.25rem 0}
 .chan-ai{opacity:.75;font-size:.8rem}
+.nut-giao-vien{display:inline-block;margin-top:.4rem;padding:.2rem .6rem;border-radius:999px;text-decoration:none;font-size:.85rem;opacity:0;transition:opacity .2s}
+.nut-giao-vien:hover,.nut-giao-vien:focus-visible{opacity:1;background:#F1EAFB}
 
 /* --- Trang danh sách bài (cập nhật header) --- */
 .dau-bai h1{font-family:"Baloo 2",Bitter,serif;font-weight:800;
