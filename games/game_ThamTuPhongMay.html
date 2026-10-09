@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thám Tử Phòng Máy</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden}
+body{margin:0;font-family:'Nunito','Segoe UI',Tahoma,sans-serif;background:linear-gradient(#bae6fd,#fef9e7);color:#0f3b5f;min-height:100vh;user-select:none}
+button{font-family:inherit;cursor:pointer}
+#frame{height:100vh;display:flex;flex-direction:column;overflow:hidden;background:linear-gradient(#bae6fd,#fef3c7)}
+
+/* Header */
+#top{flex:none;height:68px;display:flex;align-items:center;gap:10px;padding:12px 16px;background:linear-gradient(90deg,#38bdf8,#34d399)}
+.pill{white-space:nowrap;border:0;background:#fff;color:#0369a1;font-weight:800;font-size:.95rem;padding:10px 16px;border-radius:16px;display:flex;align-items:center;gap:8px;box-shadow:0 2px 0 rgba(0,0,0,.08)}
+.pill:hover{transform:translateY(-1px)}
+.pill.gold{background:#fef3c7;color:#b45309;border:2px solid #fbbf24}
+.pill.round{width:44px;height:44px;padding:0;justify-content:center;border-radius:50%}
+#score{background:#fef3c7;border:2px solid #fbbf24;color:#b45309;font-weight:900;border-radius:16px;padding:8px 14px;display:flex;gap:8px;align-items:center}
+#prog{flex:1;display:flex;align-items:center;gap:10px;color:#064e3b;font-weight:900;margin:0 6px}
+#bar{flex:1;height:14px;border-radius:99px;background:rgba(0,0,0,.15);overflow:hidden}
+#barFill{height:100%;width:0;background:linear-gradient(90deg,#fde047,#f59e0b);border-radius:99px;transition:width .5s}
+.sp{flex:0 0 8px}
+
+/* Scene */
+#scene{container-type:inline-size;position:relative;margin:auto;flex:none;width:min(100vw,calc((100vh - 68px)*1.7875));aspect-ratio:1430/800;overflow:hidden;background:linear-gradient(#f6ecd9 0,#f6ecd9 57%,#e8cfa6 57%)}
+#bunting{position:absolute;top:0;left:0;width:100%;height:7%}
+.abs{position:absolute}
+#desk{left:0;top:56%;width:100%;height:32%;clip-path:polygon(6% 0,94% 0,100% 100%,0 100%);background:repeating-linear-gradient(90deg,rgba(110,55,10,.09) 0 .3cqw,transparent .3cqw 4cqw),linear-gradient(#e2ab66,#c98b45)}
+#deskEdge{left:0;top:88%;width:100%;height:6%;background:linear-gradient(#e9b979 0,#e9b979 12%,#a8692a 12%);border-radius:0 0 .8cqw .8cqw;box-shadow:0 .6cqw 1cqw rgba(0,0,0,.2)}
+.dleg{top:94%;width:3.5%;height:6%;background:#8a521f}
+#tower{left:72%;top:24%;width:13%;height:46%;background:#1f2937;border-radius:.8cqw;border:.3cqw solid #0f172a;box-shadow:0 .8cqw 1.5cqw rgba(0,0,0,.3);pointer-events:none}
+#tower::before{content:"";position:absolute;left:8%;top:6%;width:84%;height:88%;border-radius:.4cqw;background:linear-gradient(135deg,#0b1220,#1e3a5f 55%,#0b1220);box-shadow:inset 0 0 2cqw #22d3ee}
+#tower::after{content:"";position:absolute;left:34%;top:26%;width:32%;height:2%;background:#22d3ee;box-shadow:0 2cqw #a78bfa,0 4cqw #22d3ee}
+#mpad{left:58.5%;top:75%;width:14%;height:11%;background:#1f2937;border-radius:1cqw;transform:skewX(-8deg)}
+
+/* Devices */
+.dev{position:absolute;border:0;background:none;padding:0;text-align:center;transition:transform .2s cubic-bezier(.34,1.56,.64,1)}
+.dev svg{display:block;width:100%;filter:drop-shadow(0 .25cqw .3cqw rgba(0,0,0,.18))}
+.dev:hover{transform:translateY(-.5cqw) scale(1.08)}
+.lb{position:absolute;left:50%;transform:translateX(-50%) translateY(.4cqw);white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .15s;background:#fffbe6;border:.2cqw solid #fde68a;color:#7c2d12;font-weight:800;font-size:max(10px,1.05cqw);padding:.2cqw .9cqw;border-radius:99px;z-index:30}
+.dev:hover,.dev:focus-visible{z-index:20}
+.dev:hover .lb,.dev:focus-visible .lb{opacity:1}
+.dev.done{opacity:.4;filter:grayscale(.7);pointer-events:none}
+.dev.ok::after,.dev.done::after{content:"✅";position:absolute;right:-5%;top:-5%;font-size:1.8cqw}
+.dev.hint{animation:hint 1s ease-in-out infinite;z-index:5}
+@keyframes hint{50%{transform:scale(1.18);filter:drop-shadow(0 0 1.2cqw #f59e0b)}}
+.shake{animation:shake .45s}
+@keyframes shake{20%{transform:translateX(-.8cqw)}40%{transform:translateX(.8cqw)}60%{transform:translateX(-.6cqw)}80%{transform:translateX(.6cqw)}}
+.red{filter:drop-shadow(0 0 1cqw #ef4444)!important}
+.glow{animation:glow .9s}
+@keyframes glow{50%{filter:drop-shadow(0 0 2cqw #facc15)}}
+#dim{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .8s;background:linear-gradient(90deg,rgba(15,23,42,.5) 0,rgba(15,23,42,.12) 30%,rgba(15,23,42,.12) 70%,rgba(15,23,42,.5) 100%);z-index:4}
+#scene.dark #dim{opacity:1}
+
+/* Dialog */
+#dlg{position:absolute;left:50%;top:9%;transform:translateX(-50%);width:64%;display:flex;gap:1.2cqw;align-items:center;background:#fff;border:.22cqw solid #7dd3fc;border-radius:1.6cqw;padding:.9cqw 1.4cqw;box-shadow:0 .5cqw 1.5cqw rgba(0,0,0,.12);z-index:10}
+#dlg.good{background:#f0fdf4;border-color:#22c55e}
+#dlg.bad{background:#fef2f2;border-color:#ef4444}
+#face{font-size:3.2cqw;line-height:1;animation:float 3s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-.5cqw)}}
+@media(max-width:900px){#top{gap:6px;padding:8px}.pill{padding:8px 10px;font-size:.78rem}#score{padding:6px 8px}}
+#dtxt{flex:1}
+#dtxt small{display:block;font-weight:900;color:#0284c7;letter-spacing:.06em;font-size:max(9px,.85cqw)}
+#msg{font-weight:800;font-size:max(12px,1.2cqw);line-height:1.35;color:#0f2942}
+.tipbtn{border:0;background:#e0f2fe;color:#b45309;font-weight:800;border-radius:12px;padding:.7cqw 1.2cqw;font-size:max(11px,1cqw);white-space:nowrap}
+#nextBtn{border:0;background:#22c55e;color:#fff;font-weight:900;border-radius:12px;padding:.8cqw 1.4cqw;font-size:max(12px,1.1cqw);box-shadow:0 .3cqw 0 #15803d;animation:pulse 1s infinite;white-space:nowrap}
+#nextBtn[hidden]{display:none}
+@keyframes pulse{50%{transform:scale(1.07)}}
+
+/* Warehouse */
+#ware{position:absolute;inset:0;background:linear-gradient(#e7e5e4,#d6d3d1 60%,#a8a29e 60%);display:none;z-index:2}
+#pile{position:absolute;left:4%;right:4%;top:3%;display:flex;flex-wrap:wrap;gap:1cqw;justify-content:center}
+.item{width:9.5cqw;background:#fff;border-radius:1.2cqw;padding:.5cqw;text-align:center;font-weight:800;font-size:max(9px,.95cqw);border:.25cqw solid #e2e8f0;touch-action:none;cursor:grab;box-shadow:0 .3cqw 0 #cbd5e1}
+.item svg{width:75%;display:block;margin:0 auto}
+.item.sel{border-color:#facc15;box-shadow:0 0 1.4cqw #facc15;transform:scale(1.08)}
+.item.hint{animation:hint 1s infinite}
+.item.ghost{position:fixed;z-index:200;pointer-events:none;opacity:.92;transform:scale(1.12) rotate(4deg)}
+.item.back{animation:boing .5s}
+@keyframes boing{0%{transform:translateY(-3cqw)}40%{transform:translateY(.8cqw)}70%{transform:translateY(-.8cqw)}100%{transform:none}}
+#boxes{position:absolute;left:4%;right:4%;top:47%;height:34%;display:grid;grid-template-columns:repeat(3,1fr);gap:1.4cqw}
+.box{border-radius:1.6cqw;padding:.8cqw;color:#fff;text-align:center;font-weight:900;font-size:max(11px,1.2cqw);border:.35cqw solid rgba(0,0,0,.18);transition:transform .2s;overflow:hidden}
+.box.in{background:#2563eb}.box.out{background:#ea580c}.box.both{background:#9333ea}
+.box.hover,.box.hint{transform:scale(1.04);outline:.4cqw solid #facc15}
+.box.jump{animation:jump .5s}
+@keyframes jump{40%{transform:translateY(-1.6cqw)}}
+.inside{display:flex;flex-wrap:wrap;gap:.3cqw;justify-content:center;margin-top:.5cqw}
+.inside svg{width:4.2cqw}
+
+/* Modals */
+.overlay{position:fixed;inset:0;background:rgba(15,23,42,.6);display:flex;align-items:center;justify-content:center;z-index:300;padding:16px}
+.overlay[hidden]{display:none}
+.card{background:#fff;border-radius:24px;padding:20px;max-width:440px;width:100%;text-align:center;max-height:92vh;overflow:auto}
+.card.wide{max-width:760px}
+.card h2{margin:4px 0 8px}
+.card p{margin:6px 0;font-weight:700}
+.card .big svg{width:140px;height:140px}
+.choices{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+.choice{flex:1;min-width:110px;border:0;border-radius:14px;padding:12px 8px;font-size:.95rem;font-weight:800;color:#fff}
+.choice.in{background:#2563eb}.choice.out{background:#ea580c}.choice.both{background:#9333ea}
+.choice:disabled{opacity:.45}
+#fb{min-height:48px;margin-top:10px;padding:8px;border-radius:12px;font-weight:700;font-size:.92rem}
+#fb.good{background:#dcfce7;color:#166534}
+#fb.bad{background:#fee2e2;color:#991b1b}
+.btn{background:#6366f1;color:#fff;border:0;border-radius:14px;padding:10px 20px;font-size:1rem;font-weight:800;box-shadow:0 4px 0 #4338ca}
+.btn:disabled{background:#cbd5e1;box-shadow:0 4px 0 #94a3b8;cursor:not-allowed}
+.mode{display:block;width:100%;text-align:left;margin:6px 0;border:3px solid #6366f1;background:#fff;color:#4338ca;font-weight:800;border-radius:14px;padding:10px 14px;font-size:1rem}
+.mode:disabled{border-color:#cbd5e1;color:#94a3b8;cursor:not-allowed}
+.mode.cur{background:#6366f1;color:#fff}
+.lst{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;text-align:left}
+.li{display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:12px;background:#f1f5f9;font-weight:800;font-size:.85rem;color:#94a3b8}
+.li svg{width:32px;flex:none;filter:grayscale(1);opacity:.5}
+.li.got{background:#dcfce7;color:#166534}.li.got svg{filter:none;opacity:1}
+.groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:10px;text-align:left}
+.grp{border-radius:16px;padding:10px;color:#fff}
+.grp.in{background:#2563eb}.grp.out{background:#ea580c}.grp.both{background:#9333ea}
+.grp h3{margin:0 0 6px;font-size:1rem}
+.grp div{font-weight:700;font-size:.9rem;margin:3px 0;display:flex;align-items:center;gap:6px}
+.grp svg{width:28px;background:#fff;border-radius:8px;padding:2px}
+canvas#fx{position:fixed;inset:0;pointer-events:none;z-index:400}
+</style>
+</head>
+<body>
+<div id="frame">
+  <div id="top">
+    <button class="pill" id="modeBtn">🧭 Đổi Chế Độ</button>
+    <button class="pill" id="modeName">🔍 Tự do khám phá</button>
+    <div class="sp"></div>
+    <div id="score">⭐ <span id="scoreV">0</span></div>
+    <div id="prog"><div id="bar"><div id="barFill"></div></div><span id="progV">0/5</span></div>
+    <button class="pill gold" id="hintBtn">🔍 Gợi Ý</button>
+        <button class="pill round" id="sndBtn">🔊</button>
+  </div>
+
+  <div id="scene">
+    <svg id="bunting" viewBox="0 0 1430 56" preserveAspectRatio="none"></svg>
+    <div class="abs dleg" style="left:3%"></div><div class="abs dleg" style="left:93.5%"></div>
+    <div class="abs" id="desk"></div><div class="abs" id="deskEdge"></div>
+    <div class="abs" id="tower"></div>
+    <div class="abs" id="mpad"></div>
+    <div id="devs"></div>
+    <div id="dim"></div>
+    <div id="ware"><div id="pile"></div><div id="boxes"></div></div>
+    <div id="dlg">
+      <div id="face">🤖</div>
+      <div id="dtxt"><small>ROBOT TRỢ LÝ TIN HỌC</small><div id="msg"></div></div>
+      <button class="tipbtn" id="tipBtn">💡 Mẹo hay</button>
+      <button id="nextBtn" hidden>Qua Màn ➜</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="infoOv" hidden>
+  <div class="card" id="infoCard">
+    <div class="big" id="iEm"></div>
+    <h2 id="iName"></h2>
+    <p id="iDesc"></p>
+    <p style="color:#4338ca">Theo em, đây là thiết bị gì?</p>
+    <div class="choices">
+      <button class="choice in" data-t="in">Thiết bị Nhập</button>
+      <button class="choice out" data-t="out">Thiết bị Xuất</button>
+      <button class="choice both" data-t="both">Cả Hai</button>
+    </div>
+    <div id="fb"></div>
+    <div class="choices"><button class="btn" id="closeInfo">Đóng</button></div>
+  </div>
+</div>
+<div class="overlay" id="modeOv" hidden><div class="card"><h2>🧭 Chọn chế độ</h2><div id="modes"></div><button class="btn" id="closeMode" style="margin-top:8px">Đóng</button></div></div>
+<div class="overlay" id="win" hidden>
+  <div class="card">
+    <div style="font-size:5rem">🏆</div><div style="font-size:3rem">🤖</div>
+    <h2>Thám Tử Máy Tính Xuất Sắc!</h2>
+    <p>Chúc mừng em! Em đã hoàn thành xuất sắc nhiệm vụ và chính thức trở thành <b>Thám Tử Máy Tính Xuất Sắc</b>. Bây giờ em đã nắm rõ đâu là thiết bị nhập và thiết bị xuất rồi đấy!</p>
+    <p style="font-size:1.2rem">⭐ Điểm: <b id="finalScore"></b></p>
+    <div class="choices">
+      <button class="btn" id="replay">🔄 Chơi lại từ đầu</button>
+      <button class="btn" id="summaryBtn" style="background:#9333ea;box-shadow:0 4px 0 #6b21a8">📚 Xem bảng tổng hợp</button>
+    </div>
+  </div>
+</div>
+<div class="overlay" id="sum" hidden><div class="card wide"><h2>📚 Bảng tổng hợp kiến thức</h2><div class="groups" id="groups"></div><div class="choices"><button class="btn" id="closeSum">Quay lại</button></div></div></div>
+<canvas id="fx"></canvas>
+
+<script>
+const T = {in:'Thiết bị Nhập', out:'Thiết bị Xuất', both:'Nhập & Xuất'};
+
+/* ---------- Icons (inline SVG, viewBox 100x100) ---------- */
+const keys=(()=>{let s='';for(let r=0;r<3;r++)for(let c=0;c<10;c++)s+=`<rect x="${12+c*7.8}" y="${40+r*9}" width="6" height="6" rx="1.5" fill="${r==2&&c>1&&c<8?'#38bdf8':'#cbd5e1'}"/>`;return s})();
+const ICON = {
+ kb:`<rect x="5" y="32" width="90" height="42" rx="7" fill="#f1f5f9" stroke="#94a3b8" stroke-width="3"/>${keys}<rect x="82" y="40" width="7" height="6" rx="1.5" fill="#fb923c"/>`,
+ mouse:`<rect x="30" y="14" width="40" height="72" rx="20" fill="#e0f2fe" stroke="#94a3b8" stroke-width="3"/><rect x="42" y="26" width="16" height="26" rx="8" fill="#38bdf8"/><line x1="30" y1="48" x2="70" y2="48" stroke="#94a3b8" stroke-width="2"/>`,
+ mic:`<rect x="38" y="6" width="24" height="44" rx="12" fill="#e2e8f0" stroke="#94a3b8" stroke-width="3"/><path d="M28 38c0 22 44 22 44 0" fill="none" stroke="#f59e0b" stroke-width="5" stroke-linecap="round"/><rect x="47" y="58" width="6" height="26" fill="#475569"/><rect x="28" y="84" width="44" height="8" rx="4" fill="#475569"/><path d="M42 16h16M42 24h16M42 32h16" stroke="#94a3b8" stroke-width="2"/>`,
+ cam:`<rect x="14" y="28" width="72" height="38" rx="19" fill="#1e293b"/><circle cx="50" cy="47" r="13" fill="#38bdf8" stroke="#fff" stroke-width="3"/><circle cx="50" cy="47" r="5" fill="#0c4a6e"/><circle cx="76" cy="47" r="3" fill="#34d399"/><rect x="44" y="66" width="12" height="10" fill="#475569"/>`,
+ scan:`<polygon points="14,40 86,40 96,62 4,62" fill="#bae6fd" stroke="#38bdf8" stroke-width="3"/><rect x="4" y="62" width="92" height="22" rx="5" fill="#e2e8f0" stroke="#94a3b8" stroke-width="3"/><rect x="18" y="70" width="50" height="5" rx="2" fill="#34d399"/><circle cx="82" cy="73" r="3" fill="#38bdf8"/>`,
+ pad:`<rect x="8" y="22" width="84" height="56" rx="9" fill="#cbd5e1" stroke="#94a3b8" stroke-width="3"/><rect x="16" y="30" width="68" height="30" rx="5" fill="#f1f5f9"/><rect x="16" y="64" width="32" height="9" rx="3" fill="#94a3b8"/><rect x="52" y="64" width="32" height="9" rx="3" fill="#94a3b8"/>`,
+ pen:`<g transform="rotate(40 50 50)"><rect x="42" y="6" width="16" height="66" rx="5" fill="#6366f1"/><rect x="42" y="6" width="16" height="12" rx="5" fill="#a5b4fc"/><polygon points="42,72 58,72 50,94" fill="#fcd9b0"/><polygon points="46,86 54,86 50,94" fill="#1e293b"/></g>`,
+ mon:`<rect x="6" y="8" width="88" height="62" rx="7" fill="#1e293b"/><rect x="12" y="14" width="76" height="46" rx="3" fill="#38bdf8"/><rect x="12" y="42" width="76" height="18" fill="#4ade80"/><circle cx="62" cy="30" r="8" fill="#fff"/><circle cx="72" cy="30" r="6" fill="#fff"/><circle cx="26" cy="26" r="7" fill="#fde047"/><rect x="43" y="70" width="14" height="14" fill="#64748b"/><rect x="28" y="84" width="44" height="7" rx="3" fill="#475569"/>`,
+ spk:`<rect x="24" y="4" width="52" height="92" rx="9" fill="#1e293b"/><circle cx="50" cy="26" r="7" fill="#38bdf8"/><circle cx="50" cy="64" r="20" fill="#0f172a"/><circle cx="50" cy="64" r="11" fill="#f59e0b"/>`,
+ hp:`<path d="M20 62V50a30 30 0 0 1 60 0v12" fill="none" stroke="#ef4444" stroke-width="8" stroke-linecap="round"/><rect x="10" y="54" width="20" height="32" rx="9" fill="#1e293b" stroke="#ef4444" stroke-width="5"/><rect x="70" y="54" width="20" height="32" rx="9" fill="#1e293b" stroke="#ef4444" stroke-width="5"/>`,
+ prn:`<rect x="28" y="8" width="44" height="30" rx="3" fill="#fff" stroke="#cbd5e1" stroke-width="3"/><rect x="8" y="34" width="84" height="38" rx="9" fill="#f1f5f9" stroke="#94a3b8" stroke-width="3"/><rect x="26" y="62" width="48" height="28" rx="2" fill="#fff" stroke="#cbd5e1" stroke-width="3"/><path d="M34 70h32M34 78h24" stroke="#fb923c" stroke-width="3"/><circle cx="80" cy="44" r="3" fill="#22c55e"/>`,
+ proj:`<rect x="8" y="24" width="84" height="40" rx="8" fill="#f1f5f9" stroke="#94a3b8" stroke-width="3"/><circle cx="70" cy="44" r="14" fill="#38bdf8" stroke="#fff" stroke-width="3"/><circle cx="70" cy="44" r="6" fill="#0c4a6e"/><path d="M18 36h28M18 44h28M18 52h28" stroke="#94a3b8" stroke-width="3"/><circle cx="16" cy="30" r="2.5" fill="#22c55e"/>`,
+ touch:`<rect x="14" y="6" width="72" height="88" rx="9" fill="#1e293b"/><rect x="20" y="13" width="60" height="70" rx="3" fill="#38bdf8"/><circle cx="50" cy="48" r="9" fill="#fff" opacity=".9"/><circle cx="50" cy="48" r="17" fill="none" stroke="#fff" stroke-width="2.5" opacity=".7"/><circle cx="50" cy="48" r="25" fill="none" stroke="#fff" stroke-width="2" opacity=".4"/><circle cx="50" cy="89" r="2.5" fill="#64748b"/>`,
+ headset:`<path d="M20 58V48a30 30 0 0 1 60 0v10" fill="none" stroke="#7c3aed" stroke-width="8" stroke-linecap="round"/><rect x="10" y="50" width="20" height="30" rx="9" fill="#1e293b" stroke="#7c3aed" stroke-width="5"/><rect x="70" y="50" width="20" height="30" rx="9" fill="#1e293b" stroke="#7c3aed" stroke-width="5"/><path d="M20 80c0 14 14 14 28 12" fill="none" stroke="#475569" stroke-width="4" stroke-linecap="round"/><circle cx="52" cy="92" r="6" fill="#ef4444"/>`,
+};
+const svg = id => `<svg viewBox="0 0 100 100">${ICON[id]}</svg>`;
+
+/* ---------- Data ---------- */
+const DEVICES = [
+ {id:'kb', name:'Bàn Phím', t:'in', desc:'Bàn phím giúp em gõ chữ và số vào máy tính.', why:'đưa chữ và số vào máy tính'},
+ {id:'mouse', name:'Chuột', t:'in', desc:'Chuột giúp em chỉ và bấm chọn trên màn hình.', why:'giúp em điều khiển, đưa lệnh vào máy tính'},
+ {id:'mic', name:'Micro', t:'in', desc:'Micro thu giọng nói của em đưa vào máy tính.', why:'thu giọng nói đưa vào máy tính'},
+ {id:'cam', name:'Webcam', t:'in', desc:'Webcam ghi lại hình ảnh của em đưa vào máy tính.', why:'thu hình ảnh đưa vào máy tính'},
+ {id:'scan', name:'Máy Quét', t:'in', desc:'Máy quét chuyển hình ảnh, giấy tờ thành tệp trong máy tính.', why:'đưa hình ảnh từ giấy vào máy tính'},
+ {id:'pad', name:'Bàn Di Chuột', t:'in', desc:'Bàn di chuột (Touchpad) giúp em di chuyển con trỏ bằng ngón tay.', why:'nhận thao tác của ngón tay đưa vào máy'},
+ {id:'pen', name:'Bút Cảm Ứng', t:'in', desc:'Bút cảm ứng (Stylus) giúp em vẽ, viết lên bảng vẽ điện tử.', why:'vẽ hình đưa vào máy tính'},
+ {id:'mon', name:'Màn Hình', t:'out', desc:'Màn hình hiển thị hình ảnh và chữ cho em xem.', why:'hiển thị kết quả ra cho em xem'},
+ {id:'spk', name:'Loa', t:'out', desc:'Loa phát âm thanh, nhạc ra ngoài cho em nghe.', why:'phát âm thanh ra ngoài'},
+ {id:'hp', name:'Tai Nghe', t:'out', desc:'Tai nghe đưa âm thanh vào tai em, không làm phiền người khác.', why:'đưa âm thanh ra cho em nghe'},
+ {id:'prn', name:'Máy In', t:'out', desc:'Máy in đưa văn bản, hình ảnh từ máy tính ra giấy.', why:'đưa văn bản từ máy tính ra giấy'},
+ {id:'proj', name:'Máy Chiếu', t:'out', desc:'Máy chiếu phóng hình ảnh từ máy tính lên màn lớn.', why:'chiếu hình từ máy tính ra màn lớn'},
+ {id:'touch', name:'Màn Hình Cảm Ứng', t:'both', desc:'Màn hình cảm ứng vừa hiển thị hình ảnh, vừa nhận cái chạm của em.', why:'hiển thị hình (Xuất), và nhận cái chạm của em (Nhập)'},
+ {id:'headset', name:'Tai Nghe Đàm Thoại', t:'both', desc:'Tai nghe đàm thoại (Headset): vừa nghe âm thanh, vừa nói vào micro.', why:'có loa để NGHE (Xuất) và micro để NÓI (Nhập)'},
+];
+const D = Object.fromEntries(DEVICES.map(d=>[d.id,d]));
+// position in the room: left %, top %, width %
+const POS = {prn:[5,14,76],scan:[20,9,68],spk:[32,5.5,71],mon:[38,20,70],cam:[47.5,4.5,75],mic:[60,4.5,69],proj:[65.5,6.5,68],hp:[20,8.5,89],pad:[29.5,9,87],kb:[39,17,88],mouse:[62,5,84],pen:[74,5,87],touch:[80,8,86],headset:[89,6.5,78]};
+const BOT = {kb:74,mouse:86,mic:92,cam:76,scan:84,pad:78,pen:95,mon:91,spk:96,hp:86,prn:90,proj:64,touch:94,headset:98};
+const K=1430/800;
+const NAMES=['Tự do khám phá','Tìm Thiết bị Nhập','Tìm Thiết bị Xuất','Tìm Nhập & Xuất','Phân loại thả hộp'];
+const LV = {
+ 2:{t:'in', n:7, say:'Bây giờ, máy tính của thầy giáo đang cần nhận thông tin. Em hãy tìm đủ 7 Thiết bị Nhập đang giấu trong phòng nhé!'},
+ 3:{t:'out', n:5, say:'Máy tính đã xử lý xong dữ liệu và cần đưa kết quả ra ngoài. Thám tử nhí hãy tìm giúp Robo 5 Thiết bị Xuất nhé!'},
+ 4:{t:'both', n:2, say:'Cấp độ siêu khó đây! Có 2 món đồ vô cùng đặc biệt trong phòng này. Chúng vừa có thể đưa thông tin VÀO, vừa có thể đưa thông tin RA. Em hãy tìm 2 Thiết bị Nhập & Xuất đó!'},
+};
+const TIPS=['Thiết bị NHẬP đưa thông tin VÀO máy tính. Thiết bị XUẤT đưa thông tin RA ngoài.','Hãy tự hỏi: món này giúp em "nói" với máy hay giúp máy "nói" với em?','Có những thiết bị làm được cả hai việc, như màn hình cảm ứng đó!','Bàn phím, chuột, micro đều là thiết bị nhập.','Màn hình, loa, máy in đều là thiết bị xuất.'];
+const $ = s=>document.querySelector(s);
+let level=1, unlocked=1, doneLv=new Set(), score=0, muted=false;
+let l1Correct=new Set(), found=new Set(), curDev=null;
+
+/* ---------- Sound ---------- */
+let AC;
+function ctx(){try{return AC=AC||new (window.AudioContext||window.webkitAudioContext)()}catch(e){return null}}
+function tone(f,d,type='sine',when=0,vol=.2){
+  if(muted)return;const a=ctx();if(!a)return;
+  const o=a.createOscillator(),g=a.createGain(),t=a.currentTime+when;o.type=type;o.frequency.setValueAtTime(f,t);
+  g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g).connect(a.destination);o.start(t);o.stop(t+d);
+}
+const sTing=()=>{tone(988,.15,'triangle');tone(1319,.3,'triangle',.1)};
+const sTote=()=>{tone(300,.2,'sawtooth');tone(200,.3,'sawtooth',.18)};
+const sBoing=()=>{if(muted)return;const a=ctx();if(!a)return;const o=a.createOscillator(),g=a.createGain(),t=a.currentTime;
+  o.frequency.setValueAtTime(150,t);o.frequency.exponentialRampToValueAtTime(500,t+.15);o.frequency.exponentialRampToValueAtTime(200,t+.4);
+  g.gain.setValueAtTime(.25,t);g.gain.exponentialRampToValueAtTime(.001,t+.45);o.connect(g).connect(a.destination);o.start();o.stop(t+.45)};
+const sWin=()=>[523,659,784,1047,784,1047].forEach((f,i)=>tone(f,.25,'triangle',i*.15));
+$('#sndBtn').onclick=()=>{muted=!muted;$('#sndBtn').textContent=muted?'🔇':'🔊'};
+
+/* ---------- Helpers ---------- */
+function say(txt,mode){$('#msg').innerHTML=txt;$('#dlg').className=mode||''}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function target(){return level===1?5:level===5?14:LV[level].n}
+function progress(){return level===1?l1Correct.size:level===5?placed.size:found.size}
+function updHeader(){
+  const p=progress(),n=target();
+  $('#scoreV').textContent=score;
+  $('#progV').textContent=Math.min(p,n)+'/'+n;
+  $('#barFill').style.width=Math.min(100,p/n*100)+'%';
+  $('#modeName').textContent='🔍 '+NAMES[level-1];
+}
+// bunting
+(()=>{const c=['#f87171','#fbbf24','#34d399','#60a5fa','#a78bfa','#f472b6'];let s='<path d="M0 8Q357 30 715 8T1430 8" fill="none" stroke="#60a5fa" stroke-width="2" stroke-dasharray="7 6"/>';
+ for(let i=0;i<14;i++){const x=40+i*100,y=14+Math.sin(i*.9)*6;s+=`<polygon points="${x-24},${y} ${x+24},${y} ${x},${y+34}" fill="${c[i%6]}"/>`}
+ $('#bunting').innerHTML=s})();
+
+/* ---------- Room ---------- */
+function renderDevs(){
+  const g=$('#devs');g.innerHTML='';let TAGROW=0;
+  DEVICES.forEach(d=>{
+    const p=POS[d.id],el=document.createElement('button');
+    const top=p[2]-p[1]*K*BOT[d.id]/100+.4;
+    el.className='dev';el.dataset.id=d.id;
+    el.style.cssText=`left:${p[0]}%;top:${top}%;width:${p[1]}%`;
+    el.innerHTML=svg(d.id)+`<span class="lb" style="top:${BOT[d.id]}%">${d.name}</span>`;
+    if(level===1&&l1Correct.has(d.id))el.classList.add('ok');
+    if(level>1&&found.has(d.id))el.classList.add('done');
+    el.onclick=()=>onDevice(d.id,el);
+    g.appendChild(el);
+  });
+}
+function startLevel(L){
+  level=L;found=new Set();
+  $('#nextBtn').hidden=true;
+  $('#scene').classList.toggle('dark',L===4);
+  document.querySelectorAll('#scene>.abs,#devs').forEach(e=>e.style.display=L===5?'none':'');
+  $('#devs').style.display=L===5?'none':'';
+  if(L===5){startWarehouse();updHeader();return}
+  $('#ware').style.display='none';
+  if(L===1){l1Correct=new Set();say('Chào bạn nhỏ! Em hãy click vào một thiết bị bất kỳ trong phòng máy để cùng tìm hiểu nhé! Đoán đúng 5 thiết bị là qua màn.')}
+  else say(LV[L].say);
+  renderDevs();updHeader();
+  if(doneLv.has(L)&&L<5){$('#nextBtn').hidden=false;$('#nextBtn').textContent='Qua Màn '+(L+1)+' ➜'}
+}
+function completeLevel(L){
+  doneLv.add(L);unlocked=Math.max(unlocked,L+1);
+  $('#nextBtn').textContent='Qua Màn '+(L+1)+' ➜';$('#nextBtn').hidden=false;
+}
+$('#nextBtn').onclick=()=>startLevel(level+1);
+$('#tipBtn').onclick=()=>say('💡 '+TIPS[Math.random()*TIPS.length|0]);
+
+/* ---------- Header buttons ---------- */
+$('#modeBtn').onclick=()=>{
+  const m=$('#modes');m.innerHTML='';
+  NAMES.forEach((n,i)=>{const L=i+1,b=document.createElement('button');
+    b.className='mode'+(L===level?' cur':'');b.disabled=L>unlocked;
+    b.textContent=(L>unlocked?'🔒 ':doneLv.has(L)?'✅ ':'🔍 ')+'Màn '+L+': '+n;
+    b.onclick=()=>{$('#modeOv').hidden=true;startLevel(L)};m.appendChild(b)});
+  $('#modeOv').hidden=false;
+};
+$('#closeMode').onclick=()=>$('#modeOv').hidden=true;
+$('#hintBtn').onclick=()=>{
+  let el=null;
+  if(level===5){
+    el=[...document.querySelectorAll('.item')][0];
+    if(el){const b=document.querySelector(`.box.${D[el.dataset.id].t}`);b.classList.add('hint');setTimeout(()=>b.classList.remove('hint'),2500)}
+    say('Gợi ý: hãy thử đưa món đồ đang nhấp nháy vào hộp đang sáng viền nhé!');
+  } else {
+    const c=DEVICES.filter(d=>level===1?!l1Correct.has(d.id):d.t===LV[level].t&&!found.has(d.id));
+    if(c.length)el=document.querySelector(`.dev[data-id="${c[Math.random()*c.length|0].id}"]`);
+    say(level===1?'Gợi ý: bấm vào món đồ đang nhấp nháy để tìm hiểu nhé!':'Gợi ý: em thử nhìn kỹ món đồ đang nhấp nháy xem sao nhé!');
+  }
+  if(el){el.classList.add('hint');setTimeout(()=>el.classList.remove('hint'),2500)}
+};
+
+/* ---------- Click on device ---------- */
+function onDevice(id,el){
+  const d=D[id];
+  if(level===1) return openInfo(id);
+  const cfg=LV[level];
+  if(d.t===cfg.t){
+    sTing();found.add(id);score+=10;
+    flyToList(el,d,()=>{renderDevs();updHeader()});
+    const msgs={
+      pen:'Tuyệt vời! Bút cảm ứng vẽ hình vào máy tính.',
+      prn:'Giỏi lắm! Máy in đưa văn bản từ máy tính ra giấy.',
+      headset:'Xuất sắc! Tai nghe đàm thoại vừa có loa để NGHE (Xuất), vừa có micro để NÓI (Nhập).',
+      touch:'Đúng rồi! Nó hiển thị hình ảnh (Xuất), nhưng em cũng có thể chạm ngón tay vào để điều khiển (Nhập).'};
+    say(msgs[id]||`Chính xác! ${d.name} ${d.why}.`,'good');
+    if(found.size===cfg.n) setTimeout(()=>{
+      say(`Hoàn thành! Em đã tìm đủ ${cfg.n} ${T[cfg.t]}. Bấm nút xanh để qua màn tiếp theo nhé! 🎉`,'good');
+      completeLevel(level);updHeader();
+    },700);
+  } else {
+    sTote();
+    const s=el.querySelector('svg');
+    el.classList.remove('shake');void el.offsetWidth;el.classList.add('shake');s.classList.add('red');
+    setTimeout(()=>s.classList.remove('red'),700);
+    let m=`Khoan đã! ${d.name} là ${T[d.t]} vì nó ${d.why}.`;
+    if(id==='spk') m='Khoan đã! Loa phát âm thanh ra ngoài, đây là thiết bị xuất mà!';
+    if(id==='kb'&&level===3) m='Nhầm rồi! Bàn phím không đưa thông tin ra ngoài được đâu.';
+    if(d.t==='both'&&level!==4) m=`Chờ chút! ${d.name} là thiết bị đặc biệt (vừa nhập vừa xuất). Em sẽ tìm nó ở Màn 4 nhé!`;
+    say(m,'bad');
+  }
+}
+function flyToList(el,d,done){
+  const tgt=$('#prog');
+  if(!el.animate){done();return}
+  const a=el.getBoundingClientRect(),b=tgt.getBoundingClientRect(),w=Math.min(a.width,70);
+  const c=document.createElement('div');c.innerHTML=svg(d.id);
+  Object.assign(c.style,{position:'fixed',left:a.left+a.width/2-w/2+'px',top:a.top+a.height/2-w/2+'px',width:w+'px',zIndex:350,pointerEvents:'none'});
+  document.body.appendChild(c);
+  const dx=b.left+b.width/2-(a.left+a.width/2),dy=b.top+b.height/2-(a.top+a.height/2);
+  c.animate([{transform:'scale(1.4)'},{transform:`translate(${dx}px,${dy}px) scale(.3)`,opacity:.6}],{duration:700,easing:'ease-in'}).onfinish=()=>{c.remove();done()};
+}
+
+/* ---------- Level 1 modal ---------- */
+function openInfo(id){
+  curDev=id;const d=D[id];
+  $('#iEm').innerHTML=svg(id);$('#iName').textContent=d.name;$('#iDesc').textContent=d.desc;
+  const fb=$('#fb');fb.textContent='';fb.className='';
+  document.querySelectorAll('.choice').forEach(b=>b.disabled=l1Correct.has(id));
+  if(l1Correct.has(id)){fb.className='good';fb.textContent=`Em đã trả lời đúng rồi: ${d.name} là ${T[d.t]}.`}
+  $('#infoOv').hidden=false;
+}
+document.querySelectorAll('.choice').forEach(b=>b.onclick=()=>{
+  const d=D[curDev],fb=$('#fb'),card=$('#infoCard');
+  if(b.dataset.t===d.t){
+    sTing();fb.className='good';
+    fb.innerHTML=`✅ Chính xác! ${d.name} ${d.why}, nên nó là <b>${T[d.t]}</b>.`;
+    if(!l1Correct.has(curDev)){l1Correct.add(curDev);score+=5}
+    document.querySelectorAll('.choice').forEach(x=>x.disabled=true);
+    updHeader();
+    if(l1Correct.size>=5&&!doneLv.has(1)){completeLevel(1);say('Giỏi quá! Em đã đoán đúng 5 thiết bị. Nút "Qua Màn 2" đã sáng lên rồi đó!','good')}
+  } else {
+    sTote();fb.className='bad';
+    fb.innerHTML=`❌ Chưa đúng rồi. ${d.name} ${d.why}, nên nó phải là <b>${T[d.t]}</b> cơ. Em nhớ nhé!`;
+    card.classList.remove('shake');void card.offsetWidth;card.classList.add('shake');
+  }
+});
+$('#closeInfo').onclick=()=>{$('#infoOv').hidden=true;renderDevs()};
+
+/* ---------- Level 5: warehouse ---------- */
+let placed=new Set(), selected=null;
+function startWarehouse(){
+  $('#scene').classList.remove('dark');
+  $('#ware').style.display='block';
+  placed=new Set();selected=null;
+  say('Bài thi cuối cùng để nhận danh hiệu Hiệp sĩ Tin học! Em hãy kéo và thả từng món đồ vào đúng chiếc hộp của nó nhé. (Hoặc bấm vào món đồ rồi bấm vào hộp.)');
+  const pile=$('#pile');pile.innerHTML='';
+  shuffle(DEVICES).forEach(d=>{
+    const el=document.createElement('div');el.className='item';el.dataset.id=d.id;
+    el.innerHTML=svg(d.id)+d.name;
+    el.addEventListener('pointerdown',e=>dragStart(e,el));
+    pile.appendChild(el);
+  });
+  const bx=$('#boxes');bx.innerHTML='';
+  [['in','📘 THIẾT BỊ NHẬP'],['out','📙 THIẾT BỊ XUẤT'],['both','📕 CẢ NHẬP & XUẤT']].forEach(([t,l])=>{
+    const b=document.createElement('div');b.className='box '+t;b.dataset.t=t;
+    b.innerHTML=`<div>${l}</div><div class="inside"></div>`;
+    b.onclick=()=>{if(selected)drop(selected,b)};
+    bx.appendChild(b);
+  });
+}
+function dragStart(e,el){
+  e.preventDefault();
+  const sx=e.clientX,sy=e.clientY;let ghost=null,hov=null;
+  const move=ev=>{
+    if(!ghost&&Math.hypot(ev.clientX-sx,ev.clientY-sy)>8){
+      ghost=el.cloneNode(true);ghost.classList.add('ghost');ghost.style.width=el.offsetWidth+'px';
+      document.body.appendChild(ghost);el.style.opacity=.3;
+    }
+    if(ghost){
+      ghost.style.left=ev.clientX-el.offsetWidth/2+'px';ghost.style.top=ev.clientY-30+'px';
+      const b=boxAt(ev.clientX,ev.clientY);
+      if(b!==hov){hov&&hov.classList.remove('hover');hov=b;hov&&hov.classList.add('hover')}
+    }
+  };
+  const up=ev=>{
+    window.removeEventListener('pointermove',move);window.removeEventListener('pointerup',up);
+    hov&&hov.classList.remove('hover');
+    if(ghost){ghost.remove();el.style.opacity='';const b=boxAt(ev.clientX,ev.clientY);if(b)drop(el,b)}
+    else{
+      document.querySelectorAll('.item.sel').forEach(i=>i.classList.remove('sel'));
+      if(selected===el)selected=null;else{selected=el;el.classList.add('sel')}
+    }
+  };
+  window.addEventListener('pointermove',move);window.addEventListener('pointerup',up);
+}
+function boxAt(x,y){const e=document.elementFromPoint(x,y);return e&&e.closest?e.closest('.box'):null}
+function drop(el,box){
+  const d=D[el.dataset.id];
+  el.classList.remove('sel');selected=null;
+  if(d.t===box.dataset.t){
+    sTing();score+=10;placed.add(d.id);
+    box.querySelector('.inside').insertAdjacentHTML('beforeend',svg(d.id));
+    el.remove();
+    box.classList.remove('jump');void box.offsetWidth;box.classList.add('jump');
+    say(`Chính xác! ${d.name} ${d.why}. +10 điểm`,'good');
+    updHeader();
+    if(placed.size===14) setTimeout(win,700);
+  } else {
+    sBoing();el.classList.remove('back');void el.offsetWidth;el.classList.add('back');
+    say(`Boing! ${d.name} chưa nằm đúng hộp. Gợi ý: nó ${d.why}.`,'bad');
+  }
+}
+
+/* ---------- Win ---------- */
+function win(){
+  doneLv.add(5);sWin();
+  $('#finalScore').textContent=score;
+  $('#win').hidden=false;
+  confetti();
+}
+function confetti(){
+  const c=$('#fx'),x=c.getContext('2d');c.width=innerWidth;c.height=innerHeight;
+  const cols=['#ef4444','#f59e0b','#22c55e','#3b82f6','#a855f7','#ec4899'];
+  const P=Array.from({length:220},()=>({x:Math.random()*c.width,y:-20-Math.random()*c.height*.6,vx:(Math.random()-.5)*4,vy:2+Math.random()*4,s:5+Math.random()*7,r:Math.random()*6,vr:(Math.random()-.5)*.3,c:cols[Math.random()*6|0]}));
+  let f=0;
+  (function loop(){
+    x.clearRect(0,0,c.width,c.height);
+    P.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.fillStyle=p.c;x.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6);x.restore()});
+    if(++f<360)requestAnimationFrame(loop);else x.clearRect(0,0,c.width,c.height);
+  })();
+}
+$('#replay').onclick=()=>{$('#win').hidden=true;unlocked=1;doneLv=new Set();score=0;startLevel(1)};
+$('#summaryBtn').onclick=()=>{
+  const g=$('#groups');g.innerHTML='';
+  [['in','Thiết bị Nhập','Đưa thông tin VÀO máy tính'],['out','Thiết bị Xuất','Đưa thông tin RA khỏi máy tính'],['both','Nhập & Xuất','Vừa vào, vừa ra']].forEach(([t,n,s])=>{
+    g.insertAdjacentHTML('beforeend',`<div class="grp ${t}"><h3>${n}</h3><div><i>${s}</i></div>${DEVICES.filter(d=>d.t===t).map(d=>`<div>${svg(d.id)}${d.name}</div>`).join('')}</div>`);
+  });
+  $('#win').hidden=true;$('#sum').hidden=false;
+};
+$('#closeSum').onclick=()=>{$('#sum').hidden=true;$('#win').hidden=false};
+
+startLevel(1);
+</script>
+</body>
+</html>
