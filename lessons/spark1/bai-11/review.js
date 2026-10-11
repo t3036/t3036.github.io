@@ -3,10 +3,6 @@
    (tách từ phần Ôn tập của bai-11.js; dùng chung engine lesson.js)
    ============================================================ */
 
-const PASSWORDS = {
-  s5: ''   // Phần 5 — Ôn tập
-};
-
 
 /* ------------------------------------------------------------
    NGÂN HÀNG CÂU HỎI — mỗi câu dùng 2 lần: trong phần học (topic
@@ -185,7 +181,6 @@ const LESSON = {
     {
       id: 's5',
       title: 'Ôn tập',
-      password: PASSWORDS.s5,
       slides: [
         onTap(Q.cheBanPhim),
         onTap(Q.vanChuyenLaptop),

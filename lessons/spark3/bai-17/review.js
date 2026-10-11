@@ -3,10 +3,6 @@
    (dùng chung engine lesson.js)
    ============================================================ */
 
-const PASSWORDS = {
-  s4: ''   // Ôn tập
-};
-
 const LESSON = {
   id:    'bai17-tin-tac-on-tap',
   icon:  '🕵️',
@@ -16,7 +12,6 @@ const LESSON = {
     {
       id: 's4',
       title: 'Ôn tập',
-      password: PASSWORDS.s4,
       slides: [
         {
           type: 'quiz_matching',

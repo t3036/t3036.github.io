@@ -3,10 +3,6 @@
    (tách từ phần Ôn tập của bai-12-13.js; dùng chung engine lesson.js)
    ============================================================ */
 
-const PASSWORDS = {
-  s6: '213'   // Phần 6 — Ôn tập
-};
-
 const LESSON = {
   id:    'bai12-13-nguonthongtin-on-tap',
   icon:  '🧭',
@@ -14,12 +10,11 @@ const LESSON = {
 
   sections: [
     /* ============================================================
-       Phần 6 — Ôn tập (mật khẩu: NTC06)
+       Phần 6 — Ôn tập
        ============================================================ */
     {
       id: 's6',
       title: 'Ôn tập',
-      password: PASSWORDS.s6,
       slides: [
         /* Slide 28 (Trang 28 / 42) */
         {

@@ -3,10 +3,6 @@
    (tách từ phần Ôn tập của bai-08.js; dùng chung engine lesson.js)
    ============================================================ */
 
-const PASSWORDS = {
-  s5: ''   // Phần 5 — Ôn tập
-};
-
 const LESSON = {
   id:    'bai8-ketnoi-on-tap',
   icon:  '🔌',
@@ -14,12 +10,11 @@ const LESSON = {
 
   sections: [
     /* ============================================================
-       PHẦN 5 — Ôn tập (mật khẩu: KN05)
+       PHẦN 5 — Ôn tập
        ============================================================ */
     {
       id: 's5',
       title: 'Ôn tập',
-      password: PASSWORDS.s5,
       slides: [
         /* Slide 19 (Trang 19 / 26) */
         {

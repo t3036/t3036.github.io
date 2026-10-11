@@ -31,11 +31,11 @@
    Để trống '' cho phần nào muốn luôn mở sẵn (không cần mật khẩu).
    ============================================================ */
 const PASSWORDS = {
-  s1: '483',  // Phần 1 — Khái niệm về một số nguồn thông tin
-  s2: '243',  // Phần 2 — Giới hạn độ tuổi đối với nội dung kĩ thuật số
-  s3: '096',  // Phần 3 — Một số nguồn thông tin đáng tin cậy
-  s4: '150',  // Phần 4 — Xác định các nguồn thông tin đáng tin cậy
-  s5: '641',  // Phần 5 — So sánh và đánh giá kết quả của AI (Đọc thêm)
+  s1: '',  // Phần 1 — Khái niệm về một số nguồn thông tin
+  s2: '',  // Phần 2 — Giới hạn độ tuổi đối với nội dung kĩ thuật số
+  s3: '',  // Phần 3 — Một số nguồn thông tin đáng tin cậy
+  s4: '',  // Phần 4 — Xác định các nguồn thông tin đáng tin cậy
+  s5: '',  // Phần 5 — So sánh và đánh giá kết quả của AI (Đọc thêm)
 };
 
 const LESSON = {

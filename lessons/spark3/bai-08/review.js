@@ -3,10 +3,6 @@
    (tách từ phần Ôn tập của bai-08.js; dùng chung engine lesson.js)
    ============================================================ */
 
-const PASSWORDS = {
-  s4: ''    // Phần 4 — Ôn tập
-};
-
 const LESSON = {
   id:    'bai8-suco-on-tap',
   icon:  '🛠️',
@@ -14,7 +10,7 @@ const LESSON = {
 
   sections: [
     /* ============================================================
-       PHẦN 4 — Ôn tập (mật khẩu: SC04)
+       PHẦN 4 — Ôn tập
        ------------------------------------------------------------
        Gom lại TẤT CẢ câu hỏi (bỏ hết slide lý thuyết) từ 3 phần
        trên để học sinh luyện lại. Đáp án làm ở đây độc lập hoàn
@@ -23,7 +19,6 @@ const LESSON = {
     {
       id: 's4',
       title: 'Ôn tập',
-      password: PASSWORDS.s4,
       slides: [
         /* Slide 14 (Trang 14 / 19) */
         {

@@ -3,10 +3,6 @@
    (tách từ phần Ôn tập của bai-08.js; dùng chung engine lesson.js)
    ============================================================ */
 
-const PASSWORDS = {
-  s7: '420'   // Phần 7 — Ôn tập
-};
-
 const LESSON = {
   id:    'l1-bai8-mang-internet-on-tap',
   icon:  '🌐',
@@ -14,12 +10,11 @@ const LESSON = {
 
   sections: [
     /* ============================================================
-       PHẦN 7 — Ôn tập (mật khẩu: MI07)
+       PHẦN 7 — Ôn tập
        ============================================================ */
     {
       id: 's7',
       title: 'Ôn tập',
-      password: PASSWORDS.s7,
       slides: [
         /* Slide 21 (Trang 21 / 30) */
         {

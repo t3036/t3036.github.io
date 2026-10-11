@@ -3,10 +3,6 @@
    (tách từ phần Ôn tập của bai-11.js; dùng chung engine lesson.js)
    ============================================================ */
 
-const PASSWORDS = {
-  s4: ''    // Phần 4 — Ôn tập
-};
-
 const LESSON = {
   id:    'bai11-quandiem-on-tap',
   icon:  '⚖️',
@@ -14,7 +10,7 @@ const LESSON = {
 
   sections: [
     /* ============================================================
-       PHẦN 4 — Ôn tập (mật khẩu: QDTK04)
+       PHẦN 4 — Ôn tập
        ------------------------------------------------------------
        Gom lại TẤT CẢ câu hỏi (bỏ hết slide lý thuyết) từ 3 phần
        trên để học sinh luyện lại. Đáp án làm ở đây độc lập hoàn
@@ -23,7 +19,6 @@ const LESSON = {
     {
       id: 's4',
       title: 'Ôn tập',
-      password: PASSWORDS.s4,
       slides: [
         /* Slide 10 (Trang 10 / 14) */
         {

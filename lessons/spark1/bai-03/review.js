@@ -3,10 +3,6 @@
    (tách từ phần Ôn tập của bai-03.js; dùng chung engine lesson.js)
    ============================================================ */
 
-const PASSWORDS = {
-  s1: ''   // Ôn tập
-};
-
 const LESSON = {
   id:    'bai3-phanmem-on-tap',
   icon:  '💾',
@@ -14,7 +10,7 @@ const LESSON = {
 
   sections: [
     /* ============================================================
-       PHẦN 5 — Ôn tập (mật khẩu: PM05)
+       PHẦN 5 — Ôn tập
        ------------------------------------------------------------
        Gom lại TẤT CẢ câu hỏi (bỏ hết slide lý thuyết) từ 4 phần
        trên để học sinh luyện lại. Vì đây là các đối tượng slide
@@ -24,7 +20,6 @@ const LESSON = {
     {
       id: 's1',
       title: 'Ôn tập',
-      password: PASSWORDS.s1,
       slides: [
         /* Slide 18 (Trang 18 / 27) */
         {

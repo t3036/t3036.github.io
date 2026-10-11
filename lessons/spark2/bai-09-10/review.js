@@ -3,10 +3,6 @@
    (tách từ phần Ôn tập của bai-09-10.js; dùng chung engine lesson.js)
    ============================================================ */
 
-const PASSWORDS = {
-  s7: ''   // Phần 7 — Ôn tập
-};
-
 const LESSON = {
   id:    'bai9-10-trinhduyet-on-tap',
   icon:  '🌐',
@@ -14,12 +10,11 @@ const LESSON = {
 
   sections: [
     /* ============================================================
-       PHẦN 7 — Ôn tập (mật khẩu: TD07)
+       PHẦN 7 — Ôn tập
        ============================================================ */
     {
       id: 's7',
       title: 'Ôn tập',
-      password: PASSWORDS.s7,
       slides: [
         /* Slide 39 (Trang 39 / 54) */
         {

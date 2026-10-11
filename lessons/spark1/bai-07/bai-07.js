@@ -28,10 +28,10 @@
    Để trống '' cho phần nào muốn luôn mở sẵn (không cần mật khẩu).
    ============================================================ */
 const PASSWORDS = {
-  s1: '367',   // Phần 1 — Thiết bị di động
-  s2: '989',   // Phần 2 — Sử dụng thiết bị di động
-  s3: '078',   // Phần 3 — An toàn khi sạc thiết bị di động
-  s4: '304',   // Phần 4 — Học với AI trên thiết bị di động
+  s1: '',   // Phần 1 — Thiết bị di động
+  s2: '',   // Phần 2 — Sử dụng thiết bị di động
+  s3: '',   // Phần 3 — An toàn khi sạc thiết bị di động
+  s4: '',   // Phần 4 — Học với AI trên thiết bị di động
 };
 
 const LESSON = {

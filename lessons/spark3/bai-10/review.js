@@ -3,10 +3,6 @@
    (tách từ phần Ôn tập của bai-10.js; dùng chung engine lesson.js)
    ============================================================ */
 
-const PASSWORDS = {
-  s3: ''    // Phần 3 — Ôn tập
-};
-
 const LESSON = {
   id:    'bai10-danhgia-on-tap',
   icon:  '🔎',
@@ -14,7 +10,7 @@ const LESSON = {
 
   sections: [
     /* ============================================================
-       PHẦN 3 — Ôn tập (mật khẩu: DGTT03)
+       PHẦN 3 — Ôn tập
        ------------------------------------------------------------
        PDF gốc chỉ có duy nhất 1 bài luyện tập trong toàn bài, nên
        phần Ôn tập ở đây cũng chỉ có 1 câu — đúng theo tài liệu gốc,
@@ -23,7 +19,6 @@ const LESSON = {
     {
       id: 's3',
       title: 'Ôn tập',
-      password: PASSWORDS.s3,
       slides: [
         /* Slide 6 (Trang 6 / 7) */
         {

@@ -3,10 +3,6 @@
    (tách từ phần Ôn tập của bai-09.js; dùng chung engine lesson.js)
    ============================================================ */
 
-const PASSWORDS = {
-  s3: ''    // Phần 3 — Ôn tập
-};
-
 const LESSON = {
   id:    'bai9-dulieu-on-tap',
   icon:  '🧠',
@@ -14,7 +10,7 @@ const LESSON = {
 
   sections: [
     /* ============================================================
-       PHẦN 3 — Ôn tập (mật khẩu: DL03)
+       PHẦN 3 — Ôn tập
        ------------------------------------------------------------
        Gom lại TẤT CẢ câu hỏi (bỏ hết slide lý thuyết) từ 2 phần
        trên để học sinh luyện lại. Đáp án làm ở đây độc lập hoàn
@@ -23,7 +19,6 @@ const LESSON = {
     {
       id: 's3',
       title: 'Ôn tập',
-      password: PASSWORDS.s3,
       slides: [
         /* Slide 11 (Trang 11 / 17) */
         {

@@ -3,10 +3,6 @@
    (tách từ phần Ôn tập của bai-15.js; dùng chung engine lesson.js)
    ============================================================ */
 
-const PASSWORDS = {
-  s5: ''   // Phần 5 — Ôn tập
-};
-
 const LESSON = {
   id:    'bai15-creative-commons-on-tap',
   icon:  '<img src="cc.png" alt="CC" style="height:1.2em;vertical-align:middle">',
@@ -16,7 +12,6 @@ const LESSON = {
     {
       id: 's5',
       title: 'Ôn tập',
-      password: PASSWORDS.s5,
       slides: [
         /* Slide 16 (Trang 16 / 22) */
         {

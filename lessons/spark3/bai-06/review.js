@@ -3,10 +3,6 @@
    (gom các câu hỏi của bai-06.js; dùng chung engine lesson.js)
    ============================================================ */
 
-const PASSWORDS = {
-  s1: ''   // Ôn tập
-};
-
 const LESSON = {
   id:    'l3-bai6-on-tap',
   icon:  '🌐',
@@ -16,7 +12,6 @@ const LESSON = {
     {
       id: 's1',
       title: 'Ôn tập',
-      password: PASSWORDS.s1,
       slides: [
         {
           type: 'quiz_single',

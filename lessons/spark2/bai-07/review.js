@@ -3,10 +3,6 @@
    (tách từ phần Ôn tập của bai-07.js; dùng chung engine lesson.js)
    ============================================================ */
 
-const PASSWORDS = {
-  s7: ''    // Phần 7 — Ôn tập
-};
-
 const LESSON = {
   id:    'bai7-mang-on-tap',
   icon:  '🌐',
@@ -14,7 +10,7 @@ const LESSON = {
 
   sections: [
     /* ============================================================
-       PHẦN 7 — Ôn tập (mật khẩu: B0707)
+       PHẦN 7 — Ôn tập
        ------------------------------------------------------------
        Gom lại TẤT CẢ câu hỏi (bỏ hết slide lý thuyết) từ 6 phần
        trên để học sinh luyện lại. Đáp án làm ở đây độc lập hoàn
@@ -23,7 +19,6 @@ const LESSON = {
     {
       id: 's7',
       title: 'Ôn tập',
-      password: PASSWORDS.s7,
       slides: [
         /* Slide 31 (Trang 31 / 45) */
         {

@@ -3,10 +3,6 @@
    (tách từ phần Ôn tập của bai-04.js; dùng chung engine lesson.js)
    ============================================================ */
 
-const PASSWORDS = {
-  s1: ''   // Ôn tập
-};
-
 const LESSON = {
   id:    'bai4-hdh-on-tap',
   icon:  '🖥️',
@@ -14,7 +10,7 @@ const LESSON = {
 
   sections: [
     /* ============================================================
-       PHẦN 6 — Ôn tập (mật khẩu: HDH06)
+       PHẦN 6 — Ôn tập
        ------------------------------------------------------------
        Gom lại TẤT CẢ câu hỏi (bỏ hết slide lý thuyết) từ 5 phần
        trên để học sinh luyện lại. Đáp án làm ở đây độc lập hoàn
@@ -23,7 +19,6 @@ const LESSON = {
     {
       id: 's1',
       title: 'Ôn tập',
-      password: PASSWORDS.s1,
       slides: [
         /* Slide 22 (Trang 22 / 32) */
         {

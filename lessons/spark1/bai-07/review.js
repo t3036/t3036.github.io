@@ -3,10 +3,6 @@
    (tách từ phần Ôn tập của bai-07.js; dùng chung engine lesson.js)
    ============================================================ */
 
-const PASSWORDS = {
-  s5: '148'    // Phần 5 — Ôn tập
-};
-
 const LESSON = {
   id:    'bai7-tbdd-on-tap',
   icon:  '📱',
@@ -14,7 +10,7 @@ const LESSON = {
 
   sections: [
     /* ============================================================
-       PHẦN 5 — Ôn tập (mật khẩu: TBDD05)
+       PHẦN 5 — Ôn tập
        ------------------------------------------------------------
        Gom lại TẤT CẢ câu hỏi (bỏ hết slide lý thuyết) từ 4 phần
        trên để học sinh luyện lại. Đáp án làm ở đây độc lập hoàn
@@ -23,7 +19,6 @@ const LESSON = {
     {
       id: 's5',
       title: 'Ôn tập',
-      password: PASSWORDS.s5,
       slides: [
         /* Slide 17 (Trang 17 / 27) */
         {

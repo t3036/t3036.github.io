@@ -31,12 +31,12 @@
    Để trống '' cho phần nào muốn luôn mở sẵn (không cần mật khẩu).
    ============================================================ */
 const PASSWORDS = {
-  s1: '735',  // Phần 1 — Mạng là gì?
-  s2: '449',  // Phần 2 — Internet
-  s3: '685',  // Phần 3 — Kết nối máy tính, điện thoại thông minh với Internet
-  s4: '393',  // Phần 4 — Gói dữ liệu di động
-  s5: '150',  // Phần 5 — Thiết bị đa phương tiện
-  s6: '832',  // Phần 6 — Trực tuyến cùng AI
+  s1: '',  // Phần 1 — Mạng là gì?
+  s2: '',  // Phần 2 — Internet
+  s3: '',  // Phần 3 — Kết nối máy tính, điện thoại thông minh với Internet
+  s4: '',  // Phần 4 — Gói dữ liệu di động
+  s5: '',  // Phần 5 — Thiết bị đa phương tiện
+  s6: '',  // Phần 6 — Trực tuyến cùng AI
 };
 
 const LESSON = {
