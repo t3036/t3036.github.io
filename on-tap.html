@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ôn tập &mdash; IC3 GS6</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<style>
+.on-tap{max-width:900px;margin:0 auto;padding:1.5rem 1rem 3rem}
+.on-tap h1{font-family:"Baloo 2",Bitter,serif;text-align:center;margin:.5rem 0 1.5rem}
+.on-tap .luoi-cap-do{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.on-tap .the-cap-do{background:rgba(255,255,255,.65);color:var(--muc);border:1px solid rgba(0,0,0,.08);box-shadow:0 4px 12px rgba(20,30,60,.06)}
+.on-tap .the-nuts .the-nut{background:rgba(74,144,217,.18);color:#2a5f9e}
+.on-tap .the-nuts .the-nut:hover{background:rgba(74,144,217,.32)}
+.on-tap .the-nut.het{opacity:.55;pointer-events:none}
+</style>
+</head>
+<body>
+
+<div data-include="site-header"></div>
+
+<main class="on-tap">
+  <h1 id="tieu-de">Ôn tập</h1>
+  <div class="luoi-cap-do" id="luoi"></div>
+  <p style="text-align:center"><a class="quay-lai" href="index.html">&#8592; Về trang chủ</a></p>
+</main>
+
+<div data-include="site-footer"></div>
+
+<script src="assets/js/site.js"></script>
+<script>
+// Thêm link cho từng bài: điền vào mảng của chương trình tương ứng (7 bài, '' = chưa có).
+var ON_TAP = {
+  spark1: { ten: 'SPARK Level 1', links: ['https://server1-ic3.netlify.app/bai-kiem-tra-hoc-sinh-spark-lv1-can-ban-ve-cong-nghe-munqfhp207o4.html', '', '', '', '', '', ''] },
+  spark2: { ten: 'SPARK Level 2', links: ['https://server2-ic3.netlify.app/bai-kiem-tra-hoc-sinh-spark-lv2-can-ban-ve-cong-nghe-mugnjayd2ayh.html', '', '', '', '', '', ''] },
+  spark3: { ten: 'SPARK Level 3', links: ['https://server3-ic3.netlify.app/bai-on-luyen-hoc-sinh-spark-lv3-can-ban-ve-cong-nghe-muajzpmcmpsb.html', 'https://server3-ic3.netlify.app/bai-kiem-tra-hoc-sinh-spark-lv3-quan-ly-thong-tin-muqm0yl9m42x.html', '', '', '', '', ''] },
+  gs61:   { ten: 'GS6 Level 1',   links: ['', '', '', '', '', '', ''] },
+  gs62:   { ten: 'GS6 Level 2',   links: ['', '', '', '', '', '', ''] },
+  gs63:   { ten: 'GS6 Level 3',   links: ['', '', '', '', '', '', ''] }
+};
+var id = new URLSearchParams(location.search).get('c');
+var cf = ON_TAP[id] || ON_TAP.spark1;
+document.getElementById('tieu-de').textContent = 'Ôn tập ' + cf.ten;
+document.title = 'Ôn tập ' + cf.ten + ' — IC3 GS6';
+var luoi = document.getElementById('luoi');
+cf.links.forEach(function (href, i) {
+  var d = document.createElement('div');
+  d.className = 'the-cap-do ' + (ON_TAP[id] ? id : 'spark1');
+  d.innerHTML = '<span class="the-icon" aria-hidden="true">📝</span>' +
+    '<span class="the-ten">Bài ôn ' + (i + 1) + '</span>' +
+    '<span class="the-nuts"><a class="the-nut' + (href ? '' : ' het') + '" href="' + (href || 'update.html') + '"' + (href ? ' target="_blank" rel="noopener"' : '') + '>' +
+    (href ? 'Vào ôn tập' : 'Sắp có') + '</a></span>';
+  luoi.appendChild(d);
+});
+</script>
+</body>
+</html>

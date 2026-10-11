@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ôn tập Chủ đề 3 — Công dân số</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <a class="back" href="../../../index.html">← Về trang chủ</a>
+
+  <!-- Trang chọn cách ôn -->
+  <section id="hub">
+    <header class="hero">
+      <div class="hero-ico">🛡️</div>
+      <h1>Ôn tập Chủ đề 3 — Công dân số</h1>
+      <p>Bài 16 · Đạo đức và hợp pháp &nbsp;|&nbsp; Bài 17 · Tin tặc</p>
+      <p class="pick">Chọn một cách ôn tập em thích:</p>
+    </header>
+    <div class="modes" id="modes"></div>
+  </section>
+
+  <!-- Khu vực chạy từng chế độ -->
+  <section id="stage" class="hidden">
+    <div class="topbar">
+      <button class="btn small" id="btn-home">← Chọn cách ôn khác</button>
+      <span class="mode-title" id="mode-title"></span>
+    </div>
+    <div id="view"></div>
+  </section>
+</div>
+<script src="script.js"></script>
+</body>
+</html>

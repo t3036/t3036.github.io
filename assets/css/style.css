@@ -130,6 +130,9 @@ body:has(.thanh-menu){font-family:"Be Vietnam Pro",-apple-system,"Segoe UI",Robo
 .the-icon{font-size:2.6rem;margin-bottom:.3rem}
 .the-hang{font-weight:700;font-size:.8rem;letter-spacing:.08em;opacity:.85}
 .the-ten{font-family:"Baloo 2",Bitter,serif;font-weight:800;font-size:1.4rem;margin-bottom:.2rem}
+.the-nuts{display:flex;gap:.5rem;margin-top:.6rem;flex-wrap:wrap;justify-content:center}
+.the-nuts .the-nut{margin-top:0;color:#fff;text-decoration:none;transition:background .15s}
+.the-nuts .the-nut:hover{background:rgba(255,255,255,.45)}
 .the-mo-ta{font-size:.88rem;opacity:.92;margin-bottom:1rem}
 .the-nut{margin-top:auto;background:rgba(255,255,255,.25);border-radius:999px;
   padding:.45rem 1.1rem;font-weight:700;font-size:.9rem}

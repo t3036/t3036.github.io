@@ -1403,7 +1403,7 @@ const LESSON_INDEX = {
                   "links":  [
                                 {
                                     "text":  "Ôn tập",
-                                    "href":  ""
+                                    "href":  "lessons/spark3/on-tap-3/index.html"
                                 },
                                 {
                                     "text":  "Kiểm tra",
