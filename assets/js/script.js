@@ -2,7 +2,13 @@
 // Vì mỗi cấp độ giờ là 1 trang riêng (điều hướng bằng liên kết <a>),
 // tệp này chỉ còn giữ vài tiện ích nhỏ, không cần lệnh ẩn/hiện nữa.
 
-document.addEventListener('DOMContentLoaded', function () {
+// Chạy ngay nếu trang đã tải xong (script.js được nạp động sau khi chèn header/footer).
+function onReady(fn) {
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn);
+  else fn();
+}
+
+onReady(function () {
   // Khi vào 1 trang danh sách bài (không phải trang chủ),
   // đưa focus lên tiêu đề để thuận tiện cho người dùng bàn phím / đọc màn hình.
   if (!document.getElementById('trang-chu')) {
@@ -29,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 });
-document.addEventListener('DOMContentLoaded', function () {
+onReady(function () {
   var nut = document.getElementById('nutSaoChep');
   var mk = document.getElementById('matKhau');
   if (!nut || !mk) return;
@@ -52,9 +58,9 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // Nhấp đúp chuột phải vào "SnowT" ở chân trang để mở liên kết ẩn trong tab mới.
-document.addEventListener('DOMContentLoaded', function () {
+onReady(function () {
   var snowt = document.querySelector('.snowt');
-  if (!snowt) return;
+  if (!snowt || !snowt.dataset.url) return;
   var lanCuoi = 0;
   snowt.addEventListener('contextmenu', function (e) {
     e.preventDefault();
