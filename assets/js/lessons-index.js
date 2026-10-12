@@ -153,11 +153,11 @@ const LESSON_INDEX = {
                   "links":  [
                                 {
                                     "text":  "Bài học",
-                                    "href":  "lessons/spark1/bai-11/index.html"
+                                    "href":  "lessons/spark2/bai-11/index.html"
                                 },
                                 {
                                     "text":  "Ôn tập",
-                                    "href":  "lessons/spark1/bai-11/review.html"
+                                    "href":  "lessons/spark2/bai-11/review.html"
                                 }
                             ]
               },
@@ -167,11 +167,11 @@ const LESSON_INDEX = {
                   "links":  [
                                 {
                                     "text":  "Bài học",
-                                    "href":  ""
+                                    "href":  "lessons/spark2/bai-12/index.html"
                                 },
                                 {
                                     "text":  "Ôn tập",
-                                    "href":  ""
+                                    "href":  "lessons/spark2/bai-12/review.html"
                                 }
                             ]
               },
@@ -1375,11 +1375,11 @@ const LESSON_INDEX = {
                   "links":  [
                                 {
                                     "text":  "Bài học",
-                                    "href":  ""
+                                    "href":  "lessons/spark3/bai-18/index.html"
                                 },
                                 {
                                     "text":  "Ôn tập",
-                                    "href":  ""
+                                    "href":  "lessons/spark3/bai-18/review.html"
                                 }
                             ]
               },

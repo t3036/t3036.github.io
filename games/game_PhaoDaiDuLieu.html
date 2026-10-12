@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pháo Đài Dữ Liệu - Giải Mã Cạm Bẫy Mạng</title>
+<style>
+:root{--bg:#0b1020;--panel:#151c36;--line:#2a3560;--cyan:#22d3ee;--green:#4ade80;--red:#fb7185;--gold:#fbbf24;--txt:#e8ecff;--mut:#97a2cf}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Segoe UI",system-ui,sans-serif;background:radial-gradient(circle at 50% 0,#1b2550,var(--bg) 60%);color:var(--txt);min-height:100vh;display:flex;justify-content:center;align-items:center;padding:12px;user-select:none}
+#game{width:100%;max-width:820px;height:min(720px,96vh);background:var(--panel);border:2px solid var(--line);border-radius:20px;overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 20px 60px #000a}
+.screen{display:none;flex:1;flex-direction:column;padding:20px;overflow-y:auto;animation:in .35s}
+.screen.on{display:flex}
+@keyframes in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+h1{font-size:clamp(1.5rem,5vw,2.2rem);color:var(--cyan);text-align:center}
+h2{font-size:1.3rem;color:var(--gold);text-align:center;margin-bottom:6px}
+p.sub{color:var(--mut);text-align:center;margin:8px 0;line-height:1.5}
+.btn{background:linear-gradient(180deg,#22d3ee,#0ea5e9);color:#04202b;border:0;border-radius:14px;padding:12px 22px;font-size:1rem;font-weight:800;cursor:pointer;transition:.15s;box-shadow:0 4px 0 #0369a1}
+.btn:hover{filter:brightness(1.1)}.btn:active{transform:translateY(3px);box-shadow:none}
+.btn.alt{background:linear-gradient(180deg,#fbbf24,#f59e0b);box-shadow:0 4px 0 #b45309}
+.center{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;flex:1;text-align:center}
+.big{font-size:5rem;animation:fl 3s ease-in-out infinite}
+@keyframes fl{50%{transform:translateY(-10px)}}
+/* training */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:10px 0}
+.card{height:150px;perspective:700px;cursor:pointer}
+.card>div{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+.card.flip>div{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:14px;border:2px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px;text-align:center;background:#1c2547}
+.face.back{transform:rotateY(180deg);font-size:.82rem;line-height:1.35;background:#12304a;border-color:var(--cyan)}
+.face .ic{font-size:2.2rem}.face b{font-size:.95rem}
+.gold{background:#3a2d08;border:2px dashed var(--gold);border-radius:12px;padding:10px;text-align:center;color:var(--gold);font-weight:700;margin:8px 0}
+.seen{font-size:.8rem;color:var(--mut);text-align:center;margin-bottom:6px}
+.dots{display:flex;justify-content:center;gap:8px;margin-bottom:12px}
+.dots i{width:34px;height:8px;border-radius:5px;background:var(--line);transition:.3s}
+.dots i.cur{background:var(--cyan)}.dots i.done{background:var(--green)}
+.lcard{text-align:center;background:#1c2547;border:2px solid var(--line);border-radius:16px;padding:16px}
+.lcard .ic{font-size:3.4rem}.lcard h2{margin:4px 0}
+.lcard p{line-height:1.55;margin:6px 0}
+.tips{list-style:none;text-align:left;margin-top:8px;display:inline-block}
+.tips li{margin:4px 0;color:var(--mut)}.tips li::before{content:"✔ ";color:var(--green)}
+.qbox{margin-top:12px}.qbox .q{font-weight:800;margin-bottom:8px;color:var(--gold)}
+.nav{display:flex;justify-content:space-between;gap:8px;margin-top:12px}
+.btn.ghost{background:#1c2547;color:var(--txt);box-shadow:0 4px 0 #0b1020}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.bigcard{height:250px;max-width:420px;margin:0 auto;width:100%}
+.bigcard .face{padding:16px}.bigcard .face .ic{font-size:4rem}.bigcard .face b{font-size:1.3rem;margin-top:6px}
+.bigcard .face.back{font-size:.92rem;line-height:1.45}.bigcard .tips{font-size:.85rem;margin-top:6px}
+.hintflip{color:var(--cyan);font-size:.8rem;margin-top:8px;animation:fl 2s infinite}
+/* hud */
+.hud{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;background:#0e1430;border-bottom:2px solid var(--line);font-weight:800;gap:8px;flex-wrap:wrap}
+.lives{letter-spacing:2px}
+#stage{flex:1;display:none;flex-direction:column;min-height:0}
+#stage.on{display:flex}
+/* wave1 */
+#field{position:relative;flex:1;overflow:hidden;background:linear-gradient(#0b1020,#10204a);}
+#field::after{content:"";position:absolute;left:0;right:0;bottom:0;height:6px;background:var(--cyan);box-shadow:0 0 18px var(--cyan)}
+.clue{position:absolute;width:min(300px,70%);padding:10px 12px;background:#2a1530;border:2px solid var(--red);border-radius:12px;font-size:.88rem;line-height:1.35;box-shadow:0 0 14px #fb718555;transform:translateX(-50%)}
+.clue.ok{border-color:var(--green);background:#12351f;box-shadow:0 0 20px var(--green);transition:.3s;opacity:0;transform:translateX(-50%) scale(1.2)}
+.opts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:10px;background:#0e1430;border-top:2px solid var(--line)}
+.opt{background:#1c2547;border:2px solid var(--line);color:var(--txt);border-radius:12px;padding:10px 4px;font-weight:700;cursor:pointer;font-size:.85rem}
+.opt:hover{border-color:var(--cyan)}.opt:active{transform:scale(.96)}
+/* inbox & decision */
+.panelq{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
+.msg{background:#1c2547;border:2px solid var(--line);border-radius:14px;padding:14px;line-height:1.5}
+.msg .from{font-size:.8rem;color:var(--mut);margin-bottom:6px}
+.msg mark{background:#fb718533;color:#fecdd3;border-radius:4px;padding:0 3px}
+.choices{display:flex;flex-direction:column;gap:8px}
+.choice{text-align:left;background:#1c2547;border:2px solid var(--line);color:var(--txt);padding:12px;border-radius:12px;cursor:pointer;font-size:.95rem;line-height:1.4}
+.choice:hover{border-color:var(--cyan)}
+.choice.good{border-color:var(--green);background:#12351f}.choice.bad{border-color:var(--red);background:#35121c}
+.row3{display:flex;gap:8px}.row3 .opt{flex:1;padding:12px 4px}
+.fb{padding:10px 14px;border-radius:12px;font-weight:700;line-height:1.4;display:none}
+.fb.ok{display:block;background:#12351f;color:var(--green)}.fb.no{display:block;background:#35121c;color:var(--red)}
+.core{text-align:center;font-size:.8rem;color:var(--mut)}
+.bar{height:10px;border-radius:6px;background:#0b1020;overflow:hidden;margin-top:4px}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--green),var(--cyan));transition:.4s}
+.shake{animation:sh .35s}@keyframes sh{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.medal{font-size:6rem;animation:fl 2.5s infinite;filter:drop-shadow(0 0 20px var(--gold))}
+.stars{font-size:2rem;letter-spacing:6px}
+#fx{position:absolute;inset:0;pointer-events:none;z-index:9}
+</style>
+</head>
+<body>
+<div id="game">
+  <canvas id="fx"></canvas>
+
+  <!-- INTRO -->
+  <div class="screen on" id="s-intro">
+    <div class="center">
+      <div class="big">🏰</div>
+      <h1>PHÁO ĐÀI DỮ LIỆU</h1>
+      <p class="sub">Hacker bóng tối đang tấn công Internet!<br>Bạn là Chỉ huy An ninh mạng: học 6 bí kíp, rồi bảo vệ Lõi dữ liệu qua 3 đợt tấn công.</p>
+      <button class="btn" onclick="startLearn()">🛠️ Vào kho vũ khí</button>
+    </div>
+  </div>
+
+  <!-- LEARN: 6 pages -->
+  <div class="screen" id="s-learn">
+    <div class="dots" id="dots"></div>
+    <div id="lesson"></div>
+  </div>
+
+  <!-- STAGE -->
+  <div id="stage">
+    <div class="hud">
+      <span id="wave-name">Đợt 1</span>
+      <span>⭐ <b id="score">0</b></span>
+      <span class="lives" id="lives">❤️❤️❤️</span>
+    </div>
+    <div id="wave1" style="display:none;flex:1;flex-direction:column;min-height:0">
+      <div id="field"></div>
+      <div class="opts" id="opts"></div>
+    </div>
+    <div class="panelq" id="wave-panel" style="display:none"></div>
+  </div>
+
+  <!-- END -->
+  <div class="screen" id="s-end">
+    <div class="center">
+      <div class="medal" id="end-medal">🏅</div>
+      <h1 id="end-title">CHUYÊN GIA AN TOÀN SỐ</h1>
+      <div class="stars" id="end-stars"></div>
+      <p class="sub" id="end-text"></p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
+        <button class="btn" onclick="startLearn()">📖 Ôn bí kíp</button>
+        <button class="btn alt" onclick="startGame()">🔁 Chơi lại</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+/* ---------- audio ---------- */
+let AC;function beep(f,d=.15,t='sine',v=.15){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.type=t;o.frequency.value=f;g.gain.value=v;o.connect(g);g.connect(AC.destination);o.start();g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+d);o.stop(AC.currentTime+d)}catch(e){}}
+const sndOK=()=>{beep(660,.12);setTimeout(()=>beep(990,.2),110)},sndNO=()=>beep(150,.3,'sawtooth',.12);
+/* ---------- confetti ---------- */
+const cv=$('fx'),cx=cv.getContext('2d');let parts=[];
+function fit(){cv.width=cv.offsetWidth;cv.height=cv.offsetHeight}addEventListener('resize',fit);
+function burst(x,y,n=40){for(let i=0;i<n;i++)parts.push({x,y,vx:(Math.random()-.5)*9,vy:-Math.random()*8-2,c:`hsl(${Math.random()*360},90%,60%)`,l:60})}
+(function loop(){cx.clearRect(0,0,cv.width,cv.height);parts=parts.filter(p=>p.l>0);parts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.3;p.l--;cx.fillStyle=p.c;cx.fillRect(p.x,p.y,6,6)});requestAnimationFrame(loop)})();
+/* ---------- data ---------- */
+const CONCEPTS={
+ virus:{n:'Virus máy tính',ic:'🦠',d:'Phần mềm độc hại. Tự sao chép, lây nhiễm để làm hỏng dữ liệu hoặc đánh cắp thông tin cá nhân.'},
+ fw:{n:'Tường lửa',ic:'🧱🔥',d:'Lá chắn bảo vệ! Lọc dữ liệu vào/ra khỏi máy tính, ngăn kẻ lạ truy cập trái phép. Có 2 loại: phần cứng và phần mềm.'},
+ ck:{n:'Cookies',ic:'🍪',d:'Tập tin nhỏ lưu trên máy khi bạn vào Web, giúp ghi nhớ hoạt động và thông tin (nhớ mật khẩu, giỏ hàng).'},
+ ad:{n:'Chặn quảng cáo',ic:'🚫',d:'Tiện ích cài thêm trên trình duyệt để ngăn quảng cáo phiền phức hoặc độc hại xuất hiện khi lướt web.'},
+ cat:{n:'Catfishing',ic:'🎭',d:'Giả mạo CÁ NHÂN: lập tài khoản giả, dùng ảnh mạo danh một người cụ thể (bạn bè, người thân) để lừa đảo, chiếm lòng tin.'},
+ phi:{n:'Phishing',ic:'🎣',d:'Giả mạo TỔ CHỨC: email/web giả của ngân hàng, công ty để lừa bạn nhập tên tài khoản, mật khẩu, thẻ tín dụng.'}
+};
+const W1=[
+ ['virus','Phần mềm độc hại tự sao chép, lây nhiễm, làm hỏng dữ liệu của bạn.'],
+ ['fw','Lá chắn lọc dữ liệu ra/vào máy tính, chặn kẻ lạ truy cập trái phép.'],
+ ['ck','Tập tin nhỏ trang web lưu lại để nhớ giỏ hàng và mật khẩu của bạn.'],
+ ['ad','Tiện ích trình duyệt giúp chặn các cửa sổ quảng cáo pop-up phiền phức.'],
+ ['phi','Email giả danh "Ngân hàng XYZ" bắt bạn nhập mật khẩu và thông tin thẻ.'],
+ ['cat','Tài khoản giả dùng ảnh người thân của bạn để nhắn tin mượn tiền.'],
+ ['virus','Mã độc muốn đánh cắp thông tin cá nhân và ngăn hệ thống hoạt động.'],
+ ['fw','Có hai dạng: phần cứng và phần mềm, canh gác cửa ngõ của mạng.']
+];
+const W2=[
+ {from:'support@gmaill.com',txt:'Tài khoản của bạn sẽ bị <mark>khóa</mark>. Vui lòng bấm vào đây để <mark>xác minh mật khẩu</mark>.',a:'phi',hint:'Giả mạo tổ chức, địa chỉ email viết sai chính tả, đòi mật khẩu.'},
+ {from:'Facebook · ảnh đại diện là anh trai của Nam',txt:'Em ơi anh <mark>kẹt tiền quá</mark>, chuyển gấp cho anh <mark>500k vào số tài khoản lạ</mark> này nhé.',a:'cat',hint:'Mạo danh một người cụ thể (anh trai) để mượn tiền.'},
+ {from:'Ngan-Hang-XYZ@thong-bao.vn',txt:'Thẻ của quý khách có giao dịch bất thường. Nhập <mark>số thẻ và mã OTP</mark> tại <mark>link bên dưới</mark> để hủy.',a:'phi',hint:'Tổ chức ngân hàng bị giả mạo kèm link lạ.'},
+ {from:'Tài khoản "Bạn Minh lớp 5A" (mới lập, ảnh AI)',txt:'Mình đây! Mình mất điện thoại, <mark>nạp giúp mình thẻ cào 200k</mark> nhé, mai mình trả.',a:'cat',hint:'Giả danh một bạn cụ thể bằng tài khoản mới và ảnh AI.'}
+];
+const W3=[
+ {ctx:'💥 Máy tính của Nam đột nhiên hiện rất nhiều cửa sổ quảng cáo nhấp nháy, yêu cầu tải phần mềm "Diệt Virus Miễn Phí". Nam nên làm gì để an toàn nhất?',
+  ch:['Nhấp vào quảng cáo tải về ngay vì đó là phần mềm diệt virus.','Dùng trình chặn quảng cáo (Ad Blocker), không tải tệp lạ và hỏi ý kiến người lớn.','Chia sẻ cửa sổ đó cho bạn bè xem.'],a:1,
+  ok:'Xuất sắc! Phần mềm bảo vệ chỉ là công cụ hỗ trợ, QUYẾT ĐỊNH AN TOÀN vẫn thuộc về bạn. Cẩn trọng – Suy nghĩ – Hỏi người lớn!',
+  no:'Nguy hiểm quá! Nhấp vào quảng cáo lạ có thể rước virus về máy. Hãy chọn cách an toàn hơn!'},
+ {ctx:'📨 Bạn nhận được email "Trúng thưởng điện thoại mới", kèm tệp đính kèm "nhan_thuong.exe". Bạn xử lý thế nào?',
+  ch:['Mở tệp ngay để nhận thưởng kẻo hết hạn.','Không mở tệp, không bấm link, báo cho người lớn rồi xóa email.','Gửi mật khẩu để họ kiểm tra giúp.'],a:1,
+  ok:'Chuẩn! Không tải tệp không rõ nguồn và không bấm link lạ là nguyên tắc vàng.',
+  no:'Đừng làm vậy! Tệp lạ có thể chứa virus, còn mật khẩu thì tuyệt đối không được chia sẻ.'}
+];
+/* ---------- state ---------- */
+let score,lives,seen=new Set(),timers=[];
+function show(id){stopAll();$('stage').classList.remove('on');document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===id))}
+function stopAll(){cancelAnimationFrame(raf);timers.forEach(clearTimeout);timers=[];active=null}
+function later(f,ms){timers.push(setTimeout(f,ms))}
+/* learn: 6 pages, each = knowledge + question */
+const LESSON=[
+ {k:'virus',tips:['Lây qua tệp lạ, link lạ, USB không rõ nguồn','Có thể làm hỏng dữ liệu hoặc đánh cắp thông tin cá nhân','Cần cài phần mềm diệt virus và cập nhật thường xuyên'],
+  q:'Phần mềm độc hại có thể tự sao chép, lây nhiễm và đánh cắp thông tin của bạn là gì?',ch:['Cookies','Virus máy tính','Tường lửa'],a:1,why:'Virus máy tính là phần mềm độc hại có khả năng tự sao chép và lây nhiễm.'},
+ {k:'fw',tips:['Giống người bảo vệ canh cổng cho máy tính/mạng','Có tường lửa phần cứng và tường lửa phần mềm','Nên luôn bật tường lửa'],
+  q:'Công cụ nào lọc dữ liệu vào/ra máy tính và ngăn người lạ truy cập trái phép?',ch:['Tường lửa','Ad Blocker','Catfishing'],a:0,why:'Tường lửa (Firewall) là lá chắn lọc dữ liệu, chặn truy cập trái phép.'},
+ {k:'ck',tips:['Được lưu trên máy khi bạn truy cập trang web','Giúp nhớ đăng nhập, giỏ hàng, sở thích','Trên máy công cộng nên xóa cookies sau khi dùng'],
+  q:'Tập tin nhỏ giúp trang web ghi nhớ mật khẩu và giỏ hàng của bạn gọi là gì?',ch:['Virus','Cookies','Phishing'],a:1,why:'Cookies là các tập tin nhỏ lưu thông tin hoạt động của bạn trên web.'},
+ {k:'ad',tips:['Cài thêm như một tiện ích mở rộng của trình duyệt','Ngăn pop-up phiền phức hoặc quảng cáo độc hại','Vẫn không được bấm vào quảng cáo lạ!'],
+  q:'Tiện ích nào giúp ngăn quảng cáo phiền phức hoặc độc hại khi lướt web?',ch:['Tường lửa','Cookies','Chặn quảng cáo (Ad Blocker)'],a:2,why:'Ad Blocker là tiện ích trình duyệt chuyên chặn quảng cáo.'},
+ {k:'cat',tips:['Kẻ xấu lập tài khoản giả, dùng ảnh (kể cả ảnh AI) của một người cụ thể','Thường nhắn tin mượn tiền, xin thẻ cào, chiếm lòng tin','Hãy gọi điện xác minh trực tiếp với người thân'],
+  q:'Tài khoản lạ dùng ảnh anh trai bạn nhắn xin chuyển tiền gấp. Đây là hình thức nào?',ch:['Phishing','Virus','Catfishing'],a:2,why:'Giả mạo một CÁ NHÂN cụ thể là Catfishing.'},
+ {k:'phi',tips:['Giả email, trang web của ngân hàng, công ty','Dụ bạn nhập tên tài khoản, mật khẩu, thông tin thẻ','Kiểm tra kỹ địa chỉ gửi và không bấm link lạ'],
+  q:'Email giả "Ngân hàng XYZ" kèm link lạ để lấy mật khẩu là hình thức nào?',ch:['Phishing','Catfishing','Cookies'],a:0,why:'Giả mạo TỔ CHỨC (ngân hàng, công ty) là Phishing.'}
+];
+let lp=0,lok=[];
+function startLearn(){lp=0;lok=[];lscore=0;show('s-learn');renderLesson()}
+function renderLesson(){
+ const L=LESSON[lp],c=CONCEPTS[L.k];
+ $('dots').innerHTML=LESSON.map((_,i)=>`<i class="${i<lp||lok[i]?'done':i===lp?'cur':''}"></i>`).join('');
+ const flipped=!!lok[lp];
+ $('lesson').innerHTML=`<div class="seen">Bí kíp ${lp+1}/6 · Lật thẻ để đọc kiến thức</div>
+ <div class="card bigcard ${flipped?'flip':''}" onclick="flipLesson(this)"><div><div class="face"><span class="ic">${c.ic}</span><b>${c.n}</b><span class="hintflip">👆 Bấm để lật thẻ</span></div><div class="face back"><p>${c.d}</p><ul class="tips">${L.tips.map(t=>`<li>${t}</li>`).join('')}</ul></div></div></div>
+ <div class="qbox" id="qbox" style="${flipped?'':'display:none'}"><div class="q">❓ ${L.q}</div><div class="choices">${L.ch.map((t,i)=>`<button class="choice" onclick="lessonPick(${i},this)">${'ABC'[i]}. ${t}</button>`).join('')}</div></div>
+ <div class="fb" id="lfb"></div>
+ <div class="nav"><button class="btn ghost" ${lp?'':'disabled'} onclick="lp--;renderLesson()">⬅ Trước</button><button class="btn alt" id="lnext" ${lok[lp]?'':'disabled'} onclick="lessonNext()">${'Thử thách ➜'}</button></div>`;
+ if(lok[lp])markDone(true)}
+function flipLesson(el){beep(500,.08);el.classList.toggle('flip');if(el.classList.contains('flip')){$('qbox').style.display='block';setTimeout(()=>$('qbox').scrollIntoView({behavior:'smooth',block:'nearest'}),500)}}
+function lessonPick(i,btn){const L=LESSON[lp];if(i===L.a){btn.classList.add('good');lok[lp]=true;sndOK();markDone();burst(410,300,25)}else{btn.classList.add('bad');btn.disabled=true;sndNO();const f=$('lfb');f.className='fb no';f.textContent='Chưa đúng, đọc lại thẻ kiến thức và thử lại nhé!'}}
+function markDone(re){const L=LESSON[lp];document.querySelectorAll('#lesson .choice').forEach((b,i)=>{b.disabled=true;if(i===L.a)b.classList.add('good')});const f=$('lfb');f.className='fb ok';f.textContent='Chính xác! '+L.why;$('lnext').disabled=false;$('dots').children[lp].className='done'}
+const TF={
+ virus:[['Virus máy tính có thể tự sao chép và lây nhiễm sang tệp khác.',1,'Đúng, tự sao chép và lây nhiễm là đặc điểm của virus.'],['Mở tệp đính kèm từ người lạ là hoàn toàn an toàn.',0,'Sai! Tệp lạ có thể chứa virus.'],['Virus có thể đánh cắp thông tin cá nhân của bạn.',1,'Đúng, virus có thể làm hỏng dữ liệu và đánh cắp thông tin.']],
+ fw:[['Tường lửa lọc dữ liệu vào và ra khỏi máy tính.',1,'Đúng, đó là nhiệm vụ của tường lửa.'],['Tường lửa chỉ tồn tại dưới dạng phần mềm.',0,'Sai! Có cả tường lửa phần cứng và phần mềm.'],['Tường lửa giúp ngăn kẻ lạ truy cập trái phép.',1,'Đúng, tường lửa là lá chắn bảo vệ.']],
+ ck:[['Cookies là các tập tin nhỏ lưu trên máy khi bạn vào web.',1,'Đúng!'],['Cookies giúp web nhớ giỏ hàng và đăng nhập của bạn.',1,'Đúng, đó là lợi ích của cookies.'],['Cookies là một loại virus nguy hiểm luôn phải diệt.',0,'Sai! Cookies là tập tin ghi nhớ, không phải virus.']],
+ ad:[['Ad Blocker là tiện ích cài thêm trên trình duyệt.',1,'Đúng!'],['Có Ad Blocker thì bấm vào quảng cáo lạ cũng an toàn.',0,'Sai! Vẫn không được bấm quảng cáo lạ.'],['Ad Blocker giúp ngăn quảng cáo phiền phức hoặc độc hại.',1,'Đúng, đó là công dụng chính.']],
+ cat:[['Catfishing là giả mạo một cá nhân cụ thể để lừa đảo.',1,'Đúng!'],['Người nhắn mượn tiền bằng ảnh người thân luôn là người thật.',0,'Sai! Có thể là tài khoản giả, hãy gọi xác minh.'],['Kẻ catfishing có thể dùng ảnh do AI tạo ra.',1,'Đúng, ảnh AI thường được dùng để mạo danh.']],
+ phi:[['Phishing là giả mạo tổ chức như ngân hàng, công ty.',1,'Đúng!'],['Email ngân hàng yêu cầu nhập mật khẩu qua link lạ là đáng tin.',0,'Sai! Đó là dấu hiệu của phishing.'],['Địa chỉ email viết sai chính tả có thể là dấu hiệu lừa đảo.',1,'Đúng, hãy kiểm tra kỹ địa chỉ gửi.']]
+};
+let ti=0,lscore=0,lkeep=false,tfTry=0;
+function startChallenge(){ti=0;renderTF()}
+function renderTF(){tfTry=0;
+ const k=LESSON[lp].k,c=CONCEPTS[k],t=TF[k][ti];
+ $('dots').innerHTML=LESSON.map((_,i)=>`<i class="${i<lp?'done':i===lp?'cur':''}"></i>`).join('');
+ $('lesson').innerHTML=`<div class="seen">Thử thách ${c.ic} ${c.n} · ${ti+1}/3</div>
+ <div class="lcard"><h2>⚡ Đúng hay Sai?</h2><p style="font-size:1.1rem;font-weight:700;min-height:70px;display:flex;align-items:center;justify-content:center">${t[0]}</p></div>
+ <div class="row3" style="margin-top:12px"><button class="opt" onclick="tfPick(1,this)">✅ ĐÚNG</button><button class="opt" onclick="tfPick(0,this)">❌ SAI</button></div>
+ <div class="fb" id="lfb"></div>
+ <div class="nav"><span></span><button class="btn alt" id="lnext" disabled onclick="tfNext()">${ti===2?(lp===5?'⚔️ Vào trận!':'Sang bí kíp tiếp ➜'):'Câu tiếp ➜'}</button></div>`}
+
+function tfPick(v,btn){const t=TF[LESSON[lp].k][ti],f=$('lfb');
+ if(v===t[1]){document.querySelectorAll('.row3 .opt').forEach(b=>b.disabled=true);btn.style.borderColor='var(--green)';if(!tfTry){lscore+=5}tfTry=0;sndOK();burst(410,300,20);f.className='fb ok';f.textContent=t[2];$('lnext').disabled=false}
+ else{tfTry=1;btn.disabled=true;sndNO();f.className='fb no';f.textContent='Chưa đúng, thử lại nhé!'}}
+function tfNext(){ti<2?(ti++,renderTF()):(lp===5?startGame(true):(lp++,renderLesson()))}
+function lessonNext(){startChallenge()}
+function setHud(){$('score').textContent=score;$('lives').textContent='❤️'.repeat(lives)+'🖤'.repeat(3-lives)}
+function startGame(keep){stopAll();lkeep=keep===true;score=lkeep?lscore:0;lives=3;setHud();document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));$('stage').classList.add('on');fit();wave1()}
+function hit(){lives--;setHud();sndNO();$('game').classList.add('shake');setTimeout(()=>$('game').classList.remove('shake'),350);if(lives<=0){gameOver();return true}return false}
+function gameOver(){stopAll();$('stage').classList.remove('on');$('s-end').classList.add('on');$('end-medal').textContent='💀';$('end-title').textContent='Lõi dữ liệu bị tấn công!';$('end-stars').textContent='';$('end-text').textContent=`Điểm: ${score}. Đừng nản – ôn lại bí kíp rồi phòng thủ lại nhé!`}
+
+/* ---------- WAVE 1: falling clues ---------- */
+let raf,active=null,w1i,w1done;
+function wave1(){
+ $('wave-name').textContent='Đợt 1 · Gọi tên kẻ địch';
+ $('wave-panel').style.display='none';$('wave1').style.display='flex';
+ $('field').innerHTML='';w1i=0;w1done=0;
+ $('opts').innerHTML=Object.entries(CONCEPTS).map(([k,c])=>`<button class="opt" onclick="w1pick('${k}')">${c.ic} ${c.n}</button>`).join('');
+ later(spawn,600);
+ let last=performance.now();
+ (function tick(t){const dt=(t-last)/1000;last=t;
+  if(active){active.y+=dt*(34+w1done*3);active.el.style.top=active.y+'px';
+   if(active.y>$('field').clientHeight-active.el.offsetHeight-4){const e=active.el;active=null;e.remove();flash('Không kịp rồi! Đó là: '+CONCEPTS[e.dataset.k].n,false);w1done++;if(!hit())next1()}}
+  raf=requestAnimationFrame(tick)})(last);
+}
+function spawn(){if(w1i>=W1.length){return wave2()}
+ const [k,t]=W1[w1i++];const el=document.createElement('div');el.className='clue';el.dataset.k=k;el.textContent='🚨 '+t;
+ el.style.left=(30+Math.random()*40)+'%';el.style.top='0px';$('field').appendChild(el);active={k,el,y:0}}
+function next1(){later(spawn,700)}
+function w1pick(k){if(!active)return;const a=active;
+ if(k===a.k){active=null;a.el.classList.add('ok');score+=10;setHud();sndOK();const r=a.el.getBoundingClientRect(),g=$('game').getBoundingClientRect();burst(r.left-g.left+r.width/2,r.top-g.top,30);flash('Chính xác! ✔ '+CONCEPTS[k].n,true);w1done++;setTimeout(()=>a.el.remove(),300);next1()}
+ else{flash('Chưa đúng! Thử loại khác nhanh lên!',false);if(hit())return;score=Math.max(0,score-2);setHud()}}
+function flash(m,ok){let f=$('flashmsg');if(!f){f=document.createElement('div');f.id='flashmsg';f.style.cssText='position:absolute;left:50%;top:70px;transform:translateX(-50%);padding:8px 16px;border-radius:20px;font-weight:800;z-index:8;transition:opacity .4s;pointer-events:none';$('game').appendChild(f)}
+ f.textContent=m;f.style.background=ok?'#12351f':'#35121c';f.style.color=ok?'#4ade80':'#fb7185';f.style.opacity=1;clearTimeout(f.t);f.t=setTimeout(()=>f.style.opacity=0,1500)}
+
+/* ---------- WAVE 2: inbox ---------- */
+let w2i;
+function wave2(){stopAll();$('wave1').style.display='none';$('wave-panel').style.display='flex';$('wave-name').textContent='Đợt 2 · Soi tin nhắn đáng ngờ';w2i=0;showMsg()}
+function showMsg(){const m=W2[w2i];
+ $('wave-panel').innerHTML=`<p class="sub">Thám tử Nam nhận được tin nhắn lạ (${w2i+1}/${W2.length}). Hãy dán nhãn đúng!</p>
+ <div class="msg"><div class="from">Từ: ${m.from}</div>${m.txt}</div>
+ <div class="row3"><button class="opt" onclick="w2pick('phi')">🎣 PHISHING<br><small>mạo danh tổ chức</small></button><button class="opt" onclick="w2pick('cat')">🎭 CATFISHING<br><small>mạo danh cá nhân</small></button></div>
+ <div class="fb" id="fb"></div>`}
+function w2pick(k){const m=W2[w2i];const fb=$('fb');document.querySelectorAll('.row3 .opt').forEach(b=>b.disabled=true);
+ if(k===m.a){score+=15;setHud();sndOK();burst(410,300,30);fb.className='fb ok';fb.innerHTML='Tuyệt vời! Mạo danh tổ chức là Phishing, mạo danh cá nhân là Catfishing.<br>💡 '+m.hint+'<br><button class="btn" style="margin-top:8px" onclick="nextMsg()">Tiếp tục ➜</button>'}
+ else{fb.className='fb no';if(hit())return;fb.innerHTML='Nhầm một chút rồi! Phishing nhắm vào Ngân hàng/Tổ chức, Catfishing nhắm vào bạn bè/cá nhân.<br>💡 '+m.hint+'<br><button class="btn" style="margin-top:8px" onclick="nextMsg()">Tiếp tục ➜</button>'}}
+function nextMsg(){w2i++;w2i<W2.length?showMsg():wave3()}
+
+/* ---------- WAVE 3: decisions ---------- */
+let w3i;
+function wave3(){$('wave-name').textContent='Đợt 3 · Quyết định sinh tử';w3i=0;showDec()}
+function showDec(){const d=W3[w3i];
+ $('wave-panel').innerHTML=`<div class="msg">${d.ctx}</div><div class="choices">${d.ch.map((c,i)=>`<button class="choice" onclick="decide(${i},this)">${'ABC'[i]}. ${c}</button>`).join('')}</div><div class="fb" id="fb"></div>`}
+function decide(i,btn){const d=W3[w3i],fb=$('fb');document.querySelectorAll('.choice').forEach(b=>b.disabled=true);
+ const nxt='<br><button class="btn" style="margin-top:8px" onclick="nextDec()">Tiếp tục ➜</button>';
+ if(i===d.a){btn.classList.add('good');score+=20;setHud();sndOK();burst(410,300,40);fb.className='fb ok';fb.innerHTML=d.ok+nxt}
+ else{btn.classList.add('bad');document.querySelectorAll('.choice')[d.a].classList.add('good');fb.className='fb no';if(hit())return;fb.innerHTML=d.no+nxt}}
+function nextDec(){w3i++;w3i<W3.length?showDec():finish()}
+
+/* ---------- END ---------- */
+function finish(){stopAll();$('stage').classList.remove('on');$('s-end').classList.add('on');
+ const max=W1.length*10+W2.length*15+W3.length*20+(lkeep?90:0),st=score>=max*.85?3:score>=max*.6?2:1;
+ $('end-medal').textContent='🏅';$('end-title').textContent='CHUYÊN GIA AN TOÀN SỐ';
+ $('end-stars').textContent='⭐'.repeat(st)+'☆'.repeat(3-st);
+ $('end-text').innerHTML=`Chúc mừng Thám tử! Bạn đã bảo vệ thành công Pháo đài.<br>Điểm: <b>${score}</b> · Mạng còn lại: ${lives}/3<br>Hãy luôn mang theo bí kíp này khi lướt Web nhé!`;
+ sndOK();setTimeout(()=>{fit();for(let i=0;i<5;i++)burst(120+i*140,200,40)},200)}
+</script>
+</body>
+</html>
