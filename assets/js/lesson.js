@@ -421,7 +421,7 @@ function viewDropdown(s, a){
 
   if(splitMatchesBlanks){
     let firstText = parts[0];
-    const colonIdx = firstText.indexOf(':');
+    const colonIdx = firstText.search(/:(?!\/\/)/); // bỏ qua ":" trong "https://"
     if(colonIdx !== -1){
       const intro = firstText.slice(0, colonIdx + 1).trim();
       firstText = firstText.slice(colonIdx + 1).trim();
