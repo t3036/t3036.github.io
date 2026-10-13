@@ -359,3 +359,13 @@ body.trang-cap-nhat {
   background: var(--xanh-dam); 
   transform: translateY(-1px); 
 }
+
+/* Danh sach dang dong cho IC3 GS6 (level1-3) - tong xanh */
+.khung.gs6 .dong-bai:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(20,30,60,.12);border-color:var(--xanh)}
+.khung.gs6 .thong-tin-bai .stt{flex:none;width:104px;height:42px;padding:0;white-space:nowrap;border-radius:999px;background:var(--xanh);color:#fff;display:flex;align-items:center;justify-content:center;font-family:"Baloo 2",Bitter,serif;font-weight:800;font-size:1.05rem}
+.khung.gs6 .thong-tin-bai .nhan{font-weight:700;font-size:1.05rem;color:var(--xanh-dam)}
+.khung.gs6 .nut-hd{text-decoration:none;background:var(--xanh-nhat);color:var(--xanh-dam);min-width:6.5rem;text-align:center;padding:.5rem 1rem;border-radius:999px;font-weight:600;font-size:.85rem;transition:background .15s,color .15s}
+.khung.gs6 .nut-hd:hover{background:var(--xanh);color:#fff}
+.khung.gs6 .nut-hd.nut-on-tap{background:#dbeafe;color:#1e4fa8}
+.khung.gs6 .nut-hd.nut-on-tap:hover{background:#2f6fd6;color:#fff}
+.khung.gs6 .nut-hd[href$="update.html"],.khung.gs6 .nut-hd[href$="update.html"]:hover{background:#e5e5e5;color:#9a9a9a}

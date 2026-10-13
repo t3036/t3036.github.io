@@ -47,12 +47,14 @@ document.getElementById('tieu-de').textContent = 'Ôn tập ' + cf.ten;
 document.title = 'Ôn tập ' + cf.ten + ' — IC3 GS6';
 var luoi = document.getElementById('luoi');
 cf.links.forEach(function (href, i) {
-  var d = document.createElement('div');
+  var d = document.createElement('a');
   d.className = 'the-cap-do ' + (ON_TAP[id] ? id : 'spark1');
+  d.href = href || 'update.html';
+  if (href) { d.target = '_blank'; d.rel = 'noopener'; }
+  else d.style.opacity = '.55';
   d.innerHTML = '<span class="the-icon" aria-hidden="true">📝</span>' +
     '<span class="the-ten">Bài ôn ' + (i + 1) + '</span>' +
-    '<span class="the-nuts"><a class="the-nut' + (href ? '' : ' het') + '" href="' + (href || 'update.html') + '"' + (href ? ' target="_blank" rel="noopener"' : '') + '>' +
-    (href ? 'Vào ôn tập' : 'Sắp có') + '</a></span>';
+    (href ? '' : '<span class="the-nuts"><span class="the-nut het">Sắp có</span></span>');
   luoi.appendChild(d);
 });
 </script>
