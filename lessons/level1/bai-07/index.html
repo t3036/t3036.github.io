@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Level 1 – Bài 07: Quản lí tập tin và sao lưu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap&subset=vietnamese" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============ BOOT ============ -->
+<div id="boot">
+  <div class="term">
+    <div class="term-bar"><i></i><i></i><i></i><span>Level 1 | Bài 7</span></div>
+    <div class="term-body">
+      <h1 style="animation:in .5s .1s forwards;opacity:0">Quản lí <em>tập tin</em> &amp; sao lưu dự phòng</h1>
+      <p style="animation:in .5s .3s forwards;opacity:0">Hôm nay em là quản trị viên của một chiếc máy tính: hãy đặt tên, sắp xếp, và cứu dữ liệu khỏi các sự cố.</p>
+      <button class="btn" id="start" style="animation:in .5s .5s forwards;opacity:0">▶ Khởi động hệ thống</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SHELL ============ -->
+<div id="shell" class="hidden">
+  <aside>
+    <div class="brand">Level 1 - BÀI 07<small>Quản lí tập tin &amp; sao lưu</small></div>
+    <div class="xpbar"><div id="xpfill"></div></div>
+    <div class="xptxt" id="xptxt">0 / 5 nhiệm vụ</div>
+    <div id="tabs"></div>
+    <button id="resetBtn" class="resetbtn" title="Xóa tiến độ">↺ Học lại từ đầu</button>
+    <button id="theme" aria-label="Đổi giao diện"></button>
+  </aside>
+  <main id="main"></main>
+</div>
+<div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
