@@ -12,6 +12,7 @@ const PASSWORDS = {
   s3: '',  // Phần 3 — Tài liệu tham khảo
   s4: '',  // Phần 4 — Chú thích chân trang
   s5: '',  // Phần 5 — Đạo văn
+  s6: '',  // Phần 6 — Ghi nguồn khi sử dụng sản phẩm AI
 };
 
 const LESSON = {
@@ -212,7 +213,7 @@ const LESSON = {
           type: 'info',
           topic: 'Phần 5 · Đạo văn',
           title: 'Đạo văn (Plagiarism)',
-          content: '<b>Đạo văn (Plagiarism)</b> là việc sao chép, sử dụng tác phẩm của người khác như là của mình hoặc sử dụng một thông tin mà <b>không trích dẫn nguồn</b>.',
+          content: '<b>Đạo văn (Plagiarism)</b> là việc sao chép, sử dụng tác phẩm của người khác và <b>giả vờ như là của mình</b> hoặc sử dụng một thông tin mà <b>không trích dẫn nguồn</b>.',
           imageUrl: null
         },
         {
@@ -258,6 +259,27 @@ const LESSON = {
           ],
           hint: 'Ghi nguồn hình ảnh là trích dẫn; nhận tác phẩm người khác là của mình là đạo văn.',
           explain: 'Dùng tác phẩm của người khác như của mình là đạo văn. Cung cấp thông tin nguồn của hình ảnh là trích dẫn.'
+        }
+      ]
+    },
+
+    {
+      id: 's6',
+      title: 'Ghi nguồn khi sử dụng sản phẩm AI',
+      password: PASSWORDS.s6,
+      slides: [
+        {
+          type: 'info',
+          topic: 'Phần 6 · Ghi nguồn khi sử dụng sản phẩm AI',
+          title: 'Ghi nguồn khi sử dụng sản phẩm AI',
+          content: 'Nội dung do <b>AI hỗ trợ</b> cũng cần được <b>kiểm tra</b> và <b>minh bạch</b>.',
+          imageUrl: null,
+          things: [
+            { icon: '🔍', name: 'Kiểm tra', en: 'Kiểm tra lại nội dung AI tạo ra trước khi sử dụng' },
+            { icon: '🪟', name: 'Minh bạch', en: 'Nói rõ em đã dùng AI hỗ trợ' },
+            { icon: '🚫', name: 'Không sao chép nguyên văn', en: 'Không sao chép nguyên văn AI để nộp như bài của mình' }
+          ],
+          remember: 'Dùng AI để hỗ trợ thì được, nhưng <b>không</b> nhận nội dung của AI là của mình!'
         },
         {
           type: 'info',
@@ -265,7 +287,7 @@ const LESSON = {
           scoreSections: [0, 1, 4],
           topic: 'Hoàn thành',
           title: 'Chúc mừng em đã học xong Bài 21!',
-          content: 'Em đã biết về chủ sở hữu thông tin, cách trích dẫn nguồn, tài liệu tham khảo, chú thích chân trang và cách tránh đạo văn.',
+          content: 'Em đã biết về chủ sở hữu thông tin, cách trích dẫn nguồn, tài liệu tham khảo, chú thích chân trang và cách tránh đạo văn, cũng như cách ghi nguồn khi dùng AI.',
           imageUrl: null,
           remember: 'Muốn ôn lại các câu hỏi của bài, hãy vào trang <b>Ôn tập</b> để luyện thêm.'
         }
