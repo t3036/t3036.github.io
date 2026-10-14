@@ -1389,11 +1389,11 @@ const LESSON_INDEX = {
                   "links":  [
                                 {
                                     "text":  "Bài học",
-                                    "href":  ""
+                                    "href":  "lessons/spark3/bai-19-20/index.html"
                                 },
                                 {
                                     "text":  "Ôn tập",
-                                    "href":  ""
+                                    "href":  "lessons/spark3/bai-19-20/review.html"
                                 }
                             ]
               },
@@ -1420,11 +1420,11 @@ const LESSON_INDEX = {
                   "links":  [
                                 {
                                     "text":  "Bài học",
-                                    "href":  ""
+                                    "href":  "lessons/spark3/bai-21/index.html"
                                 },
                                 {
                                     "text":  "Ôn tập",
-                                    "href":  ""
+                                    "href":  "lessons/spark3/bai-21/review.html"
                                 }
                             ]
               },
