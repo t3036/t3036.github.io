@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Level 1 – Bài 08: Tìm hiểu về mạng và cơ sở hạ tầng</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap&subset=vietnamese" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============ MÀN HÌNH KHỞI ĐỘNG ============ -->
+<div id="boot">
+  <div class="phone">
+    <div class="phone-time">📡</div>
+    <div class="phone-date">Level 1 · Bài 08</div>
+    <h1>Tìm hiểu về <em>mạng</em><br>và cơ sở hạ tầng mạng</h1>
+    <div class="notif" style="--d:.2s"><span class="ni">🌐</span><div><b>Internet</b><p>Mạng máy tính lớn nhất thế giới</p></div></div>
+    <div class="notif" style="--d:.5s"><span class="ni">🏢</span><div><b>Intranet</b><p>Mạng riêng của một tổ chức</p></div></div>
+    <div class="notif" style="--d:.8s"><span class="ni">🧭</span><div><b>Router · Modem · Switch</b><p>Những thiết bị chỉ đường cho dữ liệu</p></div></div>
+    <div class="notif" style="--d:1.1s"><span class="ni">🤖</span><div><b>Công cụ AI</b><p>Cần mạng để trả lời câu hỏi của em</p></div></div>
+    <button class="btn" id="start" style="animation:rise .5s 1.4s both">▶ Bắt đầu khám phá</button>
+  </div>
+</div>
+
+<!-- ============ KHUNG BÀI HỌC ============ -->
+<div id="shell" class="hidden">
+  <header class="top">
+    <div class="brand">📡 <b>Mạng &amp; cơ sở hạ tầng</b><small>Level 1 · Bài 08</small></div>
+    <div class="meter"><div id="xpfill"></div></div>
+    <span class="xptxt" id="xptxt">0 / 5</span>
+    <button class="ghostbtn" id="themeBtn" title="Đổi giao diện sáng/tối" aria-label="Đổi giao diện sáng/tối"></button>
+    <button class="ghostbtn" id="resetBtn" title="Xóa tiến độ">↺</button>
+  </header>
+  <nav id="tabs" aria-label="Các nhiệm vụ"></nav>
+  <main id="main"></main>
+</div>
+<div class="toast" id="toast"></div>
+
+<script src="questions.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
