@@ -101,8 +101,10 @@ function quizBlock(root, keys, onDone, title) {
       };
     } else if (Q.type === 'quiz_dropdown') {
       const parts = Q.question.split('___');
-      area.innerHTML = parts.slice(0, Q.blanks.length).map((t, i) =>
-        `<div class="row-dd">${i === 0 ? '<b>' + esc(t.split(':')[0]) + ':</b> ' + esc(t.split(':').slice(1).join(':')) : esc(t)}
+      const ci = parts[0].indexOf(':'), intro = ci > -1 ? parts[0].slice(0, ci + 1) : '';
+      if (intro) parts[0] = parts[0].slice(ci + 1);
+      area.innerHTML = (intro ? '<p class="dd-intro">' + esc(intro) + '</p>' : '') + parts.slice(0, Q.blanks.length).map((t, i) =>
+        `<div class="row-dd"><span class="dd-n">${i + 1}</span><span class="dd-t">${esc(t.trim())}</span>
           <select data-i="${i}"><option value="">— chọn —</option>${Q.blanks[i].options.map((o, k) => `<option value="${k}">${esc(o)}</option>`).join('')}</select></div>`).join('') +
         `<button class="btn sm" id="chk">Kiểm tra</button>`;
       $('#chk', area).onclick = () => {
@@ -138,19 +140,25 @@ function sorter(root, o) {
   const cardEl = $('#scCard', root), fb = $('#scFb', root);
   function draw() {
     if (!queue.length) { cardEl.innerHTML = `<div class="sc-card" style="border-color:var(--green)"><span class="e">🎉</span>Phân loại xong!</div>`; $('#scBins', root).hidden = true; o.onDone && o.onDone(); return; }
-    const c = queue[0]; cardEl.innerHTML = `<div class="sc-card"><span class="e">${c.e || ''}</span>${esc(c.t)}</div>`;
+    const c = queue[0]; cardEl.innerHTML = `<div class="sc-card"><span class="e">${c.img ? `<img class="scimg" src="https://img.icons8.com/fluency/96/${c.img}.png" alt="${esc(c.e || '')}">` : (c.e || '')}</span>${esc(c.t)}</div>`;
   }
-  $('#scBins', root).onclick = e => {
+  const binsEl = $('#scBins', root);
+  function setBins(off) { $$('button', binsEl).forEach(x => x.disabled = off); }
+  function next() { lock = false; fb.innerHTML = ''; draw(); }
+  binsEl.onclick = e => {
     const b = e.target.closest('button'); if (!b || lock || !queue.length) return;
-    const c = queue[0];
-    if (b.dataset.b === c.bin) {
+    const c = queue[0], ok = b.dataset.b === c.bin;
+    lock = true; setBins(true);
+    if (ok) {
       queue.shift(); solved++; $$('#scPips i', root)[solved - 1].classList.add('on');
-      fb.innerHTML = `<div class="fb ok">✅ ${esc(c.note || 'Đúng rồi!')}</div>`;
     } else {
       queue.push(queue.shift()); shake(cardEl);
-      fb.innerHTML = `<div class="fb no">❌ ${esc(c.note || 'Chưa đúng, thẻ này sẽ quay lại sau.')}</div>`;
     }
-    draw();
+    fb.innerHTML = ok
+      ? `<div class="fb ok">✅ ${esc(c.note || 'Đúng rồi!')}</div>`
+      : `<div class="fb no">❌ ${esc(c.note || 'Chưa đúng, thẻ này sẽ quay lại sau.')}</div>`;
+    const nb = document.createElement('button'); nb.type = 'button'; nb.className = 'btn nextbtn'; nb.textContent = '➜'; nb.title = nb.ariaLabel = 'Thẻ tiếp theo';
+    nb.onclick = ev => { ev.stopPropagation(); nb.remove(); next(); setBins(false); }; binsEl.append(nb); nb.focus();
   };
   draw();
 }
@@ -159,17 +167,17 @@ function sorter(root, o) {
    KHUNG: tab, điều hướng
    ============================================================ */
 const MISSIONS = [
-  { t: 'Hai nhịp giao tiếp', i: '⏱️' },
-  { t: 'Chọn kênh đúng', i: '📡' },
-  { t: 'Xưởng Email', i: '📧' },
-  { t: 'Ứng xử trực tuyến', i: '🎥' },
-  { t: 'Thanh toán & mua hàng', i: '💳' },
-  { t: 'Kiểm tra cuối bài', i: '🏁' }
+  { t: 'Hai nhịp giao tiếp' },
+  { t: 'Chọn kênh đúng' },
+  { t: 'Xưởng Email' },
+  { t: 'Ứng xử trực tuyến' },
+  { t: 'Thanh toán & mua hàng' },
+  { t: 'Kiểm tra cuối bài' }
 ];
 function drawTabs() {
-  $('#tabs').innerHTML = MISSIONS.map((m, i) => `<button class="tab ${i === state.cur ? 'on' : ''} ${state.done[i] ? 'done' : ''}" data-i="${i}"><span class="n">${state.done[i] ? '✓' : i + 1}</span>${m.i} ${m.t}</button>`).join('');
+  $('#tabs').innerHTML = MISSIONS.map((m, i) => `<button class="tab ${i === state.cur ? 'on' : ''} ${state.done[i] ? 'done' : ''}" data-i="${i}"><span class="n"><span>${i + 1}</span></span><span class="t">${m.t}</span></button>`).join('');
   const n = state.done.filter(Boolean).length;
-  $('#xpfill').style.width = n / N * 100 + '%'; $('#xptxt').textContent = n + ' / ' + N;
+  $('#xpfill').style.width = n / N * 100 + '%'; $('#xptxt').textContent = n + ' / ' + N + ' nhiệm vụ';
 }
 $('#tabs').addEventListener('click', e => { const b = e.target.closest('.tab'); if (b) go(+b.dataset.i); });
 function go(i) { state.cur = i; save(); drawTabs(); const m = $('#main'); m.innerHTML = ''; RENDER[i](m); window.scrollTo({ top: 0 }); }
@@ -219,14 +227,14 @@ function m1(root) {
   sorter($('#m1sorter'), {
     bins: [{ id: 'sync', label: '⚡ Đồng bộ' }, { id: 'async', label: '⏳ Không đồng bộ', cls: 'alt' }],
     cards: [
-      { e: '📞', t: 'Gọi điện thoại', bin: 'sync', note: 'Nói và nghe cùng lúc → đồng bộ.' },
-      { e: '🎥', t: 'Hội thảo video', bin: 'sync', note: 'Thời gian thực → đồng bộ.' },
-      { e: '💬', t: 'Chat trực tiếp', bin: 'sync', note: 'Chat thời gian thực → đồng bộ.' },
-      { e: '📡', t: 'Phát trực tiếp (Live)', bin: 'sync', note: 'Truyền ngay lúc sự việc diễn ra → đồng bộ.' },
-      { e: '📧', t: 'Gửi Email', bin: 'async', note: 'Người nhận đọc sau → có độ trễ.' },
-      { e: '📱', t: 'Tin nhắn SMS', bin: 'async', note: 'SMS có độ trễ nhỏ → không đồng bộ.' },
-      { e: '🗣️', t: 'Bài đăng trên diễn đàn', bin: 'async', note: 'Người khác trả lời khi họ có thời gian.' },
-      { e: '📝', t: 'Bình luận trên tài liệu', bin: 'async', note: 'Bình luận để lại, người khác xem sau.' }
+      { img: 'phone-office', e: '📞', t: 'Gọi điện thoại', bin: 'sync', note: 'Nói và nghe cùng lúc → đồng bộ.' },
+      { img: 'video-conference', e: '🎥', t: 'Hội thảo video', bin: 'sync', note: 'Thời gian thực → đồng bộ.' },
+      { img: 'online-support', e: '💬', t: 'Chat trực tiếp', bin: 'sync', note: 'Chat thời gian thực → đồng bộ.' },
+      { img: 'webcam', e: '📡', t: 'Phát trực tiếp (Live)', bin: 'sync', note: 'Truyền ngay lúc sự việc diễn ra → đồng bộ.' },
+      { img: 'email', e: '📧', t: 'Gửi Email', bin: 'async', note: 'Người nhận đọc sau → có độ trễ.' },
+      { img: 'sms', e: '📱', t: 'Tin nhắn SMS', bin: 'async', note: 'SMS có độ trễ nhỏ → không đồng bộ.' },
+      { img: 'conference', e: '🗣️', t: 'Bài đăng trên diễn đàn', bin: 'async', note: 'Người khác trả lời khi họ có thời gian.' },
+      { img: 'comments', e: '📝', t: 'Bình luận trên tài liệu', bin: 'async', note: 'Bình luận để lại, người khác xem sau.' }
     ],
     onDone() { $('#m1q').hidden = false; quizBlock($('#m1q'), ['timezone', 'asyncTwo', 'delayTwo'], () => complete(0)); $('#m1q').scrollIntoView({ behavior: 'smooth' }); }
   });
@@ -238,7 +246,10 @@ function m1(root) {
     interviewTools, forumBest, msForum, outlookFaq, longMessageFile, smsLimit,
     shortMessageTwo, streamingVideo, streamingMusic, matchStreaming, matchCommunication)
    ============================================================ */
-const CHANNELS = ['📞 Gọi điện', '💬 Nhắn tin tức thời (IM)', '🎥 Hội nghị truyền hình', '🗣️ Diễn đàn', '📝 Blog', '📧 Email', '📱 SMS'];
+const CHANNELS = [
+  { img: 'phone', t: 'Gọi điện' }, { img: 'chat-message', t: 'Nhắn tin tức thời (IM)' }, { img: 'video-call', t: 'Hội nghị truyền hình' },
+  { img: 'conference', t: 'Diễn đàn' }, { img: 'blog', t: 'Blog' }, { img: 'email', t: 'Email' }, { img: 'sms', t: 'SMS' }
+];
 const SCEN = [
   { t: 'Em muốn hỏi nhóm thảo luận game về cách vượt màn khó.', a: 3, why: 'Diễn đàn: hỏi - đáp với cộng đồng, ai biết sẽ trả lời.' },
   { t: 'Em cần hoàn tiền từ một công ty và có ảnh hóa đơn để đính kèm.', a: 5, why: 'Email: nội dung dài, chính thức, đính kèm được tệp.' },
@@ -248,30 +259,40 @@ const SCEN = [
   { t: 'Bạn thân đang trực tuyến, em hỏi nhanh bài tập Tin học.', a: 1, why: 'IM: văn bản thời gian thực, nhanh, tiện.' },
   { t: 'Em cần trả lời gấp từ bạn nhưng tài khoản của bạn đang ngoại tuyến.', a: 0, why: 'Gọi điện: cách đồng bộ để bạn nhận ngay.' }
 ];
+const FLASH = [
+  { e: '📞', t: 'Gọi điện thoại', d: 'Truyền giọng nói qua mạng viễn thông (điện thoại cố định hoặc di động), tính cước theo phút.', x: 'Em gọi điện thoại thường cho cô Hạnh để báo em nghỉ tập hôm nay vì bị ốm.' },
+  { e: '🎧', t: 'Gọi điện qua Internet (VoIP)', d: 'VoIP truyền giọng nói qua Internet nên cần có kết nối mạng; có thể gọi miễn phí giữa các tài khoản.', x: 'Em gọi cho bà ở quê qua Zalo/Messenger, chỉ dùng Wi-Fi nên không tốn cước gọi.' },
+  { e: '🎥', t: 'Hội nghị trực tuyến', d: 'Zoom, Teams, Skype: họp bằng âm thanh, hình ảnh. OneDrive, Dropbox chỉ lưu trữ tập tin.', x: 'Cả lớp họp nhóm làm dự án trên Teams, vừa nói chuyện vừa chia sẻ màn hình bài thuyết trình.' },
+  { e: '🗣️', t: 'Diễn đàn', d: 'Nơi nhiều người đặt câu hỏi và trả lời nhau theo chủ đề. Diễn đàn Microsoft cần tài khoản Microsoft.', x: 'Em đăng câu hỏi “Làm sao chèn bảng trong Word?” lên diễn đàn và được các bạn khác trả lời.' },
+  { e: '✍️', t: 'Blog', d: 'Trang nhật kí trực tuyến để một người đăng bài chia sẻ quan điểm, trải nghiệm cá nhân; người đọc có thể bình luận.', x: 'Bạn Lan viết blog kể về chuyến đi Đà Lạt, kèm ảnh và cảm nhận riêng của bạn.' },
+  { e: '📧', t: 'Email', d: 'Nội dung dài, đính kèm tập tin.', x: 'Em gửi email cho cô Hạnh kèm danh sách đội bóng (tập tin Excel) và lời nhắn lịch sự.' },
+  { e: '📱', t: 'SMS', d: 'Tin nhắn văn bản qua mạng di động, giới hạn kí tự (160 không dấu, 70 có dấu), có thể đến chậm.', x: 'Em nhận tin SMS từ ngân hàng báo mã OTP; hoặc nhắn “Em đến muộn 5 phút ạ” cho thầy.' },
+  { e: '💬', t: 'IM (nhắn tin tức thời)', d: 'Chat qua Internet bằng ứng dụng, nhận trả lời gần như ngay lập tức, gửi được cả ảnh và tập tin.', x: 'Em nhắn Lan trên Messenger: “Tối nay 7h họp nhóm nhé!” và nhận trả lời ngay.' },
+  { e: '📺', t: 'Streaming', d: 'Xem/nghe ngay không cần tải trọn nội dung. Live streaming thì phát trực tiếp.', x: 'Em xem video bài giảng trên YouTube không cần tải về; buổi phát trực tiếp trận đấu của trường là live streaming.' }
+];
 function m2(root) {
   root.innerHTML = head(1, 'Chọn kênh giao tiếp đúng cho từng tình huống', 'Không có kênh “tốt nhất”, chỉ có kênh phù hợp nhất với mục đích. Em hãy thử từng công cụ.') + `
-  <div class="card"><h3>Bản đồ công cụ</h3><div class="cols">
-    <div class="mini"><span class="ic">📞</span><b>Gọi điện · VoIP</b><p>Truyền giọng nói. VoIP cho phép gọi qua Internet.</p></div>
-    <div class="mini"><span class="ic">🎥</span><b>Hội nghị trực tuyến</b><p>Zoom, Teams, Skype: họp bằng âm thanh, hình ảnh. OneDrive, Dropbox chỉ lưu trữ tập tin.</p></div>
-    <div class="mini"><span class="ic">🗣️</span><b>Diễn đàn · Blog</b><p>Diễn đàn: hỏi đáp. Blog: quan điểm cá nhân. Diễn đàn Microsoft cần tài khoản Microsoft.</p></div>
-    <div class="mini"><span class="ic">📧</span><b>Email</b><p>Nội dung dài, đính kèm tập tin.</p></div>
-    <div class="mini"><span class="ic">📱</span><b>SMS · IM</b><p>Tin nhắn ngắn gọn; SMS có giới hạn kí tự.</p></div>
-    <div class="mini"><span class="ic">📺</span><b>Streaming</b><p>Xem/nghe ngay không cần tải trọn nội dung. Live streaming thì phát trực tiếp.</p></div>
+  <div class="card"><h3>Cách thức giao tiếp</h3><p style="margin-top:0;color:var(--mute)">Bấm vào từng thẻ để lật và xem ví dụ minh họa.</p><div class="cols">${FLASH.map(f => `
+    <button type="button" class="flash" aria-label="${f.t}"><span class="fl-in">
+      <span class="fl-f"><span class="ic">${f.e}</span><b>${f.t}</b><small>Bấm để xem ví dụ ↻</small></span>
+      <span class="fl-b"><b>${f.t}</b><span class="d">${f.d}</span><span class="ex"><em>Ví dụ:</em> ${f.x}</span></span>
+    </span></button>`).join('')}
   </div></div>
 
   <div class="card"><h3><span class="st">1</span>Máy đếm kí tự SMS</h3>
     <p style="margin-top:0">Gõ một tin nhắn. SMS chỉ chứa <b>160 kí tự không dấu</b> hoặc <b>70 kí tự có dấu</b>.</p>
     <textarea id="sms" rows="3" placeholder="Thử gõ: Hôm nay em xin nghỉ buổi tập vì bị ốm ạ."></textarea>
-    <div class="cnt"><span class="pill" id="smsLen">0 kí tự</span><span class="pill" id="smsLim">Giới hạn 160</span><span class="pill" id="smsSeg">1 tin</span></div></div>
+    <div class="cnt"><span class="pill" id="smsLen">0 kí tự</span><span class="pill" id="smsLim">Giới hạn 160</span></div></div>
 
   <div class="card"><h3><span class="st">2</span>Tình huống → Kênh</h3><div id="scn"></div></div>
   <div id="m2q" hidden></div>
   ${navBtns(1)}`;
 
   $('#sms').oninput = () => {
-    const v = $('#sms').value, acc = /[^\x00-\x7F]/.test(v), lim = acc ? 70 : 160;
-    $('#smsLen').textContent = v.length + ' kí tự'; $('#smsLim').textContent = 'Giới hạn ' + lim + (acc ? ' (có dấu)' : ' (không dấu)');
-    const segs = Math.max(1, Math.ceil(v.length / lim)); $('#smsSeg').textContent = segs + ' tin'; $('#smsSeg').className = 'pill' + (segs > 1 ? ' bad' : '');
+    const t = $('#sms'); let v = t.value, acc = /[^\x00-\x7F]/.test(v), lim = acc ? 70 : 160;
+    if (v.length > lim) { v = v.slice(0, lim); t.value = v; acc = /[^\x00-\x7F]/.test(v); lim = acc ? 70 : 160; }
+    $('#smsLen').textContent = v.length + ' kí tự'; $('#smsLen').className = 'pill' + (v.length >= lim ? ' bad' : '');
+    $('#smsLim').textContent = 'Giới hạn ' + lim + (acc ? ' (có dấu)' : ' (không dấu)');
   };
 
   let si = 0, wrongOnce = false;
@@ -283,7 +304,7 @@ function m2(root) {
       return;
     }
     const s = SCEN[si]; wrongOnce = false;
-    $('#scn').innerHTML = `<div class="scn">Tình huống ${si + 1}/${SCEN.length}: ${esc(s.t)}</div><div class="dock">${CHANNELS.map((c, i) => `<button data-i="${i}">${c}</button>`).join('')}</div><div id="scFb2"></div>`;
+    $('#scn').innerHTML = `<div class="scn">Tình huống ${si + 1}/${SCEN.length}: ${esc(s.t)}</div><div class="dock">${CHANNELS.map((c, i) => `<button data-i="${i}"><img src="https://img.icons8.com/plasticine/96/${c.img}.png" alt=""><span>${c.t}</span></button>`).join('')}</div><div id="scFb2"></div>`;
     $('#scn .dock').onclick = e => {
       const b = e.target.closest('button'); if (!b || b.disabled) return;
       if (+b.dataset.i === s.a) { b.classList.add('right'); $$('#scn .dock button').forEach(x => x.disabled = true); $('#scFb2').innerHTML = `<div class="fb ok">✅ ${esc(s.why)}</div>`; si++; setTimeout(scn, 1500); }
@@ -320,7 +341,9 @@ function m3(root) {
     <div class="mini"><span class="ic">👤</span><b>To</b><p>Người nhận chính</p></div>
     <div class="mini"><span class="ic">👥</span><b>Cc</b><p>Bản sao <b>công khai</b>: mọi người thấy nhau</p></div>
     <div class="mini"><span class="ic">🙈</span><b>Bcc</b><p>Bản sao <b>ẩn danh</b>: không hiện với người khác</p></div>
-    <div class="mini"><span class="ic">🏷️</span><b>Subject · Body · Mức quan trọng</b><p>Chủ đề · Nội dung · Low / Normal / High</p></div>
+    <div class="mini"><span class="ic">🏷️</span><b>Subject</b><p>Chủ đề: tóm tắt ngắn gọn nội dung thư</p></div>
+    <div class="mini"><span class="ic">📄</span><b>Body</b><p>Nội dung: phần chính của thư, viết lịch sự, rõ ràng</p></div>
+    <div class="mini"><span class="ic">❗</span><b>Mức quan trọng</b><p>Low / Normal / High: cho người nhận biết thư nào cần đọc trước</p></div>
   </div><div class="key am">Trong môi trường chuyên nghiệp, hãy trả lời Email trong vòng <b>24 giờ</b>.</div></div>
 
   <div class="card"><h3 id="tkh"></h3><div class="task" id="tkt"></div>
@@ -394,6 +417,35 @@ const POSTS = [
   { av: '🙂', t: 'Cảm ơn mọi người đã chia sẻ, mình học được nhiều điều!', bad: false, why: 'Lịch sự và tích cực.' },
   { av: '😏', t: 'Mình chép bình luận của Lan sang nhóm khác nhé, khỏi xin phép đâu.', bad: true, why: 'Không đăng lại bình luận của thành viên khi chưa xin phép.' }
 ];
+/* Minh họa khung camera theo các lựa chọn: [địa điểm, ánh sáng, camera, micro]; -1 = chưa chọn */
+function camSVG(p) {
+  const cafe = p[0] === 0, backlit = p[1] === 0, low = p[2] === 0, mic = p[3] === 1;
+  const wall = cafe ? '#6b4a35' : '#3d4c70';
+  let s = `<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs>
+    <radialGradient id="lamp" cx="12%" cy="40%" r="70%"><stop offset="0" stop-color="#ffe9a8" stop-opacity=".75"/><stop offset="1" stop-color="#ffe9a8" stop-opacity="0"/></radialGradient>
+    <linearGradient id="glare" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity=".95"/><stop offset="1" stop-color="#bfe3ff" stop-opacity=".8"/></linearGradient></defs>
+    <rect width="400" height="300" fill="${wall}"/>`;
+  if (cafe) { // quán cà phê: quầy, tách cà phê, người ngồi phía sau và sóng âm
+    s += `<rect y="210" width="400" height="90" fill="#4a3324"/><rect x="20" y="150" width="70" height="60" rx="8" fill="#8a6045"/><circle cx="55" cy="135" r="16" fill="#d9a77e"/>
+      <rect x="310" y="140" width="70" height="70" rx="8" fill="#7a5a42"/><circle cx="345" cy="122" r="17" fill="#c58f68"/>
+      <rect x="150" y="60" width="100" height="14" rx="4" fill="#3a271b"/><rect x="170" y="74" width="8" height="20" fill="#3a271b"/><rect x="222" y="74" width="8" height="20" fill="#3a271b"/>
+      <g fill="none" stroke="#ffb4a8" stroke-width="4" stroke-linecap="round"><path d="M105 110q12 14 0 28"/><path d="M118 100q20 24 0 48"/><path d="M290 105q-12 14 0 28"/><path d="M277 95q-20 24 0 48"/></g>`;
+  } else { // phòng yên tĩnh: tranh, cây, kệ sách
+    s += `<rect x="30" y="50" width="70" height="50" rx="4" fill="#59709f"/><rect x="38" y="58" width="54" height="34" fill="#8fb3e8"/>
+      <rect x="320" y="120" width="50" height="100" rx="4" fill="#2f3b5b"/><rect x="326" y="130" width="38" height="8" fill="#e8c26a"/><rect x="326" y="150" width="38" height="8" fill="#6fcf97"/><rect x="326" y="170" width="38" height="8" fill="#f2994a"/>
+      <rect y="250" width="400" height="50" fill="#2c3652"/>`;
+  }
+  if (backlit) s += `<rect x="255" y="25" width="120" height="150" rx="6" fill="url(#glare)"/><path d="M315 25v150M255 100h120" stroke="#9fb7d3" stroke-width="4"/>`;
+  else s += `<rect width="400" height="300" fill="url(#lamp)"/><g><rect x="30" y="170" width="8" height="70" fill="#d9d9d9"/><path d="M12 170l44 0-8-34h-28z" fill="#ffd966"/></g>`;
+  if (low) s += `<rect width="400" height="46" fill="#cfd6e6"/><rect x="165" y="12" width="70" height="14" rx="7" fill="#fffbe0"/>`;
+  const tr = low ? 'translate(-20,48) scale(1.1)' : 'translate(0,0)';
+  const skin = backlit ? '#a0714f' : '#f1c298', cloth = backlit ? '#2d4a6e' : '#3f7cd8', hair = '#2a1c14';
+  s += `<g transform="${tr}"><path d="M110 330c0-62 38-86 90-86s90 24 90 86z" fill="${cloth}"/><rect x="180" y="205" width="40" height="45" rx="14" fill="${skin}"/>
+    <ellipse cx="200" cy="165" rx="52" ry="60" fill="${skin}"/><path d="M146 160c-4-52 30-72 58-72s58 20 52 72c-8-26-26-38-54-38s-48 14-56 38z" fill="${hair}"/>
+    <circle cx="180" cy="168" r="5" fill="#222"/><circle cx="220" cy="168" r="5" fill="#222"/><path d="M184 196q16 12 32 0" stroke="#7a3b2e" stroke-width="4" fill="none" stroke-linecap="round"/>`;
+  if (mic) s += `<path d="M146 168c-6-60 108-60 108 0" stroke="#e8eaf0" stroke-width="7" fill="none"/><rect x="138" y="160" width="14" height="30" rx="7" fill="#e8eaf0"/><rect x="248" y="160" width="14" height="30" rx="7" fill="#e8eaf0"/><path d="M252 188q-6 22-40 26" stroke="#e8eaf0" stroke-width="5" fill="none"/><circle cx="210" cy="214" r="7" fill="#6fcf97"/>`;
+  return s + `</g></svg>`;
+}
 const SETUP = [
   { n: '📍 Địa điểm', a: 'Quán cà phê đông, nhiều tiếng ồn', b: 'Phòng yên tĩnh, ít tiếng ồn', ok: 1 },
   { n: '💡 Ánh sáng', a: 'Cửa sổ sáng ở phía sau lưng', b: 'Đèn sáng ở phía trước mặt', ok: 1 },
@@ -405,12 +457,12 @@ function m4(root) {
   <div class="card"><h3>Quy tắc cần nhớ</h3><div class="cols">
     <div class="mini"><span class="ic">🔡</span><b>Hạn chế chữ in hoa</b><p>Kiểm tra lỗi trước khi gửi.</p></div>
     <div class="mini"><span class="ic">🤝</span><b>Lịch sự</b><p>Đối xử với người khác như em muốn được đối xử.</p></div>
-    <div class="mini"><span class="ic">🔒</span><b>Bảo vệ thông tin</b><p>Không chia sẻ Email/thông tin cá nhân của người khác khi chưa xin phép; giả định ai cũng có thể lan truyền.</p></div>
+    <div class="mini"><span class="ic">🔒</span><b>Bảo vệ thông tin</b><p>Chỉ chia sẻ Email, số điện thoại của người khác khi được họ cho phép. Hãy nghĩ: điều đăng lên mạng ai cũng có thể xem và lan truyền.</p></div>
     <div class="mini"><span class="ic">🌍</span><b>Đa dạng văn hóa</b><p>Tìm hiểu chuẩn mực văn hóa; cân nhắc thông dịch viên.</p></div>
   </div></div>
 
   <div class="card"><h3><span class="st">1</span>Dọn phòng họp video</h3><p style="margin-top:0">Chọn cách thiết lập tốt nhất. Quan sát khung camera thay đổi!</p>
-    <div class="room"><div><div class="cam" id="cam"><span class="face" style="font-size:80px">🧑‍💻</span><span class="lbl">Xem trước camera của em</span></div>
+    <div class="room"><div><div class="cam" id="cam"><span class="face" id="camArt"></span><span class="lbl">Xem trước camera của em</span></div>
       <div class="ready"><i id="rd"></i></div><div id="rdt" style="font-weight:700"></div></div>
     <div id="setup"></div></div></div>
 
@@ -423,7 +475,7 @@ function m4(root) {
   const pick = SETUP.map(() => -1);
   function setupDraw() {
     $('#setup').innerHTML = SETUP.map((s, i) => `<div class="setrow"><div class="nm">${s.n}</div><div class="two"><button data-i="${i}" data-v="0" class="${pick[i] === 0 ? 'sel' : ''}">${s.a}</button><button data-i="${i}" data-v="1" class="${pick[i] === 1 ? 'sel' : ''}">${s.b}</button></div></div>`).join('');
-    const cam = $('#cam'); cam.classList.toggle('noise', pick[0] === 0); cam.classList.toggle('dark', pick[1] === 0); cam.classList.toggle('low', pick[2] === 0); cam.classList.toggle('nomic', pick[3] === 0);
+    const cam = $('#cam'); cam.classList.toggle('noise', pick[0] === 0); cam.classList.toggle('nomic', pick[3] === 0); $('#camArt').innerHTML = camSVG(pick);
     const good = pick.filter((v, i) => v === SETUP[i].ok).length; $('#rd').style.width = good / SETUP.length * 100 + '%';
     $('#rdt').textContent = good === SETUP.length ? '🎉 Sẵn sàng 100%! Em đã chuẩn bị một buổi họp chuyên nghiệp.' : 'Mức sẵn sàng: ' + good + '/' + SETUP.length;
   }
@@ -458,8 +510,9 @@ function m5(root) {
   <div class="card"><h3><span class="st">1</span>Đây có phải thanh toán kĩ thuật số?</h3>
     <div class="key">Thanh toán kĩ thuật số: <b>cả người trả và người nhận</b> đều dùng phương tiện điện tử.</div><div id="s5a"></div></div>
   <div class="card"><h3><span class="st">2</span>Một lần quẹt ví điện tử</h3>
-    <div class="phoneui"><div class="big-e" id="ws-e"></div><h3 id="ws-t" style="margin:6px 0"></h3><p id="ws-d" style="color:var(--mute);margin:0"></p>
-    <div class="stepdots" id="ws-d2"></div><button class="btn sm" id="ws-n">Bước tiếp theo →</button></div></div>
+    <p style="margin-top:0;color:var(--mute)">Bấm vào từng bước trong sơ đồ để xem chi tiết.</p>
+    <div class="wflow" id="wflow">${WALLET_STEPS.map((s, i) => `${i ? '<span class="warrow" aria-hidden="true">➜</span>' : ''}<button type="button" class="wnode" data-i="${i}"><span class="wn">${i + 1}</span><span class="wi">${s.e}</span><b>${s.t}</b></button>`).join('')}</div>
+    <div class="wdetail" id="wdetail" aria-live="polite"><span class="wh">👆 Chọn một bước để mở.</span></div></div>
   <div class="card"><h3><span class="st">3</span>Mua hàng trong ứng dụng thuộc loại nào?</h3>
     <div class="cols" style="margin-bottom:12px">
       <div class="mini"><b>🔄 Tự động gia hạn</b><p>Trả định kì, tự gia hạn trừ khi hủy.</p></div>
@@ -475,29 +528,29 @@ function m5(root) {
   sorter($('#s5a'), {
     bins: [{ id: 'y', label: '💳 Thanh toán kĩ thuật số' }, { id: 'n', label: '💵 Không phải', cls: 'alt' }],
     cards: [
-      { e: '💵', t: 'Trả bằng tiền mặt', bin: 'n', note: 'Tiền mặt không phải phương tiện điện tử.' },
-      { e: '💳', t: 'Thẻ ghi nợ', bin: 'y', note: 'Thẻ ghi nợ liên kết với tài khoản ngân hàng → kĩ thuật số.' },
-      { e: '💳', t: 'Thẻ tín dụng', bin: 'y', note: 'Giao dịch điện tử qua thẻ tín dụng.' },
-      { e: '🏦', t: 'Chuyển khoản ngân hàng', bin: 'y', note: 'Chuyển tiền điện tử giữa hai tài khoản.' },
-      { e: '📲', t: 'Ví điện tử (Apple Pay, Google Pay…)', bin: 'y', note: 'Ví điện tử là thanh toán kĩ thuật số phổ biến.' }
+      { img: 'cash-in-hand', e: '💵', t: 'Trả bằng tiền mặt', bin: 'n', note: 'Tiền mặt không phải phương tiện điện tử.' },
+      { img: 'bank-cards', e: '💳', t: 'Thẻ ghi nợ', bin: 'y', note: 'Thẻ ghi nợ liên kết với tài khoản ngân hàng → kĩ thuật số.' },
+      { img: 'bank-card-back-side', e: '💳', t: 'Thẻ tín dụng', bin: 'y', note: 'Giao dịch điện tử qua thẻ tín dụng.' },
+      { img: 'bank', e: '🏦', t: 'Chuyển khoản ngân hàng', bin: 'y', note: 'Chuyển tiền điện tử giữa hai tài khoản.' },
+      { img: 'mobile-payment', e: '📲', t: 'Ví điện tử (Apple Pay, Google Pay…)', bin: 'y', note: 'Ví điện tử là thanh toán kĩ thuật số phổ biến.' }
     ], onDone() { a = true; chk(); }
   });
-  let ws = 0;
-  function wallet() {
-    const s = WALLET_STEPS[ws]; $('#ws-e').textContent = s.e; $('#ws-t').textContent = (ws + 1) + '. ' + s.t; $('#ws-d').textContent = s.d;
-    $('#ws-d2').innerHTML = WALLET_STEPS.map((_, i) => `<i class="${i <= ws ? 'on' : ''}"></i>`).join('');
-    $('#ws-n').textContent = ws === WALLET_STEPS.length - 1 ? '↺ Xem lại' : 'Bước tiếp theo →';
-  }
-  $('#ws-n').onclick = () => { ws = (ws + 1) % WALLET_STEPS.length; wallet(); }; wallet();
+  const wopen = new Set();
+  $('#wflow').onclick = e => {
+    const b = e.target.closest('.wnode'); if (!b) return;
+    const i = +b.dataset.i, s = WALLET_STEPS[i]; wopen.add(i);
+    $$('#wflow .wnode').forEach(n => { n.classList.toggle('on', n === b); n.classList.toggle('seen', wopen.has(+n.dataset.i) && n !== b); });
+    $('#wdetail').innerHTML = `<h4>Bước ${i + 1}: ${s.t}</h4><p>${s.d}</p>`;
+  };
   sorter($('#s5b'), {
     bins: [{ id: 'auto', label: '🔄 Tự động gia hạn' }, { id: 'rent', label: '🎞️ Không tự gia hạn', cls: 'alt' }, { id: 'cons', label: '💎 Tiêu hao' }, { id: 'non', label: '🔓 Không tiêu hao', cls: 'alt' }],
     cards: [
-      { e: '📺', t: 'Đăng ký dịch vụ phát video theo tháng', bin: 'auto', note: 'Trả định kì và tự gia hạn trừ khi hủy.' },
-      { e: '🎞️', t: 'Thuê phim xem trong 48 giờ', bin: 'rent', note: 'Trả một lần cho thời gian cố định, hết hạn phải thuê lại.' },
-      { e: '💎', t: 'Mua đá quý trong trò chơi', bin: 'cons', note: 'Dùng hết rồi phải mua thêm.' },
-      { e: '🪙', t: 'Mua tiền xu trong game di động', bin: 'cons', note: 'Tiền tệ trong game là vật tư tiêu hao.' },
-      { e: '🔓', t: 'Mở khóa tính năng đặc biệt của game', bin: 'non', note: 'Trả một lần, sở hữu vĩnh viễn, cài lại được trên thiết bị khác.' },
-      { e: '🎵', t: 'Gói nhạc hằng năm tự gia hạn', bin: 'auto', note: 'Định kì (năm) và tự gia hạn.' }
+      { img: 'renew-subscription', e: '📺', t: 'Đăng ký dịch vụ phát video theo tháng', bin: 'auto', note: 'Trả định kì và tự gia hạn trừ khi hủy.' },
+      { img: 'film-reel', e: '🎞️', t: 'Thuê phim xem trong 48 giờ', bin: 'rent', note: 'Trả một lần cho thời gian cố định, hết hạn phải thuê lại.' },
+      { img: 'diamonds', e: '💎', t: 'Mua đá quý trong trò chơi', bin: 'cons', note: 'Dùng hết rồi phải mua thêm.' },
+      { img: 'coins', e: '🪙', t: 'Mua tiền xu trong game di động', bin: 'cons', note: 'Tiền tệ trong game là vật tư tiêu hao.' },
+      { img: 'unlock', e: '🔓', t: 'Mở khóa tính năng đặc biệt của game', bin: 'non', note: 'Trả một lần, sở hữu vĩnh viễn, cài lại được trên thiết bị khác.' },
+      { img: 'music-library', e: '🎵', t: 'Gói nhạc hằng năm tự gia hạn', bin: 'auto', note: 'Định kì (năm) và tự gia hạn.' }
     ], onDone() { b = true; chk(); }
   });
 }
@@ -513,3 +566,42 @@ function m6(root) {
 }
 
 const RENDER = [m1, m2, m3, m4, m5, m6];
+
+/* ============================================================
+   ICONS8: thay emoji trong nội dung bằng biểu tượng Icons8
+   ============================================================ */
+const ICON8 = {
+  '📧': 'email', '✉': 'email', '🎉': 'party-baloons', '💬': 'chat-message', '✅': 'checked-2', '📱': 'smartphone-tablet', '📲': 'smartphone-tablet',
+  '🎥': 'video-call', '🙈': 'invisible', '📝': 'pencil', '💎': 'diamonds', '🔓': 'unlock', '💳': 'bank-cards', '🎞': 'film-reel',
+  '📺': 'tv', '🗣': 'megaphone', '🙂': 'happy', '🔄': 'refresh', '🏷': 'price-tag', '👥': 'group', '💼': 'briefcase', '❌': 'cancel',
+  '📞': 'phone', '🏆': 'trophy', '💵': 'money', '⚡': 'lightning-bolt', '🏦': 'bank', '💡': 'idea', '🔒': 'lock', '👤': 'user-male',
+  '🎵': 'musical-notes', '😴': 'sleeping-in-bed', '🔊': 'speaker', '🤝': 'handshake', '🌍': 'earth-planet', '🧑‍💻': 'laptop-coding',
+  '✍': 'pencil', '⭐': 'star', '🎬': 'clapperboard', '🪙': 'coins', '📄': 'file', '❗': 'high-priority', '✨': 'sparkling', '🧑': 'user-male', '👨': 'user-male',
+  '👩': 'businesswoman', '👩‍🏫': 'teacher', '📡': 'broadcasting', '📍': 'marker', '📷': 'camera', '🎙': 'microphone', '🎧': 'headset', '😠': 'angry',
+  '😡': 'angry', '🏅': 'medal'
+};
+(function () {
+  const rx = /(?:\p{Extended_Pictographic}️?(?:‍\p{Extended_Pictographic}️?)*)/gu;
+  const SKIP = /^(SCRIPT|STYLE|TEXTAREA|INPUT|OPTION)$/;
+  function swap(root) {
+    const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT), list = [];
+    for (let n; (n = w.nextNode());) if (!SKIP.test(n.parentNode.nodeName) && rx.test(n.nodeValue)) list.push(n);
+    rx.lastIndex = 0;
+    list.forEach(n => {
+      const frag = document.createDocumentFragment(); let last = 0, s = n.nodeValue, hit = false; rx.lastIndex = 0;
+      for (let m; (m = rx.exec(s));) {
+        const slug = ICON8[m[0].replace(/️/g, '')]; if (!slug) continue;
+        hit = true; frag.append(s.slice(last, m.index));
+        const im = document.createElement('img'); im.className = 'i8'; im.alt = m[0]; im.src = 'https://img.icons8.com/fluency/48/' + slug + '.png';
+        frag.append(im); last = m.index + m[0].length;
+      }
+      if (!hit) return; frag.append(s.slice(last)); n.replaceWith(frag);
+    });
+  }
+  let busy = false;
+  new MutationObserver(() => { if (busy) return; busy = true; Promise.resolve().then(() => { swap(document.body); busy = false; }); })
+    .observe(document.body, { childList: true, subtree: true, characterData: true });
+  swap(document.body);
+})();
+
+document.addEventListener('click', e => { const f = e.target.closest('.flash'); if (f) f.classList.toggle('flipped'); });

@@ -419,9 +419,9 @@ const QUIZ = {
     type: 'quiz_single',
     question: 'Lợi thế của việc sử dụng ví điện tử như Apple Pay hoặc Google Pay là gì?',
     options: ['Tự động cung cấp số thẻ tín dụng của bạn cho các cửa hàng trực tuyến.', 'Tạo lịch sử tín dụng của bạn.', 'Khuyến khích bạn tìm kiếm và mua sắm với mức giá tốt nhất.', 'Yêu cầu bạn ủy quyền mọi giao dịch.'],
-    correctAnswer: 0,
-    hint: 'Ví điện tử giúp không phải nhập thông tin thẻ mỗi lần.',
-    explain: 'Ví điện tử tự động cung cấp thông tin thẻ, giúp thanh toán nhanh chóng và tiện lợi.'
+    correctAnswer: 3,
+    hint: 'Mỗi lần thanh toán, ví luôn cần em xác thực (vân tay, mã PIN…) trước khi thực hiện.',
+    explain: 'Ví điện tử yêu cầu em ủy quyền mọi giao dịch (vân tay, mã PIN…) nên an toàn hơn: không ai tự ý trả tiền thay em được.'
   },
 
   /* ---------- Phần 8: Mua hàng trong ứng dụng ---------- */

@@ -4,11 +4,9 @@
    ============================================================ */
 
 const KEYS = [
-  'adapterWifi', 'handheldAdapter', 'nicNeed', 'nicSpeed', 'ethernetWhat', 'matchCable', 'ispWhat', 'ispExample',
-  'lanWhat', 'wlanWhat', 'matchLanWlan', 'wifiTech', 'adhocSafe', 'infraMode', 'signalDistance', 'wiredWirelessTwo', 'wiredWirelessYN', 'wiredAdvantages', 'adhoc', 'phoneInternet',
-  'wifiBand', 'obstacle', 'bluetoothUse', 'bluetoothStep', 'bluetoothPairTF', 'bluetoothStranger', 'publicWifi',
-  'matchNetTech', 'useWireless', 'useWired',
-  'checkInternet', 'airplane', 'aiDoThree', 'aiDontTF'
+  'adapterWifi', 'nicSpeed', 'modemWhat', 'matchNetTech',
+  'wiredWirelessTwo', 'wiredWirelessYN', 'wiredAdvantages', 'phoneInternet',
+  'adhoc', 'wifiBand', 'bluetoothStep', 'checkInternet'
 ];
 
 const LESSON = {

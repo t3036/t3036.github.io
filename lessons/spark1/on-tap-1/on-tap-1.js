@@ -1,6 +1,8 @@
 let shuffledDB = [];
 let currentIndex = 0;
 const totalQ = 29;
+let correctCount = 0;
+let wrongList = []; // các câu đã trả lời sai
 
 // Hàm xáo trộn mảng (tạo mảng copy để không đổi mảng gốc)
 function shuffle(arr) {
@@ -27,9 +29,13 @@ function initGame() {
     });
 
     currentIndex = 0;
-    
+    correctCount = 0;
+    wrongList = [];
+
     document.getElementById('win-panel').classList.add('hidden');
     document.getElementById('win-panel').classList.remove('flex');
+    document.getElementById('review-list').classList.add('hidden');
+    document.getElementById('review-list').classList.remove('flex');
     document.getElementById('question-panel').classList.remove('hidden');
     
     updateBikePosition();
@@ -40,16 +46,15 @@ function initGame() {
 function updateBikePosition() {
     const bike = document.getElementById('player-bike');
     // Tiến từ 2% (đầu) lên 85% (sát trường)
-    const progress = (currentIndex / totalQ) * 83; 
+    // Xe chỉ tiến khi trả lời đúng
+    const progress = (correctCount / totalQ) * 83;
     bike.style.left = `${2 + progress}%`;
 }
 
 // Render câu hỏi lên màn hình
 function renderQuestion() {
     if (currentIndex >= totalQ) {
-        document.getElementById('question-panel').classList.add('hidden');
-        document.getElementById('win-panel').classList.remove('hidden');
-        document.getElementById('win-panel').classList.add('flex');
+        showResult();
         return;
     }
 
@@ -156,9 +161,79 @@ function renderQuestion() {
 function showToast(msg, isSuccess) {
     const toast = document.getElementById('toast');
     toast.innerText = msg;
-    toast.className = `fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-8 py-4 rounded-xl font-bold text-white text-2xl shadow-2xl transition-opacity duration-300 z-50 ${isSuccess ? 'bg-green-500' : 'bg-red-500'}`;
+    toast.className = `fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-8 py-4 rounded-xl font-bold text-white text-2xl shadow-2xl transition-opacity duration-300 pointer-events-none z-50 ${isSuccess ? 'bg-green-500' : 'bg-red-500'}`;
     toast.style.opacity = '1';
     setTimeout(() => toast.style.opacity = '0', 2000);
+}
+
+// Tạo HTML hiển thị đáp án đúng theo từng loại câu hỏi
+function buildAnswerHTML(q) {
+    let s = "";
+    if (q.type === 'mcq') {
+        s += `- ${q.ans}`;
+    } else if (q.type === 'mcq-multi') {
+        s += `- ${q.ans.join('<br>- ')}`;
+    } else if (q.type === 'tf') {
+        q.items.forEach(item => {
+            s += `- ${item.text}: <strong>${item.ans}</strong><br>`;
+        });
+    } else if (q.type === 'matching') {
+        q.items.forEach(item => {
+            s += `- ${item.text} ➔ <strong>${item.ans}</strong><br>`;
+        });
+    }
+    return s;
+}
+
+// Hiển thị kết quả cuối cùng
+function showResult() {
+    const wrong = totalQ - correctCount;
+    const score = Math.round((correctCount / totalQ) * 1000);
+    const arrived = correctCount === totalQ;
+
+    document.getElementById('result-correct').innerText = correctCount;
+    document.getElementById('result-wrong').innerText = wrong;
+    document.getElementById('result-score').innerText = score;
+
+    const title = document.getElementById('result-title');
+    const icon = document.getElementById('result-icon');
+    const msg = document.getElementById('result-msg');
+    if (arrived) {
+        icon.innerText = '🏆🌟';
+        title.innerText = 'Hoàn Thành Xuất Sắc!';
+        title.className = 'text-3xl md:text-4xl font-bold text-green-600 mb-4 uppercase';
+        msg.innerText = 'Em đã trả lời đúng toàn bộ 29 câu hỏi và đến trường thành công!';
+    } else {
+        icon.innerText = '🚲💪';
+        title.innerText = 'Chưa Đến Trường Rồi!';
+        title.className = 'text-3xl md:text-4xl font-bold text-orange-500 mb-4 uppercase';
+        msg.innerText = 'Rất tiếc, em chưa đến được trường. Đừng buồn nhé, hãy xem lại các câu sai và thử lại, lần sau em sẽ làm được!';
+    }
+
+    document.getElementById('review-btn').classList.toggle('hidden', wrong === 0);
+
+    document.getElementById('question-panel').classList.add('hidden');
+    document.getElementById('win-panel').classList.remove('hidden');
+    document.getElementById('win-panel').classList.add('flex');
+}
+
+// Bật/tắt danh sách xem lại các câu sai
+function toggleReview() {
+    const list = document.getElementById('review-list');
+    if (!list.classList.contains('hidden')) {
+        list.classList.add('hidden');
+        list.classList.remove('flex');
+        return;
+    }
+    list.innerHTML = wrongList.map((q, i) => `
+        <div class="bg-white border-2 border-red-200 rounded-xl p-4">
+            <div class="font-bold text-gray-800 mb-2">Câu sai ${i + 1}: ${q.q}</div>
+            ${q.img ? `<img src="${q.img}" class="max-h-60 mb-3 rounded-lg border">` : ''}
+            <div class="text-green-700"><strong>Đáp án đúng:</strong><br>${buildAnswerHTML(q)}</div>
+        </div>`).join('');
+    list.classList.remove('hidden');
+    list.classList.add('flex');
+    list.scrollIntoView({ behavior: 'smooth' });
 }
 
 function checkAnswer() {
@@ -211,14 +286,16 @@ function checkAnswer() {
         showToast("🎉 Hoàn toàn chính xác! Tiến lên!", true);
         document.getElementById('check-btn').classList.add('hidden');
         currentIndex++;
+        correctCount++;
         updateBikePosition();
         
         setTimeout(() => {
             renderQuestion();
         }, 800);
     } else {
-        showToast("❌ Chưa đúng rồi, em hãy xem đáp án và thử lại nhé!", false);
-        
+        showToast("❌ Chưa đúng rồi, em hãy xem đáp án rồi sang câu tiếp theo nhé!", false);
+        wrongList.push(q);
+
         // Hiệu ứng rung
         const panel = document.getElementById('question-panel');
         panel.classList.remove('shake');
@@ -232,23 +309,7 @@ function checkAnswer() {
         // Trích xuất và hiển thị đáp án dựa theo từng loại câu hỏi
         const feedbackArea = document.getElementById('feedback-area');
         const ansText = document.getElementById('correct-ans-text');
-        let ansString = "<strong>Đáp án đúng là:</strong><br><br>";
-        
-        if (q.type === 'mcq') {
-            ansString += `- ${q.ans}`;
-        } else if (q.type === 'mcq-multi') {
-            ansString += `- ${q.ans.join('<br>- ')}`;
-        } else if (q.type === 'tf') {
-            q.items.forEach(item => {
-                ansString += `- ${item.text}: <strong>${item.ans}</strong><br>`;
-            });
-        } else if (q.type === 'matching') {
-            q.items.forEach(item => {
-                ansString += `- ${item.text} ➔ <strong>${item.ans}</strong><br>`;
-            });
-        }
-        
-        ansText.innerHTML = ansString;
+        ansText.innerHTML = "<strong>Đáp án đúng là:</strong><br><br>" + buildAnswerHTML(q);
         feedbackArea.classList.remove('hidden');
 
         // Vô hiệu hóa các ô nhập liệu/lựa chọn (không cho bấm sửa khi đang xem đáp án)
@@ -257,21 +318,13 @@ function checkAnswer() {
     }
 }
 
-// Hàm xử lý khi bấm thử lại
-function retryQuestion() {
-    // Ẩn nút thử lại và khu vực đáp án
+// Hàm xử lý khi bấm sang câu tiếp theo (sau khi trả lời sai)
+function nextQuestion() {
     document.getElementById('retry-btn').classList.add('hidden');
     document.getElementById('feedback-area').classList.add('hidden');
-    
-    // Hiện lại nút kiểm tra
-    document.getElementById('check-btn').classList.remove('hidden');
 
-    // Lấy câu hỏi hiện tại và xáo trộn lại các tùy chọn/đáp án
-    const q = shuffledDB[currentIndex];
-    if (q.options) q.options = shuffle(q.options);
-    if (q.items) q.items = shuffle(q.items);
-
-    // Vẽ lại câu hỏi
+    currentIndex++;
+    updateBikePosition();
     renderQuestion();
 }
 

@@ -6,40 +6,50 @@
 <title>Level 1 – Bài 09: Tìm hiểu về kết nối mạng không dây</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap&subset=vietnamese" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap&subset=vietnamese" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- ============ MÀN HÌNH KHỞI ĐỘNG ============ -->
+<!-- ============ BOOT ============ -->
 <div id="boot">
-  <div class="phone">
-    <div class="phone-time">📶</div>
-    <div class="phone-date">Level 1 · Bài 09</div>
-    <h1>Tìm hiểu về <em>kết nối mạng</em></h1>
-    <div class="notif" style="--d:.2s"><span class="ni">🔌</span><div><b>Ethernet</b><p>Nhanh, ổn định, kết nối bằng dây cáp</p></div></div>
-    <div class="notif" style="--d:.5s"><span class="ni">📶</span><div><b>Wi-Fi</b><p>Tiện lợi nhưng yếu dần khi ra xa router</p></div></div>
-    <div class="notif" style="--d:.8s"><span class="ni">🎧</span><div><b>Bluetooth</b><p>Thiết bị lạ muốn ghép nối. Đồng ý?</p></div></div>
-    <div class="notif" style="--d:1.1s"><span class="ni">🛠️</span><div><b>Không có Internet</b><p>Em sẽ tự kiểm tra thế nào?</p></div></div>
-    <button class="btn" id="start" style="animation:rise .5s 1.4s both">▶ Bắt đầu khám phá</button>
+  <div class="term">
+    <div class="term-bar"><i></i><i></i><i></i><span>Level 1 | Bài 9</span></div>
+    <div class="term-body">
+      <h1 style="animation:in .5s .1s forwards;opacity:0">Tìm hiểu về <em>kết nối mạng</em></h1>
+      <p style="animation:in .5s .3s forwards;opacity:0">Ethernet, Wi-Fi, Bluetooth... Hãy khám phá cách các thiết bị kết nối và tự kiểm tra khi mất Internet.</p>
+      <button class="btn" id="start" style="animation:in .5s .5s forwards;opacity:0">▶ Bắt đầu khám phá</button>
+    </div>
   </div>
 </div>
 
-<!-- ============ KHUNG BÀI HỌC ============ -->
+<!-- ============ SHELL ============ -->
 <div id="shell" class="hidden">
-  <header class="top">
-    <div class="brand">📶 <b>Kết nối mạng</b><small>Level 1 · Bài 09</small></div>
-    <div class="meter"><div id="xpfill"></div></div>
-    <span class="xptxt" id="xptxt">0 / 6</span>
-    <button class="ghostbtn" id="themeBtn" title="Đổi giao diện sáng/tối" aria-label="Đổi giao diện sáng/tối"></button>
-    <button class="ghostbtn" id="resetBtn" title="Xóa tiến độ">↺</button>
-  </header>
-  <nav id="tabs" aria-label="Các nhiệm vụ"></nav>
+  <button id="sbToggle" class="sbtoggle" aria-label="Ẩn/hiện menu" title="Ẩn/hiện menu"></button>
+  <aside>
+    <div class="brand">Level 1 - BÀI 09<small>Kết nối mạng</small></div>
+    <div class="xpbar"><div id="xpfill"></div></div>
+    <div class="xptxt" id="xptxt">0 / 5</div>
+    <div id="tabs"></div>
+    <button id="resetBtn" class="resetbtn" title="Xóa tiến độ">↺ Học lại từ đầu</button>
+    <button id="themeBtn" aria-label="Đổi giao diện"></button>
+  </aside>
   <main id="main"></main>
 </div>
 <div class="toast" id="toast"></div>
 
 <script src="questions.js"></script>
 <script src="script.js"></script>
+<script>
+(function(){
+  var shell=document.getElementById("shell");
+  function setCollapsed(c){
+    shell.classList.toggle("collapsed",c);
+    try{localStorage.setItem("k6b09-menu-hidden",c?"1":"0")}catch(e){}
+  }
+  document.getElementById("sbToggle").onclick=function(){setCollapsed(!shell.classList.contains("collapsed"))};
+  try{if(localStorage.getItem("k6b09-menu-hidden")==="1")shell.classList.add("collapsed")}catch(e){}
+})();
+</script>
 </body>
 </html>

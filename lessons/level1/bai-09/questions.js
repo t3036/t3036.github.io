@@ -19,6 +19,18 @@ const DO = ['Nên làm', 'Không nên tự ý làm'];
 
 const QUIZ = {
 
+  /* ===== Bổ sung: K6_B09.pptx (slide 34) và pptx ===== */
+  modemWhat: {
+    type: 'quiz_single',
+    question: 'Thiết bị nào chuyển đổi dữ liệu từ kỹ thuật số (Digital) sang tương tự (Analog) và ngược lại để truyền tín hiệu qua mạng?',
+    options: ['Modem', 'Router', 'Ethernet Cable', 'Network Adapter'],
+    correctAnswer: 0,
+    hint: 'Tên đầy đủ: Modulator/Demodulator (điều chế/giải mã).',
+    explain: 'Modem điều chế và giải mã, chuyển đổi tín hiệu số sang tương tự và ngược lại; là cầu nối giữa mạng gia đình và nhà cung cấp dịch vụ Internet (ISP).'
+  },
+
+  /* ===== Câu hỏi gốc của bài học ===== */
+
   /* ---------- Phần 1: Thiết bị kết nối ---------- */
   adapterWifi: {
     type: 'quiz_single',

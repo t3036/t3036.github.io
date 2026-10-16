@@ -2,3 +2,13 @@
 - dsl-phone.jpg: "Landline Telephone Set.jpg" (CC BY-SA 4.0)
 - cable-tv.jpg: "Mirai LCD TV.JPG" (Public domain)
 Các ảnh còn lại lấy từ slide K6_B09.pptx và K6_B08.pptx.
+- router.png: "TP-Link TL-WR740N router HS1 transparent.png" (CC BY 4.0)
+- ic-*.png: biểu tượng từ Icons8 (https://icons8.com)
+- net-adapter.jpg: "Ethernet pci card.jpg" (Public domain)
+- nic-pci.jpg: "Fast Ethernet PCI Network Interface Card SN5100TX (VIA VT86C100A).jpg" (CC BY-SA 3.0)
+- wifi-usb.jpg: "USB-wireless-adapter.jpg" (CC BY-SA 3.0)
+- wifi-pcie.jpg: "Wireless network interface controller Gigabyte GC-WB867D-I - front and back - 2018-05-15.jpg" (CC BY-SA 4.0)
+- ap.jpg: "Access-point-wireless.jpg" (Public domain)
+- ap-unifi.jpg: "Access Point UniFi.jpg" (CC BY-SA 4.0)
+- modem-cable.jpg: "ARRIS CM820B DOCSIS Cable Modem.jpg" (CC BY 4.0)
+- modem-dsl.jpg: "T-DSL Modem.jpg" (CC BY-SA 3.0)
