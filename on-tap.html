@@ -34,12 +34,60 @@
 <script>
 // Thêm link cho từng bài: điền vào mảng của chương trình tương ứng (7 bài, '' = chưa có).
 var ON_TAP = {
-  spark1: { ten: 'SPARK Level 1', links: ['https://server1-ic3.netlify.app/bai-kiem-tra-hoc-sinh-spark-lv1-can-ban-ve-cong-nghe-munqfhp207o4.html', '', '', '', '', '', ''] },
-  spark2: { ten: 'SPARK Level 2', links: ['https://server2-ic3.netlify.app/bai-kiem-tra-hoc-sinh-spark-lv2-can-ban-ve-cong-nghe-mugnjayd2ayh.html', '', '', '', '', '', ''] },
-  spark3: { ten: 'SPARK Level 3', links: ['https://server3-ic3.netlify.app/bai-on-luyen-hoc-sinh-spark-lv3-can-ban-ve-cong-nghe-muajzpmcmpsb.html', 'https://server3-ic3.netlify.app/bai-kiem-tra-hoc-sinh-spark-lv3-quan-ly-thong-tin-muqm0yl9m42x.html', '', '', '', '', ''] },
-  gs61:   { ten: 'GS6 Level 1',   links: ['https://server4-ic3.netlify.app/bai-on-luyen-hoc-sinh-gs6-lv1-can-ban-ve-cong-nghe-test-1-muxqupdwfe4n-T1.html', 'https://server4-ic3.netlify.app/bai-on-luyen-hoc-sinh-gs6-lv1-can-ban-ve-cong-nghe-test-1-muxqupdwfe4n-T2.html', '', '', '', '', ''] },
-  gs62:   { ten: 'GS6 Level 2',   links: ['', '', '', '', '', '', ''] },
-  gs63:   { ten: 'GS6 Level 3',   links: ['', '', '', '', '', '', ''] }
+  spark1: { ten: 'SPARK Level 1', links: [
+    'https://server1-ic3.netlify.app/bai-kiem-tra-hoc-sinh-spark-lv1-can-ban-ve-cong-nghe-munqfhp207o4.html',
+    '',
+    '',
+    '',
+    '',
+    '',
+    ''
+  ] },
+  spark2: { ten: 'SPARK Level 2', links: [
+    'https://server2-ic3.netlify.app/bai-kiem-tra-hoc-sinh-spark-lv2-can-ban-ve-cong-nghe-mugnjayd2ayh.html',
+    '',
+    '',
+    '',
+    '',
+    '',
+    ''
+  ] },
+  spark3: { ten: 'SPARK Level 3', links: [
+    'https://server3-ic3.netlify.app/bai-on-luyen-hoc-sinh-spark-lv3-can-ban-ve-cong-nghe-muajzpmcmpsb.html',
+    'https://server3-ic3.netlify.app/bai-kiem-tra-hoc-sinh-spark-lv3-quan-ly-thong-tin-muqm0yl9m42x.html',
+    'https://tinhoc247.github.io/ic3-spark-lv3/bai-kiem-tra-hoc-sinh-spark-lv3-cong-dan-so-mvacoju8i4pl.html',
+    '',
+    '',
+    '',
+    ''
+  ] },
+  gs61:   { ten: 'GS6 Level 1',   links: [
+    'https://server4-ic3.netlify.app/bai-on-luyen-hoc-sinh-gs6-lv1-can-ban-ve-cong-nghe-test-1-mv8atfh7ukd2.html',
+    '',
+    '',
+    '',
+    '',
+    '',
+    ''
+  ] },
+  gs62:   { ten: 'GS6 Level 2',   links: [
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    ''
+  ] },
+  gs63:   { ten: 'GS6 Level 3',   links: [
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    ''
+  ] }
 };
 var id = new URLSearchParams(location.search).get('c');
 var cf = ON_TAP[id] || ON_TAP.spark1;

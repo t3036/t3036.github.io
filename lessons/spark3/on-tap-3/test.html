@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kiểm tra Chủ đề 3 — Công dân số</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-mode="test">
+<div class="floaters" id="floaters"></div>
+<div class="app">
+  <div class="top">
+    <a class="back" href="../../../spark-lv3.html">← Về danh sách bài</a>
+    <button class="btn sm alt" id="btn-theme">🎲 Đổi phong cách</button>
+  </div>
+
+  <section id="s-start" class="card center">
+    <div class="mascot" id="mascot">🛡️</div>
+    <h1 id="gname">Kiểm tra Chủ đề 3 · Công dân số</h1>
+    <p style="font-size:clamp(18px,2.2vw,26px);margin:0 0 6px">📝 Bài kiểm tra Công dân số</p>
+    <div class="story"><div class="face">🧑‍✈️</div><div class="say"><b>Trưởng thành phố nói:</b> “Đặc vụ nhí ơi, đây là bài kiểm tra cuối cùng! Em sẽ chỉ biết câu trả lời <b>Đúng</b> hay <b>Sai</b>, đáp án chỉ hiện ở cuối. Gom đủ <b>10, 20 và 25 💎</b> để mở 3 chìa khóa 🔑, cố lên nhé!”</div></div>
+    <div class="chips" id="chips"></div>
+    <button class="btn" id="btn-go">🚀 Bắt đầu kiểm tra</button>
+  </section>
+
+  <section id="s-play" class="hidden">
+    <div class="stats"><span id="st-n"></span><span id="st-k"></span><span id="st-s"></span></div>
+    <div class="bar"><i id="fill"></i></div>
+    <div class="card" id="qcard"></div>
+  </section>
+
+  <section id="s-end" class="card center hidden"></section>
+</div>
+
+<script src="bank.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
