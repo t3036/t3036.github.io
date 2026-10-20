@@ -198,7 +198,7 @@ header.top h1{font-size:1.5rem;color:var(--teal-d)}
 .paper .fn{border-top:2px solid var(--ink);margin-top:20px;padding-top:6px;font-size:1rem;width:70%}
 .paper .ln{height:9px;border-radius:5px;background:#e3e7e9;margin:8px 0}
 .paper .ln.s{width:70%}
-.sup{color:var(--red);font-weight:800}
+.sup{color:var(--red);font-weight:800;font-size:.65em;vertical-align:super;line-height:0}
 .chat{border:2px solid #cfd6da;border-radius:18px;overflow:hidden;background:#fff}
 .chead{display:flex;align-items:center;gap:10px;padding:8px 16px;border-bottom:1px solid #e3e7e9;background:#f8f9fb}
 .cav{width:2rem;height:2rem;border-radius:50%;background:linear-gradient(135deg,#4285f4,#9b72cb,#d96570);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800}
@@ -319,10 +319,13 @@ const VIS=[
    <div class="st vbox te"><div class="big">📊</div>“Số liệu này từ <b>cơ quan bảo tồn môi trường</b>.”</div>
    <div class="st vbox te"><div class="big">📰</div>“Ý kiến này được trích từ <b>bài báo News</b>.”</div></div>`,
  /* 5 tài liệu tham khảo */
- `<div class="vgrid"><div class="paper"><b>Cá voi xanh</b><div class="ln"></div><div class="ln s"></div>
-   <div>Cá voi xanh dài tới 30 mét<span class="sup">1</span>.</div>
-   <div class="fn"><span class="sup">1</span> Nguồn: National Geographic, bài “Cá voi xanh”.</div></div>
-  <div class="legend"><div class="lg"><span class="nb">¹</span> <b>Chú thích chân trang</b>: ở cuối mỗi trang.</div><div class="lg">📕 <b>Chú thích cuối tài liệu</b>: ở cuối tài liệu.</div><div class="lg">📚 <b>Tài liệu tham khảo</b>: danh sách các nguồn đã dùng.</div></div></div>`,
+ `<div class="vgrid" style="grid-template-columns:minmax(0,3fr) minmax(0,2fr)"><div class="paper" style="min-height:300px;display:flex;flex-direction:column"><h4 style="margin:0 0 6px;font-size:1.25rem">Cá voi xanh – loài lớn nhất hành tinh</h4>
+   <div style="font-size:1rem;line-height:1.6">Cá voi xanh sống ở các đại dương trên khắp thế giới. Chúng ăn những sinh vật nhỏ gọi là nhuyễn thể và có thể ăn hàng tấn mỗi ngày. Cá voi xanh dài tới 30 mét<span class="sup">1</span>, là loài động vật lớn nhất từng được biết đến.</div>
+   <div style="margin-top:auto;padding-top:14px"><div class="fn" style="margin-top:0"><span class="sup">1</span> Nguồn: National Geographic, bài “Cá voi xanh”.</div><div style="text-align:center;color:var(--muted);font-size:.85rem;margin-top:6px">Trang 3</div></div></div>
+  <div class="legend"><div class="lg"><span class="nb">¹</span><div><b>Chú thích chân trang</b><br>Ở cuối mỗi trang.</div></div><div class="lg"><span class="nb" style="background:var(--red)">📕</span><div><b>Chú thích cuối tài liệu</b><br>Ở cuối tài liệu.</div></div><div class="lg"><span class="nb" style="background:var(--green)">📚</span><div><b>Tài liệu tham khảo</b><br>Danh sách các nguồn đã dùng.</div></div></div></div>
+  <div class="paper" style="margin-top:14px"><b>📕 Ví dụ chú thích cuối tài liệu (Endnote)</b>
+   <div style="font-size:1rem;margin-top:6px">Trong bài: “Cá voi xanh dài tới 30 mét<span class="sup">1</span>. Chúng ăn nhuyễn thể<span class="sup">2</span>.”</div>
+   <div class="fn" style="margin-top:10px;width:100%;font-size:.95rem"><b>Chú thích (cuối tài liệu)</b><br><span class="sup">1</span> National Geographic, bài “Cá voi xanh”.<br><span class="sup">2</span> Thế giới cá voi, www.dongvathoangda.org.</div></div>`,
  /* 6 đạo văn */
  `<div class="steps"><div class="st vbox te"><div class="big">📄</div>Bài của người khác</div><div class="ar">→ chép →</div>
    <div class="st vbox no"><div class="big">🚨</div>Bài “của em” nhưng <b>không ghi nguồn</b><br><b>= Đạo văn</b></div></div>
@@ -706,7 +709,7 @@ function intro(st){
   <div class="final">
     <div class="big">🕵️‍♀️</div>
     <h2 style="font-size:2rem;color:var(--teal-d)">Bài 21: Trích dẫn nguồn thông tin</h2>
-    <p>Dùng ảnh, câu văn hay số liệu của người khác mà không ghi nguồn là <b>đạo văn</b>. Em sẽ học cách tìm chủ sở hữu, trích dẫn đúng và dùng AI một cách minh bạch.</p>
+    <p>Dùng ảnh, câu văn hay số liệu của người khác mà không ghi nguồn là <b>đạo văn</b>.</p>
     <div class="recap"><div><b>Em sẽ học</b><br>Chủ sở hữu · trích dẫn · tài liệu tham khảo · chú thích · đạo văn · ghi nguồn AI</div><div><b>Em sẽ luyện</b><br>Tìm chủ sở hữu · lập trích dẫn · bắt đạo văn · dùng AI đúng cách</div><div><b>Cách chơi</b><br>Học bài → 3 nhiệm vụ → Trắc nghiệm.</div></div>
     <p class="tip" style="text-align:left">Em sẽ học qua <b>thẻ flashcard</b>, làm <b>3 nhiệm vụ</b>, rồi làm <b>trắc nghiệm</b>. Mỗi nhiệm vụ cho tối đa 3 ⭐. Em trả lời càng ít lần sai thì càng được nhiều sao. Bên trái màn hình luôn có khung <b>“Cách làm bài”</b>. Tiến độ được lưu lại trên máy của em.</p>
     <button class="btn" id="go">Bắt đầu ▶</button>
