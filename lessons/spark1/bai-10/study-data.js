@@ -17,7 +17,7 @@ window.STUDY = {
     "p": "Mật khẩu là chuỗi kí tự bí mật do em tự đặt. Mật khẩu mạnh cần:<ul><li>Dài ít nhất <mark>8 kí tự</mark></li><li>Có <b>số</b> (0, 1, 2…)</li><li>Chữ <b>thường</b> (a, b, c…) và chữ <b>IN</b> (A, B, C…)</li><li>Kí tự <b>đặc biệt</b> (! @ #…)</li></ul>Ví dụ: <mark>IC#gs6l3v3l!</mark>"
    },
    {
-    "em": "🪪",
+    "em": "🆔",
     "h": "Dữ liệu cá nhân",
     "en": "Personal data",
     "p": "Là thông tin về riêng em: <mark>họ tên, ngày sinh, địa chỉ nhà, số điện thoại, trường học, vị trí GPS</mark>, nơi em hay đến…<br>GPS là hệ thống vệ tinh giúp biết một vật đang ở đâu trên Trái Đất."

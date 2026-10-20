@@ -473,3 +473,17 @@ LESSONS.forEach(function(L){
 })();
 refreshTabs();
 show(LESSONS[0].id);
+/* Tự bật toàn màn hình ở lần bấm đầu tiên; nút "Thoát khỏi toàn màn hình" chỉ hiện khi đang toàn màn hình */
+(function(){
+  var b=el('button','fs-exit','✕ Thoát khỏi toàn màn hình'); b.type='button';
+  b.onclick=function(){ if(document.fullscreenElement) document.exitFullscreen().catch(function(){}); };
+  document.body.appendChild(b);
+  var armed=true;
+  function auto(e){
+    if(!armed) return; armed=false;
+    if(e.target.closest && e.target.closest('.fs-exit')) return;
+    if(!document.fullscreenElement && document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(function(){});
+  }
+  document.addEventListener('click',auto,true);
+  document.addEventListener('fullscreenchange',function(){ b.style.display=document.fullscreenElement?'block':'none'; });
+})();

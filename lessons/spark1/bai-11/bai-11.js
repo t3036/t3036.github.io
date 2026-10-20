@@ -317,7 +317,7 @@ const LESSON = {
             { icon: '🔢', name: 'Mã xác nhận', en: '' },
             { icon: '🏠', name: 'Địa chỉ nhà', en: '' },
             { icon: '📞', name: 'Số điện thoại', en: '' },
-            { icon: '🪪', name: 'Họ tên đầy đủ', en: '' },
+            { icon: '🆔', name: 'Họ tên đầy đủ', en: '' },
             { icon: '🖼️', name: 'Ảnh riêng tư', en: '' },
             { icon: '👨‍👩‍👧‍👦', name: 'Thông tin gia đình', en: '' },
             { icon: '💬', name: 'Nội dung riêng tư', en: '' }

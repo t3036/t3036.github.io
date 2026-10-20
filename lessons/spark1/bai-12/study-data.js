@@ -100,19 +100,19 @@ window.STUDY = {
     "hint": "Bấm ô bên trái rồi bấm ô bên phải để ghép.",
     "pairs": [
      [
-      "📱 Screen time",
+      "📱 Screen time (Thời gian dùng màn hình)",
       "Thời gian em dùng thiết bị trước màn hình như tivi, máy tính"
      ],
      [
-      "🪑 Posture",
+      "🪑 Posture (Tư thế)",
       "Cách em giữ đầu, cổ, lưng, cột sống khi đứng, ngồi, nằm"
      ],
      [
-      "🔑 Password",
+      "🔑 Password (Mật khẩu)",
       "Chuỗi kí tự bí mật để xác nhận đúng là em"
      ],
      [
-      "🪪 Personal data",
+      "🆔 Personal data (Dữ liệu cá nhân)",
       "Thông tin giúp nhận ra em, như địa chỉ và số điện thoại"
      ]
     ]
@@ -186,19 +186,19 @@ window.STUDY = {
     "q": "Ghép đúng thuật ngữ với ý nghĩa.",
     "match": [
      [
-      "📱 Screen time",
+      "📱 Screen time (Thời gian dùng màn hình)",
       "Thời gian em dùng thiết bị trước màn hình như tivi, máy tính"
      ],
      [
-      "🪑 Posture",
+      "🪑 Posture (Tư thế)",
       "Cách em giữ đầu, cổ, lưng, cột sống khi đứng, ngồi, nằm"
      ],
      [
-      "🔑 Password",
+      "🔑 Password (Mật khẩu)",
       "Chuỗi kí tự bí mật để xác nhận đúng là em"
      ],
      [
-      "🪪 Personal data",
+      "🆔 Personal data (Dữ liệu cá nhân)",
       "Thông tin giúp nhận ra em, như địa chỉ và số điện thoại"
      ]
     ],

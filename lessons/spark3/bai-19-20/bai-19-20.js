@@ -82,7 +82,7 @@ const LESSON = {
             { icon: '📢', name: 'Công khai tất cả thông tin cá nhân', en: 'Luôn công khai và cung cấp tất cả thông tin cá nhân trên mạng xã hội' },
             { icon: '😡', name: 'Bắt nạt người khác trên mạng', en: 'Bắt nạt trực tuyến gây tổn thương cho người khác' },
             { icon: '🕵️', name: 'Cố ý tiết lộ thông tin của người khác', en: 'Ví dụ: đưa địa chỉ nhà của bạn cho người lạ, đăng bảng điểm hoặc điểm thấp của bạn lên mạng' },
-            { icon: '🪪', name: 'Mạo danh bạn bè', en: 'Dùng tên và ngày sinh của một người bạn làm tên hiển thị công khai của mình' }
+            { icon: '🆔', name: 'Mạo danh bạn bè', en: 'Dùng tên và ngày sinh của một người bạn làm tên hiển thị công khai của mình' }
           ]
         },
         q('nameDropdown', 'Vận dụng'),
