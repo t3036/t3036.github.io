@@ -1,25 +1,28 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Bài giảng tương tác</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Thẻ học Bài 11 – Bảo mật máy tính, thiết bị và tài khoản</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../../../assets/css/lesson.css">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../study.css">
 </head>
 <body>
 
-<div class="app" id="app">
+<header class="top">
+  <a class="back-btn" href="../../../spark-lv1.html">⬅ Danh sách bài học</a>
+  <h1>🦸 Biệt đội <span>An toàn mạng</span></h1>
+  <p>Khối 3 · IC3 GS6 Spark Level 1 · Chủ đề An toàn bảo mật · Bài 11</p>
+  <div class="score" id="total" aria-live="polite">⭐ 0 / 4 bài đã có sao</div>
+</header>
 
-<!-- ===== Sân khấu: nơi slide (hoặc màn hình khóa) được vẽ ra ===== -->
-  <main class="stage">
-    <section class="slide" id="slide" tabindex="-1"><div class="slide__inner" id="slideInner"></div></section>
-  </main>
-</div>
+<nav class="tabs" id="tabs" aria-label="Chọn bài học"></nav>
+<main id="main"></main>
+<footer>Học xong cả 4 bài là em trở thành thành viên của Biệt đội rồi nhé! <span id="secret">🎉</span></footer>
+<div id="toast" role="status" aria-live="polite"></div>
 
-<script src="bai-11.js"></script>
-<script src="../../../assets/js/include.js"></script>
+<script src="study-data.js"></script>
+<script src="../study-engine.js"></script>
 </body>
 </html>

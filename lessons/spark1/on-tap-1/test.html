@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiểm Tra - Hành Trình Đến Trường</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="on-tap-1.css">
+</head>
+<body>
+
+    <!-- Thanh tiến độ -->
+    <div class="status-bar flex-none">
+        <span class="font-bold text-blue-700 whitespace-nowrap text-2xl">Câu <span id="progress-text">1/29</span></span>
+        <div class="route">
+            <span class="route-end">🏠</span>
+            <div class="progress-track">
+                <div id="progress-fill" class="progress-fill"></div>
+                <span id="route-bike" class="route-bike">🚲</span>
+            </div>
+            <span class="route-end">🏫</span>
+        </div>
+    </div>
+
+    <!-- Bảng câu hỏi -->
+    <div class="flex-1 overflow-y-auto w-full flex flex-col items-center">
+
+        <!-- Khung Game chính -->
+        <div id="question-panel" class="w-full bg-white p-5 md:p-8 md:px-12 transition-all">
+            <h2 id="q-text" class="text-xl md:text-2xl font-bold text-gray-800 mb-4 leading-relaxed">Đang tải dữ liệu...</h2>
+            <img id="q-image" src="" alt="Hình ảnh minh họa" class="hidden mb-6 max-h-80 mx-auto object-contain rounded-xl shadow-sm border border-gray-200">
+            
+            <div id="q-content" class="mb-6 w-full"></div>
+
+            <!-- Khu vực hiển thị đáp án khi sai -->
+            <div id="feedback-area" class="hidden mb-6 p-4 bg-red-50 border-2 border-red-200 rounded-xl">
+                <p id="correct-ans-text" class="text-red-700 text-lg"></p>
+            </div>
+
+            <div class="flex justify-end gap-4 border-t-2 border-gray-100 pt-5 mt-4">
+                <button id="retry-btn" onclick="nextQuestion()" class="hidden bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-8 rounded-xl shadow-lg transform active:scale-95 text-lg md:text-xl transition-all">
+                    Câu Tiếp Theo ➡️
+                </button>
+                <button id="check-btn" onclick="checkAnswer()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg transform active:scale-95 text-lg md:text-xl transition-all">
+                    Kiểm Tra ✓
+                </button>
+            </div>
+        </div>
+
+        <!-- Khung Chiến Thắng -->
+        <!-- Đã áp dụng tương tự: xóa max-w-..., border và rounded -->
+        <div id="win-panel" class="hidden w-full bg-yellow-50 p-10 shadow-sm text-center flex-col items-center">
+            <div id="result-icon" class="text-7xl mb-4 animate-bounce">🏆🌟</div>
+            <h2 id="result-title" class="text-3xl md:text-4xl font-bold text-green-600 mb-4 uppercase">Hoàn Thành Xuất Sắc!</h2>
+            <p id="result-msg" class="text-lg md:text-xl text-gray-700 mb-6 font-bold"></p>
+
+            <div class="flex flex-wrap justify-center gap-4 mb-6">
+                <div class="bg-green-100 border-2 border-green-300 rounded-xl px-6 py-3">
+                    <div class="text-sm text-green-700 font-bold">Đúng</div>
+                    <div id="result-correct" class="text-3xl font-bold text-green-600">0</div>
+                </div>
+                <div class="bg-red-100 border-2 border-red-300 rounded-xl px-6 py-3">
+                    <div class="text-sm text-red-700 font-bold">Sai</div>
+                    <div id="result-wrong" class="text-3xl font-bold text-red-600">0</div>
+                </div>
+                <div class="bg-blue-100 border-2 border-blue-300 rounded-xl px-6 py-3">
+                    <div class="text-sm text-blue-700 font-bold">Điểm (thang 1000)</div>
+                    <div id="result-score" class="text-3xl font-bold text-blue-600">0</div>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-4">
+                <button id="review-btn" onclick="toggleReview()" class="hidden bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-10 rounded-xl shadow-lg text-xl transform active:scale-95">
+                    Xem Lại Câu Sai 📝
+                </button>
+                <button onclick="initGame()" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-4 px-10 rounded-xl shadow-lg text-xl transform active:scale-95">
+                    Chơi Lại Từ Đầu 🔄
+                </button>
+            </div>
+
+            <div id="review-list" class="hidden w-full text-left mt-8 flex-col gap-4"></div>
+        </div>
+    </div>
+
+    <!-- Thông báo (Toast) -->
+    <div id="toast" class="fixed top-24 left-1/2 transform -translate-x-1/2 px-8 py-4 rounded-xl font-bold text-white text-xl shadow-2xl opacity-0 transition-opacity duration-300 pointer-events-none z-50"></div>
+
+    <script>window.TEST_MODE = true;</script>
+    <script src="data.js"></script>
+    <script src="on-tap-1.js"></script>
+</body>
+</html>
