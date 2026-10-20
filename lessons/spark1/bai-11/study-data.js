@@ -53,9 +53,27 @@ window.STUDY = {
   },
   "acts": [
    {
-    "type": "unblock",
-    "title": "Trò chơi: Mở đường cho chìa khóa 🔑",
-    "hint": "Dùng ngón tay hoặc chuột kéo các khối 🦠 sang một bên (chỉ trượt thẳng, không xoay). Đưa 🔑 mật khẩu ra khỏi cửa bên phải để máy tính an toàn!"
+    "type": "match",
+    "title": "Trò chơi: Ghép việc cần làm với lý do",
+    "hint": "Bấm ô bên trái rồi bấm ô bên phải để ghép.",
+    "pairs": [
+     [
+      "🔑 Đặt mật khẩu mạnh",
+      "Kẻ xấu khó đoán ra để vào tài khoản của em"
+     ],
+     [
+      "🦠 Cài chống virus",
+      "Phát hiện và chặn phần mềm độc hại"
+     ],
+     [
+      "🧽 Vệ sinh và che bàn phím",
+      "Tránh bụi để máy chạy tốt và bền"
+     ],
+     [
+      "🛑 Gặp link lạ thì dừng lại",
+      "Kiểm tra nguồn và hỏi thầy cô hoặc người lớn trước khi mở"
+     ]
+    ]
    },
    {
     "type": "sort",

@@ -401,7 +401,7 @@ function buildUnblock(a){
 }
 
 /* =================== KHÓA / MỞ KHÓA TỪNG PHẦN =================== */
-var GATES=[];
+var GATES=[], ACT_GATES=[];
 function mkGate(head, body, need, getHave, msgFn, unlockMsg){
   var sec=el('div','sec'), h=el('h3',null,head), msg=el('div','gate-msg'), wrap=el('div','gate-body'), was=null, icon=h.firstChild.textContent;
   wrap.appendChild(body); sec.appendChild(h); sec.appendChild(msg); sec.appendChild(wrap);
@@ -435,8 +435,20 @@ LESSONS.forEach(function(L){
   L.acts.forEach(function(a,ai){
     var w = a.type==='sort'?buildSort(a) : a.type==='match'?buildMatch(a) : a.type==='pw'?buildPw() : a.type==='timer'?buildTimer() : a.type==='unblock'?buildUnblock(a) : buildSteps(a);
     w.style.marginBottom='14px';
-    w.addEventListener('act-done',function(){ if(!PROG[L.id].a[ai]){ PROG[L.id].a[ai]=true; saveProg(); gPlay.refresh(); gQuiz.refresh(); } });
-    pbody.appendChild(w);
+    var lk=el('div','gate-msg'), slot=el('div');
+    lk.style.marginBottom='14px'; slot.appendChild(w);
+    var actWas=null;
+    var actRefresh=function(){
+      var o=TEACH || ai===0 || !!PROG[L.id].a[ai-1];
+      lk.style.display=o?'none':'flex'; slot.style.display=o?'':'none';
+      lk.innerHTML='<div class="lk">🔒</div><div style="flex:1"><b>Hoàn thành trò chơi '+ai+' để mở khóa trò chơi '+(ai+1)+'</b></div>';
+      if(actWas===false && o) toast('🔓 Mở khóa trò chơi '+(ai+1)+' rồi!');
+      actWas=o;
+    };
+    ACT_GATES.push(actRefresh);
+    w.addEventListener('act-done',function(){ if(!PROG[L.id].a[ai]){ PROG[L.id].a[ai]=true; saveProg(); ACT_GATES.forEach(function(f){ f(); }); gPlay.refresh(); gQuiz.refresh(); } });
+    pbody.appendChild(lk); pbody.appendChild(slot);
+    actRefresh();
   });
   var gPlay=mkGate('<i>🎮</i>Em chơi', pbody, L.learn.length, function(){ return nKeys(PROG[L.id].c); },
     function(h,n){ return 'Hoàn thành '+n+' thẻ ở phần Em học (lật và trả lời đúng) để mở khóa trò chơi (đã xong '+h+'/'+n+')'; }, '🔓 Mở khóa rồi! Chơi game thôi nào!');
@@ -455,7 +467,7 @@ LESSONS.forEach(function(L){
     e.preventDefault();
     var now=Date.now(); if(now-last>=600){ last=now; return; }
     last=0; TEACH=!TEACH; try{ localStorage.setItem('k3_teach',TEACH?'1':'0'); }catch(x){}
-    GATES.forEach(function(g){ g.refresh(); });
+    GATES.forEach(function(g){ g.refresh(); }); ACT_GATES.forEach(function(f){ f(); });
     toast(TEACH?'🔓 Đã mở khóa tất cả các phần':'🔒 Đã khóa lại các phần');
   });
 })();
