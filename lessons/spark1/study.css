@@ -83,6 +83,8 @@ main{max-width:1280px;margin:0 auto;padding:22px clamp(16px,3vw,40px) 60px}
 /* match */
 .match{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .mbtn{border:2px solid var(--line);background:#fffdf8;border-radius:14px;padding:10px 12px;min-height:52px;text-align:left;font-size:.9rem;font-weight:700}
+.mbtn[data-s=l]{background:#eaf2ff;border-color:#a9c8f5}
+.mbtn[data-s=r]{background:#fff1e3;border-color:#f3c79a}
 .mbtn.sel{border-color:#2b6fff;background:#e6efff}
 .mbtn.ok{border-color:var(--ok);background:var(--ok-soft);pointer-events:none}
 .mbtn.no{animation:shake .35s;border-color:var(--bad)}
@@ -250,3 +252,46 @@ a.tab{text-decoration:none;color:inherit}
 #secret{cursor:default;user-select:none}
 .fs-exit{display:none;position:fixed;top:10px;right:10px;z-index:9999;padding:8px 14px;border:3px solid #2b2a3a;border-radius:99px;background:#fff;color:#2b2a3a;font:700 .95rem 'Baloo 2','Quicksand',sans-serif;cursor:pointer;box-shadow:0 3px 0 rgba(0,0,0,.2)}
 .fs-exit:hover{background:#ffe9e6}
+.srow{display:flex;align-items:center;gap:10px}.srow .stage{flex:1;min-width:0}
+.srow .go{flex:none;width:44px;height:64px;min-height:0;padding:0;border:0;box-shadow:none;font-size:0;background:var(--c);transition:transform .15s,opacity .15s}
+.srow .go.alt{background:var(--c)}
+.srow .go:first-child{clip-path:polygon(100% 0,0 50%,100% 100%)}
+.srow .go:last-child{clip-path:polygon(0 0,100% 50%,0 100%)}
+.srow .go:hover:not(:disabled){transform:scale(1.12)}
+.srow .go:active{transform:scale(.95)}
+.srow .go:disabled{background:#cfc8bb}
+@media(max-width:520px){.srow{gap:2px}.srow .go{width:28px;height:48px}}
+.ph.chat{padding:0;overflow:visible;text-align:left}
+.chat .chd{display:flex;align-items:center;gap:8px;background:#3b82f6;color:#fff;padding:9px 10px;border-radius:20px 20px 0 0}
+.chat .chd .bk{font-size:1.1rem;font-weight:800}
+.chat .chd .av{width:30px;height:30px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:1rem}
+.chat .chd b{display:block;font-size:.88rem;line-height:1.1}.chat .chd small{font-size:.68rem;opacity:.85}
+.chat .cbody{background:#eef3f8;padding:8px 10px 4px}
+.chat .row{display:flex;align-items:flex-end;gap:6px;margin:6px 0}
+.chat .row .av{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:.9rem;flex:none}
+.chat .row .nm{font-size:.68rem;color:var(--muted);font-weight:700;margin:0 0 2px 4px}
+.chat .row .bub{margin:0;box-shadow:0 1px 1px rgba(0,0,0,.1);font-size:.88rem}
+.chat .row .tm{font-size:.62rem;color:var(--muted);margin:2px 4px 0}
+.chat .row .bub.bad{background:#fff}
+.chat .typing{font-size:.68rem;color:var(--muted);margin:2px 0 4px 32px}
+.chat .cin{display:flex;align-items:center;gap:6px;background:#fff;padding:8px 10px;border-radius:0 0 20px 20px;border-top:1px solid #dde4ec}
+.chat .cin span{flex:1;background:#eef3f8;border-radius:16px;padding:6px 10px;font-size:.78rem;color:#9aa5b1}
+.chat .cin i{font-style:normal;font-size:1.1rem}
+.back button.rd{display:block;margin:14px auto 4px;border:0;background:var(--c);color:#fff;border-radius:16px;padding:10px 24px;font-family:"Baloo 2";font-size:1.05rem;box-shadow:0 4px 0 var(--c-dark);cursor:pointer}
+.back button.rd:active{transform:translateY(3px);box-shadow:0 1px 0 var(--c-dark)}
+.demo{align-content:center}
+.demo>.ph{align-self:stretch}
+.chat .row.me{flex-direction:row-reverse}
+.chat .row.me .bub{background:#dbeafe;border-bottom-right-radius:4px}
+.chat .row.me .tm{text-align:right}
+.chat .row .bub.good{background:#d4f3df}
+.chat .cbody{min-height:200px}
+.chat .row{align-items:flex-start}
+.chat .row>div{max-width:72%}
+.chat .row .bub{max-width:100%}
+.chat .row.me .tm{text-align:right}
+.ph.chat{display:flex;flex-direction:column}
+.chat .cbody{flex:1}
+.chat .cin{margin-top:auto}
+.ph.chat.mk{margin-top:78px}
+.ph.chat.mk::after{top:-70px;right:auto;left:50%;transform:translateX(-50%);font-size:2.2rem;line-height:1}
