@@ -6,7 +6,7 @@ const LESSON={id:'ic3gs6-k7-b10'};
 
 /* ---- Hình minh họa (HTML đơn giản) ---- */
 const VIS={
- def:`<div class="chips3"><div class="vc"><span class="e">🧾</span>Thông tin</div><div class="vc"><span class="e">👤</span>Tài khoản</div><div class="vc"><span class="e">👣</span>Dấu vết hoạt động</div></div>`,
+ def:`<div class="chips3"><div class="vc"><span class="e">🧾</span>Thông tin</div><div class="vc"><span class="e">👤</span>Tài khoản</div><div class="vc"><span class="e">👣</span>Dấu vết hoạt động</div></div><div class="trail" aria-hidden="true"><span>📱</span><i>👣</i><i>👣</i><i>👣</i><span>🌐</span></div>`,
  online:`<div class="chips3"><div class="vc"><span class="e">📇</span>Hồ sơ trực tuyến</div><div class="vc b"><span class="e">🖱️</span>Tất cả hoạt động trực tuyến</div></div>`,
  two:`<div class="chips3"><div class="vc"><span class="e">😊</span>Danh tính <b>cá nhân</b><small>Personal digital identity</small></div><div class="vc b"><span class="e">💼</span>Danh tính <b>nghề nghiệp</b><small>Professional digital identity</small></div></div>`,
  per:`<div class="fbm"><div class="fh"><span class="fav"><svg viewBox="0 0 48 48" width="48" height="48" aria-hidden="true"><circle cx="24" cy="24" r="24" fill="#7fb36a"/><path d="M6 48c0-12 8-16 18-16s18 4 18 16z" fill="#b5523b"/><ellipse cx="24" cy="21" rx="9" ry="10.5" fill="#efc09b"/><path d="M14 20c-2-10 7-14 11-13 6 1 10 6 9 14-2-6-5-9-10-9s-8 3-10 8z" fill="#2b211e"/></svg></span><div class="fn"><b>Nhi Cute</b><span>2 giờ · 🌐</span></div><span class="fdots" aria-hidden="true">•••</span></div><div class="ft">Cuối tuần chill chill ☕🎧 Nghe nhạc, uống trà sữa, dạo công viên cho thư giãn~ 😌</div><div class="fpic"><svg viewBox="0 0 480 270" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Ảnh cô Nhi mỉm cười, cầm ly trà sữa trân châu" style="display:block;width:100%;height:auto"><defs><linearGradient id="bgt" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe3ea"/><stop offset="1" stop-color="#ffeccc"/></linearGradient></defs><rect width="480" height="270" fill="url(#bgt)"/><circle cx="60" cy="60" r="34" fill="#fff" opacity=".45"/><circle cx="430" cy="210" r="46" fill="#fff" opacity=".4"/><circle cx="420" cy="50" r="18" fill="#fff" opacity=".5"/><g transform="translate(-40 0)"><path d="M186 108c-6-60 40-84 66-76 36 6 52 40 44 88-6-34-24-52-50-54-26 2-48 14-60 42z" fill="#2b211e"/><path d="M186 100c-12 46-8 96 14 116l30 6-10-110zM296 104c10 46 4 94-16 112l-30 6 14-108z" fill="#2b211e"/><path d="M130 270c0-60 50-82 110-82s110 22 110 82z" fill="#6fb3e0"/><rect x="215" y="150" width="50" height="50" rx="20" fill="#e8b48e"/><ellipse cx="240" cy="110" rx="52" ry="62" fill="#f2c6a4"/><path d="M188 104c4-34 26-52 54-52 30 0 50 20 52 54-12-24-30-34-54-34s-40 10-52 32z" fill="#2b211e"/><circle cx="222" cy="114" r="5.5" fill="#2b211e"/><circle cx="260" cy="114" r="5.5" fill="#2b211e"/><ellipse cx="206" cy="132" rx="9" ry="6" fill="#f4a0a0" opacity=".6"/><ellipse cx="276" cy="132" rx="9" ry="6" fill="#f4a0a0" opacity=".6"/><path d="M220 138q20 22 40 0" fill="#fff" stroke="#9a4b3b" stroke-width="3" stroke-linejoin="round"/></g><path d="M268 262l64-62" stroke="#6fb3e0" stroke-width="38" stroke-linecap="round"/><path d="M321 100h62l-10 85h-42z" fill="#e8c8a0" stroke="#fff" stroke-width="3" stroke-linejoin="round"/><path d="M324 122h56l-2 12h-52z" fill="#fff" opacity=".55"/><rect x="316" y="90" width="72" height="13" rx="6" fill="#fff" stroke="#d8d8d8" stroke-width="2"/><rect x="354" y="40" width="10" height="56" rx="5" fill="#f06292" transform="rotate(8 359 96)"/><g fill="#3b2418"><circle cx="338" cy="176" r="6.5"/><circle cx="352" cy="178" r="6.5"/><circle cx="366" cy="176" r="6.5"/><circle cx="345" cy="167" r="6.5"/><circle cx="359" cy="167" r="6.5"/></g><circle cx="352" cy="146" r="19" fill="#f2c6a4"/><path d="M334 138c-10-4-14 6-8 12" fill="none" stroke="#e8b48e" stroke-width="9" stroke-linecap="round"/><text x="408" y="72" font-size="26">✨</text><text x="40" y="238" font-size="24">🧋</text></svg></div><div class="frx"><span><i class="r1">👍</i><i class="r2">❤️</i> 128</span><span>12 bình luận · 3 lượt chia sẻ</span></div><div class="fact"><span><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.3l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/></svg> Like</span><span><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/></svg> Comment</span><span><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11z"/></svg> Share</span></div></div>`,
@@ -17,48 +17,50 @@ const VIS={
  safe:`<div class="chips3"><div class="vc"><span class="e">🙅</span>Không cho người lạ thông tin cá nhân</div><div class="vc"><span class="e">🚪</span>Đăng xuất sau khi dùng máy người khác</div></div>`
 };
 
-/* ---- Thẻ học (theo thứ tự bài giảng). g = từ vựng Anh–Việt ---- */
+/* ---- Thẻ học (theo thứ tự bài giảng). ex = ví dụ ngoài đời [biểu tượng, tiêu đề, mô tả ngắn] ---- */
 const LEARN={
  def:{h:"Danh tính kĩ thuật số là gì?",
-  p:["**Danh tính kĩ thuật số** (Digital Identity): là các **thông tin**, **tài khoản** và **dấu vết hoạt động** của em trên Internet, máy tính, điện thoại hoặc phần mềm.",
-     "💡 Nói đơn giản: đó là “em là ai” trên mạng. Mỗi lần em đăng nhập, đăng ảnh hay bình luận, em để lại một **dấu vết số**."],
-  v:'def',g:[["Digital Identity","danh tính kĩ thuật số"]]},
+  p:["Là “em là ai” trên mạng, gồm **thông tin**, **tài khoản** và **dấu vết hoạt động**."],v:'def',
+  ex:[["🛒","Mua hàng trên Shopee","Tài khoản và lịch sử đơn hàng của em."],["💬","Nhắn tin trên Zalo","Tên, ảnh đại diện và tin nhắn."],["▶️","Xem video YouTube","Lịch sử xem là dấu vết số."]]},
  online:{h:"Danh tính trực tuyến",
-  p:["**Danh tính trực tuyến** (Online identity) là **hồ sơ trực tuyến** và **tất cả các hoạt động trực tuyến** của người dùng."],
-  v:'online',g:[["Online identity","danh tính trực tuyến"],["Profile","hồ sơ trực tuyến"]]},
+  p:["**Hồ sơ trực tuyến** + **mọi hoạt động** của em trên mạng."],v:'online',
+  ex:[["📇","Hồ sơ","Trang TikTok có tên, ảnh, tiểu sử."],["🖱️","Hoạt động","Thả tim, bình luận, theo dõi kênh."]]},
  two:{h:"Hai dạng danh tính",p:["Trên Internet có **hai dạng** danh tính cơ bản:"],v:'two',
-  g:[["Personal digital identity","danh tính kĩ thuật số cá nhân"],["Professional digital identity","danh tính kĩ thuật số nghề nghiệp"]]},
+  ex:[["🎮","Chơi game, đăng ảnh đi chơi","→ danh tính cá nhân."],["🧑‍💻","Nộp CV xin việc","→ danh tính nghề nghiệp."]]},
  per:{h:"Danh tính kỹ thuật số cá nhân",
-  p:["**Đặc điểm:** Liên quan đến các hoạt động **riêng tư** và **giải trí** của cá nhân.","**Ví dụ:** Tài khoản **Facebook** của cô Nhi. Có biệt hiệu, hình ảnh, trạng thái, sở thích, trường học, …"],v:'per',
-  g:[["Personal","cá nhân"],["Status","trạng thái"]]},
+  p:["Liên quan đến **riêng tư** và **giải trí**.","Ví dụ: **Facebook** của cô Nhi."],v:'per',
+  ex:[["📸","Đăng ảnh đi Đà Lạt","Bạn bè và người thân xem."],["🎵","Chia sẻ playlist yêu thích","Sở thích riêng của em."]]},
  pro:{h:"Danh tính kỹ thuật số nghề nghiệp",
-  p:["**Đặc điểm:** Liên quan đến các hoạt động **học tập** và **công việc**.","**Ví dụ:** Hồ sơ nghề nghiệp của anh Minh trên **LinkedIn** sẽ có **trình độ chuyên môn**, **kinh nghiệm làm việc**, …"],v:'pro',
-  g:[["Professional","nghề nghiệp"],["Profile","hồ sơ"]]},
- tips:{h:"Xây dựng danh tính kĩ thuật số tốt",
-  p:["Để xây dựng danh tính kĩ thuật số tốt bạn cần quan tâm đến một số lưu ý sau:","📝 Giữ thông tin **chính xác**, **đầy đủ** và **cập nhật**.","🎯 Chia sẻ nội dung **phù hợp** với mục đích."],g:[["Update","cập nhật"]]},
+  p:["Liên quan đến **học tập** và **công việc**.","Ví dụ: **LinkedIn** của anh Minh."],v:'pro',
+  ex:[["📄","CV trên TopCV","Nhà tuyển dụng sẽ đọc."],["🎓","Chứng nhận IC3 GS6","Ghi vào hồ sơ để chứng minh kỹ năng."]]},
+ tips:{h:"Xây dựng danh tính kĩ thuật số tốt",list:true,
+  p:["Cần nhớ **2 điều**:"],
+  cards:[["📝","Giữ thông tin luôn mới","**Chính xác**, **đầy đủ**, **cập nhật**."],["🎯","Chia sẻ nội dung phù hợp","Đúng **mục đích** của tài khoản."]],
+  ex:[["⚠️","Hồ sơ cũ","Hồ sơ ghi “sinh viên” dù đã đi làm 2 năm sẽ làm nhà tuyển dụng nghi ngờ."]]},
  upd:{h:"📝 Lưu ý 1: Giữ thông tin luôn mới",
-  p:["Giữ thông tin cá nhân và nghề nghiệp **chính xác, đầy đủ** và luôn được **cập nhật**.","**Ví dụ cập nhật hồ sơ nghề nghiệp:**"],v:'upd',g:[["Update","cập nhật"],["Certificate","chứng nhận"]]},
+  p:["Có thay đổi mới thì **cập nhật** hồ sơ ngay:"],v:'upd',
+  ex:[["🏅","Vừa đạt chứng nhận mới","Thêm vào mục Chứng chỉ trên LinkedIn."],["🏢","Đổi công ty","Sửa lại chức danh và năm làm việc."]]},
  fit:{h:"🎯 Lưu ý 2: Nội dung phù hợp mục đích",
-  p:["Chia sẻ và sử dụng nội dung **phù hợp với mục đích** cá nhân hoặc nghề nghiệp.","**Ví dụ:** 🏫 **Tài khoản trường học** dùng để **học tập** · 😊 **Tài khoản cá nhân** dùng cho **giải trí**, trò chuyện với bạn bè"],v:'fit',
-  g:[["Account","tài khoản"],["School account","tài khoản trường học"]]},
+  p:["Mỗi tài khoản dùng cho **một mục đích**."],v:'fit',
+  ex:[["🏫","Làm bài trên Google Classroom","Dùng tài khoản trường học."],["🎮","Chat nhóm bạn trên Messenger","Dùng tài khoản cá nhân."]]},
  alias:{h:"Bí danh (Alias)",
-  p:["**Bí danh** (Alias) là một **tên khác** với tên thật mà em dùng khi tham gia trực tuyến.",
-     "Dùng khi **tên thật quá phổ biến** hoặc để **giữ an toàn**. **Không** dùng để làm điều sai trái."],v:'alias',g:[["Alias","bí danh"]]},
+  p:["**Bí danh** là một **tên khác** với tên thật. Dùng khi **tên quá phổ biến** hoặc để **giữ an toàn**, **không** dùng để làm điều sai trái."],v:'alias',
+  ex:[["🎮","Nick game “Mèo Con”","Không lộ tên thật khi chơi."],["✍️","Tên “Nguyễn Văn An”","Trùng tên rất nhiều người nên cần bí danh."]]},
  safe:{h:"Bảo vệ bản thân khi trực tuyến",
-  p:["✔ **Không** đưa **thông tin cá nhân** cho **người lạ**.","✔ **Không** điền địa chỉ nhà tùy tiện; **không** mua hàng ở trang **không rõ nguồn gốc**.","✔ **Đăng xuất** sau khi dùng máy tính của người khác."],v:'safe',
-  g:[["Log out","đăng xuất"],["Personal information","thông tin cá nhân"]]},
+  p:["✔ **Không** cho **người lạ** thông tin cá nhân.","✔ **Đăng xuất** sau khi dùng máy của người khác."],v:'safe',
+  ex:[["☕","Dùng máy ở quán net","Nhớ đăng xuất Facebook, Gmail trước khi về."],["🛍️","Trang bán hàng lạ, giá rẻ bất thường","Dễ bị lừa, đừng mua."],["📞","Người lạ xin số điện thoại","Từ chối và nói với người lớn."]]},
  pos:{h:"Hồ sơ số tích cực",
-  p:["Xây dựng & bảo vệ hình ảnh trên mạng / khi dùng AI.","Mọi hành động online để lại **dấu chân số**. Hồ sơ tích cực giúp **uy tín lâu dài**."],
-  cards:[["1","Tích cực & lịch sự","Đăng nội dung **có ích**, **không gây hấn**; **kiểm tra** trước khi share (kể cả do AI gợi)."],["2","Trung thực","Là **chính mình**; **không tạo hồ sơ giả**; tôn trọng **bản quyền** ảnh/chữ."]],
-  g:[["Digital footprint","dấu chân số"],["Copyright","bản quyền"]]},
+  p:["Mọi hành động online để lại **dấu chân số**."],
+  cards:[["👍","Tích cực & lịch sự","Đăng nội dung **có ích**, **kiểm tra** trước khi share."],["🤝","Trung thực","Là **chính mình**, tôn trọng **bản quyền**."]],
+  ex:[["📰","Share tin chưa kiểm tra","Dễ lan tin giả."],["🖼️","Dùng ảnh của người khác","Ghi nguồn và xin phép."]]},
  noai:{h:"Không nhập dữ liệu nhạy cảm vào AI",
-  p:["Bảo vệ bản thân khi dùng chatbot / AI."],
-  cards:[["1","Dữ liệu cấm đưa vào AI","**Họ tên + địa chỉ nhà**, **SĐT**; **mật khẩu**; **số thẻ/tài khoản**; **ảnh giấy tờ** cá nhân."],["2","Vì sao nguy hiểm?","Thông tin cá nhân có thể bị **lưu trên server**, **rò rỉ**, **dùng sai mục đích** — khó xóa hết."],["3","Làm đúng","Chỉ hỏi **kiến thức/bài tập**; **che thông tin** cá nhân; dùng **tài khoản được phép**."]],
-  g:[["Chatbot","trợ lý trò chuyện tự động"],["Server","máy chủ"],["Sensitive data","dữ liệu nhạy cảm"]]},
+  p:["Thông tin em gõ vào chatbot có thể bị **lưu trên máy chủ** và **rò rỉ**."],quick:{q:"Dữ liệu này có **rủi ro** khi nhập vào AI không?",items:[["🔑","Mật khẩu",1,"Mật khẩu là chìa khóa tài khoản của em."],["📚","Câu hỏi bài tập Toán",0,"Hỏi kiến thức, bài tập thì an toàn."],["💳","Số thẻ ngân hàng",1,"Số thẻ có thể bị lấy cắp tiền."],["🎨","Nhờ AI gợi ý ý tưởng vẽ tranh",0,"Ý tưởng sáng tạo không lộ thông tin riêng."],["🪪","Ảnh giấy tờ cá nhân",1,"Giấy tờ có thể bị dùng để mạo danh."],["🏠","Họ tên và địa chỉ nhà",1,"Người xấu có thể tìm ra nhà em."],["🌍","Hỏi thủ đô của một nước",0,"Câu hỏi kiến thức chung nên an toàn."],["📞","Số điện thoại của em",1,"Số điện thoại có thể bị lộ, bị làm phiền."]]},
+  cards:[["✅","Làm đúng","Chỉ hỏi **kiến thức/bài tập**, **che** thông tin cá nhân."]],
+  ex:[["🪪","Chụp thẻ căn cước gửi chatbot","Nguy hiểm, có thể bị lộ."],["📚","Nhờ chatbot giải thích bài Toán","An toàn."]]},
  core:{h:"Gen AI – Bổ sung cốt lõi",
-  p:["Các điểm cốt lõi cần ghi nhớ khi sử dụng Gen AI."],
-  cards:[["1","Dấu vết trực tuyến","Danh tính số được tạo từ **nhiều dấu vết** trực tuyến"],["2","Không dùng AI để mạo danh","Không dùng AI để **mạo danh** hoặc tạo **hình ảnh sai lệch**"],["3","Kiểm tra trước khi dùng","Nội dung giống thật vẫn cần **xác minh**"]],
-  g:[["Generative AI","AI tạo sinh"],["Impersonate","mạo danh"],["Verify","xác minh"]]},
+  p:["3 điều cần nhớ khi dùng AI:"],
+  cards:[["👣","Dấu vết trực tuyến","Danh tính số gồm **nhiều dấu vết**."],["🎭","Không mạo danh","Không dùng AI tạo **hình giả**."],["🔍","Kiểm tra","Nội dung giống thật vẫn cần **xác minh**."]],
+  ex:[["🎬","Video deepfake giả người nổi tiếng","Không tạo, không chia sẻ."],["🤖","Bài AI viết nghe rất đúng","Kiểm tra lại nguồn trước khi dùng."]]},
  sum:{h:"📌 Tóm tắt bài học",list:true,
   p:["Ôn nhanh **6 ý chính**:"],
   cards:[["🆔","Danh tính kĩ thuật số","**Thông tin** + **tài khoản** + **dấu vết** trên Internet."],
@@ -66,8 +68,7 @@ const LEARN={
          ["📝","Giữ hồ sơ luôn mới","**Chính xác**, **đầy đủ**, **cập nhật**."],
          ["🎯","Nội dung phù hợp","Đúng **tài khoản**, đúng **mục đích**."],
          ["🛡️","Bí danh & an toàn","Dùng **bí danh**, **không** cho người lạ thông tin, **đăng xuất**."],
-         ["🤖","Hồ sơ tích cực & AI","**Tích cực**, **trung thực**; **không** đưa dữ liệu nhạy cảm cho AI."]],
-  g:[["Digital Identity","danh tính kĩ thuật số"],["Alias","bí danh"],["Log out","đăng xuất"],["Verify","xác minh"]]}
+         ["🤖","Hồ sơ tích cực & AI","**Tích cực**, **trung thực**; **không** đưa dữ liệu nhạy cảm cho AI."]]}
 };
 
 /* ---- Câu hỏi. t: choice | dropdown | match | hotspot | cloze | sort | order | chat
@@ -79,121 +80,117 @@ const QS={
  s5:{t:'choice',q:"Em hãy cho biết, tùy chọn nào sau đây là **đúng nhất** khi nói về danh tính trực tuyến?",
   o:["Các thông tin mà người dùng sử dụng để đăng nhập trên các trang Web.","Các thông tin chính thức được ghi nhận bởi chính phủ như: Họ tên, địa chỉ,...","Địa chỉ Email của người dùng.","Hồ sơ trực tuyến và tất cả các hoạt động trực tuyến của người dùng."],a:[3],
   hint:"Danh tính trực tuyến gồm cả hồ sơ lẫn mọi hoạt động của em. Hãy chọn đáp án rộng nhất.",
-  why:"Danh tính trực tuyến là hồ sơ trực tuyến và tất cả các hoạt động trực tuyến của người dùng. Thông tin đăng nhập, thông tin chính thức của chính phủ hay địa chỉ Email chỉ là một phần của danh tính này."},
+  why:"Danh tính = hồ sơ + việc em làm. Mật khẩu, email hay giấy tờ chỉ là mảnh nhỏ của bức tranh."},
  s6:{t:'choice',chk:1,q:"Bạn hãy cho biết, nhận định sau đây là **đúng hay sai**: “Tài khoản ngân hàng trực tuyến là một phần của nhận dạng kĩ thuật số.”",
   o:["Đúng","Sai"],a:[0],hint:"Tài khoản ngân hàng trực tuyến cũng là một tài khoản em dùng trên Internet.",
-  why:"Đúng. Tài khoản ngân hàng trực tuyến là một tài khoản trên Internet nên là một phần của danh tính kĩ thuật số."},
+  why:"Cứ có tài khoản trên mạng là có “dấu tay” của em ở đó, kể cả ngân hàng."},
  x1:{t:'choice',extra:1,q:"Hoạt động nào sau đây để lại **dấu vết** trong danh tính kĩ thuật số của em?",
   o:["Đăng một bức ảnh lên mạng xã hội","Nói chuyện với bạn ở sân trường","Chơi nhảy dây ở lớp","Đọc một cuốn sách giấy ở nhà"],a:[0],
-  hint:"Dấu vết số chỉ có khi em làm việc đó trên Internet, máy tính, điện thoại hoặc phần mềm.",why:"Đăng ảnh lên mạng xã hội là hoạt động trực tuyến, nên để lại dấu vết số. Ba việc còn lại diễn ra ngoài đời."},
+  hint:"Dấu vết số chỉ có khi em làm việc đó trên Internet, máy tính, điện thoại hoặc phần mềm.",why:"Chỉ việc làm trên mạng mới để lại dấu chân số, việc ngoài đời thì không."},
 
  /* ===== Phần 2: Cá nhân và nghề nghiệp ===== */
  dd2:{t:'cloze',q:"Điền vào chỗ trống: hai dạng danh tính",text:"Trên Internet có hai dạng danh tính cơ bản: danh tính [[cá nhân]] và danh tính [[nghề nghiệp]].",grp:[[0,1]],x:["bí mật"],hint:"Một dạng cho đời sống riêng, một dạng cho công việc."},
- dd3:{t:'cloze',q:"Điền vào chỗ trống: danh tính cá nhân",text:"Danh tính cá nhân liên quan đến hoạt động [[riêng tư]] và [[giải trí]].\nVí dụ: tài khoản [[Facebook]] của cô Nhi.",grp:[[0,1]],x:["công việc","LinkedIn"],hint:"Cô Nhi đăng bài thư giãn cuối tuần — đó là việc riêng tư, giải trí."},
- dd4:{t:'cloze',q:"Điền vào chỗ trống: danh tính nghề nghiệp",text:"Danh tính nghề nghiệp liên quan đến hoạt động [[học tập]] và [[công việc]].\nVí dụ: hồ sơ trên [[LinkedIn]] của anh Minh.",grp:[[0,1]],x:["giải trí","Facebook"],hint:"Hồ sơ của anh Minh có trình độ chuyên môn và kinh nghiệm làm việc."},
+ dd3:{t:'cloze',q:"Điền vào chỗ trống: danh tính cá nhân và nghề nghiệp",text:"Danh tính cá nhân liên quan đến hoạt động [[riêng tư]] và [[giải trí]].\nVí dụ: tài khoản [[Facebook]] của cô Nhi.\nDanh tính nghề nghiệp liên quan đến hoạt động [[học tập]] và [[công việc]].\nVí dụ: hồ sơ trên [[LinkedIn]] của anh Minh.",grp:[[0,1],[3,4]],x:["bí mật","tiền mặt"],hint:"Cô Nhi đăng bài thư giãn cuối tuần. Hồ sơ anh Minh có trình độ chuyên môn và kinh nghiệm làm việc."},
  s11:{t:'choice',chk:1,q:"Tuỳ chọn nào sau đây là hai khía cạnh của sự hiện diện trực tuyến có ảnh hưởng đến **danh tính kỹ thuật số nghề nghiệp**? (Chọn 2)",
   o:["Trang Web công ty","Ngày sinh","Trang Facebook","Tài khoản LinkedIn"],a:[0,3],
-  hint:"Chọn hai thứ gắn với công việc.",why:"Trang Web công ty và tài khoản LinkedIn gắn với công việc nên ảnh hưởng đến danh tính nghề nghiệp. Ngày sinh và trang Facebook thiên về cá nhân."},
+  hint:"Chọn hai thứ gắn với công việc.",why:"Hỏi: việc này gắn với công việc không? Công ty, LinkedIn thì có; ngày sinh, Facebook thì thiên về riêng tư."},
  x2:{t:'hotspot',extra:1,q:"Đây là hồ sơ nghề nghiệp của chị Hà. Chạm vào **hai** thông tin **không phù hợp** với hồ sơ nghề nghiệp.",multi:true,
   html:`<div class="lim"><div class="lcov"></div><div class="lbody"><span class="lav"><svg viewBox="0 0 96 96" width="96" height="96" aria-hidden="true"><circle cx="48" cy="48" r="48" fill="#f3d9dc"/><path d="M30 40c-6-24 14-30 24-28 14 3 20 14 14 34l-6 20-10 4-18-6z" fill="#3a2a2a"/><path d="M8 96c2-26 18-34 40-34s38 8 40 34z" fill="#7a3b5e"/><path d="M36 62l12 16 12-16z" fill="#fff"/><rect x="41" y="50" width="14" height="14" rx="6" fill="#e6b08c"/><ellipse cx="48" cy="38" rx="16" ry="19" fill="#efc09b"/><path d="M31 36c0-14 9-22 19-21 10 1 17 8 16 21-4-8-9-11-17-11-8 0-14 4-18 11z" fill="#3a2a2a"/><circle cx="42" cy="40" r="2.2" fill="#2b211e"/><circle cx="55" cy="40" r="2.2" fill="#2b211e"/><ellipse cx="38" cy="47" rx="4" ry="2.6" fill="#f4a0a0" opacity=".6"/><ellipse cx="59" cy="47" rx="4" ry="2.6" fill="#f4a0a0" opacity=".6"/><path d="M42 48q6 5 12 0" fill="none" stroke="#9a4b3b" stroke-width="2.2" stroke-linecap="round"/></svg></span><b class="lname">Trần Thu Hà</b><div class="lhead">Chuyên viên nhân sự</div><div class="lsub">TP. Hồ Chí Minh · 500+ kết nối</div><div class="lbtns"><span class="lb1">+ Kết nối</span><span class="lb2">Nhắn tin</span></div></div><div class="lsec zs"><button type="button" class="zone" data-k="exp">💼 Kinh nghiệm làm việc</button>
    <button type="button" class="zone" data-k="hobby">🎮 Ảnh chơi game cùng bạn bè</button>
    <button type="button" class="zone" data-k="cert">🎓 Trình độ chuyên môn</button>
    <button type="button" class="zone" data-k="trip">🏖️ Ảnh đi biển cùng gia đình</button></div></div>`,
   keys:["hobby","trip"],keyText:"Ảnh chơi game và ảnh đi biển (là nội dung cá nhân)",
-  hint:"Hồ sơ nghề nghiệp nói về công việc, không phải giải trí hay gia đình.",why:"Ảnh chơi game và ảnh đi biển là nội dung cá nhân. Hồ sơ nghề nghiệp nên có kinh nghiệm làm việc và trình độ chuyên môn."},
+  hint:"Hồ sơ nghề nghiệp nói về công việc, không phải giải trí hay gia đình.",why:"Hồ sơ nghề nghiệp giống CV: chỉ để những gì nhà tuyển dụng cần xem. Ảnh chơi, ảnh nghỉ mát để dành cho Facebook."},
 
  /* ===== Phần 3: Giữ thông tin luôn mới ===== */
  dd5:{t:'cloze',q:"Điền vào chỗ trống: giữ thông tin luôn mới",text:"Giữ thông tin [[chính xác]], [[đầy đủ]] và luôn được [[cập nhật]].",grp:[[0,1]],x:["bỏ trống","cũ kĩ"],hint:"Ba từ: đúng, đủ và mới."},
  s14:{t:'choice',chk:1,q:"Bạn đang sử dụng các tài khoản mạng xã hội cho mục đích cá nhân và công việc. Bạn nên đăng tải **hai** nội dung nào lên tài khoản mạng xã hội dùng vào mục đích **công việc** của mình? (Chọn 2)",
   o:["Ảnh hồ sơ chính thức của bạn","Chứng nhận kỹ thuật mà bạn có","Hình ảnh gia đình đang chơi trò chơi","Khiếu nại về đồng nghiệp hiện tại"],a:[0,1],
-  hint:"Tài khoản công việc chỉ nên có những thứ chuyên nghiệp.",why:"Ảnh hồ sơ chính thức và chứng nhận kỹ thuật thể hiện sự chuyên nghiệp. Ảnh gia đình là nội dung cá nhân; khiếu nại về đồng nghiệp không nên đăng công khai."},
+  hint:"Tài khoản công việc chỉ nên có những thứ chuyên nghiệp.",why:"Hãy nghĩ “nếu sếp mở trang này ra thì sao?” Ảnh nghiêm túc và chứng nhận gây ấn tượng tốt; chuyện gia đình hay phàn nàn thì không."},
  s15:{t:'choice',chk:1,q:"Bạn đang nộp đơn xin việc trong lĩnh vực nghề nghiệp đã chọn. Nhà tuyển dụng tiềm năng sẽ truy cập hồ sơ công việc trực tuyến của bạn. Bạn cần làm gì để **hỗ trợ** hồ sơ công việc trực tuyến của mình?",
   o:["Cập nhật hồ sơ thường xuyên để giới thiệu các kỹ năng của bạn.","Hạn chế quyền truy cập vào hồ sơ để duy trì quyền riêng tư.","Cung cấp thông tin về lịch sử tiền lương và kỳ vọng của bạn.","Cung cấp thông tin về các hoạt động cá nhân để minh chứng cho sự cân bằng của mình."],a:[0],
-  hint:"Nhà tuyển dụng muốn thấy kỹ năng mới nhất của em.",why:"Cập nhật hồ sơ thường xuyên giúp nhà tuyển dụng thấy các kỹ năng của em. Các lựa chọn còn lại không giúp hồ sơ công việc tốt hơn."},
+  hint:"Nhà tuyển dụng muốn thấy kỹ năng mới nhất của em.",why:"Nhà tuyển dụng luôn muốn thấy bạn mới nhất. Hồ sơ cũ giống tấm danh thiếp đã lỗi thời."},
  s16:{t:'choice',q:"Khi tham gia trực tuyến, em hãy cho biết tùy chọn nào sau đây có thể gây **ảnh hưởng không tốt** đến danh tính nghề nghiệp của người dùng? (Chọn 3)",
   o:["Người dùng đăng một bức ảnh về hoạt động Team Building của các thành viên trong phòng ban thể hiện sự đoàn kết lên mạng xã hội đóng của công ty.","Người dùng đăng bài viết phàn nàn về sếp của mình.","Người dùng sử dụng tài khoản nghề nghiệp để viết một bình luận công kích một quan điểm chính trị bất đồng trên một diễn đàn.","Người dùng sử dụng Email cá nhân để gửi các thông tin hợp đồng bí mật của công ty.","Người dùng sử dụng tài khoản cá nhân để mua sắm chiếc đồng hồ cho riêng mình."],a:[1,2,3],
   hint:"Tìm 3 việc làm người khác nhìn em kém chuyên nghiệp hoặc làm lộ bí mật công ty.",
-  why:"Phàn nàn về sếp, công kích quan điểm chính trị bằng tài khoản nghề nghiệp và gửi thông tin hợp đồng bí mật bằng Email cá nhân đều ảnh hưởng không tốt. Ảnh Team Building đăng trên mạng xã hội đóng của công ty thể hiện sự đoàn kết; mua sắm riêng bằng tài khoản cá nhân là phù hợp."},
+  why:"Tự hỏi: người khác nhìn vào có thấy mình thiếu chuyên nghiệp hoặc làm lộ bí mật không? Chê sếp, cãi nhau và gửi tài liệu mật bằng email riêng đều “có”."},
  s17:{t:'dropdown',q:"Em hãy chọn **Đúng** hoặc **Sai** cho mỗi phát biểu sau đây:",
   rows:[{t:"Sử dụng tài khoản nghề nghiệp cùng với thẻ tín dụng của doanh nghiệp khi mua sắm các loại hàng hóa cho công ty.",o:["Đúng","Sai"],a:0},
         {t:"Cài đặt phần mềm Microsoft Office mới nhất vào máy tính của trường học khi sử dụng.",o:["Đúng","Sai"],a:1},
         {t:"Đăng các video hướng dẫn bản thân soạn thảo văn bản lên mạng xã hội trong giờ làm việc.",o:["Đúng","Sai"],a:1},
         {t:"Sử dụng tài khoản cá nhân để cộng tác với bố lên kế hoạch cho kì nghỉ hè.",o:["Đúng","Sai"],a:0}],
   hint:"Tài khoản nghề nghiệp dùng cho việc công ty; tài khoản cá nhân dùng cho việc riêng.",
-  why:"1. Đúng: tài khoản nghề nghiệp và thẻ tín dụng doanh nghiệp dùng cho công việc của công ty. 2. Sai: việc cài đặt phần mềm trên máy tính của trường học không phải việc người dùng tự thực hiện. 3. Sai: giờ làm việc không dùng để đăng video cá nhân lên mạng xã hội. 4. Đúng: tài khoản cá nhân dùng cho các việc riêng như lên kế hoạch kì nghỉ hè với bố."},
+  why:"Tài khoản công việc làm việc công ty; tài khoản cá nhân làm việc nhà. Việc cài máy trường hay quay video giờ làm không phải việc của mình."},
  x3:{t:'dropdown',extra:1,q:"Chọn từ đúng cho mỗi câu:",
   rows:[{t:"Em vừa có chứng nhận mới. Em nên {s} hồ sơ nghề nghiệp của mình.",o:["cập nhật","xóa hết","bỏ quên"],a:0},
         {t:"Ảnh đại diện trên hồ sơ nghề nghiệp nên {s}.",o:["chuyên nghiệp","che mặt bằng biểu tượng cảm xúc","là ảnh trò chơi"],a:0}],
-  hint:"Hồ sơ tốt thì luôn mới và chuyên nghiệp.",why:"Cập nhật hồ sơ khi có chứng nhận mới và dùng ảnh đại diện chuyên nghiệp."},
- x4:{t:'order',extra:1,q:"Sắp xếp các bước **cập nhật hồ sơ nghề nghiệp** theo đúng thứ tự:",
+  hint:"Hồ sơ tốt thì luôn mới và chuyên nghiệp.",why:"Chứng nhận mới thì thêm vào hồ sơ; ảnh đại diện nên nghiêm túc như ảnh thẻ."},
+ x4:{t:'order',extra:1,demo:[{e:"🔐👤",t:"Đăng nhập vào tài khoản nghề nghiệp."},{e:"📇",t:"Mở phần hồ sơ của em."},{e:"📜➕",t:"Thêm chứng nhận hoặc kinh nghiệm mới."},{e:"💾✔️",t:"Lưu lại thay đổi."}],q:"Sắp xếp các bước **cập nhật hồ sơ nghề nghiệp** theo đúng thứ tự:",
   items:["Đăng nhập vào tài khoản nghề nghiệp","Mở phần hồ sơ của em","Thêm chứng nhận hoặc kinh nghiệm mới","Lưu lại thay đổi"],
-  hint:"Phải vào được hồ sơ trước, rồi mới thêm, cuối cùng mới lưu.",why:"Đăng nhập → mở hồ sơ → thêm thông tin mới → lưu lại."},
+  hint:"Phải vào được hồ sơ trước, rồi mới thêm, cuối cùng mới lưu.",why:"Quy trình luôn đi từ ngoài vào trong: vào cổng, mở hồ sơ, thêm nội dung, rồi cất (lưu)."},
 
  /* ===== Phần 4: Nội dung phù hợp ===== */
  dd6:{t:'cloze',q:"Điền vào chỗ trống: dùng đúng tài khoản",text:"Tài khoản trường học dùng để [[học tập]].\nTài khoản cá nhân dùng để [[giải trí]] và trò chuyện với [[bạn bè]].",x:["kiếm tiền"],hint:"Trường học → học. Cá nhân → vui chơi."},
  s19:{t:'choice',chk:1,q:"Bạn có các tài khoản Google riêng để sử dụng tại trường học và cho mục đích cá nhân. Bạn đã đăng nhập vào tài khoản cá nhân của mình. Bạn cần truy cập một tập tin được chia sẻ với bạn thông qua Google Drive của tài khoản trường học của bạn. Bạn nên làm gì?",
   o:["Đặt cấu hình cả hai tài khoản để sử dụng cùng một mật khẩu.","Liên kết Google Drive của tài khoản cá nhân và tài khoản trường học.","Trong phần cài đặt tài khoản Google cá nhân, bỏ chặn tài khoản trường học của bạn.","Chuyển từ tài khoản Google cá nhân sang tài khoản trường học của bạn."],a:[3],
-  hint:"Tập tin được chia sẻ cho tài khoản nào thì em cần dùng tài khoản đó.",why:"Em cần tập tin của tài khoản trường học, nên hãy chuyển sang tài khoản trường học. Dùng chung mật khẩu hay liên kết hai tài khoản sẽ làm lẫn lộn danh tính cá nhân và trường học."},
+  hint:"Tập tin được chia sẻ cho tài khoản nào thì em cần dùng tài khoản đó.",why:"Tập tin nằm ở “nhà” nào thì phải dùng chìa khóa nhà đó. Trộn hai tài khoản như để chung chìa khóa, dễ lẫn lộn."},
  s20:{t:'sort',chk:1,q:"Kéo mỗi tình huống thả vào đúng loại **danh tính kĩ thuật số**:",
-  bins:["😊 Danh tính cá nhân","💼 Danh tính nghề nghiệp"],items:[["Bạn đăng một bức hình kỷ niệm chuyến đi chơi trên Instagram",0],["Bình luận về một bức ảnh trên Facebook",0]],
-  hint:"Đăng ảnh đi chơi hay bình luận trên mạng xã hội là việc riêng tư, giải trí.",why:"Cả hai việc đều là hoạt động riêng tư và giải trí, nên thuộc danh tính kĩ thuật số cá nhân."},
- s21:{t:'sort',chk:1,q:"Kéo mỗi tình huống thả vào đúng loại **danh tính kĩ thuật số**:",
-  bins:["😊 Danh tính cá nhân","💼 Danh tính nghề nghiệp"],items:[["Tạo một hồ sơ việc làm trên TopCV.",1],["Đăng kinh nghiệm làm việc trên LinkedIn.",1]],
-  hint:"Tìm việc và kinh nghiệm làm việc thuộc về công việc.",why:"TopCV và LinkedIn dùng cho việc tìm việc và kinh nghiệm làm việc, nên thuộc danh tính kĩ thuật số nghề nghiệp."},
+  bins:["😊 Danh tính cá nhân","💼 Danh tính nghề nghiệp"],items:[["Bạn đăng một bức hình kỷ niệm chuyến đi chơi trên Instagram",0],["Bình luận về một bức ảnh trên Facebook",0],["Tạo một hồ sơ việc làm trên TopCV.",1],["Đăng kinh nghiệm làm việc trên LinkedIn.",1]],
+  hint:"Mạng xã hội để vui chơi là cá nhân. Tìm việc và kinh nghiệm làm việc là nghề nghiệp.",why:"Ảnh đi chơi và bình luận bạn bè là chuyện vui riêng. TopCV và LinkedIn là nơi của công việc."},
  s22:{t:'choice',chk:1,q:"Xác định **hai cách** để phân biệt danh tính kỹ thuật số cá nhân của bạn với danh tính kỹ thuật số nghề nghiệp của bạn? (Chọn 2)",
   o:["Không bao giờ đăng ảnh.","Sử dụng LinkedIn cho các mục đích nghề nghiệp và Facebook cho các bài đăng cá nhân.","Tạo biệt hiệu hoặc bí danh cho các bài đăng trên các diễn đàn và Blog giải trí, nhưng sử dụng tên thật của bạn cho các bài đăng trong các diễn đàn và Blog kỹ thuật.","Chỉ theo dõi các chính trị gia, vận động viên chuyên nghiệp và người nổi tiếng trên Twitter."],a:[1,2],
-  hint:"Tách riêng nơi dùng cho nghề nghiệp và nơi dùng cho cá nhân.",why:"Dùng LinkedIn cho nghề nghiệp và Facebook cho cá nhân; dùng bí danh ở nơi giải trí nhưng tên thật ở nơi kỹ thuật. Hai cách này giúp tách hai danh tính."},
+  hint:"Tách riêng nơi dùng cho nghề nghiệp và nơi dùng cho cá nhân.",why:"Mỗi mạng một vai. Chỗ nghiêm túc dùng tên thật, chỗ giải trí có thể dùng bí danh."},
  x5:{t:'sort',extra:1,q:"Xếp mỗi việc vào đúng loại tài khoản:",bins:["🏫 Tài khoản trường học","😊 Tài khoản cá nhân"],
   items:[["Làm bài tập trên Google Drive của lớp",0],["Xem video giải trí",1],["Trò chuyện với bạn bè",1],["Tham gia lớp học trực tuyến",0]],
-  hint:"Việc học → trường học. Việc vui chơi → cá nhân.",why:"Học tập dùng tài khoản trường học; giải trí và trò chuyện với bạn bè dùng tài khoản cá nhân."},
+  hint:"Việc học → trường học. Việc vui chơi → cá nhân.",why:"Học thì dùng “thẻ học sinh”, vui chơi thì dùng “thẻ cá nhân”."},
 
  /* ===== Phần 5: Bí danh và an toàn ===== */
  dd7:{t:'cloze',q:"Điền vào chỗ trống: bí danh",text:"Bí danh (Alias) là một [[tên khác]] với tên thật. Em dùng bí danh để giữ [[an toàn]], không để làm việc [[sai trái]].",x:["mật khẩu"],hint:"Bí danh giúp em an toàn, không phải để làm điều xấu."},
  s23:{t:'choice',q:"Em hãy cho biết, lí do nào sau đây là **thích hợp** cho việc sử dụng bí danh (Alias) khi tham gia trực tuyến thay vì sử dụng tên thật?",
   o:["Sử dụng bí danh để tải các bộ phim, các bài nhạc vi phạm bản quyền.","Khi người dùng có tên thật quá thông dụng và muốn sử dụng bí danh để phân biệt với những người khác.","Sử dụng bí danh để viết một Blog về một chủ đề mà em không am hiểu nhiều.","Sử dụng bí danh để viết các bình luận không tốt về ai đó."],a:[1],
   hint:"Ba đáp án sai đều là làm điều không tốt. Chọn lí do hợp lí và vô hại.",
-  why:"Bí danh (Alias) giúp người dùng phân biệt bản thân với người khác khi tên thật quá thông dụng. Không dùng bí danh để tải nội dung vi phạm bản quyền, viết về chủ đề mình không am hiểu hoặc đăng bình luận tiêu cực về người khác."},
+  why:"Bí danh như áo hóa trang đi chơi: để phân biệt hoặc cho an toàn, chứ không để làm điều xấu."},
  dd8:{t:'cloze',q:"Điền vào chỗ trống: an toàn trực tuyến",text:"Sau khi dùng máy tính của người khác, em phải [[đăng xuất]] tài khoản. Em không đưa thông tin cá nhân cho [[người lạ]].",x:["chia sẻ"],hint:"Đóng “cửa” tài khoản lại khi dùng xong."},
  s24:{t:'choice',q:"Em hãy cho biết, tùy chọn nào sau đây là **đúng** để bảo vệ bản thân khi tham gia trực tuyến?",
   o:["Cung cấp thông tin cá nhân cho người lạ trên mạng xã hội.","Điền thông tin địa chỉ nhà trên các biểu mẫu trực tuyến.","Mua hàng hóa từ các trang Web không rõ nguồn gốc.","Đăng xuất tất cả các tài khoản trực tuyến của bản thân sau khi sử dụng máy tính của người khác."],a:[3],
   hint:"Ba đáp án sai đều làm lộ thông tin hoặc dễ bị lừa.",
-  why:"Đăng xuất tất cả tài khoản sau khi dùng máy tính của người khác giúp bảo vệ tài khoản và thông tin cá nhân. Các tùy chọn còn lại làm lộ thông tin cá nhân hoặc có nguy cơ bị lừa đảo."},
- c1:{t:'chat',extra:1,q:"💬 Tình huống: một người lạ nhắn tin cho em trong trò chơi trực tuyến. Em trả lời thế nào?",who:"Chat trò chơi · Sao_Bang_99",
+  why:"Quy tắc “ba không”: không đưa thông tin riêng, không điền địa chỉ bừa, không mua nơi lạ. Quên đăng xuất là quên khóa cửa."},
+ c1:{t:'chat',extra:1,q:"💬 Tình huống: một người lạ nhắn tin cho em trong trò chơi trực tuyến. Em trả lời thế nào?",who:"Chat trò chơi · Sao_Bang_99",av:"⭐",report:1,
   msgs:[{f:'them',n:'Sao_Bang_99',t:"Chào bạn! Bạn tên gì, học trường nào, nhà ở đâu vậy?"}],
   o:[{t:"Em tên Lan, học trường ABC, nhà ở số 12 đường Hoa.",ok:0,r:"Ôi! Người lạ đã biết tên, trường và nhà em rồi. Rất nguy hiểm."},
      {t:"Em không chia sẻ thông tin cá nhân với người lạ. Em chỉ dùng biệt danh “Mèo Con” thôi.",ok:1,r:"Ok, vậy mình chơi game thôi nhé!"},
      {t:"Em gửi ảnh của em và mật khẩu cho bạn nhé.",ok:0,r:"Cho mật khẩu thì người lạ có thể lấy mất tài khoản của em!"}],
   hint:"Với người lạ, em không cho tên thật, trường, địa chỉ. Em có thể dùng bí danh.",why:"Không chia sẻ thông tin cá nhân với người lạ; dùng bí danh để giữ an toàn."},
- x6:{t:'order',extra:1,q:"Sắp xếp các bước khi **dùng xong máy tính của người khác**:",
+ x6:{t:'order',extra:1,demo:[{e:"💻📝",t:"Làm xong việc trên máy của người khác."},{e:"📄💾",t:"Lưu hoặc đóng tập tin."},{e:"👤➡️🚪",t:"Đăng xuất khỏi tất cả tài khoản."},{e:"🌐❌",t:"Đóng trình duyệt. An toàn rồi!"}],q:"Sắp xếp các bước khi **dùng xong máy tính của người khác**:",
   items:["Làm xong việc cần làm","Lưu hoặc đóng tập tin","Đăng xuất khỏi tất cả tài khoản","Đóng trình duyệt"],
-  hint:"Đăng xuất trước, rồi mới đóng trình duyệt.",why:"Làm xong → lưu/đóng tập tin → đăng xuất → đóng trình duyệt."},
+  hint:"Đăng xuất trước, rồi mới đóng trình duyệt.",why:"Đăng xuất giống khóa cửa trước khi rời đi, nên làm trước khi tắt trình duyệt."},
 
  /* ===== Phần 6: Hồ sơ tích cực và AI ===== */
  dd9:{t:'cloze',q:"Điền vào chỗ trống: hồ sơ tích cực",text:"Mọi hành động online để lại [[dấu chân số]]. Hồ sơ tốt cần [[tích cực]], lịch sự và [[trung thực]].",grp:[[1,2]],x:["giả mạo"],hint:"Là chính mình, nói lời tử tế."},
  dd10:{t:'cloze',q:"Điền vào chỗ trống: dữ liệu với AI",text:"Không nhập [[mật khẩu]], số thẻ và ảnh [[giấy tờ]] vào AI, vì thông tin có thể bị lưu trên [[máy chủ]].",x:["bài tập Toán"],hint:"Đây là những thứ rất riêng tư của em."},
- c2:{t:'chat',extra:1,q:"💬 Tình huống: bạn Nam sắp gửi tin nhắn cho trợ lý AI. Nam nên làm gì?",who:"Trợ lý AI",
+ c2:{t:'chat',extra:1,q:"💬 Tình huống: bạn Nam sắp gửi tin nhắn cho trợ lý AI. Nam nên làm gì?",who:"Trợ lý AI",av:"🤖",
   msgs:[{f:'me',n:'Nam (bản nháp)',t:"Mình là Nam, nhà ở 12 Lê Lợi, SĐT 09xx xxx xxx. Viết giúp mình lời giới thiệu bản thân nhé!"}],
   o:[{t:"Gửi luôn cho AI, vì AI sẽ giúp nhanh hơn.",ok:0,r:"Thông tin cá nhân có thể bị lưu trên máy chủ và khó xóa hết."},
      {t:"Xóa tên đầy đủ, địa chỉ, số điện thoại rồi chỉ nhờ AI viết lời giới thiệu mẫu.",ok:1,r:"Rất tốt! Mình sẽ viết một lời giới thiệu mẫu để bạn tự chỉnh sửa nhé."},
      {t:"Thêm cả mật khẩu để AI nhớ giúp Nam.",ok:0,r:"Không bao giờ nhập mật khẩu vào AI!"}],
-  hint:"Che thông tin cá nhân, chỉ hỏi nội dung cần giúp.",why:"Khi dùng AI: che thông tin cá nhân, chỉ hỏi kiến thức/bài tập."},
+  hint:"Che thông tin cá nhân, chỉ hỏi nội dung cần giúp.",why:"Hồ sơ tích cực = tử tế, thật thà, biết xin phép khi dùng đồ của người khác."},
  dd11:{t:'cloze',q:"Điền vào chỗ trống: dùng Gen AI",text:"Không dùng AI để [[mạo danh]]. Nội dung giống thật vẫn cần [[xác minh]] trước khi dùng.",x:["sao chép"],hint:"Giống thật chưa chắc là thật."},
  x7:{t:'choice',extra:1,q:"**Hồ sơ số tích cực** là hồ sơ như thế nào?",
   o:["Đăng nội dung có ích, lịch sự và trung thực","Tạo hồ sơ giả để nhiều người theo dõi","Đăng bài gây hấn để nổi tiếng","Chép ảnh của người khác mà không ghi tên"],a:[0],
-  hint:"Tích cực, lịch sự, trung thực.",why:"Hồ sơ tích cực: đăng nội dung có ích, không gây hấn, là chính mình và tôn trọng bản quyền."},
+  hint:"Tích cực, lịch sự, trung thực.",why:"Mật khẩu, số thẻ và giấy tờ như chìa khóa nhà: không đưa cho ai, kể cả chatbot. Bài Toán thì thoải mái hỏi."},
  x8:{t:'choice',extra:1,q:"Dữ liệu nào **không được** nhập vào chatbot AI? (Chọn 3)",
   o:["Mật khẩu","Số thẻ ngân hàng","Ảnh giấy tờ cá nhân","Một câu hỏi bài tập Toán"],a:[0,1,2],
-  hint:"Ba thứ rất riêng tư và nguy hiểm nếu bị lộ.",why:"Mật khẩu, số thẻ/tài khoản và ảnh giấy tờ cá nhân là dữ liệu nhạy cảm. Câu hỏi bài tập thì được phép."},
+  hint:"Ba thứ rất riêng tư và nguy hiểm nếu bị lộ.",why:"Tự hỏi: việc này bảo vệ em và người khác không? Nếu có thì “Nên”."},
  x9:{t:'sort',extra:1,q:"Xếp mỗi việc vào cột **Nên** hoặc **Không nên** khi dùng AI:",bins:["✅ Nên","⛔ Không nên"],
   items:[["Hỏi kiến thức, bài tập",0],["Che thông tin cá nhân",0],["Nhập họ tên và địa chỉ nhà",1],["Dùng AI tạo ảnh giả để mạo danh người khác",1]],
-  hint:"Việc nào bảo vệ em và người khác thì “Nên”.",why:"Nên hỏi kiến thức/bài tập và che thông tin cá nhân. Không nhập địa chỉ nhà và không dùng AI để mạo danh."},
+  hint:"Việc nào bảo vệ em và người khác thì “Nên”.",why:"Tên, địa chỉ và mật khẩu là của riêng em; bài toán thì ai cũng hỏi được."},
  x10:{t:'hotspot',extra:1,q:"Chạm vào phần thông tin **không nên** gửi cho AI.",
   html:`<div class="chat"><div class="ch">✦ Tin nhắn gửi AI</div><div class="cb"><div class="bub me">Mình tên
    <button type="button" class="zonesp" data-k="name">Lan Anh, 12 Hoa Sen</button>,
    <button type="button" class="zonesp" data-k="pass">mật khẩu mình là 1234</button>.
    <button type="button" class="zonesp" data-k="hw">Giúp mình giải bài toán 2 + 3 nhé!</button></div></div></div>`,
   keys:["name","pass"],keyText:"Họ tên + địa chỉ nhà, hoặc mật khẩu",
-  hint:"Tìm thứ thuộc về em như tên, địa chỉ, mật khẩu.",why:"Họ tên, địa chỉ nhà và mật khẩu là dữ liệu nhạy cảm. Bài toán thì được hỏi."},
+  hint:"Tìm thứ thuộc về em như tên, địa chỉ, mật khẩu.",why:"AI không phải bạn thân. Cho nó biết ít nhất có thể, chỉ nói điều cần nhờ."},
 
  /* ===== Em nói lại (explain it back) ===== */
  exp:{t:'dropdown',q:"🗣️ **Em nói lại:** chọn từ đúng để hoàn thành các câu tóm tắt bài học.",
@@ -204,41 +201,24 @@ const QS={
         {t:"Sau khi dùng máy tính của người khác, em phải {s} khỏi các tài khoản.",o:["đăng xuất","chia sẻ","quên mật khẩu"],a:0},
         {t:"Em không nhập {s} vào AI.",o:["mật khẩu và số thẻ","câu hỏi bài tập Toán","tên một môn học"],a:0}],
   hint:"Nhớ lại từng phần: danh tính, hai dạng danh tính, giữ hồ sơ mới, đăng xuất, an toàn với AI.",
-  why:"Em đã tóm tắt đúng bài học: dấu vết · nghề nghiệp · cá nhân · cập nhật · đăng xuất · không nhập mật khẩu và số thẻ vào AI."}
+  why:"Mỗi phần đều xoay quanh một ý chính: dấu vết, nghề nghiệp, cá nhân, cập nhật, đăng xuất, giữ kín mật khẩu."}
 };
 
 /* ---- Các chặng trên bản đồ (theo thứ tự bài giảng). L = thẻ học, Q = câu hỏi ---- */
 const L=k=>({k:'learn',id:k}), Q_=id=>({k:'q',id});
 const STEPS=[
- {n:"Danh tính kĩ thuật số",e:"🆔",items:[L('def'),Q_('dd1'),L('online'),Q_('dd1b'),Q_('s5'),Q_('s6'),Q_('x1')]},
- {n:"Cá nhân & nghề nghiệp",e:"👥",items:[L('two'),Q_('dd2'),L('per'),Q_('dd3'),L('pro'),Q_('dd4'),Q_('s11'),Q_('x2')]},
- {n:"Giữ hồ sơ luôn mới",e:"📝",items:[L('tips'),L('upd'),Q_('dd5'),Q_('s14'),Q_('s15'),Q_('s16'),Q_('s17'),Q_('x3'),Q_('x4')]},
- {n:"Nội dung phù hợp",e:"🎯",items:[L('fit'),Q_('dd6'),Q_('s19'),Q_('s20'),Q_('s21'),Q_('s22'),Q_('x5')]},
+ {n:"Danh tính kĩ thuật số",e:"🆔",items:[L('def'),Q_('dd1'),L('online'),Q_('s5'),Q_('s6')]},
+ {n:"Cá nhân & nghề nghiệp",e:"👥",items:[L('two'),L('per'),L('pro'),Q_('dd3'),Q_('s11')]},
+ {n:"Giữ hồ sơ luôn mới",e:"📝",items:[L('upd'),Q_('dd5'),Q_('s14'),Q_('s15'),Q_('s16'),Q_('s17'),Q_('x4')]},
+ {n:"Nội dung phù hợp",e:"🎯",items:[L('fit'),Q_('dd6'),Q_('s19'),Q_('s20'),Q_('s22')]},
  {n:"Bí danh & an toàn",e:"🛡️",items:[L('alias'),Q_('dd7'),Q_('s23'),L('safe'),Q_('dd8'),Q_('s24'),Q_('c1'),Q_('x6')]},
- {n:"Hồ sơ tích cực & AI",e:"🤖",items:[L('pos'),Q_('dd9'),L('noai'),Q_('dd10'),Q_('c2'),L('core'),Q_('dd11'),Q_('x7'),Q_('x8'),Q_('x9'),Q_('x10')]},
+ {n:"Hồ sơ tích cực & AI",e:"🤖",items:[L('pos'),Q_('dd9'),L('noai'),Q_('dd10'),L('core'),Q_('dd11')]},
  {n:"Tóm tắt & em nói lại",e:"🗣️",kind:'explain',items:[L('sum'),Q_('exp')]},
- {n:"Thẻ nhớ bí mật",e:"🔑",kind:'flash'},
  {n:"Thử thách tổng ôn",e:"🏆",kind:'final'},
  {n:"Kết quả & câu sai",e:"🏅",kind:'results'}
 ];
-/* Thử thách tổng ôn = 11 câu “Vận dụng” cuối bài (slide 30–40) */
-const FINAL=['s15','s19','s14','s22','s6','s11','s23','s24','s5','s17','s16'];
-
-/* ---- Thẻ nhớ (mở sau khi xong “Em nói lại”) ---- */
-const FLASH=[
- ["Digital Identity","danh tính kĩ thuật số","Thông tin, tài khoản và dấu vết hoạt động của em trên Internet."],
- ["Online identity","danh tính trực tuyến","Hồ sơ trực tuyến và tất cả hoạt động trực tuyến của người dùng."],
- ["Personal digital identity","danh tính kĩ thuật số cá nhân","Liên quan đến hoạt động riêng tư và giải trí. Ví dụ: Facebook."],
- ["Professional digital identity","danh tính kĩ thuật số nghề nghiệp","Liên quan đến học tập và công việc. Ví dụ: LinkedIn."],
- ["Profile","hồ sơ trực tuyến","Trang thông tin về một người trên mạng."],
- ["Alias","bí danh","Tên khác với tên thật, dùng để phân biệt hoặc giữ an toàn."],
- ["Log out","đăng xuất","Thoát khỏi tài khoản sau khi dùng, nhất là trên máy của người khác."],
- ["Digital footprint","dấu chân số","Mọi hành động online đều để lại dấu vết."],
- ["Sensitive data","dữ liệu nhạy cảm","Mật khẩu, số thẻ, ảnh giấy tờ, họ tên + địa chỉ nhà, SĐT."],
- ["Chatbot","trợ lý trò chuyện tự động (AI)","Không nhập dữ liệu nhạy cảm vào chatbot."],
- ["Impersonate","mạo danh","Giả làm người khác. Không dùng AI để mạo danh."],
- ["Verify","xác minh","Kiểm tra lại nội dung giống thật trước khi dùng."]
-];
+/* Thử thách tổng ôn = 11 câu “Vận dụng” cuối bài (rút gọn còn 6 câu) */
+const FINAL=['s5','s14','s16','s19','s23','s24'];
 
 /* ---- Ghi chú cho giáo viên (chỉ hiện trong bảng giáo viên ẩn) ---- */
 const ADDED=[
@@ -247,7 +227,7 @@ const ADDED=[
  "Slide 6: đã sửa lỗi dính chữ “trực tuyếnlà”.",
  "Slide 20, 21: trong file nguồn chỉ có hình, không có đáp án → hiển thị dạng nối; đáp án suy luận.",
  "Thẻ “Tóm tắt bài học” (chặng 7) tổng hợp 6 ý chính, viết ngắn gọn, do em thêm.",
- "Toàn bộ câu “Luyện thêm” (x1–x10), bài kéo thả điền từ (dd1–dd11), 2 chat demo, thẻ nhớ, “Em nói lại” là nội dung bổ sung.",
+ "Toàn bộ câu “Luyện thêm” (x1–x10), bài kéo thả điền từ (dd1–dd11), 2 chat demo, “Em nói lại” là nội dung bổ sung.",
  "Chặng “Thử thách tổng ôn” dùng lại 11 câu Vận dụng ở slide 30–40 (xáo trộn khi làm lại)."
 ];
 /* ============================== HẾT DỮ LIỆU ============================== */
@@ -263,11 +243,11 @@ const plain=s=>String(s).replace(/<[^>]+>/g,'').replace(/\*\*/g,'');
 const pick=a=>a[Math.random()*a.length|0];
 const GOOD=["Giỏi quá!","Chính xác!","Tuyệt vời!","Em làm đúng rồi!"];
 const BAD=["Chưa đúng rồi, nhưng em làm được mà! Thử lại nhé 💪","Gần đúng rồi! Đọc gợi ý 💡 rồi thử lại nào.","Không sao đâu, sai là cách học tốt nhất. Thử lại nhé! 🌱","Cố lên! Em sắp tìm ra rồi ⭐"];
-const BOX=[0,1,3,7], DAY=864e5, NSTAR=9;
+const BOX=[0,1,3,7], DAY=864e5, NSTAR=8;
 
 /* ---------- lưu trữ ---------- */
 const KEY='ic3gs6:'+LESSON.id;
-const DEF={done:{},pos:{},runs:{},missed:{},badges:{},best:{},flash:[],bestCS:0,reviewed:false,teacher:false,
+const DEF={done:{},pos:{},runs:{},missed:{},badges:{},best:{},bestCS:0,reviewed:false,teacher:false,
   set:{theme:'light',fs:20,dys:false,rm:null,snd:true,vi:true,fsAuto:true,mapOpen:true}};
 let S=load();
 function load(){const d=JSON.parse(JSON.stringify(DEF));try{const j=JSON.parse(localStorage.getItem(KEY)||'null');if(j&&typeof j==='object'){Object.assign(d,j);d.set=Object.assign({},DEF.set,j.set||{});}}catch(e){}return d}
@@ -405,7 +385,6 @@ function render(){
   const st=$('#stage');st.innerHTML='';
   if(view==='home')homeView(st);
   else if(view==='run')runView();
-  else if(view==='flash')flashView(st);
   else if(view==='results')resultsView(st);
   deco(st);
   try{st.focus({preventScroll:true});window.scrollTo(0,0)}catch(e){}
@@ -444,7 +423,7 @@ function resetAll(){
   modal(`<h2>🔄 Học lại từ đầu?</h2><p class="say">Sao, huy hiệu, tiến độ và danh sách câu sai sẽ bị xóa trên máy này. Em chắc chắn chứ?</p>
    <div class="act"><button class="btn ghost" id="n">Không, giữ lại</button><button class="btn warn" id="y">Có, học lại</button></div>`,box=>{
     $('#n',box).onclick=closeModal;
-    $('#y',box).onclick=()=>{Object.assign(S,{done:{},pos:{},runs:{},missed:{},badges:{},best:{},flash:[],bestCS:0,reviewed:false});cs=0;save();closeModal();view='home';render();toast('Đã xóa. Cùng học lại nào! 🌱')};
+    $('#y',box).onclick=()=>{Object.assign(S,{done:{},pos:{},runs:{},missed:{},badges:{},best:{},bestCS:0,reviewed:false});cs=0;save();closeModal();view='home';render();toast('Đã xóa. Cùng học lại nào! 🌱')};
   });
 }
 
@@ -453,7 +432,6 @@ function startStep(i,opt={}){
   if(!avail(i)){toast('🔒 Hãy hoàn thành chặng trước nhé!');return}
   const st=STEPS[i];cur=i;closeModal();
   if(st.kind==='results'){view='results';if(S.done[i]==null){S.done[i]=0;save()}return render()}
-  if(st.kind==='flash'){view='flash';return render()}
   const sv=(!opt.retry&&!opt.shuffle&&S.done[i]==null)?S.runs[i]:null;
   if(sv&&sv.items&&sv.items.length&&sv.i<sv.items.length){
     run={step:i,items:sv.items,i:sv.i,ok:sv.ok||0,tot:sv.tot||0,rec:sv.rec||{},wrong:sv.wrong||[],shuf:!!sv.shuf,retry:false,review:false,mem:sv.mem||{},done:new Set(sv.done||[])};
@@ -510,15 +488,29 @@ function runView(){
   else ask(it.id,body,{shuffle:run.shuf,onFirst:ok=>rec(it.id,ok),next,back,solved:!!(run.done&&run.done.has(it.id)),mem:run.mem&&run.mem[it.id],reg:fn=>{run.saver=fn;run.saverId=it.id},markDone:()=>{(run.done=run.done||new Set()).add(it.id)}});
   deco(st);
 }
+/* ---------- phân loại nhanh (thẻ học) ---------- */
+function quickSort(Q){
+  const w=mk('div','qs');let i=0,ok=0,busy=false;
+  const draw=()=>{
+    if(i>=Q.items.length){w.innerHTML=`<div class="qs-end"><div class="qs-big">${ok===Q.items.length?'🎉':'👏'}</div><b>Em phân loại đúng ${ok}/${Q.items.length} thẻ!</b><button type="button" class="btn ghost" id="qr">🔁 Chơi lại</button></div>`;$('#qr',w).onclick=()=>{i=0;ok=0;draw()};return}
+    const it=Q.items[i];
+    w.innerHTML=`<div class="qs-q say">${fmt(Q.q)}</div><div class="qs-card" aria-live="polite"><span class="qs-e" aria-hidden="true">${it[0]}</span><b>${it[1]}</b><small class="qs-w"></small></div><div class="qs-btns"><button type="button" class="btn qs-y">⚠️ Có rủi ro</button><button type="button" class="btn qs-n">✅ An toàn</button></div><div class="qs-dots">${Q.items.map((_,k)=>`<u class="${k<i?'dn':k===i?'on':''}"></u>`).join('')}</div>`;
+    const ans=v=>{if(busy)return;busy=true;const good=(v===it[2]),card=$('.qs-card',w);card.classList.add(good?'good':'bad');$('.qs-w',w).textContent=(good?'✔ ':'✖ ')+it[3];if(good)ok++;good?sfx.ok():sfx.no();
+      $$('.qs-btns .btn',w).forEach(b=>b.disabled=true);
+      setTimeout(()=>{busy=false;i++;draw()},good?1100:2000)};
+    $('.qs-y',w).onclick=()=>ans(1);$('.qs-n',w).onclick=()=>ans(0);
+  };
+  draw();return w;
+}
 function learnCard(Lr,host,next,back){
   const c=mk('section','card learn');
   c.append(mk('h2','say',fmt(Lr.h)));
   (Lr.p||[]).forEach(t=>c.append(mk('p','say',fmt(t))));
   if(Lr.v)c.append(mk('div','vis',VIS[Lr.v]));
+  if(Lr.quick)c.append(quickSort(Lr.quick));
   if(Lr.cards&&Lr.list){const w=mk('div','vis');Lr.cards.forEach(x=>w.append(mk('div','srow say',`<span class="e" aria-hidden="true">${x[0]}</span><div><b>${x[1]}</b><div>${fmt(x[2])}</div></div>`)));c.append(w)}
   else if(Lr.cards){const g=mk('div','chips3');Lr.cards.forEach(x=>g.append(mk('div','vc say',`<span class="e">${x[0]}</span><b>${x[1]}</b><small>${fmt(x[2])}</small>`)));const w=mk('div','vis');w.append(g);c.append(w)}
-  if(Lr.g&&Lr.g.length)c.append(mk('div','gloss',`<b>🇻🇳 Từ tiếng Anh · bấm thẻ để xem nghĩa tiếng Việt</b>`+Lr.g.map(x=>`<button type="button" class="gfc" aria-label="Thẻ từ: ${x[0]}. Bấm để lật"><span class="gin"><span class="gf en">${x[0]}</span><span class="gb">${x[1]}</span></span></button>`).join('')));
-  $$('.gfc',c).forEach(b=>b.onclick=()=>{b.classList.toggle('flip');sfx.tap()});
+  if(Lr.ex&&Lr.ex.length)c.append(mk('div','rw',`<h3>🌍 Ví dụ ngoài đời</h3><div class="rwg">`+Lr.ex.map(x=>`<div class="rwc say"><span class="e" aria-hidden="true">${x[0]}</span><div><b>${x[1]}</b><small>${fmt(x[2])}</small></div></div>`).join('')+`</div>`));
   const a=mk('div','act');
   if(back){const b=mk('button','btn ghost','◀ Trước');b.type='button';b.onclick=back;a.append(b)}
   const n=mk('button','btn','Đã hiểu, tiếp tục ▶');n.type='button';n.onclick=()=>{sfx.tap();next()};a.append(n);
@@ -526,7 +518,7 @@ function learnCard(Lr,host,next,back){
 }
 
 /* ---------- khung câu hỏi chung ---------- */
-const INST={choice:q=>q.a.length>1?`👆 Chọn ${q.a.length} đáp án rồi bấm Kiểm tra`:'👆 Chọn 1 đáp án rồi bấm Kiểm tra',dropdown:()=>'🔽 Chọn đáp án trong mỗi ô',match:()=>'🔗 Chạm một ý bên trái, rồi chạm nhóm bên phải',hotspot:q=>q.multi?`🎯 Chạm vào ${q.keys.length} vị trí trên hình rồi bấm Kiểm tra`:'🎯 Chạm vào một vị trí trên hình',cloze:()=>'🧩 Chạm một từ, rồi chạm chỗ trống (hoặc kéo thả)',sort:()=>'🧩 Chạm một thẻ, rồi chạm ô đúng (hoặc kéo thả)',order:()=>'↕️ Bấm ▲▼, hoặc chạm hai mục để đổi chỗ, hoặc kéo thả',chat:()=>'💬 Chọn câu trả lời của em'};
+const INST={choice:q=>q.a.length>1?`👆 Chọn ${q.a.length} đáp án (tự kiểm tra)`:'👆 Chọn 1 đáp án (tự kiểm tra)',dropdown:()=>'🔽 Chọn đáp án trong mỗi ô',match:()=>'🔗 Chạm một ý bên trái, rồi chạm nhóm bên phải',hotspot:q=>q.multi?`🎯 Chạm vào ${q.keys.length} vị trí trên hình (tự kiểm tra)`:'🎯 Chạm vào một vị trí trên hình',cloze:()=>'🧩 Chạm một từ, rồi chạm chỗ trống (hoặc kéo thả). Điền hết là tự kiểm tra',sort:()=>'🧩 Chạm một thẻ, rồi chạm ô đúng (hoặc kéo thả)',order:()=>'↕️ Bấm ▲▼, hoặc chạm hai mục để đổi chỗ, hoặc kéo thả',chat:()=>'💬 Chọn câu trả lời của em'};
 const TNAME={choice:'Trắc nghiệm',dropdown:'Chọn trong ô',match:'Nối',hotspot:'Chạm vào hình',cloze:'Kéo thả điền từ',sort:'Kéo thả phân loại',order:'Sắp xếp',chat:'Chat demo'};
 function ask(id,host,ctx){
   const Q=QS[id],att={n:0,done:false};
@@ -534,14 +526,14 @@ function ask(id,host,ctx){
   const mult=Q.t==='choice'&&Q.a.length>1;
   card.append(mk('div','qhead',`<span class="tag">${TNAME[Q.t]}${mult?' · nhiều đáp án':''}</span>${Q.extra&&Q.t!=='cloze'?'<span class="tag ex">✨ Luyện thêm</span>':''}${Q.t==='cloze'?'<span class="tag ex">🧩 Điền từ</span>':''}`));
   card.append(mk('div','stem say',fmt(Q.q)));
-  card.append(mk('div','inst',INST[Q.t](Q)));
+  if(Q.t!=='chat')card.append(mk('div','inst',INST[Q.t](Q)));
   const B={choice:bChoice,dropdown:bDrop,match:bMatch,hotspot:bHot,cloze:bDnD,sort:bDnD,order:bOrder,chat:bChat}[Q.t](Q,ctx);
   card.append(B.el);
   const hint=mk('div','hint say','<b>💡 Gợi ý:</b> '+fmt(Q.hint||''));hint.hidden=true;
   const fbx=mk('div','fb say');
   const act=mk('div','act');
   const bH=mk('button','btn ghost','💡 Gợi ý');bH.type='button';bH.onclick=()=>{hint.hidden=!hint.hidden;deco(card)};
-  const bC=mk('button','btn','✔ Kiểm tra');bC.type='button';
+  let silent=false;const bC=mk('button','btn','✔ Kiểm tra');bC.type='button';
   const bS=mk('button','btn warn','👁 Xem đáp án');bS.type='button';bS.hidden=true;
   const bT=mk('button','btn warn','👁 Xem đáp án (GV)');bT.type='button';bT.hidden=!S.teacher;
   const bR=mk('button','btn ghost','🔁 Làm lại');bR.type='button';bR.hidden=true;
@@ -550,23 +542,26 @@ function ask(id,host,ctx){
   act.append(...[bB,bH,bC,bS,bT,bR,bN].filter(Boolean));
   card.append(hint,fbx,act);host.append(card);
   const fb=(k,h)=>{fbx.className='fb show say '+k;fbx.innerHTML=h;deco(card)};
-  const showWhy=pre=>fb('ok',`<span class="ico ok" aria-hidden="true">✔</span><b>${pre}</b><div style="margin-top:8px"><b>Đáp án:</b> ${solText(Q)}</div>${Q.why?`<div style="margin-top:8px"><b>Giải thích:</b> ${fmt(Q.why)}</div>`:''}`);
-  const finish=()=>{if(ctx.markDone)ctx.markDone();att.done=true;bC.hidden=true;bS.hidden=true;bT.hidden=true;bR.hidden=false;bN.hidden=false;bN.focus&&bN.focus()};
+  const showWhy=pre=>fb('ok',`<span class="ico ok" aria-hidden="true">✔</span><b>${pre}</b>${Q.why?`<div style="margin-top:8px"><b>Giải thích:</b> ${fmt(Q.why)}</div>`:''}`);
+  const finish=()=>{if(Q.t==='chat'){$$('.opt,.ph-rp',card).forEach(b=>b.disabled=true);$$('.tray',card).forEach(t=>t.hidden=true)}if(ctx.markDone)ctx.markDone();att.done=true;bC.hidden=true;bS.hidden=true;bT.hidden=true;bR.hidden=false;bN.hidden=false;bN.focus&&bN.focus()};
   bC.onclick=()=>{
     if(att.done)return;
     const r=B.check();
-    if(r.incomplete){fb('info','ℹ️ '+r.incomplete);return}
+    if(r.incomplete){if(!silent)fb('info','ℹ️ '+r.incomplete);return}
     att.n++;
     if(att.n===1)ctx.onFirst&&ctx.onFirst(r.ok);
     if(r.ok){sfx.ok();showWhy(pick(GOOD));finish()}
     else{sfx.no();fb('no',`<span class="ico no" aria-hidden="true">✖</span><b>${pick(BAD)}</b>${r.extra?`<div style="margin-top:8px">${r.extra}</div>`:''}`);if(att.n>=2)bS.hidden=false}
   };
+  if(Q.t!=='chat'&&Q.t!=='order'){bC.hidden=true;let tm=0,lastT=0;const guard=Q.t==='cloze'||Q.t==='sort';const ac=()=>{clearTimeout(tm);tm=setTimeout(()=>{if(att.done||(guard&&Date.now()-lastT<1800))return;const n0=att.n;silent=true;try{bC.onclick()}finally{silent=false}if(att.n!==n0)lastT=Date.now()},450)};['click','drop','pointerup','keyup','change'].forEach(ev=>card.addEventListener(ev,e=>{if(e.target.closest&&e.target.closest('.act,.hint'))return;ac()}))}
+  if(Q.t==='chat'){bC.hidden=true;B.el.addEventListener('click',e=>{if(!att.done&&e.target.closest('.opt'))setTimeout(()=>{if(!att.done)bC.onclick()},600)})}
+  if(Q.t==='chat')B.el.addEventListener('chatreport',()=>{if(att.done)return;att.n++;if(att.n===1)ctx.onFirst&&ctx.onFirst(true);sfx.ok();showWhy('Báo cáo người lạ cũng là cách làm rất đúng!');finish()});
   bS.onclick=()=>{B.solve();showWhy('Đây là đáp án đúng, em đọc kĩ nhé!');finish()};
   bT.onclick=()=>{B.solve();showWhy('Đáp án (chế độ giáo viên).');finish()};
   bR.onclick=()=>{sfx.tap();host.innerHTML='';ask(id,host,Object.assign({},ctx,{shuffle:true,solved:false,mem:null}));deco(host)};
   if(ctx.mem&&ctx.mem.state){try{B.setState(ctx.mem.state)}catch(e){}att.n=ctx.mem.n||0;if(att.n>=2)bS.hidden=false}
   if(ctx.reg)ctx.reg(()=>({state:B.getState(),n:att.n}));
-  if(ctx.solved){B.solve();showWhy('Em đã hoàn thành câu này. Đây là kết quả:');finish()}
+  if(ctx.solved){B.solve();showWhy('Em đã hoàn thành câu này!');finish()}
   bN.onclick=ctx.next;
   if(bB)bB.onclick=ctx.back;
 }
@@ -594,7 +589,7 @@ function bChoice(Q,ctx){
     b.type='button';b.setAttribute('role',multi?'checkbox':'radio');b.setAttribute('aria-checked','false');
     b.onclick=()=>{if(lock)return;sfx.tap();if(multi){sel.has(oi)?sel.delete(oi):sel.add(oi)}else{sel.clear();sel.add(oi)}clear();paint()};
     btns.push([b,oi]);el.append(b)});
-  const mark=(b,ok)=>{b.classList.add(ok?'good':'bad');$('.res',b).innerHTML=ok?'<span class="ico ok">✔</span>':'<span class="ico no">✖</span>'};
+  const mark=(b,ok)=>{b.classList.add(ok?'good':'bad');$('.res',b).innerHTML=''};
   return{el,sel,
    check(){
     if(sel.size!==Q.a.length)return{incomplete:multi?`Câu này cần chọn đủ ${Q.a.length} đáp án.`:'Hãy chọn một đáp án.'};
@@ -618,7 +613,7 @@ function bDrop(Q,ctx){
     s.onchange=()=>{row.classList.remove('good','bad');res.innerHTML=''};
     sels.push(s);rowEls.push([row,res]);el.append(row);
   });
-  const mark=(k,ok)=>{const[r,res]=rowEls[k];r.classList.add(ok?'good':'bad');res.innerHTML=ok?'<span class="ico ok">✔</span>':'<span class="ico no">✖</span>'};
+  const mark=(k,ok)=>{const[r,res]=rowEls[k];r.classList.add(ok?'good':'bad');res.innerHTML=''};
   return{el,check(){
     if(sels.some(s=>s.value===''))return{incomplete:'Hãy chọn đáp án cho tất cả các ô.'};
     let ok=true;sels.forEach((s,k)=>{const g=+s.value===Q.rows[k].a;mark(k,g);if(!g)ok=false});return{ok}},
@@ -636,7 +631,7 @@ function bMatch(Q,ctx){
   const assign=(i,j)=>{pairs[i]=j};
   function paint(){
     L.forEach((b,i)=>{b.className='mi'+(sl===i?' sel':'')+(marks?(marks[i]?' good':' bad'):'');
-      $('.to',b).innerHTML=(pairs[i]!=null?'→ '+Q.r[pairs[i]]:'')+(marks?(marks[i]?' <span class="ico ok">✔</span>':' <span class="ico no">✖</span>'):'')});
+      $('.to',b).innerHTML=(pairs[i]!=null?'→ '+Q.r[pairs[i]]:'')});
     R.forEach(([b,j])=>b.classList.toggle('sel',sr===j));
   }
   el.append(colL,colR);
@@ -681,7 +676,7 @@ function bDnD(Q,ctx){
   el.append(pool);
   const holder=k=>cloze?tg[k]:tg[k]._body;
   function chipEl(c){
-    const b=mk('button','chip'+(sel===c.id?' sel':'')+(c.m?' '+c.m:''),c.t+(c.m==='good'?' <span class="ico ok">✔</span>':c.m==='bad'?' <span class="ico no">✖</span>':''));
+    const b=mk('button','chip'+(sel===c.id?' sel':'')+(c.m?' '+c.m:''),c.t);
     b.type='button';b.draggable=!locked;
     b.onclick=e=>{e.stopPropagation();if(locked||busy)return;
       if(placed[c.id]!=null){placed[c.id]=null;c.m=null;sel=null;sfx.tap()}else sel=sel===c.id?null:c.id;paint()};
@@ -720,14 +715,18 @@ function bDnD(Q,ctx){
 /* ---------- 6) sắp xếp ---------- */
 function bOrder(Q){
   let arr=Q.items.map((_,i)=>i);do{arr=shuf(arr)}while(arr.length>1&&arr.every((v,i)=>v===i));
-  let sel=null,marks=null,locked=false,drag=null;const ol=mk('ol','ord');
+  let sel=null,marks=null,locked=false,drag=null,playIdx=-1,timers=[];const ol=mk('ol','ord');
   const swap=(a,b)=>{[arr[a],arr[b]]=[arr[b],arr[a]]};
+  const wrap=mk('div','ow'+(Q.demo?' hasdemo':'')),demo=Q.demo?mk('div','odemo'):null;
+  const idle=()=>{demo.className='odemo';demo.innerHTML=`<div class="od-bar"><i></i><i></i><i></i></div><div class="od-body"><div class="od-big idle" aria-hidden="true">🖥️</div><div class="od-cap">Sắp xếp đúng để xem video minh họa</div></div><div class="od-dots">${Q.demo.map(()=>'<u></u>').join('')}</div>`};
+  const scene=i=>{const d=Q.demo[i];demo.className='odemo live';demo.innerHTML=`<div class="od-bar"><i></i><i></i><i></i></div><div class="od-body"><div class="od-lines" aria-hidden="true"><s></s><s></s><s></s></div><div class="od-big pop" aria-hidden="true">${d.e}</div><div class="od-cap">Bước ${i+1}: ${d.t}</div></div><div class="od-dots">${Q.demo.map((_,k)=>`<u class="${k<i?'dn':k===i?'on':''}"></u>`).join('')}</div>`;playIdx=i;paint()};
+  const play=()=>{timers.forEach(clearTimeout);timers=[];Q.demo.forEach((_,i)=>timers.push(setTimeout(()=>scene(i),i*1700)));
+    timers.push(setTimeout(()=>{playIdx=-1;demo.className='odemo live fin';demo.innerHTML=`<div class="od-bar"><i></i><i></i><i></i></div><div class="od-body"><div class="od-big pop" aria-hidden="true">✅</div><div class="od-cap">Hoàn tất! Em đã làm đúng thứ tự.</div><button type="button" class="btn ghost od-re">▶ Xem lại</button></div><div class="od-dots">${Q.demo.map(()=>'<u class="dn"></u>').join('')}</div>`;$('.od-re',demo).onclick=play;paint()},Q.demo.length*1700))};
   function paint(){
     ol.innerHTML='';
     arr.forEach((oi,pos)=>{
-      const li=mk('li','orow'+(sel===pos?' sel':'')+(marks?(marks[pos]?' good':' bad'):''));li.draggable=!locked;
+      const li=mk('li','orow'+(sel===pos?' sel':'')+(marks?(marks[pos]?' good':' bad'):'')+(playIdx===pos?' play':''));li.draggable=!locked;
       li.append(mk('span','num',pos+1),mk('span','tx',fmt(Q.items[oi])));
-      if(marks)li.append(mk('span','ico '+(marks[pos]?'ok':'no'),marks[pos]?'✔':'✖'));
       const up=mk('button','mvb','▲'),dn=mk('button','mvb','▼');up.type=dn.type='button';
       up.setAttribute('aria-label','Lên');dn.setAttribute('aria-label','Xuống');up.disabled=locked||pos===0;dn.disabled=locked||pos===arr.length-1;
       up.onclick=e=>{e.stopPropagation();swap(pos,pos-1);sel=null;marks=null;sfx.tap();paint()};
@@ -739,29 +738,38 @@ function bOrder(Q){
       ol.append(li);
     });
   }
+  wrap.append(ol);if(demo){idle();wrap.append(demo)}
   paint();
-  return{el:ol,check(){marks=arr.map((v,i)=>v===i);const ok=marks.every(Boolean);if(ok)locked=true;paint();return{ok}},
-   solve(){arr=Q.items.map((_,i)=>i);marks=arr.map(()=>true);locked=true;paint()},
+  return{el:wrap,check(){marks=arr.map((v,i)=>v===i);const ok=marks.every(Boolean);if(ok){locked=true;if(demo)play()}paint();return{ok}},
+   solve(){arr=Q.items.map((_,i)=>i);marks=arr.map(()=>true);locked=true;paint();if(demo)play()},
    getState:()=>[...arr],setState(a){arr=[...a];paint()}};
 }
 
 /* ---------- 7) chat demo ---------- */
 function bChat(Q,ctx){
   const el=mk('div');
-  const chat=mk('div','chat');chat.append(mk('div','ch say','💬 '+Q.who));
-  const cb=mk('div','cb');chat.append(cb);
-  const bub=(m,cls)=>{const b=mk('div','bub '+(cls||(m.f==='me'?'me':'')),(m.n?`<small>${m.n}</small>`:'')+m.t);cb.append(b);return b};
+  const parts=Q.who.split('·').map(s=>s.trim()),name=parts.pop(),sub=parts[0]||'Đang hoạt động';
+  const phone=mk('div','phone');
+  phone.append(mk('div','ph-top',`<span class="ph-back" aria-hidden="true">‹</span><span class="ph-av">${Q.av||'💬'}</span><div class="ph-who"><b>${name}</b><small>${sub}</small></div>${Q.report?`<button type="button" class="ph-rp">🚩 Báo cáo</button>`:`<span class="ph-ic" aria-hidden="true">📞</span>`}`));
+  const cb=mk('div','cb');phone.append(cb);
+  const bub=m=>{const me=m.f==='me',row=mk('div','msg '+(me?'me':'them'),(me?'':`<span class="mav">${Q.av||'💬'}</span>`)+`<div class="bub ${me?'me':''}">${m.t}</div>`+(me?`<span class="mav">😊</span>`:''));cb.append(row);return row};
   Q.msgs.forEach(m=>bub(m));
-  el.append(chat,mk('div','inst','Em chọn:'));
-  const inner=bChoice({o:Q.o.map(x=>x.t),a:[Q.o.findIndex(x=>x.ok)]},ctx);el.append(inner.el);
+  const rp=$('.ph-rp',phone);
+  if(rp)rp.onclick=()=>{if(rp.disabled)return;rp.disabled=true;rp.textContent='✔ Đã báo cáo';cb.append(mk('div','sysmsg',`🚩 Bạn đã báo cáo ${name} cho quản trị viên của trò chơi.<br>Họ sẽ kiểm tra tài khoản này.`));tray.hidden=true;done=true;el.dispatchEvent(new CustomEvent('chatreport',{bubbles:true}))};
+  const tray=mk('div','tray');tray.append(mk('div','tray-h','✍️ Chọn tin nhắn em sẽ gửi:'));
+  const cmp=mk('div','compose',`<span class="cmp-t"><span class="cmp-ph">Soạn tin nhắn…</span><i class="caret" aria-hidden="true"></i></span><span class="cmp-send" aria-hidden="true">➤</span>`);
+  tray.append(cmp);
+  const showCmp=()=>{const i=[...inner.sel][0],t=$('.cmp-t',cmp);t.innerHTML=i==null?'<span class="cmp-ph">Soạn tin nhắn…</span><i class="caret" aria-hidden="true"></i>':`<span class="cmp-v">${Q.o[i].t}</span><i class="caret" aria-hidden="true"></i>`;cmp.classList.toggle('has',i!=null)};
+  const inner=bChoice({o:Q.o.map(x=>x.t),a:[Q.o.findIndex(x=>x.ok)]},ctx);tray.append(inner.el);tray.addEventListener('click',()=>setTimeout(showCmp,0));
+  phone.append(tray);el.append(phone);
   let done=false;
   return{el,check(){
     const r=inner.check();if(r.incomplete)return r;
     const i=[...inner.sel][0];
-    if(r.ok&&!done){done=true;bub({f:'me',n:'Em',t:Q.o[i].t});bub({f:'them',n:Q.who.split('·').pop().trim(),t:Q.o[i].r})}
+    if(r.ok&&!done){done=true;bub({f:'me',t:Q.o[i].t});bub({f:'them',t:Q.o[i].r});tray.hidden=true}
     else if(!r.ok)r.extra='Điều có thể xảy ra: '+Q.o[i].r;
     return r},
-   solve(){inner.solve();if(!done){done=true;const g=Q.o.find(x=>x.ok);bub({f:'me',n:'Em',t:g.t});bub({f:'them',n:Q.who.split('·').pop().trim(),t:g.r})}},
+   solve(){inner.solve();if(!done){done=true;const g=Q.o.find(x=>x.ok);bub({f:'me',t:g.t});bub({f:'them',t:g.r});tray.hidden=true}},
    getState:()=>inner.getState(),setState:a=>inner.setState(a)};
 }
 
@@ -780,7 +788,7 @@ function finishRun(){
     S.done[run.step]=Math.max(S.done[run.step]||0,stars);S.pos[run.step]=0;delete S.runs[run.step];
     if(S0.kind==='final')S.best[run.step]=Math.max(S.best[run.step]||0,stars);
     save();
-    if(S0.kind==='explain')extra=`<div class="banner say"><b>🔑 Em vừa tìm ra chìa khóa bí mật!</b> Thẻ nhớ bí mật đã được mở khóa.</div>`;
+
   }
   checkBadges();sfx.win();renderBar();renderMap();
   const nxt=run.review?-1:run.step+1;
@@ -800,27 +808,6 @@ function finishRun(){
   g('#hm',()=>{view='home';render()});
 }
 
-/* ---------- thẻ nhớ ---------- */
-function flashView(st){
-  const col=mk('div','col'),seen=new Set(S.flash);
-  col.innerHTML=`<section class="card"><h2 class="say">🔑 Thẻ nhớ bí mật</h2><p class="say">Chạm vào thẻ để lật. Lật hết các thẻ để hoàn thành chặng này.</p><span class="pill" id="fcnt"></span></section>`;
-  const g=mk('div','fcs');col.append(g);st.append(col);
-  const done=mk('div','act');col.append(done);
-  const upd=()=>{$('#fcnt',col).textContent=`Đã lật ${seen.size}/${FLASH.length}`;done.innerHTML='';
-    if(seen.size>=FLASH.length){const b=mk('button','btn','✔ Hoàn thành thẻ nhớ');b.type='button';b.onclick=()=>{S.done[7]=Math.max(S.done[7]||0,3);S.flash=[...seen];save();checkBadges();sfx.win();toast('⭐⭐⭐ Em đã xem hết thẻ nhớ!');startStep(8)};done.append(b)}};
-  FLASH.forEach((f,i)=>{
-    const c=mk('div','fcard'+(seen.has(i)?' seen':''));c.tabIndex=0;c.setAttribute('role','button');let back=false;
-    const draw=()=>{c.className='fcard'+(back?' back':'')+(seen.has(i)?' seen':'');
-      c.innerHTML=back?`<div class="say"><b>🇻🇳 ${f[1]}</b><br>${f[2]}</div>`:`<div class="say"><span class="en">${f[0]}</span></div><small>Chạm để lật</small>`;
-      if(back)c.firstChild.dataset.say=f[1]+'. '+f[2];else c.firstChild.dataset.say=f[0];
-      deco(c)};
-    const flip=()=>{back=!back;if(back){seen.add(i);S.flash=[...seen];save();upd()}sfx.tap();draw()};
-    c.onclick=flip;c.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();flip()}};
-    draw();g.append(c);
-  });
-  upd();
-}
-
 /* ---------- kết quả ---------- */
 function resultsView(st){
   const col=mk('div','col'),miss=Object.keys(S.missed).filter(id=>QS[id]);
@@ -835,7 +822,7 @@ function resultsView(st){
    <div class="act">${miss.length?'<button class="btn warn" id="rv">📅 Ôn nhanh câu đã sai</button>':''}<button class="btn ghost" id="rf">🔁 Làm lại thử thách (xáo trộn)</button><button class="btn ghost" id="rs">🔄 Học lại từ đầu</button><button class="btn ghost" id="hm">🗺️ Bản đồ</button></div></section>`;
   st.append(col);
   const g=(i,f)=>{const b=$(i,col);if(b)b.onclick=f};
-  g('#rv',startReview);g('#rf',()=>startStep(8,{shuffle:true}));g('#rs',resetAll);g('#hm',()=>{view='home';render()});
+  g('#rv',startReview);g('#rf',()=>startStep(7,{shuffle:true}));g('#rs',resetAll);g('#hm',()=>{view='home';render()});
 }
 
 /* ---------- khởi động ---------- */
