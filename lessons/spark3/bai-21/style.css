@@ -236,3 +236,11 @@ header.top h1{font-size:1.5rem;color:var(--teal-d)}
 .recap{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px;text-align:left;margin:14px 0}
 .recap div{background:#fff;border:2px solid var(--line);border-radius:12px;padding:10px 12px;font-size:1rem}
 .recap b{color:var(--teal-d)}
+
+/* tình huống thực tế (Việc thật) */
+.rw{border:2px solid var(--line);border-radius:16px;background:#fff;padding:12px 16px;margin:12px 0;box-shadow:var(--shadow)}
+.rwh{font-weight:800;font-size:1.15rem;color:var(--teal-d);margin-bottom:6px}
+.rwm{background:#f3f7f8;border:2px dashed var(--line);border-radius:12px;padding:8px 12px;margin-top:8px}
+.rwm .tbl{margin:0}
+.ordl{margin:8px 0 10px 1.2em;padding:0;font-weight:700}
+.ordl li{margin-bottom:4px;color:var(--green)}

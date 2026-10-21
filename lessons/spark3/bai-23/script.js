@@ -107,6 +107,7 @@ const MISSIONS = [
 {icon:"▦",label:"Đọc bảng",run:m1,steps:["Bước 1: ghép <b>mô tả</b> với hàng, cột hoặc ô. Chạm vào thẻ rồi chạm vào ô, hoặc kéo thả.","Bấm <b>Kiểm tra</b>. Thẻ đúng sẽ xanh, thẻ sai quay về khay.","Bước 2: đọc câu hỏi màu xanh rồi <b>chạm đúng chỗ</b> trên bảng điểm.","Tìm đủ 3 manh mối để hoàn thành."],tip:"Hàng nằm ngang · cột nằm dọc · ô là chỗ gặp nhau."},
 {icon:"📊",label:"Chọn biểu đồ",run:m2,steps:["Bước 1: ghép <b>tình huống</b> với loại biểu đồ phù hợp.","Bấm <b>Kiểm tra</b>. Thẻ sai quay về khay để em xếp lại.","Bước 2: đọc yêu cầu rồi <b>chạm vào đúng biểu đồ</b>.","Tìm đủ 5 biểu đồ để hoàn thành."],tip:"Phần trăm → tròn · thời gian → đường · so sánh → cột hoặc thanh."},
 {icon:"🧮",label:"Bảng tính & AI",run:m3,steps:["Bước 1: ghép <b>ứng dụng bảng tính</b> với nhà phát hành.","Bước 2: chọn <b>nên</b> hay <b>không nên</b> khi nhờ AI vẽ biểu đồ.","Chọn sai thì đọc gợi ý rồi thử lại.","Làm đúng hết để hoàn thành."],tip:"AI gợi ý – em kiểm tra – không đưa dữ liệu cá nhân thật."},
+{icon:"🌍",label:"Việc thật",run:real,steps:["Đọc <b>tình huống</b> em gặp ngoài đời.","Chọn cách xử lí đúng, ghép thẻ hoặc chạm các bước theo thứ tự.","Chọn sai thì đọc gợi ý rồi thử lại.","Bấm <b>“Tình huống tiếp”</b> cho đến hết."],tip:"Phần trăm → tròn · thời gian → đường · so sánh → cột · không đưa dữ liệu cá nhân thật cho AI."},
 {icon:"✅",label:"Trắc nghiệm",run:quiz,steps:["Đọc kỹ câu hỏi.","Chạm vào đáp án em chọn.","Đúng: đáp án xanh và có lời giải thích. Sai: đáp án đỏ – hãy chọn lại.","Bấm <b>“Câu tiếp”</b> để làm tiếp."],tip:"Đọc cả các đáp án trước khi chọn."},
 ];
 
@@ -416,6 +417,34 @@ function m3(st){
   });
 }
 
+const REAL=[
+ {icon:"🍜",title:"Khảo sát món ăn yêu thích của lớp",story:"Lớp 5A (30 bạn) khảo sát món ăn yêu thích. Em cần làm một biểu đồ để <b>thấy mỗi món chiếm bao nhiêu phần trăm</b> của cả lớp.<div class='rwm'><table class='tbl'><tr><th>Món</th><th>Số bạn</th></tr><tr><td>Phở</td><td>12</td></tr><tr><td>Cơm tấm</td><td>9</td></tr><tr><td>Bún chả</td><td>6</td></tr><tr><td>Mì</td><td>3</td></tr></table></div>",
+  Q:{q:"Em nên chọn loại biểu đồ nào?",o:["Biểu đồ tròn","Biểu đồ đường","Biểu đồ phân tán","Bảng không cần biểu đồ"],a:0,why:"Biểu đồ tròn cho thấy phần trăm hay tỉ lệ của từng phần so với tổng."}},
+ {icon:"🌱",title:"Theo dõi cây đậu",story:"Em trồng một cây đậu và đo chiều cao mỗi tuần. Em muốn cho cả lớp thấy cây <b>thay đổi như thế nào theo thời gian</b>.<div class='rwm'><table class='tbl'><tr><th>Tuần</th><th>1</th><th>2</th><th>3</th><th>4</th></tr><tr><td>Cao (cm)</td><td>2</td><td>5</td><td>9</td><td>14</td></tr></table></div>",
+  Q:{q:"Loại biểu đồ nào phù hợp nhất?",o:["Biểu đồ đường","Biểu đồ tròn","Biểu đồ phân tán","Không dùng biểu đồ nào"],a:0,why:"Biểu đồ đường cho thấy xu hướng thay đổi qua thời gian."}},
+ {icon:"📊",title:"Chọn biểu đồ cho từng việc",story:"Cô giáo giao bốn bài toán số liệu khác nhau cho các nhóm. Mỗi nhóm cần chọn đúng loại biểu đồ.",
+  Q:{q:"Chạm thẻ tình huống rồi chạm loại biểu đồ phù hợp.",sort:{bins:[['🥧 Biểu đồ tròn'],['📈 Biểu đồ đường'],['📊 Biểu đồ cột hoặc thanh'],['🔵 Biểu đồ phân tán']],items:[['Tỉ lệ phần trăm bạn đi học bằng xe đạp, xe buýt, đi bộ',0],['Nhiệt độ ở trường mỗi ngày trong một tuần',1],['So sánh số sách đọc của 4 tổ',2],['Xem chiều cao và cân nặng của các bạn có liên quan nhau không',3]],why:"Tròn: phần trăm · Đường: thay đổi theo thời gian · Cột, thanh: so sánh · Phân tán: mối liên hệ giữa hai đại lượng."}}},
+ {icon:"▦",title:"Đọc bảng điểm",story:"Cô gửi cho em bảng điểm của ba bạn. Em cần đọc đúng hàng, cột và ô.<div class='rwm'><table class='tbl'><tr><th></th><th>Toán</th><th>Tiếng Việt</th><th>Khoa học</th></tr><tr><td>Minh</td><td>9</td><td>8</td><td>10</td></tr><tr><td>Lan</td><td>8</td><td>9</td><td>7</td></tr><tr><td>Hùng</td><td>7</td><td>7</td><td>9</td></tr></table></div>",
+  Q:{q:"Với mỗi câu, chọn <b>Đúng</b> hoặc <b>Sai</b>.",tf:["Hàng của Lan có các điểm 8, 9, 7","Cột Toán có các điểm 9, 8, 7","Ô gặp nhau của hàng Hùng và cột Khoa học là 7","Minh có điểm Khoa học cao nhất trong ba bạn"],a:[true,true,false,true],why:"Ô của Hùng và Khoa học là 9, không phải 7. Các ý còn lại đều đúng."}},
+ {icon:"🧮",title:"Vẽ biểu đồ trong Google Sheets",story:"Em có số liệu khảo sát và muốn vẽ biểu đồ trong ứng dụng bảng tính Google Sheets.",
+  order:{screens:(()=>{
+    const D=[['Món','Số bạn'],['Phở','12'],['Cơm tấm','9'],['Bún chả','6']], T='Tiêu đề biểu đồ';
+    const col='<div class="xcol"><i style="height:78px;background:#4285f4"></i><i style="height:58px;background:#4285f4"></i><i style="height:38px;background:#4285f4"></i></div>';
+    const chart=(inner,title,extra)=>'<div class="xchart"><div class="ct">'+title+'</div>'+inner+(extra||'')+'</div>';
+    const edit=(hot)=>'<div class="xedit"><div class="eh">Trình chỉnh sửa biểu đồ</div>'+['Biểu đồ cột','Biểu đồ đường','Biểu đồ tròn'].map(n=>'<div class="ty'+(n===hot?' hot':'')+'">'+n+'</div>').join('')+'</div>';
+    return [
+      xSheets('Khảo sát món ăn',[]),
+      xSheets('Khảo sát món ăn',D),
+      xSheets('Khảo sát món ăn',D,{sel:[0,0,3,1]}),
+      xSheets('Khảo sát món ăn',D,{sel:[0,0,3,1],menu:true,right:chart(col,T)}),
+      xSheets('Khảo sát món ăn',D,{sel:[0,0,3,1],right:chart('<div class="xpie"></div>',T)+edit('Biểu đồ tròn')}),
+      xSheets('Khảo sát món ăn',D,{sel:[0,0,3,1],right:chart('<div class="xpie"></div>','Món ăn yêu thích lớp 5A')}),
+      xSheets('Khảo sát món ăn',D,{right:chart('<div class="xpie"></div>','Món ăn yêu thích lớp 5A','<span class="xok">✔ 12 + 9 + 6 khớp bảng</span>')})];
+  })(),q:"Chạm các bước theo <b>thứ tự đúng</b>. Xem màn hình bên dưới thay đổi sau mỗi bước.",steps:["Nhập dữ liệu vào các hàng và cột","Chọn vùng dữ liệu cần vẽ","Chọn Chèn → Biểu đồ","Chọn loại biểu đồ phù hợp","Đặt tiêu đề và nhãn cho biểu đồ","Kiểm tra biểu đồ có đúng số liệu không"],miss:"Phải có dữ liệu trước rồi mới chọn và vẽ được. Kiểm tra là bước cuối.",why:"Nhập dữ liệu → Chọn vùng → Chèn biểu đồ → Chọn loại → Đặt tiêu đề → Kiểm tra."}},
+ {icon:"🔒",title:"Nhờ AI vẽ biểu đồ nhưng có thông tin cá nhân",story:"Bảng khảo sát của em có họ tên, số điện thoại và địa chỉ của các bạn. Em muốn nhờ trợ lý AI gợi ý biểu đồ.",
+  Q:{q:"Em nên làm gì?",o:["Thay tên bằng Bạn A, Bạn B và bỏ thông tin không cần, rồi kiểm tra biểu đồ AI gợi ý","Dán nguyên bảng có cả số điện thoại cho AI","Gửi cả địa chỉ để AI vẽ cho chính xác","Dùng ngay biểu đồ AI gợi ý không cần xem lại"],a:0,why:"Không đưa dữ liệu cá nhân thật cho AI. Dùng tên giả, rồi kiểm tra kết quả."}},
+];
+
 /* ---------- Trắc nghiệm ---------- */
 function quiz(st){
   const qs=shuffle(QUIZ).map(shuffleQ); let qi=0, wrong=0;
@@ -445,9 +474,9 @@ function intro(st){
 }
 function finale(st){
   const total=state.got.reduce((a,b)=>a+(b||0),0);
-  const rank = total>=10?'Họa sĩ dữ liệu xuất sắc':total>=7?'Họa sĩ dữ liệu giỏi':'Họa sĩ dữ liệu tập sự';
+  const rank = total>=12?'Họa sĩ dữ liệu xuất sắc':total>=9?'Họa sĩ dữ liệu giỏi':'Họa sĩ dữ liệu tập sự';
   st.innerHTML=`<div class="final"><div class="big">🏅</div><h2 style="font-size:2rem;color:var(--teal-d)">${rank}</h2>
-  <p>Em đạt <b>${total} / 12 ⭐</b></p>
+  <p>Em đạt <b>${total} / 15 ⭐</b></p>
   <div class="recap"><div><b>Bảng</b><br>Dữ liệu xếp theo hàng (ngang) và cột (dọc). Ô là chỗ hàng và cột gặp nhau.</div><div><b>Biểu đồ</b><br>Tròn: phần trăm · Đường: thay đổi theo thời gian · Cột, thanh: so sánh · Phân tán: mối tương quan.</div><div><b>Đồ thị</b><br>Sơ đồ thể hiện dữ liệu dạng số, thường dùng đường hoặc điểm.</div><div><b>Bảng tính & AI</b><br>Excel, Numbers, WPS, Google Sheets giúp tạo biểu đồ. AI gợi ý, em kiểm tra, không dùng dữ liệu cá nhân thật.</div></div>
   <div class="row" style="justify-content:center"><button class="btn ghost" id="again">Chơi lại từ đầu</button></div></div>`;
   $('#again').onclick=()=>restart(true);

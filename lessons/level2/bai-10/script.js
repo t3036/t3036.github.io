@@ -130,15 +130,15 @@ const QS={
   hint:"Phải vào được hồ sơ trước, rồi mới thêm, cuối cùng mới lưu.",why:"Đăng nhập → mở hồ sơ → thêm thông tin mới → lưu lại."},
 
  /* ===== Phần 4: Nội dung phù hợp ===== */
- dd6:{t:'cloze',q:"Điền vào chỗ trống: dùng đúng tài khoản",text:"Tài khoản trường học dùng để [[học tập]]. Tài khoản cá nhân dùng để [[giải trí]] và trò chuyện với [[bạn bè]].",x:["kiếm tiền"],hint:"Trường học → học. Cá nhân → vui chơi."},
+ dd6:{t:'cloze',q:"Điền vào chỗ trống: dùng đúng tài khoản",text:"Tài khoản trường học dùng để [[học tập]].\nTài khoản cá nhân dùng để [[giải trí]] và trò chuyện với [[bạn bè]].",x:["kiếm tiền"],hint:"Trường học → học. Cá nhân → vui chơi."},
  s19:{t:'choice',chk:1,q:"Bạn có các tài khoản Google riêng để sử dụng tại trường học và cho mục đích cá nhân. Bạn đã đăng nhập vào tài khoản cá nhân của mình. Bạn cần truy cập một tập tin được chia sẻ với bạn thông qua Google Drive của tài khoản trường học của bạn. Bạn nên làm gì?",
   o:["Đặt cấu hình cả hai tài khoản để sử dụng cùng một mật khẩu.","Liên kết Google Drive của tài khoản cá nhân và tài khoản trường học.","Trong phần cài đặt tài khoản Google cá nhân, bỏ chặn tài khoản trường học của bạn.","Chuyển từ tài khoản Google cá nhân sang tài khoản trường học của bạn."],a:[3],
   hint:"Tập tin được chia sẻ cho tài khoản nào thì em cần dùng tài khoản đó.",why:"Em cần tập tin của tài khoản trường học, nên hãy chuyển sang tài khoản trường học. Dùng chung mật khẩu hay liên kết hai tài khoản sẽ làm lẫn lộn danh tính cá nhân và trường học."},
- s20:{t:'match',chk:1,q:"Lựa chọn danh tính kỹ thuật số **cá nhân** phù hợp với tình huống:",
-  l:["Bạn đăng một bức hình kỷ niệm chuyến đi chơi trên Instagram","Bình luận về một bức ảnh trên Facebook"],r:["Danh tính cá nhân","Danh tính nghề nghiệp"],a:[0,0],
+ s20:{t:'sort',chk:1,q:"Kéo mỗi tình huống thả vào đúng loại **danh tính kĩ thuật số**:",
+  bins:["😊 Danh tính cá nhân","💼 Danh tính nghề nghiệp"],items:[["Bạn đăng một bức hình kỷ niệm chuyến đi chơi trên Instagram",0],["Bình luận về một bức ảnh trên Facebook",0]],
   hint:"Đăng ảnh đi chơi hay bình luận trên mạng xã hội là việc riêng tư, giải trí.",why:"Cả hai việc đều là hoạt động riêng tư và giải trí, nên thuộc danh tính kĩ thuật số cá nhân."},
- s21:{t:'match',chk:1,q:"Lựa chọn danh tính kỹ thuật số **nghề nghiệp** phù hợp với tình huống:",
-  l:["Tạo một hồ sơ việc làm trên TopCV.","Đăng kinh nghiệm làm việc trên LinkedIn."],r:["Danh tính cá nhân","Danh tính nghề nghiệp"],a:[1,1],
+ s21:{t:'sort',chk:1,q:"Kéo mỗi tình huống thả vào đúng loại **danh tính kĩ thuật số**:",
+  bins:["😊 Danh tính cá nhân","💼 Danh tính nghề nghiệp"],items:[["Tạo một hồ sơ việc làm trên TopCV.",1],["Đăng kinh nghiệm làm việc trên LinkedIn.",1]],
   hint:"Tìm việc và kinh nghiệm làm việc thuộc về công việc.",why:"TopCV và LinkedIn dùng cho việc tìm việc và kinh nghiệm làm việc, nên thuộc danh tính kĩ thuật số nghề nghiệp."},
  s22:{t:'choice',chk:1,q:"Xác định **hai cách** để phân biệt danh tính kỹ thuật số cá nhân của bạn với danh tính kỹ thuật số nghề nghiệp của bạn? (Chọn 2)",
   o:["Không bao giờ đăng ảnh.","Sử dụng LinkedIn cho các mục đích nghề nghiệp và Facebook cho các bài đăng cá nhân.","Tạo biệt hiệu hoặc bí danh cho các bài đăng trên các diễn đàn và Blog giải trí, nhưng sử dụng tên thật của bạn cho các bài đăng trong các diễn đàn và Blog kỹ thuật.","Chỉ theo dõi các chính trị gia, vận động viên chuyên nghiệp và người nổi tiếng trên Twitter."],a:[1,2],
@@ -277,13 +277,12 @@ let cs=0, view='home', cur=0, run=null;
 /* ---------- giao diện: chủ đề, cỡ chữ, phông, giảm chuyển động ---------- */
 function applySet(){
   const s=S.set, root=document.documentElement;
+  if(s.theme!=='dark')s.theme='light';
   root.dataset.theme=s.theme==='light'?'':s.theme;
   root.style.setProperty('--fs',s.fs);
   document.body.classList.toggle('dys',!!s.dys);
-  const rm=s.rm==null?(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches):s.rm;
-  document.body.classList.toggle('rm',!!rm);
 }
-const THEMES=[['light','☀️ Sáng'],['dark','🌙 Tối'],['hc','◐ Tối tương phản cao']];
+const THEMES=[['light','☀️ Sáng'],['dark','🌙 Tối']];
 
 /* ---------- âm thanh ---------- */
 let AC;
@@ -337,7 +336,7 @@ function renderBar(){
   add('A−','tb',()=>{S.set.fs=Math.max(16,S.set.fs-2);save();applySet()},'Chữ nhỏ lại');
   add('A+','tb',()=>{S.set.fs=Math.min(32,S.set.fs+2);save();applySet()},'Chữ to lên');
   add(S.set.snd?'🔊':'🔇','tb'+(S.set.snd?' on':''),()=>{S.set.snd=!S.set.snd;save();renderBar();sfx.tap()},S.set.snd?'Âm thanh đang bật, bấm để tắt':'Âm thanh đang tắt, bấm để bật').title=S.set.snd?'Tắt âm thanh':'Bật âm thanh';
-  add(THEMES.find(t=>t[0]===S.set.theme)[1].split(' ')[0],'tb',()=>{const i=THEMES.findIndex(t=>t[0]===S.set.theme);S.set.theme=THEMES[(i+1)%3][0];save();applySet();renderBar()},'Đổi chủ đề màu: '+THEMES.find(t=>t[0]===S.set.theme)[1].replace(/^\S+ /,'')).title='Đổi chủ đề: '+THEMES.find(t=>t[0]===S.set.theme)[1].replace(/^\S+ /,'');
+  add(THEMES.find(t=>t[0]===S.set.theme)[1].split(' ')[0],'tb',()=>{const i=THEMES.findIndex(t=>t[0]===S.set.theme);S.set.theme=THEMES[(i+1)%THEMES.length][0];save();applySet();renderBar()},'Đổi chủ đề màu: '+THEMES.find(t=>t[0]===S.set.theme)[1].replace(/^\S+ /,'')).title='Đổi chủ đề: '+THEMES.find(t=>t[0]===S.set.theme)[1].replace(/^\S+ /,'');
   add('⚙️','tb',openSettings,'Cài đặt');
   const f=add(fsOn()?'✖':'⛶','tb',()=>fsOn()?exitFs():enterFs(),fsOn()?'Thoát toàn màn hình':'Vào toàn màn hình');f.title=fsOn()?'Thoát toàn màn hình':'Toàn màn hình';f.id='fsb';if(fsOn())f.classList.add('exit');
   updRd();
@@ -348,42 +347,27 @@ function openSettings(){
   <div class="set"><b>🎨 Chủ đề màu</b>${THEMES.map(t=>`<button class="tb ${s.theme===t[0]?'on':''}" data-th="${t[0]}">${t[1]}</button>`).join('')}</div>
   <div class="set"><b>🔠 Cỡ chữ</b><button class="tb" data-fs="-2">A−</button><button class="tb" data-fs="2">A+</button></div>
   <div class="set"><b>🔤 Phông dễ đọc (dyslexia)</b><button class="tb ${s.dys?'on':''}" data-tg="dys">${s.dys?'Đang bật':'Đang tắt'}</button></div>
-  <div class="set"><b>🐢 Giảm chuyển động</b><button class="tb ${document.body.classList.contains('rm')?'on':''}" data-tg="rm">${document.body.classList.contains('rm')?'Đang bật':'Đang tắt'}</button></div>
   <div class="set"><b>🔊 Âm thanh</b><button class="tb ${s.snd?'on':''}" data-tg="snd">${s.snd?'Đang bật':'Đang tắt'}</button></div>
-  <div class="set"><b>🇻🇳 Hiện nghĩa tiếng Việt của từ tiếng Anh</b><button class="tb ${s.vi?'on':''}" data-tg="vi">${s.vi?'Đang bật':'Đang tắt'}</button></div>
   <div class="set"><b>⛶ Tự động toàn màn hình</b><button class="tb ${s.fsAuto?'on':''}" data-tg="fsAuto">${s.fsAuto?'Đang bật':'Đang tắt'}</button></div>
   <div class="act"><button class="btn" id="cl">Xong</button></div>`,box=>{
     $('#cl',box).onclick=closeModal;
     $$('[data-th]',box).forEach(b=>b.onclick=()=>{s.theme=b.dataset.th;save();applySet();renderBar();openSettings()});
     $$('[data-fs]',box).forEach(b=>b.onclick=()=>{s.fs=Math.min(32,Math.max(16,s.fs+ +b.dataset.fs));save();applySet()});
     $$('[data-tg]',box).forEach(b=>b.onclick=()=>{const k=b.dataset.tg;
-      if(k==='rm')s.rm=!document.body.classList.contains('rm');else s[k]=!s[k];
-      save();applySet();renderBar();if(k==='vi')render();openSettings()});
+      s[k]=!s[k];
+      save();applySet();renderBar();openSettings()});
   });
 }
 
 /* ---------- mở khóa của giáo viên (ẩn) ---------- */
 (function(){
   const t=$('#title');let rc=[],hold=null;
-  t.addEventListener('contextmenu',e=>{e.preventDefault();const n=Date.now();rc=rc.filter(x=>n-x<700);rc.push(n);if(rc.length>=2){rc=[];teacherOpen()}});
-  t.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse')return;clearTimeout(hold);hold=setTimeout(()=>{hold=null;teacherOpen()},3000)});
+  t.addEventListener('contextmenu',e=>{e.preventDefault();const n=Date.now();rc=rc.filter(x=>n-x<700);rc.push(n);if(rc.length>=2){rc=[];teacherToggle()}});
+  t.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse')return;clearTimeout(hold);hold=setTimeout(()=>{hold=null;teacherToggle()},3000)});
   ['pointerup','pointercancel','pointerleave','pointermove'].forEach(ev=>t.addEventListener(ev,()=>{clearTimeout(hold);hold=null}));
 })();
-function teacherOpen(){
-  if(!S.teacher){S.teacher=true;save();render()}
-  const flagged=Object.keys(QS).filter(k=>QS[k].chk);
-  modal(`<h2>🧑‍🏫 Bảng giáo viên</h2>
-   <p>Đã mở khóa toàn bộ bài trên thiết bị này.</p>
-   <h3>Nhảy tới chặng</h3><div class="row" id="tj" style="margin:10px 0 16px"></div>
-   <h3>Câu có đáp án suy luận [CẦN GIÁO VIÊN XÁC NHẬN]</h3>
-   <ul class="tl">${flagged.map(k=>`<li><b>${k}</b> — ${plain(QS[k].q).slice(0,110)}… <br>→ <span style="color:var(--ok);font-weight:800">${solText(QS[k])}</span></li>`).join('')}</ul>
-   <h3>Ghi chú nội dung</h3><ul class="tl">${ADDED.map(a=>`<li>${a}</li>`).join('')}</ul>
-   <p class="tl">Trong chế độ này mỗi câu hỏi có thêm nút “👁 Xem đáp án”.</p>
-   <div class="act"><button class="btn ghost" id="tlock">🔒 Khóa lại</button><button class="btn" id="tcl">Đóng</button></div>`,box=>{
-    STEPS.forEach((st,i)=>{const b=mk('button','tb',st.e+' '+(i+1));b.title=st.n;b.onclick=()=>{closeModal();startStep(i)};$('#tj',box).append(b)});
-    $('#tcl',box).onclick=closeModal;
-    $('#tlock',box).onclick=()=>{S.teacher=false;save();closeModal();view='home';render()};
-  });
+function teacherToggle(){
+  S.teacher=!S.teacher;save();if(!S.teacher)view='home';render();
 }
 
 /* ---------- bản đồ ---------- */
@@ -533,7 +517,8 @@ function learnCard(Lr,host,next,back){
   if(Lr.v)c.append(mk('div','vis',VIS[Lr.v]));
   if(Lr.cards&&Lr.list){const w=mk('div','vis');Lr.cards.forEach(x=>w.append(mk('div','srow say',`<span class="e" aria-hidden="true">${x[0]}</span><div><b>${x[1]}</b><div>${fmt(x[2])}</div></div>`)));c.append(w)}
   else if(Lr.cards){const g=mk('div','chips3');Lr.cards.forEach(x=>g.append(mk('div','vc say',`<span class="e">${x[0]}</span><b>${x[1]}</b><small>${fmt(x[2])}</small>`)));const w=mk('div','vis');w.append(g);c.append(w)}
-  if(S.set.vi&&Lr.g&&Lr.g.length)c.append(mk('div','gloss',`<b>🇻🇳 Từ tiếng Anh · nghĩa tiếng Việt</b>`+Lr.g.map(x=>`<span class="g"><span class="en">${x[0]}</span> = ${x[1]}</span>`).join('')));
+  if(Lr.g&&Lr.g.length)c.append(mk('div','gloss',`<b>🇻🇳 Từ tiếng Anh · bấm thẻ để xem nghĩa tiếng Việt</b>`+Lr.g.map(x=>`<button type="button" class="gfc" aria-label="Thẻ từ: ${x[0]}. Bấm để lật"><span class="gin"><span class="gf en">${x[0]}</span><span class="gb">${x[1]}</span></span></button>`).join('')));
+  $$('.gfc',c).forEach(b=>b.onclick=()=>{b.classList.toggle('flip');sfx.tap()});
   const a=mk('div','act');
   if(back){const b=mk('button','btn ghost','◀ Trước');b.type='button';b.onclick=back;a.append(b)}
   const n=mk('button','btn','Đã hiểu, tiếp tục ▶');n.type='button';n.onclick=()=>{sfx.tap();next()};a.append(n);
@@ -601,7 +586,7 @@ function solText(Q){
 /* ---------- 1) trắc nghiệm một/nhiều đáp án ---------- */
 function bChoice(Q,ctx){
   const multi=Q.a.length>1;let idx=Q.o.map((_,i)=>i);if(ctx.shuffle&&Q.o.length>2)idx=shuf(idx);
-  const sel=new Set(),btns=[],el=mk('div','opts say');el.dataset.say=Q.o.map((t,i)=>plain(t)).join('. ');
+  const sel=new Set(),btns=[],el=mk('div','opts say');if(Q.o.length>=3&&Q.o.every(t=>plain(t).length<=40))el.classList.add('two');el.dataset.say=Q.o.map((t,i)=>plain(t)).join('. ');
   el.setAttribute('role',multi?'group':'radiogroup');let lock=false;
   const paint=()=>btns.forEach(([b,oi])=>{const on=sel.has(oi);b.classList.toggle('sel',on);b.setAttribute('aria-checked',on);$('.mk',b).textContent=multi?(on?'☑':'☐'):(on?'◉':'◯')});
   const clear=()=>btns.forEach(([b])=>{b.classList.remove('good','bad');$('.res',b).innerHTML=''});

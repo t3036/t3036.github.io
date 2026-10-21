@@ -73,6 +73,7 @@ const MISSIONS = [
 {icon:"✏️",label:"Sửa & gợi ý",run:m1,steps:["Bước 1: <b>chạm vào một thẻ</b>, rồi chạm vào ô tính năng. Hoặc kéo thả.","Bấm <b>Kiểm tra</b>. Thẻ đúng sẽ xanh, thẻ sai quay về khay.","Bước 2: đọc câu hỏi màu xanh, rồi <b>chạm đúng chỗ</b> trên màn hình.","Tìm đủ 3 manh mối để hoàn thành."],tip:"Autocorrect = tự sửa từ sai · Autocomplete = gợi ý để hoàn thành."},
 {icon:"⌨️",label:"Phím tắt",run:m2,steps:["Bước 1: ghép <b>phím tắt</b> với trường hợp sử dụng.","Bước 2: đọc yêu cầu, rồi <b>chạm vào đúng phím</b> trên bàn phím.","Mỗi lần chạm đúng, em sẽ biết thêm một phím tắt.","Chạm đủ 5 phím để hoàn thành."],tip:"C = Copy · V = Paste · X = Cut · Z = Undo · S = Save."},
 {icon:"🤖",label:"AI rà soát lỗi",run:m3,steps:["Đọc từng <b>gợi ý của AI</b> và các tình huống.","Chọn một nút cho mỗi tình huống.","Chọn sai thì đọc gợi ý rồi thử lại.","Làm đúng hết để hoàn thành."],tip:"AI gợi ý – em kiểm tra – người viết chịu trách nhiệm."},
+{icon:"🌍",label:"Việc thật",run:real,steps:["Đọc <b>tình huống</b> em gặp ngoài đời.","Chọn cách xử lí đúng, ghép thẻ hoặc chạm các bước theo thứ tự.","Chọn sai thì đọc gợi ý rồi thử lại.","Bấm <b>“Tình huống tiếp”</b> cho đến hết."],tip:"Máy sửa giúp em nhưng em vẫn phải đọc lại trước khi gửi."},
 {icon:"✅",label:"Trắc nghiệm",run:quiz,steps:["Đọc kỹ câu hỏi.","Chạm vào đáp án em chọn.","Đúng: đáp án xanh và có lời giải thích. Sai: đáp án đỏ – hãy chọn lại.","Bấm <b>“Câu tiếp”</b> để làm tiếp."],tip:"Đọc cả các đáp án trước khi chọn."},
 ];
 
@@ -244,7 +245,7 @@ function theory(st){
 function sortGame(host, cfg, onWrong, onDone){
   const items=shuffle(cfg.items.map(([t,b],id)=>({id,t,b,loc:'pool',locked:false})));
   let picked=null;
-  host.innerHTML=`<div class="pool" id="pool"></div><div class="bins ${cfg.bins.length===2||cfg.bins.length===4?'c2':'c3'}" id="bins">${cfg.bins.map((b,i)=>`<div class="bin" data-b="${i}"><h3>${b[0]}</h3><small>${b[1]||''}</small><div class="in"></div></div>`).join('')}</div>
+  host.innerHTML=`<div class="pool" id="pool"></div><div class="bins ${cfg.bins.length===2||cfg.bins.length===4?'c2':'c3'}" id="bins">${shuffle(cfg.bins.map((b,i)=>[b,i])).map(([b,i])=>`<div class="bin" data-b="${i}"><h3>${b[0]}</h3><small>${b[1]||''}</small><div class="in"></div></div>`).join('')}</div>
     <div class="row" style="margin-top:12px"><button class="btn" id="chk" disabled>Kiểm tra</button></div><div class="fb" id="sfb"></div>`;
   const pool=host.querySelector('#pool'), bins=[...host.querySelectorAll('.bin')], chk=host.querySelector('#chk'), f=host.querySelector('#sfb');
   function chipEl(it){
@@ -285,7 +286,7 @@ function sortGame(host, cfg, onWrong, onDone){
 function clueGame(host, cfg, onWrong, onDone){
   host.innerHTML=(cfg.pre||'')+'<div class="clue-q" id="cq"></div><div id="pg2">'+cfg.page+'</div><div class="fb" id="cfb"></div>';
   const cq=host.querySelector('#cq'), f=host.querySelector('#cfb'); let k=0;
-  const show=()=>{ cq.innerHTML='🔎 Manh mối '+(k+1)+'/'+cfg.clues.length+': '+cfg.clues[k].q; cq.classList.remove('pop'); void cq.offsetWidth; cq.classList.add('pop'); };
+  const show=()=>{ const n=cfg.clues.length; cq.innerHTML='🔎 '+(k==n-1?'Manh mối cuối cùng (đã tìm '+k+'/'+n+', còn 1 manh mối nữa)':'Manh mối '+(k+1)+'/'+n+' (đã tìm '+k+'/'+n+')')+': '+cfg.clues[k].q; cq.classList.remove('pop'); void cq.offsetWidth; cq.classList.add('pop'); };
   show();
   host.querySelectorAll('[data-k]').forEach(z=>z.onclick=e=>{
     e.stopPropagation(); if(k>=cfg.clues.length||z.classList.contains('good')||z.classList.contains('bad')) return;
@@ -340,6 +341,20 @@ function m1(st){
   });
 }
 
+/* bàn phím đơn giản: chỉ các phím cần dùng chạm được */
+function kbd(){
+  const live={tab:'Tab',x:'X',c:'C',v:'V',z:'Z',s:'S',ctrl:'Ctrl',alt:'Alt',cmd:'CMD'};
+  const k=(t,w)=>{ const id=t.toLowerCase(); return live[id]
+    ? '<span class="kb tapz'+(w?' '+w:'')+'" data-k="'+id+'">'+t+'</span>'
+    : '<span class="kb off'+(w?' '+w:'')+'">'+t+'</span>'; };
+  const row=(s,pad)=>'<div class="kbr"'+(pad?' style="padding-left:'+pad+'"':'')+'>'+s.map(x=>k(x)).join('')+'</div>';
+  return '<div class="kbd">'+
+    '<div class="kbr">'+k('Tab','w2')+'QWERTYUIOP'.split('').map(x=>k(x)).join('')+'</div>'+
+    row('ASDFGHJKL'.split(''),'28px')+
+    '<div class="kbr">'+'ZXCVBNM'.split('').map(x=>k(x)).join('')+'</div>'+
+    '<div class="kbr">'+k('Ctrl','w2')+k('Alt','w2')+k('CMD','w2')+'<span class="kb off sp"></span></div></div>';
+}
+
 /* ---------- Nhiệm vụ 2: phím tắt ---------- */
 function m2(st){
   let wrong=0;
@@ -352,16 +367,27 @@ function m2(st){
     const g2=$('#g2');
     g2.innerHTML='<h3 style="margin-top:20px">Bước 2 · Tìm phím trên bàn phím</h3><div id="cg"></div>';
     clueGame($('#cg'),{
-      page:`<div class="tapbox" style="text-align:center"><div class="kbrow"><span class="key tapz" data-k="ctrl">Ctrl</span><span class="key tapz" data-k="alt">Alt</span><span class="key tapz" data-k="tab">Tab</span><span class="key tapz" data-k="cmd">CMD</span></div>
-        <div class="kbrow"><span class="key tapz" data-k="x">X</span><span class="key tapz" data-k="c">C</span><span class="key tapz" data-k="v">V</span><span class="key tapz" data-k="z">Z</span><span class="key tapz" data-k="s">S</span></div></div>`,
+      page:kbd(),
       clues:[
-        {q:'Em đã sao chép một đoạn văn. Để <b>dán</b>, nhấn Ctrl cùng với phím nào?',key:'v',why:'Ctrl + V là phím tắt để dán.',miss:'Chưa đúng. V giống mũi tên chỉ xuống để “đặt” vào.'},
-        {q:'Để <b>hoàn tác</b> (Undo), nhấn Ctrl cùng với phím nào?',key:'z',why:'Ctrl + Z là phím tắt để hoàn tác.',miss:'Undo = quay lại một bước. Thử phím khác nhé.'},
-        {q:'Để <b>cắt</b> (Cut), nhấn Ctrl cùng với phím nào?',key:'x',why:'Ctrl + X là phím tắt để cắt.',miss:'Cut giống cây kéo, hình chữ X.'},
-        {q:'Để <b>lưu</b> (Save), nhấn Ctrl cùng với phím nào?',key:'s',why:'Ctrl + S là phím tắt để lưu.',miss:'Save bắt đầu bằng chữ S.'},
+        {q:'Em đã sao chép một đoạn văn. Để <b>dán</b>, nhấn <b>Ctrl</b> cùng với phím nào?',key:'v',why:'Ctrl + V là phím tắt để dán.',miss:'Chưa đúng. V giống mũi tên chỉ xuống để “đặt” vào.'},
+        {q:'Để <b>hoàn tác</b> (Undo), nhấn <b>Ctrl</b> cùng với phím nào?',key:'z',why:'Ctrl + Z là phím tắt để hoàn tác.',miss:'Undo = quay lại một bước. Thử phím khác nhé.'},
+        {q:'Để <b>cắt</b> (Cut), nhấn <b>Ctrl</b> cùng với phím nào?',key:'x',why:'Ctrl + X là phím tắt để cắt.',miss:'Cut giống cây kéo, hình chữ X.'},
+        {q:'Để <b>lưu</b> (Save), nhấn <b>Ctrl</b> cùng với phím nào?',key:'s',why:'Ctrl + S là phím tắt để lưu.',miss:'Save bắt đầu bằng chữ S.'},
         {q:'Trên máy <b>Mac</b>, phím nào dùng <b>thay cho Ctrl</b>?',key:'cmd',why:'Trên macOS dùng CMD thay cho Ctrl.',miss:'Phím này cũng có tên trong ví dụ CMD + C.'}
       ]
     },()=>wrong++,f=>{ fb(f,'ok','🏅 Hoàn thành! Em đã biết các phím tắt phổ biến trên Windows và macOS.'); finish(st,starsFor(wrong),g2); });
+    /* ngón tay nhấn phím khi chạm */
+    const kb=g2.querySelector('.kbd'), fg=el('<span class="finger">👆</span>'); kb.appendChild(fg);
+    const hold=el('<span class="finger hold">👆</span>'); kb.appendChild(hold);
+    const placeHold=()=>{ const c=kb.querySelector('[data-k="ctrl"]'), r=c.getBoundingClientRect(), b=kb.getBoundingClientRect();
+      hold.style.left=(r.left-b.left+r.width*0.8)+'px'; hold.style.top=(r.top-b.top+r.height*0.8)+'px'; };
+    placeHold(); window.addEventListener('resize',placeHold);
+    kb.querySelectorAll('.kb.tapz').forEach(z=>z.addEventListener('click',()=>{
+      const r=z.getBoundingClientRect(), b=kb.getBoundingClientRect();
+      fg.style.left=(r.left-b.left+r.width*0.8)+'px'; fg.style.top=(r.top-b.top+r.height*0.8)+'px';
+      fg.classList.remove('go'); void fg.offsetWidth; fg.classList.add('go');
+      z.classList.remove('press'); void z.offsetWidth; z.classList.add('press');
+    }));
   });
 }
 
@@ -384,6 +410,34 @@ function m3(st){
     ],()=>wrong++,f=>{ fb(f,'ok','🏅 Hoàn thành! AI gợi ý – em kiểm tra – người viết chịu trách nhiệm.'); finish(st,starsFor(wrong),$('#j2')); });
   });
 }
+
+const REAL=[
+ {icon:"📱",title:"Nhắn tin cho cô giáo",story:"Em nhắn tin báo bài cho cô. Em gõ “Cô ơi, bạn Linh nộp bài rồi ạ.” nhưng điện thoại tự sửa tên bạn:<div class='rwm'>💬 Cô ơi, bạn <b>Lính</b> nộp bài rồi ạ.</div>",
+  Q:{q:"Trước khi bấm gửi, em nên làm gì?",o:["Đọc lại tin nhắn và sửa chỗ máy tự sửa sai","Gửi ngay vì máy luôn sửa đúng","Gửi rồi mới đọc lại","Nhờ bạn gửi hộ"],a:0,why:"Autocorrect giúp sửa lỗi nhưng đôi khi sửa sai, nhất là tên riêng. Em luôn đọc lại trước khi gửi."}},
+ {icon:"🔍",title:"Gõ tìm kiếm trên máy",story:"Em đang soạn bài và tìm kiếm thông tin. Hãy xem máy làm gì trong từng trường hợp.",
+  Q:{q:"Mỗi trường hợp là tính năng nào? Chạm thẻ rồi chạm ô.",sort:{bins:[['✏️ Tự động sửa lỗi (Autocorrect)'],['💡 Tự động hoàn thành (Autocomplete)']],items:[['Em gõ “khoong”, máy đổi thành “không”',0],['Em gõ “thời tiết”, ô tìm kiếm gợi ý “thời tiết hôm nay”',1],['Em nhắn “hom nay”, máy đổi thành “hôm nay”',0],['Em gõ “cách làm diều”, máy gợi ý “cách làm diều giấy”',1]],why:"Autocorrect thay từ gõ sai bằng từ đúng. Autocomplete gợi ý phần còn lại khi em mới gõ dở."}}},
+ {icon:"⏱️",title:"Soạn bài văn trong giờ học",story:"Em đang soạn bài văn trên máy tính ở lớp, sắp hết giờ. Có vài việc cần làm thật nhanh mà không dùng chuột.",
+  Q:{q:"Chọn phím tắt phù hợp cho mỗi tình huống.",sort:{bins:[['Ctrl + Z'],['Ctrl + S'],['Alt + Tab'],['Ctrl + C rồi Ctrl + V']],items:[['Lỡ xóa nhầm cả đoạn văn vừa viết',0],['Sắp hết giờ, muốn giữ lại bài làm',1],['Muốn chuyển sang trang web đang mở để xem thông tin',2],['Muốn chép một câu sang chỗ khác mà không gõ lại',3]],why:"Hoàn tác = Ctrl + Z · Lưu = Ctrl + S · Chuyển ứng dụng = Alt + Tab · Sao chép rồi dán = Ctrl + C rồi Ctrl + V."}}},
+ {icon:"🍎",title:"Dùng máy Mac ở thư viện",story:"Thư viện trường cho em mượn một máy Mac. Em nhấn Ctrl + C để sao chép đoạn văn nhưng không như mọi khi.",
+  Q:{q:"Trên máy Mac, em nên nhấn phím tắt nào để sao chép?",o:["CMD + C","Ctrl + C","Esc + C","Shift + C"],a:0,why:"Trên macOS, phím CMD dùng thay cho Ctrl: CMD + C sao chép, CMD + V dán."}},
+ {icon:"📋",title:"Lấy thông tin từ web vào bài làm",story:"Em tìm được một đoạn thông tin hay trên trang Web và muốn đưa vào bài làm của mình, đúng cách và có ghi nguồn (Bài 21).",
+  order:{screens:(()=>{
+    const TXT='Cá voi xanh là loài động vật lớn nhất từng sống trên Trái Đất.';
+    const web=(sel,cls,toast)=>xBrowser('baikhoahoc.example/ca-voi','Cá voi xanh','<h5>Cá voi xanh</h5>'+(sel?'<span class="xsel">'+TXT+'</span>':TXT)+' Chúng sống ở mọi đại dương và ăn các sinh vật phù du nhỏ.',cls,toast);
+    const doc=(page,cls,saved)=>xDocs('Bài làm của em',page,cls,saved);
+    const P='<p style="margin:0">'+TXT+'</p>', S='<p class="xsrc">Nguồn: baikhoahoc.example/ca-voi</p>';
+    return [
+      web(0,'act')+doc('<span class="xcaret"></span>','dim'),
+      web(1,'act')+doc('<span class="xcaret"></span>','dim'),
+      web(1,'act','📋 Đã sao chép')+doc('<span class="xcaret"></span>','dim'),
+      web(1,'dim')+doc('<span class="xcaret"></span>','act'),
+      web(1,'dim')+doc(P,'act'),
+      web(1,'dim')+doc(P+S,'act'),
+      web(1,'dim')+doc(P+S,'act',true)];
+  })(),q:"Chạm các bước theo <b>thứ tự đúng</b>. Xem màn hình bên dưới thay đổi sau mỗi bước.",steps:["Bôi đen đoạn thông tin cần dùng","Nhấn Ctrl + C để sao chép","Nhấn Alt + Tab để sang bài làm","Nhấn Ctrl + V để dán","Ghi nguồn của đoạn thông tin","Nhấn Ctrl + S để lưu bài"],miss:"Nghĩ xem phải chọn rồi mới sao chép, và phải sang bài làm rồi mới dán.",why:"Chọn → Sao chép → Chuyển ứng dụng → Dán → Ghi nguồn → Lưu."}},
+ {icon:"🤖",title:"AI rà soát bài văn",story:"Em viết: “Em rất yêu quý cô giáo của em.” AI gợi ý đổi thành:<div class='rwm'>🤖 “Em phải nghe lời cô giáo của em.”</div>",
+  Q:{q:"Em nên làm gì với gợi ý này?",o:["Không nhận vì gợi ý đã đổi ý của em, giữ câu của mình","Chấp nhận ngay cho nhanh","Chấp nhận mọi gợi ý của AI trong bài","Nhờ bạn chọn hộ"],a:0,why:"Người viết chịu trách nhiệm với văn bản cuối cùng. Gợi ý làm đổi ý thì không nên nhận."}},
+];
 
 /* ---------- Trắc nghiệm ---------- */
 function quiz(st){
@@ -414,9 +468,9 @@ function intro(st){
 }
 function finale(st){
   const total=state.got.reduce((a,b)=>a+(b||0),0);
-  const rank = total>=10?'Trợ thủ xuất sắc':total>=7?'Trợ thủ giỏi':'Trợ thủ tập sự';
+  const rank = total>=12?'Trợ thủ xuất sắc':total>=9?'Trợ thủ giỏi':'Trợ thủ tập sự';
   st.innerHTML=`<div class="final"><div class="big">🏅</div><h2 style="font-size:2rem;color:var(--teal-d)">${rank}</h2>
-  <p>Em đạt <b>${total} / 12 ⭐</b></p>
+  <p>Em đạt <b>${total} / 15 ⭐</b></p>
   <div class="recap"><div><b>Tự động sửa lỗi</b><br>Autocorrect sửa lỗi chính tả hoặc gõ sai, ví dụ “tshi” → “this”.</div><div><b>Tự động hoàn thành</b><br>Autocomplete dự đoán và gợi ý từ khi em gõ vài kí tự đầu.</div><div><b>Phím tắt</b><br>Ctrl + C sao chép · Ctrl + X cắt · Ctrl + V dán · Ctrl + Z hoàn tác · Ctrl + S lưu · Alt + Tab chuyển ứng dụng. Mac: CMD thay Ctrl.</div><div><b>AI rà soát lỗi</b><br>Tiết kiệm thời gian nhưng cần kiểm tra. Không nhận gợi ý nếu chưa hiểu. Người viết chịu trách nhiệm.</div></div>
   <div class="row" style="justify-content:center"><button class="btn ghost" id="again">Chơi lại từ đầu</button></div></div>`;
   $('#again').onclick=()=>restart(true);

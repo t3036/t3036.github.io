@@ -5,12 +5,10 @@
   --ff:"Nunito","Varela Round","Quicksand","Segoe UI","Roboto","Helvetica Neue",Arial,sans-serif;
 }
 :root[data-theme=dark]{--page:#08161a;--bar:#0d4a40;--bar-ink:#f1f5fb;--bg:#0c1c1d;--card:#112a29;--ink:#eafaf6;--mut:#b0d3ca;--pri:#5fe0c5;--pri-ink:#04201b;--pri-soft:#14463e;--ok:#82e6a8;--ok-bg:#12382a;--no:#ffa09a;--no-bg:#45201f;--warn:#ffcf7a;--warn-bg:#40300f;--line:#4f8479;--sh:0 4px 0 rgba(0,0,0,.45)}
-:root[data-theme=hc]{--page:#000;--bar:#1c1a00;--bar-ink:#ffe14d;--bg:#000;--card:#000;--ink:#fff;--mut:#fff;--pri:#ffe14d;--pri-ink:#000;--pri-soft:#1c1a00;--ok:#5dff9a;--ok-bg:#001a0b;--no:#ff8077;--no-bg:#260000;--warn:#ffd24d;--warn-bg:#201800;--line:#fff;--bw:3px;--sh:none}
 *{box-sizing:border-box}
 html{font-size:calc(var(--fs)*1px)}
 body{margin:0;background:var(--page);color:var(--ink);font-family:var(--ff);font-size:1rem;line-height:1.75}
 body.dys{--ff:"Comic Sans MS","Comic Neue","Trebuchet MS",Verdana,sans-serif;letter-spacing:.04em;word-spacing:.18em;line-height:1.9}
-body.rm *,body.rm *::before,body.rm *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 h1,h2,h3{margin:0;line-height:1.25}
 button,select{font:inherit;color:inherit}
 button{cursor:pointer}
@@ -304,3 +302,49 @@ mark{padding:.08em .3em;-webkit-box-decoration-break:clone;box-decoration-break:
 .learn h2,.hero h2{line-height:1.4}
 .fb>div,.mist .m>div{margin-top:10px}
 .say{word-spacing:.04em}
+
+/* nút điều khiển trong suốt, rõ khi rê chuột; ô sao/chuỗi luôn rõ */
+#tbar .tb{opacity:.35;transition:opacity .2s}
+#tbar .tb:hover,#tbar .tb:focus-visible{opacity:1}
+
+/* thanh trên cố định kích thước, không đổi theo cỡ chữ */
+#top{font-size:16px}
+#top #title{font-size:18px}
+#tbar .tb,#tbar .pill{font-size:13px}
+#tbar .tb,#tbar .pill{white-space:nowrap}
+#tbar .tb{width:38px;padding:0}
+#top{height:50px;box-sizing:border-box}
+
+/* đáp án: ký hiệu chọn cố định kích thước, không làm chữ/hàng bị xê dịch */
+.opt .mk{flex:0 0 32px;width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;font-size:1.4rem;line-height:1;overflow:visible}
+.opt{box-sizing:border-box}
+.opt .res{flex:0 0 32px;width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;font-size:1.4rem;line-height:1}
+
+/* thẻ danh tính cá nhân: màu xanh dương riêng */
+.vc:not(.b){border-color:#3b82f6;background:#e3eefe}
+[data-theme="dark"] .vc:not(.b){background:#1d3254;border-color:#6ea8fe}
+
+/* từ vựng dạng thẻ lật */
+.gloss .gfc{display:inline-block;width:210px;height:84px;margin:6px 10px 6px 0;padding:0;border:0;background:none;perspective:700px;vertical-align:top;cursor:pointer}
+.gloss .gin{position:relative;display:block;width:100%;height:100%;transition:transform .45s;transform-style:preserve-3d}
+.gloss .gfc.flip .gin{transform:rotateY(180deg)}
+.gloss .gf,.gloss .gb{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:8px 12px;border-radius:14px;border:var(--bw) solid var(--line);background:var(--card);color:var(--ink);backface-visibility:hidden;-webkit-backface-visibility:hidden;line-height:1.2}
+.gloss .gf{font-weight:800;border-color:var(--pri)}
+.gloss .gb{transform:rotateY(180deg);background:var(--warn-bg);border-color:var(--warn);font-weight:700}
+
+/* ô điền trống: cùng chiều cao, gạch chân thẳng hàng dù đã điền hay chưa */
+.blank,.blank.hot{box-sizing:border-box;height:54px;min-height:54px;padding:0 6px;vertical-align:middle}
+.blank .chip{height:44px;min-height:44px;line-height:1}
+
+/* đáp án ngắn: chia 2 cột */
+.opts.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:560px){.opts.two{grid-template-columns:1fr}}
+
+/* câu điền trống: các dòng sát hơn */
+.cz{line-height:1.9}
+.blank,.blank.hot{height:46px;min-height:46px}
+.blank .chip{height:38px;min-height:38px}
+
+/* thẻ dài: chữ xuống dòng gọn, căn trái, biểu tượng không bị ép */
+.pool .chip,.bb .chip{max-width:100%;text-align:left;border-radius:22px;line-height:1.35;padding-top:8px;padding-bottom:8px;overflow-wrap:anywhere}
+.chip .ico{flex:0 0 auto;align-self:center}

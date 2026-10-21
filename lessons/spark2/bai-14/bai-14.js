@@ -18,6 +18,7 @@ const MISSIONS = [
 ];
 const state = {cur:0, got:MISSIONS.map(()=>null), intro:true};
 try{ const s=JSON.parse(localStorage.getItem('k4b14')||'null'); if(s&&s.got&&s.got.length===MISSIONS.length){ state.got=s.got; state.read=s.read||[]; const f=s.got.findIndex(x=>x===null); state.cur=f<0?MISSIONS.length:f; state.intro=state.cur===0; } }catch(e){}
+let TEACH=false; try{ TEACH=localStorage.getItem('k4b14_teach')==='1'; }catch(e){}
 function save(){ try{localStorage.setItem('k4b14',JSON.stringify({got:state.got,read:state.read||[]}))}catch(e){} }
 
 function restart(force){
@@ -27,7 +28,7 @@ function restart(force){
 function renderMap(){
   const map=$('#map'); map.innerHTML='';
   MISSIONS.forEach((m,i)=>{
-    const unlocked = i===0 || state.got[i-1]!==null;
+    const unlocked = TEACH || i===0 || state.got[i-1]!==null;
     const b=el(`<button ${unlocked?'':'disabled'} class="${state.got[i]!==null?'done':''} ${i===state.cur&&!state.intro?'cur':''}"><span class="n">${state.got[i]!==null?'✅':m.icon}</span><span class="l">${m.label}</span></button>`);
     b.onclick=()=>{state.cur=i;state.intro=false;render()};
     map.appendChild(b);
@@ -123,7 +124,7 @@ function theory(st){
   st.innerHTML = brief('📖','Học bài: '+LESSON_NAME,'Lật từng thẻ để đọc. Đọc xong bấm “Em đã hiểu”, một cửa sổ bài tập nhỏ sẽ hiện ra. Làm đúng để mở thẻ tiếp theo.')+
     '<div class="prog"><i id="pg" style="width:0"></i></div><div class="cards" id="cards"></div><div class="fb" id="fb"></div>';
   const box=$('#cards'), f=$('#fb');
-  const unlockedUpTo=()=>{ const i=read.indexOf(false); return i<0?n:i; };
+  const unlockedUpTo=()=>{ if(TEACH) return n; const i=read.indexOf(false); return i<0?n:i; };
   function draw(){
     box.innerHTML='';
     const u=unlockedUpTo();
@@ -367,4 +368,16 @@ const setSize=px=>{ fsz=Math.max(16,Math.min(28,px)); document.documentElement.s
 setSize(fsz);
 $('#fsm').onclick=()=>setSize(fsz-2); $('#fbg').onclick=()=>setSize(fsz+2);
 $('#restart').onclick=()=>restart();
+/* Nhấp chuột phải hai lần liên tiếp vào ⭐ góc trên bên phải: giáo viên mở/khóa tất cả */
+(function(){
+  let last=0;
+  $('.stars').addEventListener('contextmenu',e=>{
+    e.preventDefault();
+    const now=Date.now(); if(now-last>=600){ last=now; return; }
+    last=0; TEACH=!TEACH; try{ localStorage.setItem('k4b14_teach',TEACH?'1':'0'); }catch(x){}
+    render();
+    const t=el('<div style="position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#333;color:#fff;padding:10px 18px;border-radius:12px;z-index:9999;font-weight:700">'+(TEACH?'🔓 Đã mở khóa tất cả':'🔒 Đã khóa lại')+'</div>');
+    document.body.appendChild(t); setTimeout(()=>t.remove(),1800);
+  });
+})();
 render();

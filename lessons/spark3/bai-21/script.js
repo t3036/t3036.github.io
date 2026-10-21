@@ -102,6 +102,7 @@ const MISSIONS = [
 {icon:"👤",label:"Tìm chủ sở hữu",run:m1,steps:["Bước 1: <b>chạm vào một thẻ</b>, rồi chạm vào ô loại nội dung để đặt chủ sở hữu vào. Hoặc kéo thả.","Bấm <b>Kiểm tra</b>. Thẻ đúng sẽ xanh, thẻ sai quay về khay.","Bước 2: đọc câu hỏi màu xanh, rồi <b>chạm đúng chỗ</b> trên trang Web, email hoặc bài đăng.","Tìm đủ 3 manh mối để hoàn thành."],tip:"Email → người gửi · Blog → tác giả · Tranh số gốc → họa sĩ."},
 {icon:"🧾",label:"Lập trích dẫn",run:m2,steps:["Bước 1: phân loại từng tình huống vào <b>Cần trích dẫn</b> hoặc <b>Không cần</b>.","Bước 2: đọc yêu cầu, <b>chạm vào đúng thông tin</b> trên trang tên sách.","Mỗi lần chạm đúng, thông tin tự <b>ghép vào dòng trích dẫn</b>.","Ghép đủ 5 phần để hoàn thành trích dẫn."],tip:"Tác giả · Năm · Tiêu đề · Phiên bản · Nhà xuất bản."},
 {icon:"🚨",label:"Bắt đạo văn",run:m3,steps:["Đọc <b>bài làm của bạn Nam</b>.","<b>Chạm vào câu</b> em cho là đạo văn – câu đó sẽ có nền vàng. Chạm lần nữa để bỏ chọn.","Bấm <b>Kiểm tra</b>. Nếu chưa đúng, đọc gợi ý rồi thử lại.","Sau đó chọn cách xử lí đúng cho <b>các tình huống dùng AI</b>."],tip:"Đạo văn = lấy của người khác mà không ghi nguồn hoặc giả vờ là của mình."},
+{icon:"🌍",label:"Việc thật",run:real,steps:["Đọc <b>tình huống</b> em gặp ngoài đời.","Chọn cách xử lí đúng, hoặc chạm các mảnh theo thứ tự.","Chọn sai thì đọc gợi ý rồi thử lại.","Bấm <b>“Tình huống tiếp”</b> cho đến hết."],tip:"Dùng của người khác thì ghi nguồn · tự làm thì không cần · AI cần kiểm tra."},
 {icon:"✅",label:"Trắc nghiệm",run:quiz,steps:["Đọc kỹ câu hỏi.","Chạm vào đáp án em chọn.","Đúng: đáp án xanh và có lời giải thích. Sai: đáp án đỏ – hãy chọn lại.","Bấm <b>“Câu tiếp”</b> để làm tiếp."],tip:"Đọc cả các đáp án trước khi chọn."},
 ];
 
@@ -408,8 +409,10 @@ function m3(st){
     const bad=sents.filter((s,i)=>s.bad!==marked.has(i)).length;
     if(bad){ wrong++; return fb(f,'no','Chưa đúng hẳn. Gợi ý: đạo văn là lấy của người khác mà <b>không ghi nguồn</b> hoặc giả vờ là của mình. Kiến thức phổ biến và nội dung có ghi nguồn thì không phải đạo văn.'); }
     phase=2; $('#chk').disabled=true;
-    sents.forEach(s=>{ s._s.classList.remove('flag'); s._s.classList.add(s.bad?'right':'ok'); });
-    fb(f,'ok','Tuyệt! Hai câu đỏ là đạo văn vì dùng sản phẩm của người khác mà không ghi nguồn. Còn lại là đúng cách.');
+    sents.forEach(s=>{ s._s.classList.remove('flag'); s._s.classList.add(s.bad?'right':'ok');
+      s._s.insertAdjacentHTML('beforeend','<div style="margin-top:6px;font-weight:800;color:'+(s.bad?'#b3261e':'#1f7a45')+'">'+(s.bad?'🚨 Đây là ĐẠO VĂN (nền đỏ)':'✔ Không phải đạo văn (nền xanh)')+'</div>'); });
+    $('#cnt').textContent='✔ Em chọn đúng rồi!';
+    fb(f,'ok','Em chọn đúng! 🚨 Nền <b>đỏ</b> = đạo văn: Nam dùng sách và hình của người khác mà không ghi nguồn. ✔ Nền <b>xanh</b> = không phải đạo văn: kiến thức phổ biến, có ghi nguồn hoặc tự viết.');
     f.insertAdjacentHTML('beforeend','<div style="margin-top:10px"><button class="btn orange" id="toai">Sang phần dùng AI ▼</button></div>');
     $('#toai').onclick=()=>{ $('#toai').disabled=true; ai(); };
   };
@@ -430,6 +433,19 @@ function m3(st){
     m.scrollIntoView({behavior:'smooth',block:'start'});
   }
 }
+
+const REAL=[
+ {icon:"🐋",title:"Bài thuyết trình về cá voi",story:"Em làm bài thuyết trình môn Khoa học về cá voi xanh. Em thấy một bức ảnh rất đẹp trên trang Web của cô nhiếp ảnh gia Lan Hương và muốn đưa vào slide.<div class='rwm' style='max-width:460px;padding:0;border:0;background:none'><div class='xw'><div class='xbar'><i class='r'></i><i class='y'></i><i class='g'></i><span class='xtab'>🌐 Ảnh của Lan Hương</span></div><div class='xurl'><span>←</span><span>→</span><span>⟳</span><div class='xpill'>🔒 lanhuong-photo.example/ca-voi-xanh</div></div><div class='xpage' style='font-family:Arial,sans-serif'><h5>📷 Thư viện ảnh của Lan Hương</h5><svg viewBox='0 0 300 170' role='img' aria-label='Ảnh cá voi xanh bơi dưới biển' style='display:block;width:100%;border-radius:8px'><defs><linearGradient id='ws' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='#bfe6ff'/><stop offset='.38' stop-color='#e9f7ff'/></linearGradient><linearGradient id='wo' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='#2a9ad6'/><stop offset='1' stop-color='#0b3f72'/></linearGradient><linearGradient id='wb' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='#4b83b5'/><stop offset='1' stop-color='#2c5f8f'/></linearGradient></defs><rect width='300' height='170' fill='url(#ws)'/><rect y='58' width='300' height='112' fill='url(#wo)'/><path d='M0 58 Q25 52 50 58 T100 58 T150 58 T200 58 T250 58 T300 58' fill='none' stroke='#fff' stroke-width='2' opacity='.7'/><path d='M150 54 L150 36 M150 40 Q138 28 128 32 M150 40 Q162 28 172 32' stroke='#fff' stroke-width='3' fill='none' stroke-linecap='round' opacity='.9'/><path d='M38 104 Q48 78 100 80 Q170 78 218 92 Q238 98 252 82 Q262 70 276 66 Q272 88 266 100 Q276 108 282 128 Q262 116 248 112 Q232 120 200 124 Q120 136 70 124 Q42 118 38 104 Z' fill='url(#wb)'/><path d='M56 110 Q120 130 214 112 Q150 134 70 124 Z' fill='#a9c9e6'/><path d='M120 110 Q134 128 156 126 Q146 114 128 108 Z' fill='#3a6f9f'/><circle cx='64' cy='99' r='3.5' fill='#0b2540'/><path d='M44 108 Q58 112 74 108' fill='none' stroke='#0b2540' stroke-width='1.6' stroke-linecap='round'/><circle cx='30' cy='130' r='3' fill='#fff' opacity='.5'/><circle cx='40' cy='146' r='4' fill='#fff' opacity='.4'/><circle cx='250' cy='140' r='3' fill='#fff' opacity='.4'/></svg><div style='margin-top:6px'><b>Cá voi xanh</b><br><small>Ảnh: Lan Hương · lanhuong-photo.example</small></div></div></div></div>",
+  Q:{q:"Em nên làm gì khi dùng bức ảnh này?",o:["Ghi tên tác giả và nguồn dưới ảnh (xin phép nếu cần)","Dùng luôn, ảnh trên mạng ai cũng dùng được","Cắt bỏ tên tác giả cho slide đẹp hơn","Nói với cả lớp đây là ảnh em chụp"],a:0,why:"Ảnh có người tạo ra nó. Em cần ghi tên tác giả và nguồn, hoặc xin phép khi cần."}},
+ {icon:"📚",title:"Danh mục tài liệu tham khảo",story:"Cuối bài thuyết trình, cô giáo yêu cầu em ghi sách đã dùng. Cô cho một ví dụ mẫu và thông tin cuốn sách của em.<div class='rwm'>Mẫu: <b>Reed, K: 2015. Vũ trụ kỳ diệu. (Tái bản lần thứ 1). Starhouse.</b></div><div class='rwm'>Sách của em: tác giả <b>Lam, T</b> · năm <b>2018</b> · tên sách <b>Khám phá đại dương</b> · <b>Tái bản lần thứ 3</b> · nhà xuất bản <b>Biển Xanh</b></div>",
+  order:{q:"Chạm lần lượt các phần để ghép dòng trích dẫn <b>theo đúng thứ tự như ví dụ mẫu</b>.",steps:["Lam, T:","2018.","Khám phá đại dương.","(Tái bản lần thứ 3).","Biển Xanh."],miss:"Nhìn lại ví dụ mẫu: phần nào đứng đầu, phần nào đứng cuối?",why:"Lam, T: 2018. Khám phá đại dương. (Tái bản lần thứ 3). Biển Xanh. Đó là một trích dẫn đầy đủ."}},
+ {icon:"🎂",title:"Áp phích sinh nhật của lớp",story:"Lớp em làm áp phích mừng sinh nhật cô giáo chủ nhiệm. Mỗi bạn thêm một thứ vào áp phích.",
+  Q:{q:"Với mỗi việc, chọn <b>Có</b> nếu cần ghi nguồn hoặc <b>Không</b> nếu không cần.",lab:["Có","Không"],tf:["Em tự gõ dòng chữ “Chúc mừng sinh nhật cô”","Em tự vẽ một chiếc bánh kem","Em lấy hình nhân vật hoạt hình của một hãng phim","Em chèn một câu thơ của nhà thơ nổi tiếng","Em ghi “Một năm có 12 tháng”"],a:[false,false,true,true,false],why:"Sản phẩm em tự làm và kiến thức phổ biến thì không cần ghi nguồn. Hình, thơ của người khác phải ghi nguồn."}},
+ {icon:"💬",title:"Tin nhắn từ bạn thân",story:"Bạn Minh nhắn vào nhóm chat của lớp:<div class='rwm'>💬 <b>Minh:</b> Bài văn của anh mình được 10 điểm đấy. Cậu chỉ cần đổi tên là nộp được, cô không biết đâu!</div>",
+  Q:{q:"Em nên trả lời và làm gì?",o:["Từ chối, tự viết bằng lời của mình. Nếu tham khảo thì ghi rõ nguồn","Đổi tên rồi nộp luôn cho nhanh","Sửa vài chữ rồi nộp, không ghi nguồn","Chép nguyên văn nhưng không nói với ai"],a:0,why:"Nộp bài của người khác như của mình là đạo văn. Hãy tự viết, nếu tham khảo thì ghi nguồn."}},
+ {icon:"🤖",title:"Nhờ AI viết đoạn giới thiệu",story:"Em nhờ trợ lý AI viết đoạn giới thiệu về Hà Nội cho bài tập. AI trả lời một đoạn văn có cả số liệu cụ thể, nhưng không nói số liệu lấy ở đâu.",
+  Q:{q:"Em nên làm gì trước khi nộp bài?",o:["Kiểm tra số liệu bằng nguồn tin cậy, viết lại bằng lời của mình và ghi chú có AI hỗ trợ","Nộp nguyên văn vì AI luôn đúng","Xóa dòng ghi chú để thầy cô không biết em dùng AI","Nhờ AI nộp bài thay em"],a:0,why:"AI có thể sai hoặc thiếu nguồn. Em cần kiểm tra, tự chỉnh sửa và nói rõ có AI hỗ trợ."}},
+];
 
 /* ---------- Trắc nghiệm ---------- */
 function quiz(st){
@@ -460,9 +476,9 @@ function intro(st){
 }
 function finale(st){
   const total=state.got.reduce((a,b)=>a+(b||0),0);
-  const rank = total>=10?'Thám tử xuất sắc':total>=7?'Thám tử giỏi':'Thám tử tập sự';
+  const rank = total>=12?'Thám tử xuất sắc':total>=9?'Thám tử giỏi':'Thám tử tập sự';
   st.innerHTML=`<div class="final"><div class="big">🏅</div><h2 style="font-size:2rem;color:var(--teal-d)">${rank}</h2>
-  <p>Em đạt <b>${total} / 12 ⭐</b></p>
+  <p>Em đạt <b>${total} / 15 ⭐</b></p>
   <div class="recap"><div><b>Chủ sở hữu</b><br>Email → người gửi · Blog → tác giả · Tranh số → họa sĩ.</div><div><b>Trích dẫn</b><br>Ghi tác giả, tiêu đề, nhà xuất bản, năm, phiên bản. Kiến thức phổ biến thì không cần.</div><div><b>Tài liệu tham khảo</b><br>Danh sách nguồn đã dùng. Footnote ở cuối trang, Endnote ở cuối tài liệu.</div><div><b>Đạo văn & AI</b><br>Không chép rồi nhận là của mình. Với AI: kiểm tra, ghi chú, tự chỉnh sửa, hỏi giáo viên khi chưa rõ.</div></div>
   <div class="row" style="justify-content:center"><button class="btn ghost" id="again">Chơi lại từ đầu</button></div></div>`;
   $('#again').onclick=()=>restart(true);

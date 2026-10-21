@@ -1,0 +1,55 @@
+/* Màn hình minh họa giống thật: trình duyệt, Google Docs, Google Sheets (dùng chung Spark3 bài 21–23) */
+.scr{display:flex;gap:12px;flex-wrap:wrap;margin:10px 0;align-items:stretch}
+.xw{flex:1;min-width:250px;border:1px solid #c9ced3;border-radius:10px;background:#fff;overflow:hidden;box-shadow:0 3px 10px rgba(39,50,58,.18);position:relative;font-family:Arial,Helvetica,sans-serif;font-size:.85rem;color:#202124;transition:opacity .3s,box-shadow .3s}
+.xw.act{box-shadow:0 0 0 3px rgba(14,124,134,.35),0 3px 10px rgba(39,50,58,.18)}
+.xw.dim{opacity:.55}
+/* trình duyệt */
+.xbar{background:#dee1e6;padding:6px 8px 0;display:flex;align-items:flex-end;gap:5px}
+.xbar i{width:10px;height:10px;border-radius:50%;margin:0 2px 8px 0;display:inline-block}
+.xbar .r{background:#ff5f57}.xbar .y{background:#febc2e}.xbar .g{background:#28c840}
+.xtab{background:#fff;border-radius:8px 8px 0 0;padding:5px 12px;margin-left:6px;font-size:.78rem}
+.xurl{display:flex;align-items:center;gap:8px;padding:5px 8px;background:#fff;border-bottom:1px solid #dadce0;color:#5f6368}
+.xpill{flex:1;background:#f1f3f4;border-radius:999px;padding:3px 10px;font-size:.78rem;color:#202124}
+.xpage{padding:10px 14px;min-height:110px;line-height:1.55;font-size:.9rem;font-family:Georgia,serif}
+.xpage h5{margin:0 0 4px;font-size:1.05rem;font-family:Arial,sans-serif}
+.xpage ::selection{background:#b3d4fc}
+.xsel{background:#b3d4fc;padding:1px 0}
+.xtoast{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);background:#323232;color:#fff;border-radius:6px;padding:5px 14px;font-family:Arial,sans-serif;font-size:.8rem;white-space:nowrap}
+/* Google Docs */
+.xhead{display:flex;gap:8px;align-items:center;padding:6px 10px;background:#fff}
+.xlogo{display:inline-block;width:26px;height:32px;border-radius:4px;color:#fff;text-align:center;line-height:32px;font-size:.95rem}
+.xlogo.blue{background:#4285f4}.xlogo.green{background:#0f9d58}
+.xhead b{font-weight:400;font-size:1rem}
+.xmenu{display:flex;gap:10px;font-size:.75rem;color:#444;position:relative}
+.xmenu u{text-decoration:none}
+.xmenu u.hot{background:#d3e3fd;border-radius:4px;padding:0 4px}
+.xtool{display:flex;gap:12px;align-items:center;padding:4px 12px;background:#edf2fa;border-radius:999px;margin:0 8px 6px;font-size:.8rem;color:#444}
+.xcanvas{background:#f8f9fa;padding:10px 12px;min-height:130px}
+.xpg{background:#fff;border:1px solid #dadce0;padding:12px 14px;min-height:100px;line-height:1.55;font-size:.88rem;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.xpg .xsrc{color:#5f6368;font-size:.78rem;font-style:italic;margin-top:6px}
+.xsaved{position:absolute;right:10px;top:10px;color:#188038;font-size:.75rem;font-weight:700}
+.xcaret{display:inline-block;width:2px;height:1em;background:#202124;vertical-align:text-bottom;animation:xb 1s steps(1) infinite}
+@keyframes xb{50%{opacity:0}}
+/* Google Sheets */
+.xsh{display:flex;gap:10px;padding:0 8px 8px;align-items:flex-start;flex-wrap:wrap}
+.xfx{display:flex;gap:8px;align-items:center;margin:0 8px 6px;border:1px solid #dadce0;border-radius:4px;padding:2px 8px;color:#444}
+.xfx b{border-right:1px solid #dadce0;padding-right:8px;min-width:46px;font-weight:400}
+.xg{border-collapse:collapse;font-size:.8rem;background:#fff;flex:0 0 auto}
+.xg th{background:#f8f9fa;border:1px solid #c0c4c9;font-weight:400;color:#5f6368;padding:2px 14px}
+.xg td{border:1px solid #e1e3e6;padding:2px 10px;min-width:64px;height:20px}
+.xg td.rn{background:#f8f9fa;color:#5f6368;text-align:center;border-color:#c0c4c9;min-width:22px;padding:2px 6px}
+.xg td.sel{background:#e8f0fe}
+.xg td.act{outline:2px solid #1a73e8;outline-offset:-2px;background:#fff}
+.xdrop{position:absolute;left:150px;top:46px;background:#fff;border:1px solid #dadce0;border-radius:6px;box-shadow:0 4px 14px rgba(0,0,0,.25);padding:4px 0;z-index:3;min-width:130px}
+.xdrop div{padding:4px 14px}
+.xdrop .hot{background:#e8f0fe;font-weight:700}
+.xchart{background:#fff;border:1px solid #dadce0;border-radius:6px;box-shadow:0 2px 6px rgba(0,0,0,.2);padding:8px 10px;text-align:center;min-width:150px}
+.xchart .ct{font-weight:700;margin-bottom:4px}
+.xpie{width:84px;height:84px;border-radius:50%;margin:4px auto;background:conic-gradient(#4285f4 0 44%,#ea4335 0 78%,#fbbc04 0 100%)}
+.xcol{display:flex;gap:8px;align-items:flex-end;justify-content:center;height:84px;border-bottom:1px solid #999;margin:4px 0}
+.xcol i{width:22px;display:block}
+.xedit{background:#fff;border:1px solid #dadce0;border-radius:6px;box-shadow:0 2px 6px rgba(0,0,0,.2);padding:6px 10px;min-width:140px}
+.xedit .eh{font-weight:700;border-bottom:1px solid #dadce0;margin-bottom:4px;padding-bottom:3px}
+.xedit .ty{border:1px solid #dadce0;border-radius:4px;padding:3px 8px;margin-top:3px}
+.xedit .ty.hot{border-color:#1a73e8;background:#e8f0fe;font-weight:700}
+.xok{display:inline-block;background:#e6f4ea;color:#188038;border-radius:999px;padding:2px 10px;font-weight:700;font-size:.78rem;margin-top:4px}
