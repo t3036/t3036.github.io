@@ -244,3 +244,7 @@ header.top h1{font-size:1.5rem;color:var(--teal-d)}
 .rwm .tbl{margin:0}
 .ordl{margin:8px 0 10px 1.2em;padding:0;font-weight:700}
 .ordl li{margin-bottom:4px;color:var(--green)}
+
+.tkey{outline:3px dashed #f08c00!important;outline-offset:2px}
+.opt.tkey::after,.chip.tkey::after{content:" ✅"}
+.tkey-box{margin-top:10px;padding:10px 14px;border:2px dashed #f08c00;border-radius:12px;background:#fff6e0;font-size:.95em}

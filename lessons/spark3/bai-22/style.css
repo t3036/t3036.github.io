@@ -283,3 +283,7 @@ header.top h1{font-size:1.5rem;color:var(--teal-d)}
 .scb mark{background:#ffe27a;padding:1px 2px;border-radius:3px}
 .scb .bdg{display:inline-block;background:#e3f6ea;color:var(--green);border-radius:999px;padding:2px 10px;font-weight:800;font-size:.85rem;margin-top:6px}
 .scb .src{color:var(--muted);font-size:.85rem;font-style:italic}
+
+.tkey{outline:3px dashed #f08c00!important;outline-offset:2px}
+.opt.tkey::after,.chip.tkey::after{content:" ✅"}
+.tkey-box{margin-top:10px;padding:10px 14px;border:2px dashed #f08c00;border-radius:12px;background:#fff6e0;font-size:.95em}

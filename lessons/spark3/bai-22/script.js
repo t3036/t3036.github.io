@@ -482,6 +482,29 @@ const setSize=px=>{ fsz=Math.max(16,Math.min(28,px)); document.documentElement.s
 setSize(fsz);
 $('#fsm').onclick=()=>setSize(fsz-2); $('#fbg').onclick=()=>setSize(fsz+2);
 $('#restart').onclick=()=>restart();
+/* Chế độ giáo viên: hiện luôn đáp án đúng (viền cam + chữ ✅) */
+(function(){
+  const oAsk=askQ, oSort=sortGame, oClue=clueGame;
+  askQ=function(Q,host,w,d){
+    oAsk(Q,host,w,d); if(!TEACH) return;
+    if(Q.html) host.querySelectorAll('[data-k]').forEach(z=>{ if(z.dataset.k===Q.key) z.classList.add('tkey'); });
+    else if(Q.tf) host.querySelectorAll('.tfrow').forEach((r,k)=>{ const c=r.querySelector('[data-v="'+(Q.a[k]?1:0)+'"]'); if(c) c.classList.add('tkey'); });
+    else host.querySelectorAll('.opt').forEach((b,k)=>{ if(Array.isArray(Q.a)?Q.a.includes(k):k===Q.a) b.classList.add('tkey'); });
+  };
+  sortGame=function(host,cfg,w,d){
+    oSort(host,cfg,w,d); if(!TEACH) return;
+    host.insertAdjacentHTML('beforeend','<div class="tkey-box"><b>✅ Đáp án:</b> '+cfg.bins.map((b,i)=>'<div><b>'+b[0]+':</b> '+cfg.items.filter(x=>x[1]===i).map(x=>x[0]).join(' · ')+'</div>').join('')+'</div>');
+    if(host.id==='g1') d(document.createElement('div'));
+  };
+  if(typeof judge==='function'){ const oJ=judge; judge=function(host,intro,lab,list,w,d){ oJ(host,intro,lab,list,w,d); if(!TEACH) return;
+    host.querySelectorAll('.scn').forEach((r,k)=>{ const c=r.querySelector('[data-a="'+(list[k].ok?1:0)+'"]'); if(c) c.classList.add('tkey'); });
+    if(host.id==='g1') d(document.createElement('div')); }; }
+  clueGame=function(host,cfg,w,d){
+    oClue(host,cfg,w,d); if(!TEACH) return;
+    cfg.clues.forEach((c,i)=>host.querySelectorAll('[data-k="'+c.key+'"]').forEach(z=>z.classList.add('tkey')));
+    host.insertAdjacentHTML('afterbegin','<div class="tkey-box"><b>✅ Đáp án các manh mối:</b> '+cfg.clues.map((c,i)=>(i+1)+') '+c.key).join(' · ')+'</div>');
+  };
+})();
 /* Nhấp chuột phải hai lần liên tiếp vào ⭐ góc trên bên phải: giáo viên mở/khóa tất cả */
 (function(){
   let last=0;
