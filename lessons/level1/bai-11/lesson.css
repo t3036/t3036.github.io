@@ -1,0 +1,50 @@
+/* Bài 11 — phần giao diện riêng của bài học */
+
+.brs .term-card { box-shadow: none; }
+.brs .term-card + .term-card { margin-top: 0; }
+.brs { margin-bottom: 8px; }
+
+/* Các nút điều hướng */
+.navlist { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+.nv { display: flex; gap: 14px; align-items: flex-start; box-shadow: none; padding: 14px 16px; }
+.nv + .nv { margin-top: 0; }
+.nv p { margin: 2px 0 0; font-size: 15.5px; color: var(--muted); }
+.nvi {
+  flex: none; width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--accent-soft); color: var(--accent-deep);
+}
+.ico svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; display: block; }
+
+/* Hai lựa chọn khi khởi động */
+.pick { text-align: center; box-shadow: none; }
+.pick + .pick { margin-top: 0; }
+.pick .big { font-size: 44px; line-height: 1.1; }
+.grid[hidden] { display: none; }
+
+/* Các bước B1, B2, B3 */
+.flow { box-shadow: none; }
+.flow + .flow { margin-top: 0; }
+.flow ol { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 10px; }
+.flow li { display: flex; gap: 12px; align-items: flex-start; }
+.fb {
+  flex: none; min-width: 38px; text-align: center; padding: 2px 8px; border-radius: 8px;
+  background: var(--accent); color: var(--accent-ink); font: 800 13px var(--mono);
+}
+.keycard { box-shadow: none; }
+.keys { display: flex; align-items: center; gap: 10px; font-size: 22px; font-weight: 800; margin-top: 10px; }
+kbd {
+  font: 800 20px var(--mono); padding: 8px 16px; border-radius: 10px; background: var(--bg);
+  border: 2px solid var(--line); border-bottom-width: 5px;
+}
+
+/* Nên / không nên */
+.dos, .donts { box-shadow: none; }
+.dos { border-color: var(--good); background: var(--good-soft); }
+.donts { border-color: var(--bad); background: var(--bad-soft); }
+.dos + .donts { margin-top: 0; }
+.nolist { margin: 4px 0 0; padding-left: 22px; }
+.nolist li { margin: 3px 0; }
+.cmp { box-shadow: none; }
+.cmp + .cmp { margin-top: 0; }
+.cmp ul { margin: 6px 0 0; padding-left: 22px; }
+.cmp li { margin: 4px 0; }
