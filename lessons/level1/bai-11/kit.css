@@ -78,7 +78,7 @@ img { max-width: 100%; }
 :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
 
 /* ---------- Khung trên: thẻ + thanh công cụ ---------- */
-.top { position: sticky; top: 0; z-index: 40; box-shadow: 0 2px 0 var(--line); }
+.top { position: relative; z-index: 40; box-shadow: 0 2px 0 var(--line); }
 .tabstrip {
   display: flex; align-items: flex-end; gap: 3px;
   background: var(--chrome);
@@ -322,7 +322,7 @@ body.gv .tf-row .is-ans { box-shadow: inset 0 0 0 2.5px var(--good); }
 
 /* ---------- Danh sách nhiệm vụ thực hành ---------- */
 .lab { display: grid; grid-template-columns: minmax(0, 1fr) 270px; gap: 16px; align-items: start; margin: 16px 0; }
-.missions { background: var(--paper); border: 2px solid var(--line); border-radius: var(--radius); padding: 14px 16px; position: sticky; top: 130px; }
+.missions { background: var(--paper); border: 2px solid var(--line); border-radius: var(--radius); padding: 14px 16px; position: sticky; top: 16px; }
 .missions h4 { font: 800 12.5px var(--mono); letter-spacing: .1em; text-transform: uppercase; margin: 0 0 8px; color: var(--accent-deep); }
 .missions ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
 .missions li { display: flex; gap: 10px; font-size: 15px; line-height: 1.45; }

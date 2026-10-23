@@ -1,0 +1,894 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bài 11 – Quy tắc ứng xử trên môi trường số</title>
+<style>
+:root{
+  --ink:#16213a; --ink2:#46506b; --paper:#f7f4ee; --card:#ffffff; --line:#e4dfd3;
+  --navy:#16213a; --navy2:#232f4f;
+  --coral:#ff6b57; --coral-d:#d9442f; --coral-l:#ffe3dd;
+  --mint:#1fb596; --mint-d:#0e8a71; --mint-l:#d8f4ec;
+  --sun:#ffc83d; --sun-l:#fff2c9;
+  --sky:#4c8dff; --sky-l:#e0ecff;
+  --r:18px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 "Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif;-webkit-text-size-adjust:100%}
+button{font:inherit;cursor:pointer}
+a{color:inherit}
+h1,h2,h3,h4{line-height:1.25;margin:0}
+p{margin:0 0 .6em}
+ul{margin:.3em 0 .6em;padding-left:1.2em}
+li{margin:.25em 0}
+b,strong{font-weight:700}
+
+/* ---------- top bar ---------- */
+.top{position:sticky;top:0;z-index:50;background:var(--navy);color:#fff;box-shadow:0 2px 12px rgba(0,0,0,.25)}
+.top-in{max-width:1180px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:14px}
+.brand{font-weight:800;font-size:15px;letter-spacing:.2px;white-space:nowrap}
+.brand span{color:var(--sun)}
+.pbar{flex:1;height:10px;background:rgba(255,255,255,.15);border-radius:99px;overflow:hidden;min-width:60px}
+.pbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--mint),var(--sun));border-radius:99px;transition:width .4s}
+.timer{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);border-radius:99px;padding:4px 6px 4px 14px;font-variant-numeric:tabular-nums}
+.timer b{font-size:18px;min-width:52px;text-align:center}
+.timer button{border:0;background:var(--coral);color:#fff;font-weight:700;border-radius:99px;padding:5px 14px;font-size:14px;white-space:nowrap}
+.timer button.run{background:var(--mint)}
+.nowhint{font-size:12px;color:var(--sun);max-width:1180px;margin:0 auto;padding:0 16px 8px;display:none}
+.nowhint.on{display:block}
+
+/* ---------- shell ---------- */
+.shell{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:210px 1fr;gap:28px;padding:22px 16px 80px}
+.rail{position:sticky;top:76px;align-self:start}
+.rail ol{list-style:none;margin:0;padding:0;position:relative}
+.rail ol::before{content:"";position:absolute;left:15px;top:14px;bottom:14px;width:3px;background:var(--line);border-radius:3px}
+.rail li{position:relative;margin:0 0 4px}
+.rail a{display:flex;gap:10px;align-items:flex-start;text-decoration:none;padding:7px 8px 7px 0;border-radius:12px;color:var(--ink2);font-size:14px;line-height:1.3}
+.rail .dot{flex:none;width:33px;height:33px;border-radius:50%;background:#fff;border:3px solid var(--line);display:grid;place-items:center;font-size:13px;font-weight:800;color:var(--ink2);z-index:1}
+.rail small{display:block;color:#8a90a3;font-size:12px}
+.rail a.act{color:var(--ink);font-weight:700}
+.rail a.act .dot{border-color:var(--coral);color:var(--coral-d);background:var(--coral-l)}
+.rail a.done .dot{background:var(--mint);border-color:var(--mint);color:#fff}
+
+/* ---------- hero ---------- */
+.hero{background:var(--navy);color:#fff;border-radius:26px;padding:34px 30px;position:relative;overflow:hidden;margin-bottom:26px}
+.hero::after{content:"";position:absolute;right:-60px;top:-60px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,var(--coral) 0,rgba(255,107,87,0) 70%);opacity:.55}
+.hero .tag{display:inline-block;background:var(--sun);color:var(--navy);font-weight:800;font-size:12px;letter-spacing:.8px;border-radius:99px;padding:3px 12px;text-transform:uppercase}
+.hero h1{font-size:clamp(26px,5vw,42px);margin:12px 0 8px;position:relative;z-index:1}
+.hero h1 em{font-style:normal;color:var(--sun)}
+.hero p{max-width:620px;color:#cfd6ea;position:relative;z-index:1}
+.goals{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:18px;position:relative;z-index:1}
+.goals div{background:rgba(255,255,255,.08);border-radius:14px;padding:10px 14px;font-size:14.5px}
+.goals b{color:var(--sun)}
+.plan{display:flex;min-height:56px;border-radius:12px;overflow:hidden;margin-top:20px;position:relative;z-index:1;font-size:12px;font-weight:700}
+.plan a{display:grid;place-items:center;align-content:center;text-decoration:none;color:var(--navy);text-align:center;line-height:1.15;padding:6px 3px;min-width:0;overflow-wrap:anywhere;font-size:11.5px}
+.plan small{display:block;font-weight:600;opacity:.75;font-size:10.5px}
+
+/* ---------- station ---------- */
+.st{background:var(--card);border:1px solid var(--line);border-radius:24px;margin-bottom:26px;overflow:hidden;box-shadow:0 6px 22px rgba(22,33,58,.06)}
+.st-h{display:flex;align-items:center;gap:14px;padding:16px 22px;background:var(--hc,var(--coral-l));border-bottom:1px solid var(--line)}
+.st-num{flex:none;width:44px;height:44px;border-radius:14px;background:var(--navy);color:#fff;display:grid;place-items:center;font-weight:800;font-size:19px}
+.st-h h2{font-size:clamp(19px,3vw,25px);flex:1}
+.chip{flex:none;background:#fff;border:2px solid var(--navy);border-radius:99px;padding:2px 12px;font-weight:800;font-size:13px;white-space:nowrap}
+.st-b{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:0}
+.learn{padding:22px 24px}
+.try{padding:22px 24px;background:#fbfaf6;border-left:1px dashed var(--line)}
+.lab{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;border-radius:99px;padding:2px 12px;margin-bottom:10px}
+.lab.l{background:var(--sky-l);color:#1d4fb3}
+.lab.t{background:var(--sun-l);color:#8a6200}
+.learn h3{font-size:18px;margin:16px 0 6px}
+.learn h3:first-of-type{margin-top:4px}
+.def{border-left:5px solid var(--sky);background:var(--sky-l);border-radius:0 14px 14px 0;padding:12px 16px;margin:10px 0}
+.def b{color:#1d4fb3}
+.eq{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:12px 0;font-weight:800}
+.eq span{background:#fff;border:2px solid var(--navy);border-radius:12px;padding:3px 12px}
+.eq span.res{background:var(--sun);}
+.rules{list-style:none;padding:0;margin:8px 0}
+.rules li{display:flex;gap:10px;align-items:flex-start;background:#fbfaf6;border:1px solid var(--line);border-radius:14px;padding:9px 12px;margin:7px 0}
+.rules li i{flex:none;font-style:normal;font-size:20px;line-height:1.3}
+.rules li div{flex:1}
+.remember{background:var(--sun-l);border:2px dashed var(--sun);border-radius:16px;padding:10px 14px;margin-top:14px;font-weight:600}
+.remember::before{content:"🧠 Ghi nhớ: ";font-weight:800;color:#8a6200}
+.dd{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
+.dd>div{border-radius:14px;padding:10px 12px;font-size:14.5px}
+.dd .no{background:var(--coral-l)}
+.dd .yes{background:var(--mint-l)}
+.dd h4{font-size:13px;margin-bottom:4px;text-transform:uppercase;letter-spacing:.6px}
+.dd .no h4{color:var(--coral-d)} .dd .yes h4{color:var(--mint-d)}
+.dd ul{margin:0;padding-left:1.1em}
+.chat{display:flex;flex-direction:column;gap:6px;margin:10px 0}
+.bub{max-width:92%;padding:8px 13px;border-radius:16px;font-size:14.5px;position:relative}
+.bub.bad{background:var(--coral-l);border-bottom-left-radius:4px;align-self:flex-start}
+.bub.good{background:var(--mint-l);border-bottom-right-radius:4px;align-self:flex-end}
+.bub small{display:block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;opacity:.7}
+table.mini{width:100%;border-collapse:separate;border-spacing:0 6px;font-size:14.5px}
+table.mini td{background:#fbfaf6;padding:8px 12px;vertical-align:top;border:1px solid var(--line)}
+table.mini td:first-child{font-weight:800;border-radius:12px 0 0 12px;white-space:nowrap;width:1%;background:var(--sky-l);color:#1d4fb3}
+table.mini td:last-child{border-radius:0 12px 12px 0}
+.related{margin-top:16px;font-size:13.5px;color:var(--ink2)}
+.related a{display:inline-block;background:var(--navy);color:#fff;text-decoration:none;border-radius:99px;padding:0 10px;margin:2px 2px;font-weight:700;font-size:13px}
+.donebtn{display:block;margin:18px 0 0;border:2px solid var(--mint);background:#fff;color:var(--mint-d);font-weight:800;border-radius:99px;padding:6px 18px}
+.donebtn.on{background:var(--mint);color:#fff}
+
+/* ---------- practice ---------- */
+.ptask{font-weight:700;margin-bottom:10px}
+.ji{background:#fff;border:2px solid var(--line);border-radius:14px;padding:10px 12px;margin:8px 0;transition:.2s}
+.ji p{margin:0 0 6px}
+.ji .bt{display:flex;gap:8px;flex-wrap:wrap}
+.ji button{border:2px solid var(--navy);background:#fff;border-radius:99px;padding:2px 14px;font-weight:700;font-size:14px}
+.ji button:hover{background:var(--sun-l)}
+.ji.right{border-color:var(--mint);background:var(--mint-l)}
+.ji.wrong{border-color:var(--coral);background:var(--coral-l)}
+.ji.right button,.ji.wrong button{pointer-events:none;opacity:.55}
+.ji button.pick{opacity:1;background:var(--navy);color:#fff}
+.fb{font-size:14px;margin:6px 0 0 !important;display:none}
+.ji.right .fb,.ji.wrong .fb{display:block}
+.pscore{margin-top:10px;font-weight:800;color:var(--mint-d)}
+.pk{display:flex;flex-direction:column;gap:8px}
+.pk button{text-align:left;border:2px solid var(--line);background:#fff;border-radius:14px;padding:9px 12px}
+.pk button:hover{border-color:var(--navy)}
+.pk button.right{border-color:var(--mint);background:var(--mint-l)}
+.pk button.wrong{border-color:var(--coral);background:var(--coral-l)}
+.pk.locked button{pointer-events:none}
+
+/* ---------- review ---------- */
+.rv-intro{padding:20px 24px;background:var(--navy);color:#fff}
+.rv-intro p{color:#cfd6ea;margin:4px 0 0}
+.rv-bar{position:sticky;top:60px;z-index:20;display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 24px;background:#fff;border-bottom:1px solid var(--line)}
+.rv-bar .sc{font-weight:800;flex:1;min-width:140px}
+.btn{border:0;border-radius:99px;padding:7px 18px;font-weight:800;color:#fff;background:var(--coral)}
+.btn.alt{background:#fff;color:var(--navy);border:2px solid var(--navy)}
+.btn.mint{background:var(--mint)}
+.qs{padding:18px 24px 26px;display:grid;gap:16px}
+.q{border:2px solid var(--line);border-radius:18px;padding:16px 18px;background:#fff}
+.q.ok{border-color:var(--mint)} .q.bad{border-color:var(--coral)}
+.q-h{display:flex;gap:10px;align-items:flex-start}
+.q-n{flex:none;background:var(--navy);color:#fff;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:14px}
+.q-t{flex:1;font-weight:600}
+.q-meta{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 0 44px;font-size:12px}
+.q-meta span{border-radius:99px;padding:0 10px;font-weight:700;background:var(--sky-l);color:#1d4fb3}
+.q-meta span.m{background:var(--sun-l);color:#8a6200}
+.opts{display:grid;gap:7px;margin:12px 0 0 44px}
+.op{display:flex;gap:10px;align-items:flex-start;text-align:left;border:2px solid var(--line);background:#fff;border-radius:14px;padding:8px 12px;width:100%}
+.op b{flex:none;width:26px;height:26px;border-radius:8px;background:var(--paper);display:grid;place-items:center;font-size:13px}
+.op.sel{border-color:var(--navy);background:var(--sky-l)}
+.op.sel b{background:var(--navy);color:#fff}
+.op.right{border-color:var(--mint);background:var(--mint-l)}
+.op.right b{background:var(--mint);color:#fff}
+.op.wrong{border-color:var(--coral);background:var(--coral-l)}
+.op.wrong b{background:var(--coral);color:#fff}
+.q.locked .op,.q.locked .tfb{pointer-events:none}
+.tfr{display:flex;gap:10px;align-items:center;border:2px solid var(--line);border-radius:14px;padding:8px 12px;margin-top:7px;margin-left:44px}
+.tfr span{flex:1}
+.tfb{display:flex;gap:6px}
+.tfb button{border:2px solid var(--navy);background:#fff;border-radius:99px;padding:0 12px;font-weight:700;font-size:13.5px}
+.tfb button.sel{background:var(--navy);color:#fff}
+.tfr.right{border-color:var(--mint);background:var(--mint-l)}
+.tfr.wrong{border-color:var(--coral);background:var(--coral-l)}
+.q-act{margin:12px 0 0 44px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.q-act .btn{padding:4px 16px;font-size:14px}
+.why{display:none;margin:10px 0 0 44px;background:var(--sun-l);border-radius:14px;padding:10px 14px;font-size:14.5px}
+.q.show .why{display:block}
+.why b.a{color:var(--mint-d)}
+.verdict{font-weight:800;font-size:14px}
+.verdict.ok{color:var(--mint-d)} .verdict.bad{color:var(--coral-d)}
+
+footer{text-align:center;color:#8a90a3;font-size:13px;margin-top:10px}
+
+/* ---------- responsive ---------- */
+@media (max-width:980px){
+  .shell{grid-template-columns:minmax(0,1fr);gap:12px}
+  main{min-width:0}
+  .rail{position:sticky;top:50px;z-index:40;background:var(--paper);margin:0 -16px;padding:6px 16px;border-bottom:1px solid var(--line)}
+  .rail ol{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+  .rail ol::before{display:none}
+  .rail li{margin:0;flex:none}
+  .rail a{padding:3px 10px 3px 3px;background:#fff;border:1px solid var(--line);border-radius:99px;align-items:center}
+  .rail .dot{width:26px;height:26px;border-width:2px;font-size:12px}
+  .rail small{display:none}
+  .rail a span{white-space:nowrap}
+  .st-b{grid-template-columns:minmax(0,1fr)}
+  .try{border-left:0;border-top:1px dashed var(--line)}
+  .top-in{gap:8px}
+  .brand{font-size:13px}
+  html{scroll-padding-top:120px}
+}
+@media (max-width:560px){
+  .hero{padding:24px 18px}
+  .plan{flex-wrap:wrap}
+  .plan a{flex:1 1 30% !important;padding:6px 2px}
+  .learn,.try{padding:18px 16px}
+  .st-h{padding:14px 16px}
+  .dd{grid-template-columns:1fr}
+  .opts,.why,.q-act,.q-meta,.tfr{margin-left:0}
+  .tfr{flex-direction:column;align-items:stretch}
+  .qs{padding:14px 12px 20px}
+  .rv-bar{padding:10px 12px}
+  .rv-intro{padding:18px 16px}
+  .brand small{display:none}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none !important}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <div class="brand">IC3 GS6 · Level 2 <small>·</small> <span>Bài 11</span></div>
+    <div class="pbar" title="Tiến độ bài học"><i id="pfill"></i></div>
+    <div class="timer"><b id="clock">30:00</b><button id="tbtn" type="button">Bắt đầu</button></div>
+  </div>
+  <div class="nowhint" id="nowhint"></div>
+</header>
+
+<div class="shell">
+  <nav class="rail" aria-label="Lộ trình bài học"><ol id="rail"></ol></nav>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="top">
+      <span class="tag">Công dân số · 30 phút</span>
+      <h1>Quy tắc ứng xử<br>trên <em>môi trường số</em></h1>
+      <p>Ngoài đời em biết chào hỏi, nói năng lễ phép. Trên mạng cũng vậy! Bài này giúp em nhắn tin, gửi email, họp trực tuyến và dùng AI một cách lịch sự, an toàn và có trách nhiệm.</p>
+      <div class="goals">
+        <div><b>Hiểu</b> Netiquette là gì và vì sao cần có.</div>
+        <div><b>Biết</b> nhắn tin, email, góp ý, chia sẻ và họp trực tuyến đúng cách.</div>
+        <div><b>Làm</b> người dùng công nghệ có trách nhiệm, dùng AI an toàn.</div>
+      </div>
+      <div class="plan" id="plan"></div>
+    </section>
+
+    <!-- STATION 0 -->
+    <section class="st" id="s0" data-t="Netiquette là gì?" data-time="0–3′" style="--hc:var(--sky-l)">
+      <div class="st-h"><div class="st-num">1</div><h2>Netiquette là gì?</h2><span class="chip">0–3′</span></div>
+      <div class="st-b">
+        <div class="learn">
+          <span class="lab l">📘 Học</span>
+          <div class="def"><b>Etiquette</b> là tập hợp các quy tắc được cộng đồng chấp nhận về hành vi, cách ứng xử lịch sự trong xã hội, giữa các thành viên của một ngành nghề hoặc một nhóm người cụ thể.</div>
+          <p>Trong lĩnh vực Internet và giao tiếp kĩ thuật số, Etiquette thường được gọi là <b>Digital Etiquette</b> hay <b>Netiquette</b>.</p>
+          <div class="eq"><span>Network (mạng)</span>+<span>Etiquette (phép lịch sự)</span>=<span class="res">Netiquette</span></div>
+          <h3>Dễ nhầm lẫn</h3>
+          <ul>
+            <li><b>Etiquette</b>: phép lịch sự nói chung (không riêng Internet).</li>
+            <li><b>Netiquette</b>: phép lịch sự khi dùng Internet và giao tiếp số.</li>
+            <li><b>VoIP</b>: công nghệ gọi thoại qua Internet – <i>không phải</i> quy tắc ứng xử.</li>
+          </ul>
+          <div class="remember">Netiquette = cư xử lịch sự trên mạng như em vẫn làm ngoài đời.</div>
+          <div class="related" data-rel="s0"></div>
+          <button class="donebtn" data-done="s0">✓ Em đã học xong chặng này</button>
+        </div>
+        <div class="try">
+          <span class="lab t">✍️ Thử sức</span>
+          <div id="p-s0"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATION 1 -->
+    <section class="st" id="s1" data-t="Nhắn tin & Email" data-time="3–7′" style="--hc:var(--coral-l)">
+      <div class="st-h"><div class="st-num">2</div><h2>Nhắn tin &amp; Email lịch sự</h2><span class="chip">3–7′</span></div>
+      <div class="st-b">
+        <div class="learn">
+          <span class="lab l">📘 Học</span>
+          <h3>Khi phản hồi người khác</h3>
+          <ul class="rules">
+            <li><i>🔠</i><div><b>Hạn chế và cẩn trọng khi dùng chữ viết HOA</b> – trên mạng, viết hoa toàn bộ giống như đang <i>hét lớn</i>.</div></li>
+            <li><i>✂️</i><div><b>Hạn chế dùng chữ viết tắt</b> – người nhận có thể không hiểu hoặc hiểu sai ý.</div></li>
+            <li><i>😀</i><div><b>Hạn chế dùng biểu tượng cảm xúc (emoji)</b> trong môi trường chuyên nghiệp / làm việc.</div></li>
+          </ul>
+          <div class="chat">
+            <div class="bub bad"><small>Không nên</small>ANH GỬI BÀI CHO E NGAY!!! 😡😡</div>
+            <div class="bub good"><small>Nên</small>Chào anh, anh gửi giúp em bài tập với ạ. Em cảm ơn anh!</div>
+          </div>
+          <h3>Nhắn tin trong nhóm (Group)</h3>
+          <p>Mỗi tin gửi vào nhóm làm <b>cả nhóm</b> nhận thông báo. Chỉ gửi vào nhóm khi <b>mọi người đều cần xem</b>; nếu chỉ liên quan đến vài bạn, hãy <b>nhắn riêng</b> cho họ.</p>
+          <h3>Quy tắc dùng Email <span style="font-size:12px;color:#8a6200;background:var(--sun-l);border-radius:99px;padding:0 8px">bổ sung</span></h3>
+          <table class="mini">
+            <tr><td>Chủ đề</td><td>Ngắn gọn, rõ ý – <i>không</i> cần dài cả một câu.</td></tr>
+            <tr><td>Nội dung</td><td>Đoạn văn ngắn dễ đọc hơn đoạn dài.</td></tr>
+            <tr><td>Chữ ký</td><td>Thường có đầy đủ họ và tên người gửi.</td></tr>
+            <tr><td>Đính kèm</td><td>Hãy nhắc cho người nhận biết có tập tin đính kèm.</td></tr>
+            <tr><td>Bcc</td><td>Dùng để giữ bí mật địa chỉ Email của những người nhận với nhau.</td></tr>
+          </table>
+          <div class="remember">Không HÉT, không viết tắt khó hiểu, hạn chế emoji; nhắn riêng khi chỉ liên quan vài người.</div>
+          <div class="related" data-rel="s1"></div>
+          <button class="donebtn" data-done="s1">✓ Em đã học xong chặng này</button>
+        </div>
+        <div class="try">
+          <span class="lab t">✍️ Thử sức</span>
+          <div id="p-s1"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATION 2 -->
+    <section class="st" id="s2" data-t="Tôn trọng & góp ý" data-time="7–10′" style="--hc:var(--mint-l)">
+      <div class="st-h"><div class="st-num">3</div><h2>Tôn trọng, đa dạng văn hóa &amp; góp ý</h2><span class="chip">7–10′</span></div>
+      <div class="st-b">
+        <div class="learn">
+          <span class="lab l">📘 Học</span>
+          <ul class="rules">
+            <li><i>🤝</i><div><b>Đối xử với người khác như cách bạn muốn được đối xử.</b></div></li>
+            <li><i>🌏</i><div><b>Tôn trọng sự đa dạng văn hóa</b> và những quan điểm khác biệt của người khác.</div></li>
+            <li><i>🔍</i><div><b>Phân tích, đánh giá</b> nội dung mà bạn đang xem – đừng tin ngay.</div></li>
+          </ul>
+          <h3>Tôn trọng văn hóa <span style="font-size:12px;color:#8a6200;background:var(--sun-l);border-radius:99px;padding:0 8px">bổ sung</span></h3>
+          <p>Trên mạng em gặp người ở nhiều quốc gia, vùng miền, tôn giáo. Mỗi người có phong tục riêng, nên:</p>
+          <div class="dd">
+            <div class="yes"><h4>✔ Nên</h4><ul><li>Nhận ra định kiến của chính mình</li><li>Đặt câu hỏi thay vì giả định</li><li>Tìm hiểu trước khi nhận xét</li></ul></div>
+            <div class="no"><h4>✘ Không nên</h4><ul><li>Mặc đồ truyền thống thiêng liêng của nền văn hóa khác cho “vui”</li><li>Đăng hàng loạt chuyện về một nền văn hóa mà chưa hiểu</li></ul></div>
+          </div>
+          <h3>Không đồng ý? Hãy phản hồi lịch sự <span style="font-size:12px;color:#8a6200;background:var(--sun-l);border-radius:99px;padding:0 8px">bổ sung</span></h3>
+          <div class="chat">
+            <div class="bub bad"><small>Không nên</small>Màu xanh tốt hơn màu đỏ! Bạn cần chuyên gia thời trang.</div>
+            <div class="bub good"><small>Nên</small>Mình nghĩ nên chọn màu xanh lam, nhưng mình hiểu quan điểm của bạn.</div>
+          </div>
+          <ul>
+            <li>Nói về <b>ý kiến</b>, không công kích <b>con người</b>; không chế giễu hay gọi người khác là “ngốc”.</li>
+            <li>Khi chỉnh thông tin sai: nêu <b>nguồn đáng tin</b> hoặc đưa đường dẫn để bạn ấy tự xem thêm.</li>
+            <li>Khi góp ý bài của bạn: nói <b>giọng tích cực</b> và giải thích cách sửa.</li>
+          </ul>
+          <div class="remember">Tôn trọng người khác, tôn trọng khác biệt, góp ý bằng lý lẽ và giọng điệu tích cực.</div>
+          <div class="related" data-rel="s2"></div>
+          <button class="donebtn" data-done="s2">✓ Em đã học xong chặng này</button>
+        </div>
+        <div class="try">
+          <span class="lab t">✍️ Thử sức</span>
+          <div id="p-s2"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATION 3 -->
+    <section class="st" id="s3" data-t="Chia sẻ nội dung" data-time="10–13′" style="--hc:var(--sun-l)">
+      <div class="st-h"><div class="st-num">4</div><h2>Chia sẻ nội dung có trách nhiệm</h2><span class="chip">10–13′</span></div>
+      <div class="st-b">
+        <div class="learn">
+          <span class="lab l">📘 Học</span>
+          <h3>Khi chia sẻ nội dung trên môi trường số</h3>
+          <ul class="rules">
+            <li><i>✅</i><div><b>Kiểm tra độ tin cậy</b> của nguồn thông tin.</div></li>
+            <li><i>🔒</i><div><b>Tôn trọng quyền riêng tư</b> của người khác.</div></li>
+            <li><i>💬</i><div><b>Dùng ngôn ngữ phù hợp</b> với hoàn cảnh.</div></li>
+            <li><i>🎯</i><div><b>Chia sẻ có mục đích và giá trị.</b></div></li>
+            <li><i>📜</i><div><b>Tuân thủ quy định</b> của nền tảng.</div></li>
+          </ul>
+          <h3>Ảnh/video có người khác: hãy xin phép! <span style="font-size:12px;color:#8a6200;background:var(--sun-l);border-radius:99px;padding:0 8px">bổ sung</span></h3>
+          <p>Ảnh hay video có <b>bạn của em</b> là hình ảnh của họ. Em không nên tự ý đăng công khai. Cách tốt nhất:</p>
+          <ol style="padding-left:1.2em;margin:.3em 0">
+            <li><b>Hỏi</b> người trong ảnh/video trước.</li>
+            <li>Để <b>chính họ quyết định</b> có chia sẻ hay không (ví dụ: gửi trực tiếp cho họ).</li>
+            <li>Nếu bị đăng ảnh khi chưa xin phép: <b>bình tĩnh nhờ</b> bạn ấy gỡ, không nổi nóng, không “trả đũa”.</li>
+          </ol>
+          <div class="remember">Trước khi bấm “Đăng”: Tin cậy? Có ảnh ai không? Đã xin phép chưa? Có ích không?</div>
+          <div class="related" data-rel="s3"></div>
+          <button class="donebtn" data-done="s3">✓ Em đã học xong chặng này</button>
+        </div>
+        <div class="try">
+          <span class="lab t">✍️ Thử sức</span>
+          <div id="p-s3"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATION 4 -->
+    <section class="st" id="s4" data-t="Họp trực tuyến" data-time="13–16′" style="--hc:var(--sky-l)">
+      <div class="st-h"><div class="st-num">5</div><h2>Hội nghị truyền hình (họp trực tuyến)</h2><span class="chip">13–16′</span></div>
+      <div class="st-b">
+        <div class="learn">
+          <span class="lab l">📘 Học</span>
+          <h3>Khi là người thuyết trình</h3>
+          <ul class="rules">
+            <li><i>🖼️</i><div>Hình ảnh phù hợp với nội dung thuyết trình.</div></li>
+            <li><i>🗂️</i><div>Đóng tất cả chương trình và tab trình duyệt không cần thiết.</div></li>
+            <li><i>🖥️</i><div>Kiểm tra và luyện tập các tính năng: chia sẻ màn hình, tắt/bật tiếng các thành viên,…</div></li>
+            <li><i>📋</i><div>Có chương trình các hoạt động theo thứ tự cho hội nghị.</div></li>
+            <li><i>🎧</i><div>Kiểm tra thiết bị: màn hình, camera, loa, micro,…</div></li>
+          </ul>
+          <h3>Khi là người tham gia</h3>
+          <ul class="rules">
+            <li><i>✋</i><div>Dùng biểu tượng <b>“giơ tay” (Raise Hand)</b> để đặt câu hỏi khi có thời gian thích hợp.</div></li>
+            <li><i>📝</i><div>Ghi chú bằng máy tính bảng/laptop hoặc chụp ảnh trang trình bày quan trọng, nhưng vẫn <b>giữ giao tiếp bằng mắt</b> với diễn giả.</div></li>
+            <li><i>🎤</i><div>Kiểm tra trước camera, loa, micro – <b>chỉ bật micro khi được gọi</b> thảo luận (tắt tiếng khi cần).</div></li>
+            <li><i>📷</i><div>Đặt camera <b>ngang tầm mắt</b>, bật camera và tập trung vào màn hình.</div></li>
+          </ul>
+          <div class="dd">
+            <div class="yes"><h4>✔ Nên</h4><ul><li>Trang phục phù hợp</li><li>Tắt tiếng khi cần</li></ul></div>
+            <div class="no"><h4>✘ Không nên</h4><ul><li>Làm việc khác, đọc Email riêng khi đang họp (dù camera không thấy)</li></ul></div>
+          </div>
+          <div class="remember">Camera ngang mắt – Micro tắt khi chưa nói – Giơ tay để hỏi – Chỉ làm việc của buổi họp.</div>
+          <div class="related" data-rel="s4"></div>
+          <button class="donebtn" data-done="s4">✓ Em đã học xong chặng này</button>
+        </div>
+        <div class="try">
+          <span class="lab t">✍️ Thử sức</span>
+          <div id="p-s4"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATION 5 -->
+    <section class="st" id="s5" data-t="Cập nhật công nghệ" data-time="16–18′" style="--hc:var(--coral-l)">
+      <div class="st-h"><div class="st-num">6</div><h2>Theo kịp &amp; cập nhật công nghệ mới</h2><span class="chip">16–18′</span></div>
+      <div class="st-b">
+        <div class="learn">
+          <span class="lab l">📘 Học</span>
+          <h3>Lợi ích của việc cập nhật công nghệ</h3>
+          <ul>
+            <li>Để <b>học hỏi các kĩ năng mới</b>.</li>
+            <li>Để <b>áp dụng kiến thức</b> vào môi trường chuyên nghiệp (ví dụ: thực tập tại công ty công nghệ).</li>
+          </ul>
+          <h3>Có thể làm gì để cập nhật?</h3>
+          <ul class="rules">
+            <li><i>📰</i><div>Đăng kí nhận <b>bản tin</b> trực tuyến về công nghệ.</div></li>
+            <li><i>💬</i><div>Tham gia các <b>diễn đàn</b> công nghệ trực tuyến.</div></li>
+            <li><i>🧑‍🏫</i><div><b>Hướng dẫn người khác</b> dùng tính năng mới (dạy người khác giúp em nhớ lâu).</div></li>
+            <li><i>❓</i><div>Tham khảo <b>tài nguyên trợ giúp</b> của ứng dụng.</div></li>
+          </ul>
+          <h3>Gặp tính năng lạ, tìm giúp đỡ ở đâu? <span style="font-size:12px;color:#8a6200;background:var(--sun-l);border-radius:99px;padding:0 8px">bổ sung</span></h3>
+          <div class="dd">
+            <div class="yes"><h4>✔ Có thể</h4><ul><li>Tính năng Trợ giúp (Help) trong chương trình</li><li>Diễn đàn riêng của phần mềm</li></ul></div>
+            <div class="no"><h4>✘ Chưa phù hợp</h4><ul><li>Hướng dẫn <i>cài đặt</i> (chỉ dạy cài, không dạy dùng)</li><li>Trang LinkedIn của công ty (tin tức, tuyển dụng)</li></ul></div>
+          </div>
+          <h3>Thiết bị đáng tin cậy <span style="font-size:12px;color:#8a6200;background:var(--sun-l);border-radius:99px;padding:0 8px">bổ sung</span></h3>
+          <p>Một số nơi cấm dùng thiết bị lưu trữ/truyền thông <b>không đáng tin cậy</b> vì có thể mang virus hoặc làm lộ dữ liệu.</p>
+          <ul>
+            <li><b>Đáng tin:</b> thiết bị do nơi đó cấp và quản lý (ví dụ USB của công ty, không mang ra khỏi cơ sở).</li>
+            <li><b>Không đáng tin:</b> USB mang từ nhà, máy tính bảng cá nhân, USB nhặt được.</li>
+          </ul>
+          <div class="remember">Luôn học thêm, biết hỏi đúng nơi, và chỉ dùng thiết bị đáng tin cậy ở nơi làm việc.</div>
+          <div class="related" data-rel="s5"></div>
+          <button class="donebtn" data-done="s5">✓ Em đã học xong chặng này</button>
+        </div>
+        <div class="try">
+          <span class="lab t">✍️ Thử sức</span>
+          <div id="p-s5"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATION 6 -->
+    <section class="st" id="s6" data-t="Có trách nhiệm & AI" data-time="18–20′" style="--hc:var(--mint-l)">
+      <div class="st-h"><div class="st-num">7</div><h2>Người dùng có trách nhiệm &amp; dùng AI an toàn</h2><span class="chip">18–20′</span></div>
+      <div class="st-b">
+        <div class="learn">
+          <span class="lab l">📘 Học</span>
+          <h3>Trở thành người dùng công nghệ có trách nhiệm</h3>
+          <ul class="rules">
+            <li><i>🛡️</i><div>Bảo vệ thông tin cá nhân.</div></li>
+            <li><i>🤔</i><div>Suy nghĩ trước khi chia sẻ.</div></li>
+            <li><i>©️</i><div>Sử dụng phần mềm hợp pháp.</div></li>
+            <li><i>😊</i><div>Hành xử văn minh trên mạng.</div></li>
+            <li><i>⏱️</i><div>Quản lý thời gian sử dụng công nghệ.</div></li>
+          </ul>
+          <p><span style="font-size:12px;color:#8a6200;background:var(--sun-l);border-radius:99px;padding:0 8px;font-weight:700">bổ sung</span> Có trách nhiệm còn là <b>bảo vệ môi trường</b>: tắt màn hình khi đi ra ngoài (như tắt đèn khi rời phòng), dùng thiết bị tiết kiệm năng lượng, ủng hộ sản phẩm tái chế, và <b>chia sẻ hiểu biết</b> về công nghệ với mọi người.</p>
+
+          <h3>🤖 Dùng AI để xây hình ảnh tích cực</h3>
+          <ul>
+            <li><b>Giao tiếp lịch sự:</b> nhờ AI gợi ý nháp email/tin nhắn lễ phép – em đọc lại rồi mới gửi.</li>
+            <li><b>Học tập đúng cách:</b> nhờ AI giải thích bài khó; em tự làm lại, không chép nguyên để gian lận.</li>
+            <li><b>Hình ảnh số:</b> chỉ đăng nội dung tích cực; không nhờ AI viết lời xúc phạm hay tin giả.</li>
+          </ul>
+          <h3>🚫 Không đưa thông tin nhạy cảm vào AI</h3>
+          <ul>
+            <li><b>Thông tin cá nhân:</b> họ tên đầy đủ, ngày sinh, SĐT, số CCCD.</li>
+            <li><b>Địa chỉ &amp; trường lớp:</b> địa chỉ nhà, lịch học chi tiết – dễ bị lộ vị trí.</li>
+            <li><b>Bí mật đăng nhập:</b> mật khẩu, mã OTP, số thẻ – tuyệt đối không nhập.</li>
+          </ul>
+          <h3>Vì sao không nhập lung tung vào chatbot?</h3>
+          <ul>
+            <li>AI có thể <b>lưu / học</b> nội dung em gõ – khó xóa hết.</li>
+            <li>Nguy cơ: lộ riêng tư; bị giả mạo; bị lừa nếu dán mã/OTP.</li>
+            <li>Không dùng AI tiêu cực: <b>cấm</b> trêu chọc, xúc phạm, tin giả, gian lận thi/bài.</li>
+          </ul>
+          <div class="def"><b>3 điểm cốt lõi khi dùng Gen AI:</b> (1) Không dùng AI để xúc phạm hoặc gây hại. (2) Kiểm chứng nội dung AI trước khi chia sẻ và phải phù hợp. (3) Con người quyết định.</div>
+          <div class="remember">Mỗi người phải chịu trách nhiệm với những gì mình tạo ra từ AI.</div>
+          <div class="related" data-rel="s6"></div>
+          <button class="donebtn" data-done="s6">✓ Em đã học xong chặng này</button>
+        </div>
+        <div class="try">
+          <span class="lab t">✍️ Thử sức</span>
+          <div id="p-s6"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REVIEW -->
+    <section class="st" id="review" data-t="Ôn tập 22 câu" data-time="20–30′" style="--hc:var(--sun)">
+      <div class="st-h"><div class="st-num">★</div><h2>Ôn tập tổng hợp – 22 câu hỏi</h2><span class="chip">20–30′</span></div>
+      <div class="rv-intro">
+        <b>Cách làm:</b> chọn đáp án rồi bấm “Kiểm tra” để xem đáp án và giải thích. Mỗi câu có nhãn chặng liên quan – bấm vào nhãn để quay lại bài học.
+        <p>Câu “Chọn 2 / Chọn 3” cần chọn đủ số đáp án đúng. Nếu hết giờ, làm tiếp các câu còn lại ở nhà.</p>
+      </div>
+      <div class="rv-bar">
+        <div class="sc" id="score">Đã làm 0/22 · Đúng 0</div>
+        <button class="btn mint" id="chkall" type="button">Chấm tất cả</button>
+        <button class="btn alt" id="reset" type="button">Làm lại</button>
+      </div>
+      <div class="qs" id="qs"></div>
+    </section>
+
+    <footer>IC3 GS6 Level 2 · Bài 11 · Quy tắc ứng xử trên môi trường số</footer>
+  </main>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- helpers ---------- */
+var $=function(s,r){return (r||document).querySelector(s)};
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+function el(tag,cls,html){var e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e}
+var store={
+  get:function(k){try{return JSON.parse(localStorage.getItem('k7b11_'+k))}catch(e){return null}},
+  set:function(k,v){try{localStorage.setItem('k7b11_'+k,JSON.stringify(v))}catch(e){}}
+};
+
+/* ---------- stations meta ---------- */
+var COLORS=['#cfe0ff','#ffc9c0','#bdeedf','#ffe08a','#cfe0ff','#ffc9c0','#bdeedf','#ffc83d'];
+var stations=$$('section.st').map(function(s,i){return {id:s.id,title:s.dataset.t,time:s.dataset.time,i:i}});
+
+/* rail + plan */
+var rail=$('#rail'), plan=$('#plan');
+stations.forEach(function(s,i){
+  var li=el('li');
+  li.innerHTML='<a href="#'+s.id+'" data-s="'+s.id+'"><span class="dot">'+(s.id==='review'?'★':i+1)+'</span><span>'+s.title+'<small>'+s.time+'</small></span></a>';
+  rail.appendChild(li);
+  var mins={s0:3,s1:4,s2:3,s3:3,s4:3,s5:2,s6:2,review:10}[s.id];
+  var a=el('a',null,s.title+'<small>'+s.time+'</small>');
+  a.href='#'+s.id;a.style.flex=mins;a.style.background=COLORS[i];
+  plan.appendChild(a);
+});
+
+/* ---------- practice data ---------- */
+var P={
+ s0:{kind:'pick',task:'Hai bạn cùng nhờ anh gửi bài. Tin nhắn nào thể hiện Netiquette tốt hơn?',
+   opts:['“ANH GỬI BÀI CHO E NGAY!!!”','“Chào anh, anh gửi giúp em bài tập với ạ. Em cảm ơn anh!”','“a gui bai cho e dc ko”'],
+   ans:1,why:'Tin nhắn B lịch sự, rõ ràng, không viết hoa toàn bộ và không viết tắt khó hiểu.'},
+ s1:{kind:'judge',task:'Chọn “Nên” hoặc “Không nên” cho từng việc làm:',yes:'Nên',no:'Không nên',items:[
+   ['Viết HOA TẤT CẢ để người nhận dễ thấy.',0,'Viết hoa toàn bộ giống như đang hét lớn.'],
+   ['Chỉ cần trao đổi với 2 bạn → nhắn riêng cho 2 bạn đó.',1,'Như vậy cả nhóm không bị làm phiền bởi thông báo không liên quan.'],
+   ['Nhắn “k bt, dc ko” với thầy cô.',0,'Viết tắt dễ khiến người nhận hiểu sai, nhất là với người lớn.'],
+   ['Email có chữ ký ghi đầy đủ họ tên.',1,'Chữ ký có họ và tên giúp người nhận biết ngay bạn là ai.'],
+   ['Gửi file đính kèm mà không nói gì với người nhận.',0,'Hãy nhắc cho người nhận biết có tập tin đính kèm.']]},
+ s2:{kind:'judge',task:'Câu nào là phản hồi lịch sự khi em không đồng ý?',yes:'Lịch sự',no:'Chưa lịch sự',items:[
+   ['“Mình hiểu ý bạn, nhưng mình nghĩ cách khác sẽ hợp hơn.”',1,'Thừa nhận ý kiến của bạn rồi mới nêu ý mình.'],
+   ['“Chỉ có người ngốc mới nghĩ vậy!”',0,'Xúc phạm con người, không phải góp ý.'],
+   ['“Bạn đã đọc nguồn này chưa? Có góc nhìn khác khá thú vị.”',1,'Đưa nguồn và đặt câu hỏi, không công kích.'],
+   ['“Người ở vùng đó chắc ai cũng giống nhau nhỉ.”',0,'Đó là giả định/định kiến – nên đặt câu hỏi thay vì đoán.']]},
+ s3:{kind:'judge',task:'Trước khi bấm “Đăng”, việc nào đúng?',yes:'Đúng',no:'Sai',items:[
+   ['Kiểm tra xem nguồn tin có đáng tin không.',1,'Tin sai lan nhanh; hãy kiểm chứng trước.'],
+   ['Đăng ảnh cả nhóm lên công khai, không cần hỏi ai.',0,'Cần tôn trọng quyền riêng tư và xin phép những người trong ảnh.'],
+   ['Hỏi bạn có đồng ý cho đăng ảnh bạn ấy không.',1,'Để chính người trong ảnh quyết định.'],
+   ['Đăng địa chỉ nhà và lịch học của mình công khai.',0,'Dễ bị lộ vị trí và thông tin cá nhân.']]},
+ s4:{kind:'judge',task:'Em đang họp trực tuyến. Việc nào phù hợp?',yes:'Phù hợp',no:'Không',items:[
+   ['Kiểm tra camera, loa, micro trước giờ họp.',1,'Chuẩn bị thiết bị giúp buổi họp suôn sẻ.'],
+   ['Muốn hỏi → bấm biểu tượng “giơ tay”.',1,'Chờ đến lượt để không nói chen.'],
+   ['Mở game ở tab bên cạnh vì camera không thấy.',0,'Cần tập trung vào buổi họp.'],
+   ['Bật micro cả buổi, kể cả khi đang ăn.',0,'Tắt tiếng khi chưa nói để không gây ồn.'],
+   ['Đặt camera ngang tầm mắt.',1,'Giúp mọi người thấy mặt em tự nhiên, thể hiện sự tôn trọng.']]},
+ s5:{kind:'pick',task:'Phần mềm có một chức năng lạ. Cách nào giúp em tìm hướng dẫn tốt nhất?',
+   opts:['Mở tính năng Trợ giúp (Help) của chương trình','Đọc hướng dẫn cài đặt phần mềm','Đoán bừa và bấm thử mọi nút'],
+   ans:0,why:'Help và diễn đàn riêng của phần mềm hướng dẫn cách dùng; hướng dẫn cài đặt chỉ nói cách cài.',
+   extra:{kind:'judge',task:'Thiết bị nào đáng tin cậy ở công ty (có chính sách cấm thiết bị lạ)?',yes:'Đáng tin',no:'Không',items:[
+    ['USB do công ty cấp, không mang ra ngoài.',1,'Do công ty cấp và quản lý.'],
+    ['USB em mang từ nhà.',0,'Chưa được kiểm tra – có thể mang virus.']]}},
+ s6:{kind:'judge',task:'Em dùng chatbot AI. Việc nào đúng?',yes:'Đúng',no:'Sai',items:[
+   ['Dán mã OTP vào chatbot để hỏi “mã này là gì?”.',0,'Mã OTP, mật khẩu, số thẻ tuyệt đối không nhập vào AI.'],
+   ['Nhờ AI nháp email lễ phép rồi tự đọc lại trước khi gửi.',1,'AI hỗ trợ, em là người quyết định.'],
+   ['Nhờ AI chép bài kiểm tra để nộp.',0,'Đó là gian lận.'],
+   ['Hỏi AI giải thích bài khó rồi tự làm lại.',1,'Học tập đúng cách.'],
+   ['Tắt màn hình khi đi ra ngoài để tiết kiệm điện.',1,'Thói quen của người dùng có trách nhiệm.']]}
+};
+
+/* ---------- render practice ---------- */
+function renderJudge(box,d){
+  box.appendChild(el('p','ptask',d.task));
+  var total=0,done=0,good=0;
+  var sc=el('div','pscore','');
+  d.items.forEach(function(it){
+    total++;
+    var w=el('div','ji');
+    w.innerHTML='<p>'+it[0]+'</p><div class="bt"><button data-v="1">'+d.yes+'</button><button data-v="0">'+d.no+'</button></div><p class="fb"></p>';
+    $$('button',w).forEach(function(b){b.onclick=function(){
+      var ok=(+b.dataset.v)===it[1];
+      w.classList.add(ok?'right':'wrong');b.classList.add('pick');
+      $('.fb',w).innerHTML=(ok?'✔ Đúng! ':'✘ Chưa đúng. ')+it[2];
+      done++;if(ok)good++;
+      if(done===total)sc.textContent='🎉 Bạn được '+good+'/'+total+(good===total?' – xuất sắc!':' – xem lại ghi chú bên trái nhé.');
+    }});
+    box.appendChild(w);
+  });
+  box.appendChild(sc);
+}
+function renderPick(box,d){
+  box.appendChild(el('p','ptask',d.task));
+  var g=el('div','pk');var fb=el('p','fb','');fb.style.display='none';
+  d.opts.forEach(function(t,i){
+    var b=el('button',null,'<b>'+'ABC'[i]+'.</b> '+t);
+    b.onclick=function(){
+      g.classList.add('locked');
+      b.classList.add(i===d.ans?'right':'wrong');
+      if(i!==d.ans)g.children[d.ans].classList.add('right');
+      fb.style.display='block';fb.innerHTML=(i===d.ans?'✔ Chính xác! ':'✘ Chưa đúng. ')+d.why;
+    };
+    g.appendChild(b);
+  });
+  box.appendChild(g);box.appendChild(fb);
+}
+Object.keys(P).forEach(function(k){
+  var box=$('#p-'+k),d=P[k];
+  if(d.kind==='judge')renderJudge(box,d);else renderPick(box,d);
+  if(d.extra){var sep=el('div');sep.style.height='16px';box.appendChild(sep);renderJudge(box,d.extra)}
+});
+
+/* ---------- review questions (22, giữ nguyên nội dung gốc) ---------- */
+var Q=[
+{sec:['s5'],t:'multi',n:1,type:'tf',lab:['Có','Không'],
+ q:'Bạn đang sử dụng chương trình phần mềm mới để tạo bài trình chiếu. Bạn cần sử dụng một chức năng không quen thuộc. Với mỗi tài nguyên, hãy chọn <b>Có</b> nếu bạn có thể sử dụng nó để tìm kiếm sự hỗ trợ hoặc <b>Không</b> nếu không thể.',
+ items:[['Tính năng Trợ giúp (Help) trong chương trình.',1],['Hướng dẫn cài đặt phần mềm.',0],['Diễn đàn trực tuyến dành riêng cho phần mềm.',1],['Trang LinkedIn dành cho công ty phần mềm.',0]],
+ why:'Help và diễn đàn riêng của phần mềm giúp em biết cách <b>dùng</b> một chức năng. Hướng dẫn cài đặt chỉ nói về việc cài phần mềm; trang LinkedIn của công ty đăng tin tức/tuyển dụng, không hỗ trợ sử dụng.'},
+{sec:['s4'],type:'multi',n:2,pick:2,
+ q:'Giáo viên của bạn mời một diễn giả khách mời thuyết trình trước lớp. Bạn cần tuân thủ các chuẩn mực đạo đức trong môi trường số và thể hiện với diễn giả rằng bạn đang lắng nghe. Đâu là hai hành động thích hợp cần làm trong buổi thuyết trình của diễn giả? (Chọn 2)',
+ opts:['Sử dụng máy tính bảng/máy tính xách tay để ghi chú trong khi nghe thuyết trình, đồng thời duy trì giao tiếp bằng mắt với diễn giả.','Sử dụng máy tính bảng/máy tính xách tay để nghiên cứu thông tin và sở thích của diễn giả.','Sử dụng điện thoại thông minh để chụp ảnh các trang trình bày của diễn giả mà bạn muốn giữ lại để tham khảo trong tương lai.','Sử dụng điện thoại thông minh để chụp ảnh chính bạn và những người tham gia khác để ghi lại trải nghiệm của mình.'],
+ ans:[0,2],why:'<b>A và C đúng:</b> ghi chú và chụp trang trình bày quan trọng giúp em học tốt mà vẫn tập trung vào diễn giả. B và D làm em xao nhãng, không thể hiện sự lắng nghe.'},
+{sec:['s3'],type:'single',n:3,
+ q:'Bạn quay lại cảnh một người bạn đang thực hiện một điệu nhảy ngớ ngẩn trong bữa tiệc. Bạn muốn chia sẻ video này với những người bạn chung. Bạn cần xác định cách thức chia sẻ video theo đúng các chuẩn mực đạo đức trong môi trường số. Bạn nên làm gì?',
+ opts:['Gửi trực tiếp video cho người bạn nhảy nhót kia và bảo họ chia sẻ video đó với những người khác.','Chỉ gửi video cho những người đã tham dự bữa tiệc và yêu cầu họ không chia sẻ video đó với bất kỳ ai.','Chia sẻ video lên mạng xã hội, cài đặt bảo mật chỉ cho phép bạn bè của bạn xem video đó.','Chia sẻ video lên mạng xã hội và đặt ở chế độ công khai.'],
+ ans:[0],why:'<b>Đáp án A.</b> Người trong video là bạn của em nên bạn ấy có quyền quyết định có chia sẻ hay không. Các cách còn lại tự ý phát tán video khi chưa được đồng ý (và không thể kiểm soát người khác có chia sẻ tiếp hay không).'},
+{sec:['s2'],type:'tf',n:4,lab:['Có','Không'],
+ q:'Bạn tìm thấy một bài đăng thông tin y tế không chính xác. Bạn quyết định trả lời bài viết này. Với mỗi phản hồi, hãy chọn <b>Có</b> nếu nó tuân thủ các chuẩn mực đạo đức thích hợp trong môi trường số hoặc <b>Không</b> nếu không phải.',
+ items:[['“SAI RỒI! Bạn có TÌM HIỂU KỸ trước khi đăng bài này không?”',0],['“Rất nhiều bác sĩ, bao gồm cả Jane Smith từ Harvard Medical School đều không đồng ý”.',1],['“Rất khó để tìm hiểu tất cả mọi thứ, nhưng có rất nhiều nguồn để tìm hiểu về vấn đề này”.',1],['“Đây là việc làm sai lầm và khiến bạn trông thật ngờ nghệch! Rõ ràng là bạn không tìm hiểu từ Harvard Medical School”.',0]],
+ why:'Phản hồi tốt thì <b>bình tĩnh, nêu nguồn đáng tin</b> và không chê bai người đăng. Viết HOA hét lên hoặc chế giễu (“ngờ nghệch”) là thiếu tôn trọng.'},
+{sec:['s3','s2'],type:'tf',n:5,lab:['Có','Không'],
+ q:'Một người bạn vừa tham gia mạng xã hội. Bài đăng đầu tiên của cô ấy là một bức ảnh cũ và đáng xấu hổ của bạn. Cô ấy đã không hỏi ý kiến của bạn trước. Bạn cần phải trả lời theo các chuẩn mực đạo đức thích hợp trong môi trường số. Với mỗi câu phát biểu, hãy chọn <b>Có</b> nếu đó có thể là một phần phản hồi của bạn với bài đăng nói trên là phù hợp hoặc <b>Không</b> nếu không phải.',
+ items:[['“XÓA NGAY ĐI”',0],['“Mình hãy đăng bức ảnh đáng xấu hổ của bạn”',0],['“Làm ơn đừng đăng hình của mình khi chưa hỏi ý kiến”',1]],
+ why:'Em có quyền nhờ bạn không đăng ảnh khi chưa xin phép, nhưng phải <b>lịch sự</b>. Viết hoa ra lệnh hoặc “trả đũa” bằng cách đăng ảnh xấu hổ của bạn là không phù hợp.'},
+{sec:['s5'],type:'multi',n:6,pick:2,
+ q:'Bạn đang cân nhắc về nghề nghiệp tương lai trong ngành công nghệ thông tin (CNTT). Vào mùa hè trước năm cuối cùng của bậc trung học, bạn được mời thực tập không lương tại một Công ty Công nghệ địa phương. Tùy chọn nào sau đây là lý do để chấp nhận đợt thực tập này? (Chọn 2)',
+ opts:['Để áp dụng những kiến thức CNTT của bạn vào môi trường chuyên nghiệp.','Để học các kỹ năng CNTT mới.','Để học cách giám sát các nhân viên CNTT khác.','Để dạy kỹ năng CNTT cho các nhân viên của công ty.'],
+ ans:[0,1],why:'<b>A và B đúng:</b> thực tập giúp em áp dụng kiến thức vào thực tế và học kĩ năng mới. Học sinh đi thực tập không phải để giám sát hay dạy nhân viên.'},
+{sec:['s5'],type:'multi',n:7,pick:2,
+ q:'Lớp của bạn đang học cách sử dụng một ứng dụng phần mềm mới. Mỗi học sinh được phân công sử dụng thành thạo một tính năng khác nhau của ứng dụng. Đâu là hai cách mà học sinh có thể cải thiện khả năng sử dụng các tính năng được phân công? (Chọn 2)',
+ opts:['Hướng dẫn người khác sử dụng tính năng đó.','Tham khảo tài nguyên trợ giúp của ứng dụng.','Tham gia kỳ thi cấp chứng chỉ.','Đọc đánh giá trực tuyến về ứng dụng.'],
+ ans:[0,1],why:'<b>A và B đúng:</b> dạy người khác giúp em hiểu sâu hơn; tài nguyên trợ giúp giải thích cách dùng tính năng. Thi chứng chỉ hay đọc đánh giá không giúp thành thạo một tính năng cụ thể.'},
+{sec:['s4'],type:'tf',n:8,lab:['Đúng','Sai'],
+ q:'Giáo viên của bạn đã sắp xếp một chuyến đi thực tế kỹ thuật số cho lớp khoa học của bạn để thăm một bể cá. Hướng dẫn viên là một nhà giáo dục tại thủy cung, người sẽ tổ chức một cuộc thảo luận trực tiếp với lớp của bạn trong suốt chuyến tham quan bằng cách sử dụng Zoom, Microsoft Teams hoặc một phần mềm hội nghị truyền hình tương tự. Bạn đã được giáo viên hướng dẫn cách thể hiện tốt các nghi thức kỹ thuật số trong chuyến tham quan. Đối với mỗi câu trả lời, hãy chọn <b>Đúng</b> nếu nó tuân thủ các nghi thức kỹ thuật số thích hợp hoặc <b>Sai</b> nếu không tuân thủ.',
+ items:[['Bật Webcam của bạn và tập trung vào màn hình của bạn để người nói, bạn cùng lớp và giáo viên của bạn có thể thấy rằng bạn đang chú ý.',1],['Sử dụng biểu tượng “Giơ tay” (“Raise Hand”) để đặt câu hỏi.',1],['Tắt tiếng Micro (Mute) của bạn và chỉ bật tiếng khi bạn được gọi để thảo luận.',1],['Luôn bật tiếng Micro của bạn để hướng dẫn viên có thể nghe thấy phản ứng của bạn với những gì họ đang nói.',0]],
+ why:'Bật camera, giơ tay và chỉ bật micro khi được gọi là nghi thức tốt. Luôn bật micro sẽ gây tiếng ồn, làm phiền người đang nói.'},
+{sec:['s1'],type:'multi',n:9,pick:2,
+ q:'Hai phát biểu nào là đúng về nguyên tắc sử dụng Email? (Chọn 2)',
+ opts:['Chủ đề phải dài ít nhất một câu.','Hầu hết các chữ ký phải có họ và tên.','Vì người nhận có thể thấy tập tin đính kèm, nên không cần thông báo cho người nhận về tập tin đính kèm.','Đoạn văn ngắn hơn tốt hơn đoạn văn dài.'],
+ ans:[1,3],why:'<b>B và D đúng.</b> A sai: chủ đề cần ngắn gọn, rõ ý. C sai: nên nhắc người nhận có tập tin đính kèm. 💡 Thêm: trường <b>Bcc</b> dùng để giữ bí mật địa chỉ Email của nhiều người nhận với nhau.'},
+{sec:['s5'],type:'multi',n:10,pick:2,
+ q:'Bạn muốn cập nhật những tiến bộ công nghệ. Hai hành động nào có nhiều khả năng khiến bạn biết đến những tiến bộ công nghệ? (Chọn 2)',
+ opts:['Đăng ký một nguồn cung cấp tin tức công nghệ.','Tham gia một số nhóm công nghệ trên mạng xã hội và đọc các bài đăng của họ.','Xem phim được sản xuất bằng công nghệ.','Sử dụng thiết bị máy tính hàng ngày.'],
+ ans:[0,1],why:'<b>A và B đúng:</b> bản tin và nhóm công nghệ liên tục đăng thông tin mới. Xem phim hay dùng máy tính hằng ngày không chắc giúp em biết tiến bộ mới.'},
+{sec:['s3'],type:'single',n:11,
+ q:'Một nhóm bạn của bạn đang thảo luận về một diễn viên hài mà họ đã thấy trên TV, người đã tạo ra một ngọn núi lửa bằng cách sử dụng Mentos và Coke. Họ đang tranh luận về việc anh ấy đã làm như thế nào. Bạn và bạn bè của bạn quyết định yêu cầu giáo viên khoa học của bạn cho biết nó đã được thực hiện như thế nào. Sau nhiều lần thuyết phục, giáo viên đồng ý chứng minh điều này đã được thực hiện như thế nào trong giờ ăn trưa của mình. Bạn quay Video cuộc thực nghiệm trên điện thoại thông minh của bạn. Bạn muốn chia sẻ Video với các bạn cùng lớp của mình phù hợp với bộ quy tắc ứng xử trên môi trường kỹ thuật số. Những gì bạn nên làm?',
+ opts:['Cho giáo viên khoa học xem Video và yêu cầu giáo viên tự chia sẻ Video đó với lớp của bạn.','Tải Video lên mạng xã hội ở chế độ công khai.','Gửi Video cho nhóm bạn bè của bạn và yêu cầu họ không chia sẻ Video đó với bất kỳ ai khác.','Tải Video lên mạng xã hội và thiết lập cài đặt bảo mật chỉ cho phép bạn bè của bạn xem Video đó.'],
+ ans:[0],why:'<b>Đáp án A.</b> Thầy/cô xuất hiện trong video nên cần được hỏi ý kiến và để thầy/cô quyết định có chia sẻ hay không – giống câu 3.'},
+{sec:['s2'],type:'single',n:12,
+ q:'Bạn đang tham gia một diễn đàn trực tuyến để phản hồi một ý kiến cho rằng đồng phục mới của đội nên có màu đỏ. Bạn nghĩ rằng đồng phục nên có màu xanh lam. Tuỳ chọn nào sau đây được xem là phản hồi tốt nhất?',
+ opts:['Tôi nghĩ đồng phục mới nên có màu xanh lam, nhưng tôi hiểu quan điểm của bạn.','Màu xanh lam tốt hơn màu đỏ.','Bạn cần một chuyên gia thời trang.','Bạn chỉ nên theo dõi đội.'],
+ ans:[0],why:'<b>Đáp án A.</b> Nêu ý kiến của mình và thể hiện sự tôn trọng quan điểm khác. B, C, D mang tính áp đặt hoặc công kích.'},
+{sec:['s2'],type:'single',n:13,
+ q:'Bạn đang cộng tác trực tuyến với các bạn cùng lớp để phê bình các bài thuyết trình PowerPoint của nhau về một chủ đề. Điều nào sau đây thể hiện phép xã giao kỹ thuật số tốt?',
+ opts:['Cung cấp nhận xét về mọi trang trình bày.','Giễu cợt học sinh về lỗi.','Sửa lỗi bằng lời giải thích và giọng điệu tích cực.','Đề nghị tác giả thay đổi màu sắc cho mục yêu thích của bạn.'],
+ ans:[2],why:'<b>Đáp án C.</b> Góp ý tốt là chỉ ra lỗi kèm lời giải thích và giọng điệu tích cực. Giễu cợt là bất lịch sự; đổi theo sở thích riêng không phải góp ý hữu ích.'},
+{sec:['s5'],type:'tf',n:14,lab:['Đúng','Sai'],
+ q:'Bạn đã được một công ty phát triển trò chơi máy tính thuê để kiểm tra phần mềm trò chơi tại cơ sở của họ. Công ty có chính sách chống lại việc sử dụng các thiết bị truyền thông không đáng tin cậy. Đối với mỗi phát biểu, hãy chọn <b>Đúng</b> nếu đó là thiết bị truyền thông đáng tin cậy hoặc <b>Sai</b> nếu không phải.',
+ items:[['Một ổ USB nhỏ bạn mang theo từ nhà.',0],['Một ổ USB được công ty cung cấp cho bạn để không bao giờ rời khỏi cơ sở.',1],['Máy tính bảng cá nhân của bạn.',0]],
+ why:'Thiết bị do công ty cấp và quản lý, không rời cơ sở là đáng tin cậy. Thiết bị cá nhân mang từ ngoài vào có thể chứa virus hoặc làm lộ dữ liệu.'},
+{sec:['s4'],type:'multi',n:15,pick:2,
+ q:'Những nghi thức nào được coi là đúng cho một cuộc họp trực tuyến? (Chọn 2)',
+ opts:['Kiểm tra Email miễn là việc đó nằm ngoài vùng ghi hình của Camera.','Làm việc trên các dự án khác.','Trang phục phù hợp.','Tắt tiếng Micro khi cần thiết.'],
+ ans:[2,3],why:'<b>C và D đúng.</b> Ăn mặc phù hợp và tắt micro khi cần là tôn trọng buổi họp. A và B làm em mất tập trung dù camera không thấy.'},
+{sec:['s2'],type:'tf',n:16,lab:['Đúng','Sai'],
+ q:'Đối với mỗi phát biểu sau đây, hãy chọn <b>Đúng</b> nếu tuỳ chọn thể hiện mức độ nhạy cảm với sự đa dạng văn hóa hoặc <b>Sai</b> nếu không.',
+ items:[['Chú ý đến những định kiến và thành kiến của chính bạn.',1],['Đặt câu hỏi thay vì đưa ra giả định.',1],['Mua một bộ quần áo thiêng liêng của một nền văn hóa khác và mặc bộ quần áo đó để thể hiện tình bạn giữa hai nền văn hoá.',0],['Đăng nhiều câu chuyện về một nền văn hóa khác trên các trang mạng xã hội của bạn.',0]],
+ why:'Nhận ra định kiến của mình và đặt câu hỏi là tôn trọng khác biệt. Mặc trang phục thiêng liêng của văn hóa khác cho vui, hay đăng hàng loạt câu chuyện khi chưa hiểu, có thể gây xúc phạm.'},
+{sec:['s2'],type:'multi',n:17,pick:2,
+ q:'Một người dùng trên trang mạng xã hội vừa đăng thông tin không chính xác về một sự kiện lịch sử của đất nước Hoa Kỳ. Bạn quyết định trả lời bài viết. Hai câu trả lời nào sau đây tuân theo Netiquette kỹ thuật số? (Chọn 2)',
+ opts:['“Bạn đã đọc nghiên cứu về sự kiện này do Hiệp hội Lịch sử Hoa Kỳ xuất bản chưa? Góc nhìn của họ thật thú vị.”','“Nhiều học giả không đồng ý. Đây là một liên kết với một số sự kiện đối lập về cùng một sự kiện lịch sử này.”','“Chỉ có những kẻ khờ mới tin vào quan điểm này. Rõ ràng là bạn đã không thực hiện bất kỳ nghiên cứu nào trước khi đăng!”','“THÔNG TIN SAI LẦM! HÃY NHẬN THẤY SỰ THẬT CỦA BẠN TRƯỚC KHI ĐĂNG!”'],
+ ans:[0,1],why:'<b>A và B đúng:</b> đưa nguồn tham khảo bằng giọng bình tĩnh. C xúc phạm người khác; D viết hoa như hét lên.'},
+{sec:['s0'],type:'single',n:18,
+ q:'Em hãy cho biết, tập hợp các quy tắc được cộng đồng chấp nhận về các hành vi ứng xử lịch sự trong lĩnh vực liên quan đến Internet và giao tiếp kĩ thuật số được gọi là gì?',
+ opts:['Etiquette','Proper Behavior','Netiquette','VoIP'],
+ ans:[2],why:'<b>Đáp án C. Netiquette</b> = Network (mạng) + Etiquette (phép lịch sự). Etiquette là phép lịch sự nói chung; Proper Behavior chỉ là “hành vi đúng đắn” chung chung; VoIP là công nghệ gọi thoại qua Internet.'},
+{sec:['s1'],type:'multi',n:19,pick:2,
+ q:'Trong Netiquette khi nhắn tin trả lời người khác. Em hãy cho biết, tùy chọn nào sau đây là phù hợp? (Chọn 2)',
+ opts:['Khi tham gia nhắn tin trong một Group, chỉ nhắn tin khi tất cả mọi người đều cần xem tin nhắn của em.','Viết hoa tất cả các tin nhắn.','Viết tắt để giúp việc nhắn tin nhanh hơn.','Hạn chế sử dụng biểu tượng cảm xúc khi tham gia trò chuyện trong môi trường làm việc.'],
+ ans:[0,3],why:'<b>A và D đúng:</b> tin vào nhóm làm cả nhóm nhận thông báo nên chỉ gửi khi mọi người cần xem; môi trường làm việc cần nghiêm túc. B sai: viết hoa như hét lớn. C sai: viết tắt dễ gây hiểu nhầm.'},
+{sec:['s6'],type:'multi',n:20,pick:3,
+ q:'Em hãy cho biết, tùy chọn nào sau đây là phù hợp để giúp em trở thành một người dùng có trách nhiệm? (Chọn 3)',
+ opts:['Tắt màn hình máy tính khi đi ra ngoài.','Sử dụng thiết bị điện tử tiết kiệm năng lượng.','Chia sẻ kiến thức về công nghệ với người khác.','Không nên sử dụng các sản phẩm tái chế.'],
+ ans:[0,1,2],why:'<b>A, B, C đúng:</b> tiết kiệm điện, dùng thiết bị tiết kiệm năng lượng và chia sẻ hiểu biết đều là hành động có trách nhiệm. D sai: nên ủng hộ sản phẩm tái chế để giảm rác thải.'},
+{sec:['s2','s1'],type:'single',n:21,
+ q:'Trong Netiquette, em hãy cho biết tùy chọn nào sau đây là phù hợp?',
+ opts:['Luôn nhắn tin cho tất cả thành viên của nhóm để cung cấp nhiều thông tin.','Luôn trả lời Email ngay lập tức khi nhận được.','Giao tiếp với nguyên tắc tôn trọng văn hóa, tín ngưỡng của người khác.','Không nên chia sẻ kiến thức cho mọi người vì điều này thể hiện sự tự cao.'],
+ ans:[2],why:'<b>Đáp án C.</b> Trên mạng em giao tiếp với nhiều người khác văn hóa nên cần tôn trọng. A làm phiền người không liên quan; B không bắt buộc trả lời ngay; D sai vì chia sẻ kiến thức là việc tốt.'},
+{sec:['s1'],type:'single',n:22,
+ q:'Em hãy cho biết, tùy chọn nào sau đây là phù hợp để phản hồi một tin nhắn của người khác trong Netiquette?',
+ opts:['Viết hoa tất cả các từ để giúp người nhận dễ dàng đọc hơn.','Sử dụng nhiều từ viết tắt nhất có thể để tiết kiệm thời gian cho người nhận.','Sử dụng nhiều biểu tượng cảm xúc để thể hiện sự thân thiện trong môi trường công sở.','Cân nhắc nhắn tin riêng cho các cá nhân có liên quan thay vì lúc nào cũng gửi tin nhắn cho toàn bộ các thành viên trong nhóm.'],
+ ans:[3],why:'<b>Đáp án D.</b> Khi chỉ cần trao đổi với vài người, hãy nhắn riêng. Viết hoa như hét, viết tắt nhiều gây khó hiểu, nhiều emoji ở công sở thiếu chuyên nghiệp.'}
+];
+var SECNAME={s0:'Chặng 1 · Netiquette',s1:'Chặng 2 · Nhắn tin & Email',s2:'Chặng 3 · Tôn trọng & góp ý',s3:'Chặng 4 · Chia sẻ',s4:'Chặng 5 · Họp trực tuyến',s5:'Chặng 6 · Cập nhật công nghệ',s6:'Chặng 7 · Có trách nhiệm & AI'};
+
+/* related chips in stations */
+Object.keys(SECNAME).forEach(function(sid){
+  var box=$('[data-rel="'+sid+'"]');if(!box)return;
+  var ns=Q.filter(function(q){return q.sec.indexOf(sid)>-1}).map(function(q){return '<a href="#q'+q.n+'">Câu '+q.n+'</a>'});
+  box.innerHTML='🎯 Câu ôn tập liên quan: '+ns.join(' ');
+});
+
+/* ---------- review rendering ---------- */
+var qsBox=$('#qs'), state={};
+function loadState(){state=store.get('rv')||{}}
+function saveState(){store.set('rv',state)}
+loadState();
+
+function renderQ(q){
+  var w=el('div','q');w.id='q'+q.n;
+  var meta=q.sec.map(function(s){return '<a href="#'+s+'" style="text-decoration:none"><span>'+SECNAME[s]+'</span></a>'}).join('');
+  var hint=(q.type==='multi')?'<span class="m">Chọn '+q.pick+'</span>':(q.type==='tf'?'<span class="m">'+q.lab[0]+' / '+q.lab[1]+'</span>':'');
+  w.innerHTML='<div class="q-h"><div class="q-n">'+q.n+'</div><div class="q-t">'+q.q+'</div></div><div class="q-meta">'+meta+hint+'</div>';
+  var st=state[q.n]=state[q.n]||{sel:q.type==='tf'?[]:[],checked:false};
+  var body=el('div');w.appendChild(body);
+
+  function paint(){
+    body.innerHTML='';
+    if(q.type==='tf'){
+      q.items.forEach(function(it,i){
+        var r=el('div','tfr');r.innerHTML='<span>'+it[0]+'</span>';
+        var b=el('div','tfb');
+        [1,0].forEach(function(v){
+          var bt=el('button',null,v?q.lab[0]:q.lab[1]);
+          if(st.sel[i]===v)bt.classList.add('sel');
+          bt.onclick=function(){st.sel[i]=v;saveState();paint();updateScore()};
+          b.appendChild(bt);
+        });
+        r.appendChild(b);
+        if(st.checked){r.classList.add(st.sel[i]===it[1]?'right':'wrong');
+          if(st.sel[i]!==it[1]){var c=el('small',null,'→ Đáp án: <b>'+(it[1]?q.lab[0]:q.lab[1])+'</b>');r.querySelector('span').appendChild(el('br'));r.querySelector('span').appendChild(c)}}
+        body.appendChild(r);
+      });
+    }else{
+      var g=el('div','opts');
+      q.opts.forEach(function(t,i){
+        var o=el('button','op','<b>'+'ABCD'[i]+'</b><span>'+t+'</span>');
+        var on=st.sel.indexOf(i)>-1;
+        if(on)o.classList.add('sel');
+        if(st.checked){
+          var isAns=q.ans.indexOf(i)>-1;
+          if(isAns)o.classList.add('right');
+          else if(on)o.classList.add('wrong');
+        }
+        o.onclick=function(){
+          if(q.type==='single'){st.sel=[i]}
+          else{var k=st.sel.indexOf(i);if(k>-1)st.sel.splice(k,1);else{if(st.sel.length>=q.pick)st.sel.shift();st.sel.push(i)}}
+          saveState();paint();updateScore();
+        };
+        g.appendChild(o);
+      });
+      body.appendChild(g);
+    }
+    var act=el('div','q-act');
+    var cb=el('button','btn',st.checked?'Làm lại câu này':'Kiểm tra');
+    cb.onclick=function(){
+      if(st.checked){st.checked=false;st.sel=q.type==='tf'?[]:[];}
+      else{ if(!isAnswered(q,st)){flash(act,q.type==='tf'?'Hãy trả lời đủ các ý.':'Hãy chọn đáp án trước.');return} st.checked=true}
+      saveState();paint();updateScore();
+    };
+    act.appendChild(cb);
+    if(st.checked){var ok=isCorrect(q,st);var v=el('span','verdict '+(ok?'ok':'bad'),ok?'✔ Chính xác!':'✘ Chưa đúng, xem đáp án bên dưới');act.appendChild(v)}
+    body.appendChild(act);
+    var why=el('div','why','<b class="a">Giải thích:</b> '+q.why);body.appendChild(why);
+    w.classList.toggle('show',st.checked);
+    w.classList.toggle('locked',st.checked);
+    w.classList.toggle('ok',st.checked&&isCorrect(q,st));
+    w.classList.toggle('bad',st.checked&&!isCorrect(q,st));
+  }
+  w._paint=paint;paint();
+  return w;
+}
+function flash(act,msg){var s=$('.flash',act);if(!s){s=el('span','verdict bad');s.className+=' flash';act.appendChild(s)}s.textContent=msg;setTimeout(function(){if(s.parentNode)s.parentNode.removeChild(s)},2200)}
+function isAnswered(q,st){
+  if(q.type==='tf'){for(var i=0;i<q.items.length;i++)if(st.sel[i]!==0&&st.sel[i]!==1)return false;return true}
+  return st.sel.length===(q.type==='single'?1:q.pick);
+}
+function isCorrect(q,st){
+  if(q.type==='tf')return q.items.every(function(it,i){return st.sel[i]===it[1]});
+  return st.sel.length===q.ans.length&&q.ans.every(function(a){return st.sel.indexOf(a)>-1});
+}
+var nodes=[];
+Q.forEach(function(q){var n=renderQ(q);nodes.push(n);qsBox.appendChild(n)});
+
+function updateScore(){
+  var done=0,good=0;
+  Q.forEach(function(q){var s=state[q.n];if(s&&s.checked){done++;if(isCorrect(q,s))good++}});
+  $('#score').textContent='Đã kiểm tra '+done+'/22 · Đúng '+good+(done===22?(good===22?' 🏆 Tuyệt vời!':' · Hoàn thành!'):'');
+  recalcProgress();
+}
+$('#chkall').onclick=function(){
+  var miss=[];
+  Q.forEach(function(q,i){var s=state[q.n];if(!s.checked&&isAnswered(q,s))s.checked=true;else if(!s.checked)miss.push(q.n)});
+  saveState();nodes.forEach(function(n){n._paint()});updateScore();
+  if(miss.length)alert('Còn '+miss.length+' câu chưa trả lời đủ: '+miss.join(', ')+'.');
+};
+$('#reset').onclick=function(){
+  if(!confirm('Xóa toàn bộ bài làm phần ôn tập và làm lại?'))return;
+  state={};Q.forEach(function(q){state[q.n]={sel:[],checked:false}});saveState();
+  nodes.forEach(function(n,i){var nn=renderQ(Q[i]);n.parentNode.replaceChild(nn,n);nodes[i]=nn});updateScore();
+};
+
+/* ---------- progress / done buttons ---------- */
+var done=store.get('done')||{};
+function recalcProgress(){
+  var lessons=7,d=0;
+  Object.keys(done).forEach(function(k){if(done[k])d++});
+  var checked=0;Q.forEach(function(q){if(state[q.n]&&state[q.n].checked)checked++});
+  var pct=(d/lessons)*50+(checked/22)*50;
+  $('#pfill').style.width=pct+'%';
+  $$('#rail a').forEach(function(a){
+    var id=a.dataset.s;
+    a.classList.toggle('done',id==='review'?checked===22:!!done[id]);
+  });
+}
+$$('.donebtn').forEach(function(b){
+  var id=b.dataset.done;
+  function sync(){b.classList.toggle('on',!!done[id]);b.textContent=done[id]?'✓ Đã học xong – tuyệt!':'✓ Em đã học xong chặng này'}
+  sync();
+  b.onclick=function(){done[id]=!done[id];store.set('done',done);sync();recalcProgress()};
+});
+updateScore();
+
+/* ---------- active station on scroll ---------- */
+var links=$$('#rail a');
+function setAct(id){links.forEach(function(a){a.classList.toggle('act',a.dataset.s===id)});
+  var a=$('#rail a.act');if(a&&window.innerWidth<=980){var ol=$('#rail');ol.scrollLeft=a.parentNode.offsetLeft-20}}
+if('IntersectionObserver' in window){
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){if(e.isIntersecting)setAct(e.target.id)});
+  },{rootMargin:'-30% 0px -60% 0px'});
+  $$('section.st').forEach(function(s){io.observe(s)});
+}
+setAct('s0');
+
+/* ---------- 30-minute timer ---------- */
+var total=30*60,left=store.get('left'),running=false,tick=null;
+if(typeof left!=='number'||left<=0||left>total)left=total;
+var clock=$('#clock'),tbtn=$('#tbtn'),hint=$('#nowhint');
+var TL=[[0,3,'s0'],[3,7,'s1'],[7,10,'s2'],[10,13,'s3'],[13,16,'s4'],[16,18,'s5'],[18,20,'s6'],[20,30,'review']];
+function fmt(s){var m=Math.floor(s/60),x=s%60;return (m<10?'0':'')+m+':'+(x<10?'0':'')+x}
+function paintClock(){
+  clock.textContent=fmt(left);
+  var el_=(total-left)/60,cur=null;
+  TL.forEach(function(t){if(el_>=t[0]&&el_<t[1])cur=t});
+  if(running||left<total){
+    hint.classList.add('on');
+    if(left<=0)hint.textContent='⏰ Hết 30 phút! Nếu còn câu chưa làm, hãy làm tiếp ở nhà.';
+    else if(cur){var s=stations.filter(function(x){return x.id===cur[2]})[0];hint.textContent='⏱ Phút '+Math.floor(el_)+': nên ở "'+s.title+'" ('+s.time+')'}
+  }
+}
+function stop(){running=false;clearInterval(tick);tbtn.textContent=left<total?'Tiếp tục':'Bắt đầu';tbtn.classList.remove('run')}
+tbtn.onclick=function(){
+  if(running){stop();store.set('left',left);return}
+  if(left<=0)left=total;
+  running=true;tbtn.textContent='Tạm dừng';tbtn.classList.add('run');
+  tick=setInterval(function(){left--;if(left<=0){left=0;stop();tbtn.textContent='Đặt lại';left=0}
+    if(left%5===0)store.set('left',left);paintClock()},1000);
+  paintClock();
+};
+tbtn.addEventListener('dblclick',function(){stop();left=total;store.set('left',total);tbtn.textContent='Bắt đầu';hint.classList.remove('on');paintClock()});
+tbtn.title='Nhấp đúp để đặt lại';
+paintClock();
+if(left<total){tbtn.textContent='Tiếp tục'}
+recalcProgress();
+})();
+</script>
+</body>
+</html>
