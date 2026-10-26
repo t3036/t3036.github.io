@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Các khái niệm cơ bản trong sáng tạo nội dung – Bài 15</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap&subset=vietnamese" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <svg class="mascot" viewBox="0 0 64 100" aria-hidden="true">
+      <g transform="rotate(8 32 50)">
+        <rect x="14" y="4" width="36" height="14" rx="6" fill="#ff8fb1" stroke="#1d2a4d" stroke-width="3"/>
+        <rect x="14" y="16" width="36" height="8" fill="#c9d3e6" stroke="#1d2a4d" stroke-width="3"/>
+        <rect x="14" y="24" width="36" height="46" fill="#ffc800" stroke="#1d2a4d" stroke-width="3"/>
+        <path d="M14 70 L50 70 L32 96 Z" fill="#ffe3b3" stroke="#1d2a4d" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M26 86 L38 86 L32 96 Z" fill="#1d2a4d"/>
+        <circle cx="25" cy="42" r="3.6" fill="#1d2a4d"/><circle cx="39" cy="42" r="3.6" fill="#1d2a4d"/>
+        <circle cx="21" cy="52" r="3.2" fill="#ff8fb1"/><circle cx="43" cy="52" r="3.2" fill="#ff8fb1"/>
+        <path d="M26 52 Q32 60 38 52" fill="none" stroke="#1d2a4d" stroke-width="3" stroke-linecap="round"/>
+      </g>
+    </svg>
+    <div class="ttl"><small>Bài 15</small><h1>Các khái niệm cơ bản trong sáng tạo nội dung</h1></div>
+    <div class="tools">
+      <button class="chip" id="fsm" aria-label="Chữ nhỏ lại">A−</button>
+      <button class="chip" id="fbg" aria-label="Chữ to lên">A+</button>
+      <button class="chip" id="fs" aria-label="Toàn màn hình">⛶</button>
+      <button class="chip" id="reset" aria-label="Làm lại từ đầu">🔄</button>
+      <div class="score">⭐ <b id="sc">0</b>/8</div>
+    </div>
+  </header>
+  <nav class="rail" id="rail"></nav>
+  <main class="stage" id="stage"></main>
+</div>
+<div class="confetti" id="confetti" aria-hidden="true"></div>
+<script src="bai-15.js"></script>
+</body>
+</html>
