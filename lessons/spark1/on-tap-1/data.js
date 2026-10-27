@@ -12,8 +12,8 @@ const rawDB = [
         q: "Em hãy cho biết, loại phần cứng (Hardware) nào gửi dữ liệu đến máy tính?",
         hint: "Dữ liệu đi vào → tiếng Anh là In...",
         explain: "Nhập = Input = dữ liệu đi VÀO máy (bàn phím, chuột). Xuất = Output = dữ liệu đi RA (màn hình, loa).",
-        options: ["Xuất (Output)", "Màn hình (Monitor)", "Lưu trữ (Storage)", "Nhập (Input)"],
-        ans: "Nhập (Input)"
+        options: ["Thiết bị xuất (Output Device)", "Thiết bị nhập (Input Device)", "Thiết bị lưu trữ (Storage Device)", "Màn hình (Monitor)"],
+        ans: "Thiết bị nhập (Input Device)"
     },
     {
         type: 'mcq',
