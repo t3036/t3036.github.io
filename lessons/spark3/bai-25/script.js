@@ -24,7 +24,7 @@ const Q_APP={q:"Em hãy cho biết, ứng dụng nào dưới đây KHÔNG phả
 const Q_IMP={fixed:1,q:"Em gửi một Email rất khẩn cấp cho giáo viên. Em nên đánh dấu mức quan trọng nào?",o:["Thấp (Low)","Trung bình (Normal)","Cao (High)"],a:2,why:"Có 3 mức: thấp (Low), trung bình (Normal) và cao (High). Thư khẩn cấp nên chọn mức cao."};
 const Q_PRE={q:"Trước khi bấm Gửi, em nên làm gì?",o:["Gửi ngay cho nhanh","Kiểm tra lỗi chính tả và nội dung đã đầy đủ, rõ ràng chưa","Thêm thật nhiều biểu tượng và từ viết tắt","Viết thật dài cho đủ ý"],a:1,why:"Em cần viết rõ ràng, dùng từ lịch sự và kiểm tra kĩ trước khi gửi."};
 const Q_PARTS={q:"Em hãy kéo mỗi phần của địa chỉ thư điện tử vào đúng nhóm.",sort:{bins:[['Tên hộp thư'],['Kí hiệu thư điện tử'],['Tên miền nhà cung cấp dịch vụ']],items:[['abc123',0],['iigvietnam',0],['@',1],['gmail.com',2],['outlook.com',2]],why:"Địa chỉ thư điện tử gồm: tên hộp thư, kí hiệu @ và tên miền của nhà cung cấp dịch vụ."}};
-const Q_FIELD={q:"Em hãy xếp mỗi mô tả vào đúng ô nhập người nhận.",sort:{bins:[['Đến (To)'],['Cc'],['Bcc']],items:[['Nhập địa chỉ người nhận chính',0],['Gửi bản sao cho người cần theo dõi nội dung',1],['Gửi bản sao ẩn danh, người nhận khác không thấy địa chỉ này',2]],why:"To là người nhận chính, Cc là bản sao cho người cần theo dõi, Bcc là bản sao ẩn danh."}};
+const Q_FIELD={q:"Em hãy xếp mỗi mô tả vào đúng ô nhập người nhận.",sort:{bins:[['Đến (To)'],['Cc'],['Bcc']],items:[['Nhập địa chỉ người nhận chính',0,'co.hoa@truong.edu.vn'],['Gửi bản sao cho người cần theo dõi nội dung',1,'to.truong@truong.edu.vn'],['Gửi bản sao ẩn danh, người nhận khác không thấy địa chỉ này',2,'phu.huynh@gmail.com']],why:"To là người nhận chính, Cc là bản sao cho người cần theo dõi, Bcc là bản sao ẩn danh."}};
 const Q_REPLY={q:"Em hãy chọn cách phản hồi thư phù hợp với mỗi tình huống.",sort:{bins:[['Trả lời (Reply)'],['Trả lời tất cả (Reply All)'],['Chuyển tiếp (Forward)']],items:[['Chỉ muốn trả lời người gửi Email',0],['Tất cả mọi người có mặt trong Email cần xem câu trả lời của em',1],['Muốn gửi một Email đã nhận cho người khác',2]],why:"Reply: chỉ trả lời người gửi. Reply All: trả lời tất cả mọi người trong thư. Forward: gửi thư đã nhận cho người khác."}};
 const Q_SAFE={q:"Với mỗi việc làm, em hãy chọn <b>Nên</b> hoặc <b>Không nên</b> khi dùng Email và AI.",lab:["Nên","Không nên"],tf:["Nhờ AI sửa lỗi chính tả và viết lời lịch sự hơn","Nhập mật khẩu hoặc mã xác minh vào AI","Kiểm tra liên kết và tệp đính kèm trước khi mở","Trả lời Email lạ đang hỏi mật khẩu của em"],a:[true,false,true,false],why:"AI giúp chỉnh Email nhưng không được nhập thông tin nhạy cảm. Email hỏi mật khẩu, mã xác minh, tiền hoặc thông tin riêng tư thì em phải hỏi giáo viên hoặc người lớn trước khi trả lời."};
 const Q_AI={q:"Em nhận được một Email lạ yêu cầu gửi mật khẩu tài khoản. Em nên làm gì?",o:["Gửi mật khẩu ngay","Nhờ AI trả lời giúp và đưa mật khẩu cho AI","Không trả lời, hỏi giáo viên hoặc người lớn","Bấm vào liên kết trong thư để xem"],a:2,why:"Không cung cấp tài khoản, mật khẩu hay mã xác minh. Em cần hỏi giáo viên hoặc người lớn trước khi trả lời."};
@@ -34,9 +34,9 @@ const QUIZ=[Q_ADDR,Q_APP,Q_IMP,Q_PRE,Q_AI];
 /* luyện phân biệt Đến (To) · Cc · Bcc, đặt ngay trước nút "Em đã hiểu" của bài "Soạn thư" */
 const PRE=[
  {q:"Em gửi Email nộp bài cho cô Hoa. Em muốn bạn Lan <b>theo dõi nội dung</b> thư, và muốn lớp trưởng nhận <b>một bản sao ẩn danh</b>. Em hãy kéo từng địa chỉ email ở bên phải thả vào đúng ô trong thư.",mail:{bins:[['Đến (To)'],['Cc'],['Bcc']],items:[['hoa.nt@hoabinh.edu.vn (cô Hoa)',0],['lan.tt@hoabinh.edu.vn (bạn Lan)',1],['loptruong@hoabinh.edu.vn (lớp trưởng)',2]],why:"Cô Hoa là người nhận chính nên ở ô Đến. Lan cần theo dõi nội dung nên ở ô Cc. Lớp trưởng nhận bản sao ẩn danh nên ở ô Bcc."}},
- {q:"Em nhập địa chỉ của bạn Nam vào ô <b>Cc</b>. Khi cô Hoa mở thư, cô có nhìn thấy địa chỉ của Nam không?",o:["Không, vì địa chỉ ở ô Cc được giấu đi","Có, vì địa chỉ ở ô Cc hiện cho mọi người cùng thấy","Chỉ thấy khi cô bấm vào nút “Hiện”"],a:1,why:"Cc (Carbon copy) gửi bản sao để người đó theo dõi nội dung, và mọi người nhận thư đều thấy địa chỉ trong ô Cc."},
- {q:"Em nhập địa chỉ của lớp trưởng vào ô <b>Bcc</b>. Ai sẽ <b>không</b> nhìn thấy địa chỉ này?",o:["Tất cả mọi người đều thấy","Chỉ có em là không thấy","Cô Hoa và những người nhận khác không thấy địa chỉ này"],a:2,why:"Bcc (Blind carbon copy) là bản sao ẩn danh: những người nhận khác không thấy địa chỉ trong ô Bcc."},
- {q:"Với mỗi tình huống, em hãy chọn ô <b>Cc</b> hoặc ô <b>Bcc</b> cho phù hợp.",lab:["Cc","Bcc"],tf:["Em muốn bạn Lan cùng theo dõi nội dung thư và ai cũng biết Lan nhận thư","Em muốn gửi bản sao cho bố mẹ mà không để các bạn khác biết","Em muốn cô chủ nhiệm nhận bản sao để cùng theo dõi, ai cũng thấy"],a:[true,false,true],why:"Cc cho người cần theo dõi và ai cũng thấy. Bcc để gửi bản sao ẩn danh, không để người khác biết."}
+ {q:"Em nhập địa chỉ của bạn Nam vào ô <b>Cc</b>. Khi cô Hoa mở thư, cô có nhìn thấy địa chỉ của Nam không?",win:[['Từ','an.nguyen@hoabinh.edu.vn'],['Đến','hoa.nt@hoabinh.edu.vn'],['Cc','nam.pv@hoabinh.edu.vn'],['Chủ đề','Nộp bài tập']],o:["Không, vì địa chỉ ở ô Cc được giấu đi","Có, vì địa chỉ ở ô Cc hiện cho mọi người cùng thấy","Chỉ thấy khi cô bấm vào nút “Hiện”"],a:1,why:"Cc (Carbon copy) gửi bản sao để người đó theo dõi nội dung, và mọi người nhận thư đều thấy địa chỉ trong ô Cc."},
+ {q:"Em nhập địa chỉ của lớp trưởng vào ô <b>Bcc</b>. Ai sẽ <b>không</b> nhìn thấy địa chỉ này?",win:[['Từ','an.nguyen@hoabinh.edu.vn'],['Đến','hoa.nt@hoabinh.edu.vn'],['Bcc','loptruong@hoabinh.edu.vn'],['Chủ đề','Nộp bài tập']],o:["Tất cả mọi người đều thấy","Chỉ có em là không thấy","Cô Hoa và những người nhận khác không thấy địa chỉ này"],a:2,why:"Bcc (Blind carbon copy) là bản sao ẩn danh: những người nhận khác không thấy địa chỉ trong ô Bcc."},
+ {q:"Với mỗi tình huống, em hãy chọn ô <b>Cc</b> hoặc ô <b>Bcc</b> cho phù hợp.",lab:["Cc","Bcc"],tfa:['lan.tt@hoabinh.edu.vn','bome@gmail.com','gvcn@hoabinh.edu.vn'],tf:["Em muốn bạn Lan cùng theo dõi nội dung thư và ai cũng biết Lan nhận thư","Em muốn gửi bản sao cho bố mẹ mà không để các bạn khác biết","Em muốn cô chủ nhiệm nhận bản sao để cùng theo dõi, ai cũng thấy"],a:[true,false,true],why:"Cc cho người cần theo dõi và ai cũng thấy. Bcc để gửi bản sao ẩn danh, không để người khác biết."}
 ];
 
 /* câu hỏi tình huống cho bài "Nhận và phản hồi thư" */
@@ -161,12 +161,13 @@ function lesson(v,i){
     act.innerHTML=''; if(!state.po[i]) state.po[i]=shuffle(PRACT[i].map((_,k)=>k)); const list=state.po[i].map(k=>shuffleQ(PRACT[i][k])); let qn=Math.min(pq0,list.length-1); const pr=$('#pr');
     pr.innerHTML='<div class="practice"><div class="ph"><span>✏️ Bài tập nhỏ</span><span id="cnt"></span></div><div class="pb" id="ph"></div></div>';
     const next=()=>{
-      state.pq[i]=qn; save();
+      state.pq[i]=Math.max(state.pq[i]||0,qn); save();
       $('#cnt').textContent=list.length>1?'Câu '+(qn+1)+'/'+list.length:'';
       const key='m'+i+'_'+qn;
       const after=fx=>{
         const last=qn===list.length-1;
-        fx.insertAdjacentHTML('afterend','<div class="nxrow"><button class="btn go" id="c">'+(last?'Hoàn thành bài ✔':'Câu tiếp ▶')+'</button></div>');
+        fx.insertAdjacentHTML('afterend','<div class="nxrow">'+(qn?'<button class="btn" id="pv">◀ Câu trước</button> ':'')+'<button class="btn go" id="c">'+(last?'Hoàn thành bài ✔':'Câu tiếp ▶')+'</button></div>');
+        if(qn) $('#pv').onclick=()=>{ qn--; next(); };
         $('#c').onclick=()=>{ if(!last){ qn++; next(); } else { Object.keys(state.done).forEach(k=>{ if(k.startsWith('m'+i+'_')) delete state.done[k]; }); state.read[i]=true; delete state.pq[i]; delete state.po[i]; save(); fresh=i+1; keepScroll=true; render(); toast(i<N-1?"🔓 Đã mở khóa: "+THEORY[i+1].h:"🔓 Đã mở khóa phần Luyện tập!"); } };
       };
       if(state.done[key]){ solvedQ(list[qn],$('#ph')); after($('#ph .fb')); }   // đã làm xong câu này trước khi tải lại: hiện kết quả
@@ -206,7 +207,7 @@ function finale(v){
 
 /* ---------- câu hỏi dùng chung ---------- */
 function askQ(Q, host, onWrong, onDone){
-  host.innerHTML='<div class="qtext">'+Q.q+'</div><div class="ops"></div><div class="fb"></div>';
+  host.innerHTML='<div class="qtext">'+Q.q+'</div>'+(Q.win?winHtml(Q.win):'')+'<div class="ops"></div><div class="fb"></div>';
   const ops=host.querySelector('.ops'), f=host.querySelector('.fb'); let done=false;
   const win=()=>{ done=true; fb(f,'ok','✔ Đúng rồi! '+(Q.why||'')); onDone(f); };
   const lose=msg=>{ onWrong(); fb(f,'no',msg); };
@@ -230,7 +231,7 @@ function askQ(Q, host, onWrong, onDone){
   } else if(Q.tf){
     const sel=Q.tf.map(()=>null), rows=[]; const LB=Q.lab||['Đúng','Sai'];
     Q.tf.forEach((s,k)=>{
-      const r=el('<div class="tfrow"><div class="s">'+s+'</div><button class="chip" data-v="1">'+LB[0]+'</button><button class="chip" data-v="0">'+LB[1]+'</button></div>');
+      const r=el('<div class="tfrow"><div class="s">'+s+(Q.tfa?miniMail(Q.tfa[k],'?'):'')+'</div><button class="chip" data-v="1">'+LB[0]+'</button><button class="chip" data-v="0">'+LB[1]+'</button></div>');
       r.querySelectorAll('.chip').forEach(b=>b.onclick=e=>{ e.stopPropagation(); if(done) return; sel[k]=b.dataset.v==='1';
         r.querySelectorAll('.chip').forEach(x=>x.classList.remove('sel')); b.classList.add('sel'); r.classList.remove('bad'); });
       rows.push(r); ops.appendChild(r); });
@@ -255,16 +256,16 @@ function askQ(Q, host, onWrong, onDone){
 }
 /* câu hỏi ở dạng đã giải (bài đã hoàn thành) */
 function solvedQ(Q,host){
-  let h='<div class="qtext">'+Q.q+'</div><div class="ops">';
+  let h='<div class="qtext">'+Q.q+'</div>'+(Q.win?winHtml(Q.win):'')+'<div class="ops">';
   if(Q.sort){
-    h+='<div class="bins '+(Q.sort.bins.length===2||Q.sort.bins.length===4?'c2':'c3')+'">'+Q.sort.bins.map((b,i)=>'<div class="bin"><h3>'+b[0]+'</h3><small>'+(b[1]||'')+'</small><div class="in">'+Q.sort.items.filter(x=>x[1]===i).map(x=>'<span class="chip good">'+x[0]+'</span>').join('')+'</div></div>').join('')+'</div>';
+    h+='<div class="bins '+(Q.sort.items.some(x=>x[0].length>24)?'c1':Q.sort.bins.length===2||Q.sort.bins.length===4?'c2':'c3')+'">'+Q.sort.bins.map((b,i)=>'<div class="bin"><h3>'+b[0]+'</h3><small>'+(b[1]||'')+'</small><div class="in">'+Q.sort.items.filter(x=>x[1]===i).map(x=>'<span class="chip good'+(x[2]?' wm':'')+'">'+x[0]+(x[2]?miniMail(x[2],binName(b)):'')+'</span>').join('')+'</div></div>').join('')+'</div>';
   } else if(Q.mail){
     h+='<div class="cw mgw">'+mailRows(Q.mail,true)+'</div>';
   } else if(Q.form){
     h+=Q.form.map(F=>'<div class="tfrow good frow"><div class="s"><b>'+F.l+'</b></div><div class="fo">'+F.o.map((t,j)=>'<span class="chip'+(j===F.a?' sel':'')+'">'+t+'</span>').join('')+'</div></div>').join('');
   } else if(Q.tf){
     const LB=Q.lab||['Đúng','Sai'];
-    h+=Q.tf.map((t,k)=>'<div class="tfrow good"><div class="s">'+t+'</div><span class="chip'+(Q.a[k]?' sel':'')+'">'+LB[0]+'</span><span class="chip'+(Q.a[k]?'':' sel')+'">'+LB[1]+'</span></div>').join('');
+    h+=Q.tf.map((t,k)=>'<div class="tfrow good"><div class="s">'+t+(Q.tfa?miniMail(Q.tfa[k],Q.lab[Q.a[k]?0:1]):'')+'</div><span class="chip'+(Q.a[k]?' sel':'')+'">'+LB[0]+'</span><span class="chip'+(Q.a[k]?'':' sel')+'">'+LB[1]+'</span></div>').join('');
   } else {
     h+=Q.o.map((t,k)=>'<div class="opt'+(k===Q.a?' good':'')+'"><b>'+'ABCD'[k]+'.</b> '+t+'</div>').join('');
   }
@@ -291,7 +292,7 @@ function mailGame(host,cfg,onWrong,onDone){
   host.innerHTML='<div class="cwl mgl"><div class="cw mgw">'+mailRows(cfg,false)+'</div><aside class="mgp"><b class="mgh">📇 Địa chỉ email</b><div class="pool" id="mpool"></div><button class="btn" id="mchk" disabled>Kiểm tra</button></aside></div><div class="fb" id="mfb"></div>';
   const pool=host.querySelector('#mpool'), zones=[...host.querySelectorAll('.mgs')], chk=host.querySelector('#mchk'), f=host.querySelector('#mfb');
   const chipEl=it=>{
-    const c=el('<button class="chip'+(picked===it.id?' sel':'')+(it.locked?' good':'')+'">'+it.t+'</button>');
+    const c=el('<button class="chip'+(it.a?' wm':'')+(picked===it.id?' sel':'')+(it.locked?' good':'')+'">'+it.t+(it.a?miniMail(it.a,it.loc==='pool'?'?':binName(cfg.bins[it.loc])):'')+'</button>');
     if(!it.locked){
       c.draggable=true;
       c.ondragstart=e=>{ e.dataTransfer.setData('text/plain',it.id); picked=it.id; };
@@ -325,11 +326,16 @@ function mailGame(host,cfg,onWrong,onDone){
   if(TEACH) host.insertAdjacentHTML('beforeend','<div class="tkey-box"><b>✅ Đáp án:</b> '+cfg.bins.map((b,i)=>'<div><b>'+b[0]+':</b> '+cfg.items.filter(x=>x[1]===i).map(x=>x[0]).join(' · ')+'</div>').join('')+'</div>');
 }
 
+/* cửa sổ thư thu nhỏ minh họa tình huống: ô người nhận hiện tên ô đã xếp (hoặc ? khi chưa xếp) */
+const winHtml=rows=>'<span class="mw big"><span class="mwt">✉️ Thư mới</span>'+rows.map(([l,v])=>'<span class="mwr'+(/^(Cc|Bcc)$/.test(l)?' hl':'')+'"><b>'+l+'</b><i>'+v+'</i></span>').join('')+'</span>';
+const miniMail=(addr,label)=>'<span class="mw"><span class="mwt">✉️ Thư mới</span><span class="mwr"><b>Từ</b><i>an.nguyen@gmail.com</i></span><span class="mwr hl"><b>'+label+'</b><i>'+addr+'</i></span></span>';
+const binName=b=>b[0].replace(/ \(.*\)/,'');
+
 /* ---------- trò chơi phân loại: chạm thẻ rồi chạm ô, hoặc kéo thả ---------- */
 function sortGame(host, cfg, onWrong, onDone){
-  const items=shuffle(cfg.items.map(([t,b],id)=>({id,t,b,loc:'pool',locked:false})));
+  const items=shuffle(cfg.items.map(([t,b,a],id)=>({id,t,b,a,loc:'pool',locked:false})));
   let picked=null;
-  host.innerHTML=`<div class="pool" id="pool"></div><div class="bins ${cfg.bins.length===2||cfg.bins.length===4?'c2':'c3'}" id="bins">${cfg.bins.map((b,i)=>`<div class="bin" data-b="${i}"><h3>${b[0]}</h3><small>${b[1]||''}</small><div class="in"></div></div>`).join('')}</div>
+  host.innerHTML=`<div class="pool" id="pool"></div><div class="bins ${cfg.items.some(x=>x[0].length>24)?'c1':cfg.bins.length===2||cfg.bins.length===4?'c2':'c3'}" id="bins">${cfg.bins.map((b,i)=>`<div class="bin" data-b="${i}"><h3>${b[0]}</h3><small>${b[1]||''}</small><div class="in"></div></div>`).join('')}</div>
     <div class="row" style="margin-top:12px"><button class="btn" id="chk" disabled>Kiểm tra</button></div><div class="fb" id="sfb"></div>`;
   const pool=host.querySelector('#pool'), bins=[...host.querySelectorAll('.bin')], chk=host.querySelector('#chk'), f=host.querySelector('#sfb');
   function chipEl(it){
@@ -358,12 +364,15 @@ function sortGame(host, cfg, onWrong, onDone){
   pool.ondrop=e=>{ e.preventDefault(); place(e.dataTransfer.getData('text/plain'),'pool'); };
   chk.onclick=()=>{
     let bad=0; items.forEach(it=>{ if(it.loc===it.b) it.locked=true; else bad++; });
-    if(!bad){ draw(); chk.disabled=true; fb(f,'ok','✔ Đúng hết rồi! '+(cfg.why||'')); onDone(f); }
+    if(!bad){ draw(); pool.classList.add('fin'); chk.disabled=true; fb(f,'ok','✔ Đúng hết rồi! '+(cfg.why||'')); onDone(f); }
     else { onWrong(); fb(f,'no','Có '+bad+' thẻ chưa đúng. Thẻ đúng đã được khóa màu xanh, các thẻ còn lại quay về khay để em xếp lại.');
       chk.disabled=true; bins.forEach(b=>b.querySelectorAll('.chip:not(.good)').forEach(c=>c.classList.add('bad')));
       setTimeout(()=>{ items.forEach(it=>{ if(!it.locked) it.loc='pool'; }); draw(); },900); }
   };
   draw();
+  /* giữ nguyên chiều cao khay và ô khi thẻ được chuyển đi, tránh bố cục bị co lại */
+  pool.style.minHeight=pool.offsetHeight+'px';
+  const bh=Math.max(...bins.map(b=>b.offsetHeight)); bins.forEach(b=>b.style.minHeight=Math.max(bh,90)+'px');
 }
 
 
@@ -548,21 +557,28 @@ function readCompose(all){
 /* ---------- bài 2 (tiếp): luyện phân biệt Đến · Cc · Bcc; xong mới hiện nút "Em đã hiểu" ---------- */
 function readPre(all){
   const box=$('#pre'); gate.pre=false;
-  box.innerHTML='<div class="aplock"><span>🔒</span><b>Hoàn thành phần trên để mở khóa!</b></div><p class="aph"><b>Luyện tập: phân biệt Đến (To), Cc và Bcc</b></p><div class="practice"><div class="ph"><span>✏️ Câu hỏi tình huống</span><span id="pcnt"></span></div><div class="pb" id="pbx"></div></div>';
-  /* thứ tự câu hỏi được xáo trộn (và lưu lại để tải lại trang vẫn đúng thứ tự); thứ tự đáp án cũng được xáo trộn */
-  if(!Array.isArray(state.ui.preo)||state.ui.preo.length!==PRE.length||!state.ui.preo.every(i=>PRE[i])){ state.ui.preo=shuffle(PRE.map((_,i)=>i)); state.ui.pre=0; Object.keys(state.done).forEach(k=>{ if(k[0]==='x') delete state.done[k]; }); save(); }
-  const QS=state.ui.preo.map(i=>shuffleQ(PRE[i]));
-  const pb=$('#pbx'), cnt=$('#pcnt'); let qn=Math.min(state.ui.pre||0,QS.length-1);
-  if(all){ cnt.textContent='✅ Đã làm xong'; QS.forEach(Q=>{ const h=el('<div class="solved"></div>'); pb.appendChild(h); solvedQ(Q,h); }); gate.pre=true; okCheck(); return; }
+  box.innerHTML='<div class="aplock"><span>🔒</span><b>Hoàn thành phần trên để mở khóa!</b></div><p class="aph"><b>Luyện tập: phân biệt Đến (To), Cc và Bcc</b></p><div class="practice"><div class="ph"><span>✏️ Kéo thả địa chỉ vào thư</span><span id="pcnt0"></span></div><div class="pb" id="pbm"></div></div><div class="practice" id="psit" hidden style="margin-top:12px"><div class="ph"><span>✏️ Câu hỏi tình huống</span><span id="pcnt"></span></div><div class="pb" id="pbx"></div></div>';
+  /* cửa sổ thư (câu kéo thả) luôn mở ở trên; ba câu còn lại hiện ngẫu nhiên bên dưới, có nút câu trước / câu tiếp */
+  const REST=PRE.slice(1);
+  if(!Array.isArray(state.ui.preo)||state.ui.preo.length!==REST.length||!state.ui.preo.every(i=>REST[i])){ state.ui.preo=shuffle(REST.map((_,i)=>i)); state.ui.pre=0; Object.keys(state.done).forEach(k=>{ if(k[0]==='x') delete state.done[k]; }); save(); }
+  const QS=state.ui.preo.map(i=>shuffleQ(REST[i]));
+  const pm=$('#pbm'), pb=$('#pbx'), cnt=$('#pcnt'); let qn=Math.min(state.ui.pre||0,QS.length-1);
+  const check=()=>{ if(state.done.x0 && QS.every((_,k)=>state.done['x'+(k+1)])){ gate.pre=true; okCheck(); } };
+  if(all){ for(let k=0;k<=QS.length;k++) state.done['x'+k]=1; }   // bài đã xong: vẫn duyệt từng câu bằng nút câu trước / câu sau
+  const sit=$('#psit'), mdone=(anim)=>{ $('#pcnt0').textContent='✅ Đã làm xong'; sit.hidden=false; if(anim){ sit.classList.add('drop'); sit.scrollIntoView({behavior:'smooth',block:'nearest'}); } };
+  if(state.done.x0){ mdone(); solvedQ(PRE[0],pm); } else askQ(PRE[0],pm,()=>{},f=>{ state.done.x0=1; save(); mdone(true); check(); });
+  const nav=el('<div class="snav"><button class="btn" id="ppv">◀ Câu trước</button><b id="pnn"></b><button class="btn go" id="pnx">Câu sau ▶</button></div>');
+  nav.style.padding='0 16px 14px'; nav.style.marginTop='0'; pb.parentNode.appendChild(nav);
+  const ppv=nav.querySelector('#ppv'), pnx=nav.querySelector('#pnx');
+  const upd=()=>{ ppv.disabled=qn===0; pnx.disabled=qn===QS.length-1||!state.done['x'+(qn+1)]; nav.querySelector('#pnn').textContent='Câu '+(qn+1)+'/'+QS.length; };
+  ppv.onclick=()=>{ qn--; show(); };
+  pnx.onclick=()=>{ qn++; show(); };
   const show=()=>{
     state.ui.pre=qn; save(); cnt.textContent='Câu '+(qn+1)+'/'+QS.length;
-    const last=qn===QS.length-1, key='x'+qn;
-    const after=f=>{
-      if(last){ gate.pre=true; okCheck(); f.insertAdjacentHTML('afterend','<div class="nxrow"><b>Giỏi quá! Em đã phân biệt được Đến, Cc và Bcc. 🎉</b></div>'); }
-      else { f.insertAdjacentHTML('afterend','<div class="nxrow"><button class="btn go" id="pnx">Câu tiếp ▶</button></div>'); $('#pnx').onclick=()=>{ qn++; show(); }; }
-    };
-    if(state.done[key]){ solvedQ(QS[qn],pb); after(pb.querySelector('.fb')); }
-    else askQ(QS[qn],pb,()=>{},f=>{ state.done[key]=1; save(); after(f); });
+    const key='x'+(qn+1);
+    const fin=()=>{ upd(); check(); };
+    if(state.done[key]){ solvedQ(QS[qn],pb); fin(); }
+    else { upd(); askQ(QS[qn],pb,()=>{},f=>{ state.done[key]=1; save(); fin(); f.scrollIntoView({behavior:'smooth',block:'nearest'}); }); }
   };
   show();
 }

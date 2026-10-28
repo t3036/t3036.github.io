@@ -75,9 +75,12 @@ button{font:inherit;cursor:pointer}
 .chip.bad{border-color:var(--red);background:var(--red-l)}
 .pool{display:flex;gap:8px;flex-wrap:wrap;min-height:48px;padding:10px;border:2px dashed var(--line);border-radius:12px;margin-bottom:12px;background:var(--soft)}
 .pool.empty::after{content:"Đã xếp hết thẻ – bấm Kiểm tra";color:var(--mute);font-size:.9rem}
+.pool.fin::after{content:"✔ Đã xếp xong tất cả thẻ"}
 .pool .chip{text-align:left}
 .bins{display:grid;gap:10px;grid-template-columns:repeat(3,1fr)}
 .bins.c2{grid-template-columns:repeat(2,1fr)}
+.bins.c1{grid-template-columns:1fr}
+.bin .in{min-height:44px}
 @media(max-width:700px){.bins,.bins.c2{grid-template-columns:1fr}}
 .bin{border:2px solid var(--blue);border-radius:12px;padding:8px;background:var(--blue-l);min-height:90px}
 .bin.hot{box-shadow:0 0 0 3px rgba(47,107,255,.3)}.bin.over{background:var(--hover)}
@@ -398,3 +401,25 @@ button{font:inherit;cursor:pointer}
 .mgp .chip{font-size:.8rem;text-align:left}
 .mgp .chip.sel,.mgw .chip.sel{box-shadow:0 0 0 3px #ffb703}
 @media(max-width:900px){.mgl{grid-template-columns:1fr}}
+
+/* cửa sổ thư thu nhỏ trong thẻ phân loại */
+.chip.wm{display:block;width:100%;max-width:520px}
+.mw{display:block;margin-top:8px;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--card);font-weight:500;font-size:.8rem}
+.mwt{display:block;background:var(--navy);color:#fff;padding:3px 10px;font-weight:700}
+.mwr{display:flex;gap:8px;padding:4px 10px;border-top:1px solid var(--line)}
+.mwr b{flex:0 0 3.2em;color:var(--mute)}.mwr i{font-style:normal;overflow-wrap:anywhere;color:var(--ink)}
+.mwr.hl{background:var(--amber-l)}.mwr.hl b{color:var(--ink)}
+.mw.big{max-width:520px;margin:10px 0;font-size:.9rem}
+.mwr b{flex-basis:4.2em}
+#psit.drop{animation:psitdrop .45s ease both;transform-origin:top}
+@keyframes psitdrop{from{opacity:0;transform:translateY(-14px) scaleY(.92)}to{opacity:1;transform:none}}
+.tfrow .s{min-width:0}
+.tfrow .chip{flex:0 0 auto;min-width:4.2em;text-align:center;white-space:nowrap}
+.tfrow .mw{max-width:520px}
+.snav .btn{flex:0 0 auto;white-space:nowrap}
+/* đồng bộ cỡ chữ: cửa sổ thư thu nhỏ, thẻ địa chỉ và nút trong phần luyện Đến/Cc/Bcc */
+.mw,.mw.big{font-size:.85rem}
+.mgp .chip{font-size:.85rem}
+.tfrow .chip{font-size:.9rem}
+.pool .chip,.bin .chip{font-size:.9rem}
+.snav .btn,.snav b{font-size:.9rem}
