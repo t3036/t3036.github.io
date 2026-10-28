@@ -69,15 +69,15 @@ const PRACTICE=[
 
 /* ---------- trạng thái ---------- */
 const N=THEORY.length;
-const state={view:-1, read:new Array(N).fill(false), stars:null, prac:null, pq:{}};   // pq: câu đang làm của bài tập nhỏ mỗi bài; prac: {order,qi,wrong} để làm tiếp phần luyện tập   // view: -1 mở đầu, 0..N-1 bài học, N luyện tập, N+1 kết quả
-try{ const s=JSON.parse(localStorage.getItem('k5b24v2')||'null'); if(s&&s.read&&s.read.length===N){ state.read=s.read; state.stars=s.stars; state.prac=s.prac||null; state.pq=s.pq||{}; if(s.stars!==null&&s.stars!==undefined) state.view=N+1; else { const f=s.read.indexOf(false); state.view=f<0?N:f; } } }catch(e){}
+const state={view:-1, read:new Array(N).fill(false), stars:null, prac:null, pq:{}, po:{}};   // pq: câu đang làm của bài tập nhỏ mỗi bài; prac: {order,qi,wrong} để làm tiếp phần luyện tập   // view: -1 mở đầu, 0..N-1 bài học, N luyện tập, N+1 kết quả
+try{ const s=JSON.parse(localStorage.getItem('k5b24v2')||'null'); if(s&&s.read&&s.read.length===N){ state.read=s.read; state.stars=s.stars; state.prac=s.prac||null; state.pq=s.pq||{}; state.po=s.po||{}; if(s.stars!==null&&s.stars!==undefined) state.view=N+1; else { const f=s.read.indexOf(false); state.view=f<0?N:f; } } }catch(e){}
 let TEACH=false; try{ TEACH=localStorage.getItem('k5b24_teach')==='1'; }catch(e){}
-const save=()=>{ try{localStorage.setItem('k5b24v2',JSON.stringify({read:state.read,stars:state.stars,prac:state.prac,pq:state.pq}))}catch(e){} };
+const save=()=>{ try{localStorage.setItem('k5b24v2',JSON.stringify({read:state.read,stars:state.stars,prac:state.prac,pq:state.pq,po:state.po}))}catch(e){} };
 const allRead=()=>state.read.every(Boolean);
 const unlockedTo=()=>{ if(TEACH) return N; const i=state.read.indexOf(false); return i<0?N:i; };   // bài cuối được mở; N = đã mở phần luyện tập
 function restart(force){
   if(!force && !confirm('Em muốn làm lại từ đầu? Tiến độ đã lưu sẽ bị xóa.')) return;
-  state.read=new Array(N).fill(false); state.stars=null; state.prac=null; state.pq={}; state.view=-1; save(); render();
+  state.read=new Array(N).fill(false); state.stars=null; state.prac=null; state.pq={}; state.po={}; state.view=-1; save(); render();
 }
 const toast=m=>{ const t=el('<div class="toast">'+m+'</div>'); document.body.appendChild(t); setTimeout(()=>t.remove(),2200); };
 let fresh=-2, keepScroll=false;   // chỉ số mục vừa được mở khóa (để chạy hiệu ứng)
@@ -144,7 +144,7 @@ function lesson(v,i){
     return nextBtn();
   }
   const startPractice=()=>{
-    act.innerHTML=''; const list=PRACT[i]; let qn=Math.min(pq0,list.length-1); const pr=$('#pr');
+    act.innerHTML=''; if(!state.po[i]) state.po[i]=shuffle(PRACT[i].map((_,k)=>k)); const list=state.po[i].map(k=>PRACT[i][k]); let qn=Math.min(pq0,list.length-1); const pr=$('#pr');
     pr.innerHTML='<div class="practice"><div class="ph"><span>✏️ Bài tập nhỏ</span><span id="cnt"></span></div><div class="pb" id="ph"></div></div>';
     const next=()=>{
       state.pq[i]=qn; save();
@@ -152,7 +152,7 @@ function lesson(v,i){
       askQ(list[qn],$('#ph'),()=>{},fx=>{
         const last=qn===list.length-1;
         fx.insertAdjacentHTML('afterend','<div class="nxrow"><button class="btn go" id="c">'+(last?'Hoàn thành bài ✔':'Câu tiếp ▶')+'</button></div>');
-        $('#c').onclick=()=>{ if(!last){ qn++; next(); } else { state.read[i]=true; delete state.pq[i]; save(); fresh=i+1; keepScroll=true; render(); toast(i<N-1?"🔓 Đã mở khóa: "+THEORY[i+1].h:"🔓 Đã mở khóa phần Luyện tập!"); } };
+        $('#c').onclick=()=>{ if(!last){ qn++; next(); } else { state.read[i]=true; delete state.pq[i]; delete state.po[i]; save(); fresh=i+1; keepScroll=true; render(); toast(i<N-1?"🔓 Đã mở khóa: "+THEORY[i+1].h:"🔓 Đã mở khóa phần Luyện tập!"); } };
       });
     };
     next(); if(!pq0) pr.scrollIntoView({behavior:'smooth',block:'nearest'});
@@ -165,9 +165,9 @@ function lesson(v,i){
 
 /* ---------- luyện tập: ôn tập + trắc nghiệm gộp một mạch ---------- */
 function practice(v){
-  if(!state.prac){ const A=PRACTICE.map((_,i)=>i).filter(i=>PRACTICE[i].p==='A'), B=PRACTICE.map((_,i)=>i).filter(i=>PRACTICE[i].p==='B'); state.prac={order:A.concat(shuffle(B)),qi:0,wrong:0}; save(); }
+  if(!state.prac){ const A=PRACTICE.map((_,i)=>i).filter(i=>PRACTICE[i].p==='A'), B=PRACTICE.map((_,i)=>i).filter(i=>PRACTICE[i].p==='B'); state.prac={order:shuffle(A.concat(B)),qi:0,wrong:0}; save(); }
   const qs=state.prac.order.map(i=>({q:shuffleQ(PRACTICE[i].q),p:PRACTICE[i].p})); let qi=Math.min(state.prac.qi,qs.length-1), wrong=state.prac.wrong;
-  const PN={A:'Phần A · Ôn tập',B:'Phần B · Trắc nghiệm'};
+  const PN={A:'Ôn tập và trắc nghiệm',B:'Ôn tập và trắc nghiệm'};
   function draw(){
     v.innerHTML='<div class="chead"><h2 style="margin:0">🎯 Luyện tập</h2><span class="part">'+PN[qs[qi].p]+'</span></div><div class="meta">Câu '+(qi+1)+'/'+qs.length+'</div><div class="prog"><i style="width:'+(qi/qs.length*100)+'%"></i></div><div id="qh"></div>';
     askQ(qs[qi].q,$('#qh'),()=>{wrong++; state.prac.wrong=wrong; save();},f=>{
