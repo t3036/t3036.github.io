@@ -255,7 +255,7 @@ function buildQuiz(L){
   function end(){
     var n=3;
     if(n>(best[L.id]||0)){ best[L.id]=n; saveBest(); refreshTabs(); }
-    var d=el('div','q end','<div class="stars">🏆</div><h4>Chúc mừng em!</h4><p>Em đã trả lời đúng tất cả các câu của bài ôn tập.</p>');
+    var d=el('div','q end','<div class="stars">'+starStr(n)+'</div><h4>Chúc mừng em! 🏆</h4><p>Em đã trả lời đúng tất cả các câu của bài ôn tập và nhận được '+n+' sao!</p>');
     var again=el('button','go alt','🔁 Làm lại'); again.type='button';
     again.onclick=function(){ idx=0; score=0; missed=false; order=shuffle(L.quiz); render(); };
     d.appendChild(again);
