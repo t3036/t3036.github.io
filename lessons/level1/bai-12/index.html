@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bài 12 · Tìm kiếm thông tin</title>
+<link rel="stylesheet" href="../learn.css">
+</head>
+<body>
+<div class="app" id="app"></div>
+<script>
+/* ===== DỮ LIỆU BÀI HỌC (chỉnh sửa tại đây) ===== */
+window.LESSON = {
+  id: 'bai-12',
+  icon: '🔎',
+  title: 'Bài 12 · Tìm kiếm thông tin',
+  sub: 'IC3 GS6 Level 1 · Quản lí thông tin',
+  intro: 'Học cách tìm đúng thông tin và thu hẹp kết quả tìm kiếm.',
+  sections: [
+    { title: 'Thông tin trên trang Web', en: 'Information on web pages', icon: '🌐', badge: '🥉',
+      steps: [
+        { type: 'learn', icon: '🌐', title: 'Trang Web có rất nhiều thông tin', lines: [
+          ['🖼️', 'Thông tin có thể là <b>hình ảnh</b>, <b>âm thanh</b>, chữ…'],
+          ['🧩', 'Mỗi loại trang Web chứa một loại thông tin riêng.']] },
+        { type: 'learn', icon: '🗂️', title: 'Bốn loại trang Web', lines: [
+          ['🛒', 'Web kinh doanh'], ['🏛️', 'Web chính phủ'], ['🎓', 'Web giáo dục'], ['💬', 'Web mạng xã hội']],
+          note: 'Để tìm thông tin: dùng ô tìm kiếm trên Web hoặc dùng <span class="en">công cụ tìm kiếm</span>.' },
+        { type: 'drop', q: 'Kéo từ vào chỗ trống.', text: 'Trang của một trường học là Web {0}. Trang của cơ quan nhà nước là Web {1}.', ans: ['giáo dục', 'chính phủ'], decoy: ['kinh doanh'],
+          hint: 'Trường học → dạy và học.', exp: 'Trường học thuộc Web giáo dục; cơ quan nhà nước thuộc Web chính phủ.', extra: true },
+        { type: 'single', q: 'Những loại trang Web nào chứa các <mark>ý kiến</mark> hoặc thông tin theo các <mark>chủ đề cụ thể</mark>?',
+          opts: ['Các trang mạng xã hội (Social Networking)', 'Các trang Wiki', 'Các trang Blog', 'Các trang News Feed'], a: 2,
+          hint: 'Người viết đăng ý kiến cá nhân về một chủ đề.', exp: 'Blog là nơi người viết chia sẻ ý kiến, thông tin theo chủ đề. [CẦN GIÁO VIÊN XÁC NHẬN]' }
+      ] },
+    { title: 'Công cụ tìm kiếm', en: 'Search engines', icon: '🔍', badge: '🥈',
+      steps: [
+        { type: 'learn', icon: '🔍', title: 'Công cụ tìm kiếm', lines: [
+          ['🌍', '<span class="en">Search Engine</span> giúp tìm thông tin về một chủ đề trên Internet.'],
+          ['🖥️', 'Nó là một tính năng của trang Web chạy trên trình duyệt.']], note: 'Ví dụ: Google.com, Bing.com.' },
+        { type: 'learn', icon: '📌', title: 'Tính năng Tìm kiếm (Find)', lines: [
+          ['📄', '<span class="en">Find</span> tìm thông tin <b>bên trong</b> một trang Web hoặc tài liệu.'],
+          ['✍️', 'Có trên trình duyệt và trên phần mềm xử lí văn bản.']] },
+        { type: 'learn', icon: '⌨️', title: 'Tìm trên trang Web bằng Ctrl+F', lines: [
+          ['1️⃣', 'Nhấn <b>Ctrl + F</b> tại trang Web.'],
+          ['2️⃣', 'Nhập <b>từ khóa</b> cần tìm.'],
+          ['3️⃣', 'Trình duyệt báo số lần xuất hiện và tô màu các từ tìm thấy.']] },
+        { type: 'order', q: 'Sắp xếp các bước dùng Ctrl+F.', items: ['Nhấn Ctrl + F tại trang Web', 'Nhập từ khóa cần tìm', 'Xem số lần xuất hiện và từ được tô màu'],
+          hint: 'Phải mở khung tìm trước khi gõ.', exp: 'Mở khung Ctrl+F → gõ từ khóa → xem kết quả được tô màu.', extra: true },
+        { type: 'single', q: 'Em hãy cho biết, tùy chọn nào sau đây là cách <mark>nhanh nhất</mark> để tìm kiếm thông tin trên một trang Web <mark>cụ thể</mark>?',
+          opts: ['Sử dụng một công cụ tìm kiếm như: Google.com hoặc Bing.com', 'Sử dụng trường tìm kiếm của trình duyệt Web', 'Sử dụng trường tìm kiếm trên trang Web đó', 'Sử dụng trường tìm kiếm từ trình đơn Start'], a: 2,
+          hint: 'Trang đó thường có ô tìm kiếm riêng.', exp: 'Ô tìm kiếm ngay trên trang Web đó tìm nhanh nhất thông tin của trang.' },
+        { type: 'single', q: 'Em hãy cho biết, để tìm kiếm thông tin hiệu quả, công cụ tìm kiếm duy trì những <mark>dữ liệu</mark> nào sau đây?',
+          opts: ['Cơ sở dữ liệu về các URL Internet', 'Cơ sở dữ liệu về tất cả các trang Web trong quốc gia của em', 'Cơ sở dữ liệu về tất cả các trang Web trên Internet', 'Cơ sở dữ liệu về tất cả các tệp tin nhạc trên Internet'], a: 0,
+          hint: 'Nó lưu địa chỉ để chỉ đường tới trang Web.', exp: 'Công cụ tìm kiếm duy trì cơ sở dữ liệu các URL Internet. [CẦN GIÁO VIÊN XÁC NHẬN]' },
+        { type: 'multi', q: 'Em hãy cho biết, công cụ tìm kiếm thực hiện những nhiệm vụ cơ bản nào sau đây? (Chọn ba)',
+          opts: ['Thu thập', 'Tạo mới', 'Cải tiến', 'Tổ chức', 'Liệt kê'], a: [0, 3, 4],
+          hint: 'Gom thông tin → sắp xếp → đưa ra danh sách.', exp: 'Công cụ tìm kiếm thu thập, tổ chức và liệt kê thông tin.' },
+        { type: 'single', q: 'Cách tốt nhất để xác định vị trí tham khảo và ghi công các nguồn trực tuyến là gì?',
+          opts: ['Công cụ tìm kiếm (Search Engines)', 'Thư viện trường học (School Library)', 'Tài liệu nghiên cứu của người khác', 'Các trang mạng xã hội'], a: 0,
+          hint: 'Dùng công cụ để tìm ra nguồn trực tuyến.', exp: 'Công cụ tìm kiếm giúp tìm nguồn trực tuyến để tham khảo và ghi công. [CẦN GIÁO VIÊN XÁC NHẬN]' },
+        { type: 'single', q: 'Bạn tìm thấy một bài báo trực tuyến dài. Bạn có thể tìm thấy thông tin nào trên trang Web bằng cách sử dụng tính năng <mark>Tìm kiếm (Find)</mark> của trình duyệt?',
+          opts: ['Số lần bài báo đề cập đến một chủ đề cụ thể.', 'Đáp án chọn một câu hỏi cụ thể liên quan đến chủ đề bài viết.', 'Bình luận liên quan trên các trang mạng xã hội.', 'Danh sách các chủ đề phụ liên quan đến chủ đề nghiên cứu chính của bạn.'], a: 0,
+          hint: 'Find đếm số lần từ khóa xuất hiện.', exp: 'Find cho biết từ khóa xuất hiện bao nhiêu lần trong trang.' },
+        { type: 'table', q: 'Với mỗi câu, chọn <mark>Có</mark> nếu dùng Tìm kiếm (Find) làm được, <mark>Không</mark> nếu không.', cols: ['Có', 'Không'],
+          rows: [['Xác định một từ khóa hoặc cụm từ trong tài liệu.', 0], ['Thay đổi định dạng của tất cả các trích dẫn trong tài liệu của bạn.', 1], ['Xác định các trang có tài liệu tham khảo của một tác giả cụ thể.', 0]],
+          hint: 'Find chỉ tìm chữ, không sửa định dạng.', exp: 'Find tìm được từ khóa và tên tác giả, nhưng không đổi định dạng.' },
+        { type: 'chat', title: 'Công cụ tìm kiếm và AI', msgs: [
+          ['u', 'Cho em các trang Web nói về mạng máy tính.'],
+          ['s', 'Đây là danh sách các trang Web và tài liệu có sẵn trên Internet.'],
+          ['u', 'Giải thích mạng máy tính cho học sinh lớp 6.'],
+          ['a', 'AI tạo sinh viết ra một câu trả lời mới theo yêu cầu của em.'],
+          ['s', 'Cần nguồn gốc hoặc số liệu chính xác? Hãy kiểm tra từ nguồn đáng tin cậy.']] },
+        { type: 'learn', icon: '🤖', title: 'Công cụ tìm kiếm ≠ AI', lines: [
+          ['🔎', 'Công cụ tìm kiếm: tìm nguồn <b>đã có</b>.'], ['✨', 'AI tạo sinh: <b>tạo</b> câu trả lời mới.'], ['✅', 'Cần chính xác → kiểm tra nguồn đáng tin cậy.']] },
+        { type: 'drop', q: 'Kéo từ vào chỗ trống.', text: '{0} tìm các trang Web đã có. {1} tạo câu trả lời mới.', ans: ['Công cụ tìm kiếm', 'AI tạo sinh'], decoy: ['Trình duyệt'],
+          hint: 'Một bên tìm, một bên tạo.', exp: 'Công cụ tìm kiếm tìm nguồn có sẵn; AI tạo sinh tạo nội dung mới.', extra: true }
+      ] },
+    { title: 'Thu hẹp phạm vi tìm kiếm', en: 'Narrowing a search', icon: '🎯', badge: '🥇',
+      steps: [
+        { type: 'learn', icon: '🎯', title: 'Thu hẹp kết quả', lines: [
+          ['📉', 'Làm cho <b>ít kết quả hơn</b> trong một lần tìm.'], ['✔️', 'Kết quả tốt hơn và phù hợp hơn.']] },
+        { type: 'learn', icon: '➖', title: 'Toán tử NOT ( − )', lines: [
+          ['🚫', 'Dùng để <b>loại trừ</b> một từ.'], ['🦁', 'Ví dụ: <b>animal −lion</b> bỏ “sư tử” khỏi kết quả.']] },
+        { type: 'learn', icon: '“ ”', title: 'Tìm kiếm chính xác', lines: [
+          ['“”', 'Đặt cụm từ trong <b>dấu ngoặc kép</b>.'], ['🦭', 'Ví dụ: “hải cẩu billy” chỉ ra đúng cụm từ đó.'], ['📉', 'Số kết quả ít lại.']] },
+        { type: 'drop', q: 'Kéo ký hiệu vào chỗ trống.', text: 'Muốn loại trừ một từ, dùng dấu {0}. Muốn tìm đúng một cụm từ, đặt nó trong {1}.', ans: ['trừ ( − )', 'dấu ngoặc kép'], decoy: ['dấu ngoặc vuông'],
+          hint: 'NOT là dấu trừ.', exp: 'Dấu trừ loại trừ từ; ngoặc kép tìm chính xác cụm từ.', extra: true },
+        { type: 'learn', icon: '🤖', title: 'Dùng AI để thu hẹp', lines: [
+          ['💡', 'AI gợi ý <b>từ khóa hẹp hơn</b>.'], ['🔁', 'Thay “mạng” bằng “mạng máy tính là gì cho học sinh lớp 6”.'], ['🔍', 'Bản tóm tắt của AI phải đối chiếu với nguồn gốc.']] },
+        { type: 'multi', q: 'Bạn cần điều chỉnh cài đặt tìm kiếm để nhận kết quả phù hợp hơn. Đâu là <mark>hai</mark> kỹ thuật bạn nên sử dụng? (Chọn 2)',
+          opts: ['Tìm kiếm các từ gốc và loại trừ hậu tố', 'Tìm kiếm các thuật ngữ chung chung', 'Đặt các cụm từ tìm kiếm quan trọng nhất trong dấu ngoặc vuông', 'Đặt các cụm từ tìm kiếm dài trong dấu ngoặc kép'], a: [0, 3],
+          hint: 'Một kỹ thuật làm từ khóa gọn hơn; một kỹ thuật dùng ngoặc kép.', exp: 'Tìm từ gốc (bỏ hậu tố) và đặt cụm dài trong ngoặc kép giúp thu hẹp kết quả. [CẦN GIÁO VIÊN XÁC NHẬN]' },
+        { type: 'single', q: 'Người ta có thể sử dụng toán tử tìm kiếm nào để tìm kiếm các <mark>từ đồng nghĩa</mark> của một từ?',
+          opts: ['Dấu ?', 'Dấu ~', 'AND', 'Dấu *'], a: 1,
+          hint: 'Dấu gợn sóng.', exp: 'Dấu ~ đặt trước từ sẽ tìm cả các từ đồng nghĩa.' },
+        { type: 'select', q: 'Chọn từ đúng.', text: 'Muốn bỏ “sư tử” khỏi kết quả, em gõ: animal {0}lion. Muốn tìm đúng cụm “hải cẩu billy”, em đặt nó trong {1}.', opts: [['−', '+', '~'], ['dấu ngoặc kép', 'dấu ngoặc vuông', 'dấu hỏi']], ans: ['−', 'dấu ngoặc kép'],
+          hint: 'Loại trừ → trừ. Chính xác → ngoặc kép.', exp: 'animal −lion loại “sư tử”; ngoặc kép giữ nguyên cụm từ.', extra: true }
+      ] },
+    { title: 'Tìm kiếm phù hợp', en: 'Finding relevant results', icon: '✅', badge: '🏅',
+      steps: [
+        { type: 'learn', icon: '🧭', title: 'Năm bước để tìm cho đúng', lines: [
+          ['1️⃣', 'Xác định <b>chủ đề</b> cần tìm.'], ['2️⃣', 'Xác định mức độ <b>liên quan</b> của từ khóa.'], ['3️⃣', 'Xác định <b>phiên bản mới nhất</b>.'], ['4️⃣', 'Xác định <b>nguồn</b> thông tin.'], ['5️⃣', 'Xác định <b>thẩm quyền</b> của tác giả.']] },
+        { type: 'order', q: 'Sắp xếp năm bước theo bài học.', items: ['Xác định chủ đề cần tìm kiếm', 'Xác định mức độ liên quan của từ khóa', 'Xác định phiên bản mới nhất của thông tin', 'Xác định nguồn thông tin', 'Xác định thẩm quyền của tác giả'],
+          hint: 'Bắt đầu từ chủ đề, kết thúc ở tác giả.', exp: 'Chủ đề → từ khóa → mới nhất → nguồn → thẩm quyền tác giả.', extra: true },
+        { type: 'multi', q: 'Kết quả tìm kiếm có cả thông tin liên quan và không liên quan. <mark>Ba</mark> bước nào giúp bạn phân biệt? (Chọn 3)',
+          opts: ['Xác định chủ đề chính và tìm kiếm nó.', 'Xác định các từ khóa trong kết quả dường như có liên quan đến chủ đề.', 'Mọi thứ luôn có liên quan; đọc tất cả.', 'Không có gì trên Internet có liên quan, vì vậy bạn nên sử dụng các tài nguyên khác.', 'Xác định các kết quả không chứa các từ khóa liên quan đến chủ đề chính.', 'Nhờ một giáo viên giúp đỡ.'], a: [0, 1, 4],
+          hint: 'Dựa vào chủ đề và từ khóa.', exp: 'Tìm chủ đề chính, tìm từ khóa liên quan và loại các kết quả không có từ khóa.' },
+        { type: 'multi', q: 'Người dùng thực hiện các bước nào để xác định <mark>tính hợp lệ</mark> của thông tin trực tuyến? (Chọn 3)',
+          opts: ['Xác định thông tin đến từ đâu.', 'Xác định xem tác giả có viết những cuốn sách nổi tiếng hay không.', 'Xác định tác giả và thẩm quyền của họ về chủ đề thông tin.', 'Xác định xem thông tin đã được cập nhật mới nhất hay chưa.', 'Làm mất uy tín của các tác giả mà bạn bè của người dùng không tin tưởng.'], a: [0, 2, 3],
+          hint: 'Nguồn, tác giả, độ mới.', exp: 'Kiểm tra nguồn, thẩm quyền của tác giả và độ mới của thông tin.' }
+      ] }
+  ],
+  explain: { type: 'select', q: 'Nói lại bằng lời của em: chọn từ đúng.', text: 'Để tìm một từ trong trang Web, em nhấn {0}. Để loại một từ khỏi kết quả, em dùng dấu {1}. Để kiểm tra thông tin, em xem {2} và tác giả.',
+    opts: [['Ctrl + F', 'Ctrl + C', 'Ctrl + P'], ['trừ ( − )', 'cộng ( + )', 'hỏi ( ? )'], ['nguồn', 'màu sắc', 'phông chữ']], ans: ['Ctrl + F', 'trừ ( − )', 'nguồn'],
+    hint: 'Nhớ lại ba điều đã học.', exp: 'Ctrl + F tìm trong trang; dấu trừ loại từ; luôn kiểm tra nguồn.' },
+  cards: [
+    ['Search Engine', 'Công cụ tìm kiếm – tìm thông tin trên Internet'], ['Find (Ctrl+F)', 'Tìm từ khóa bên trong một trang hoặc tài liệu'],
+    ['Keyword', 'Từ khóa'], ['NOT ( − )', 'Loại trừ một từ khỏi kết quả'], ['“ ”', 'Tìm chính xác một cụm từ'], ['~', 'Tìm cả từ đồng nghĩa'],
+    ['Source', 'Nguồn thông tin'], ['Authority', 'Thẩm quyền của tác giả']
+  ]
+};
+</script>
+<script src="../learn.js"></script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bài 13 · Tài sản công cộng &amp; Creative Commons</title>
+<link rel="stylesheet" href="../learn.css">
+</head>
+<body>
+<div class="app" id="app"></div>
+<script>
+/* ===== DỮ LIỆU BÀI HỌC (chỉnh sửa tại đây) ===== */
+window.LESSON = {
+  id: 'bai-13',
+  icon: '©️',
+  title: 'Bài 13 · Tài sản công cộng & Creative Commons',
+  sub: 'IC3 GS6 Level 1 · Quản lí thông tin',
+  intro: 'Học cách dùng thông tin của người khác đúng luật và đúng đạo đức.',
+  sections: [
+    { title: 'Sử dụng thông tin', en: 'Using information', icon: '📚', badge: '🥉',
+      steps: [
+        { type: 'learn', icon: '📚', title: 'Thông tin trên Internet', lines: [
+          ['👀', 'Em có thể đọc, nghe, học và nghiên cứu.'], ['⚠️', 'Nhưng <b>không phải</b> cái gì cũng được sao chép hay trình bày như của mình.']] },
+        { type: 'learn', icon: '🚨', title: 'Dùng tùy ý sẽ ra sao?', lines: [
+          ['✍️', 'Trở thành người <b>đạo văn</b>.'], ['⚖️', 'Trở thành người <b>vi phạm bản quyền</b>.'], ['😟', 'Hậu quả về đạo đức và pháp luật.']] },
+        { type: 'learn', icon: '🛡️', title: 'Cách dùng an toàn', lines: [
+          ['🌍', 'Dùng thông tin trong <span class="en">Public Domain</span> (phạm vi công cộng).'], ['🏷️', 'Hoặc <b>ghi công tác giả</b> (CC).']] },
+        { type: 'learn', icon: '🤖', title: 'Khi dùng AI', lines: [
+          ['🚫', 'Không bảo AI sao chép tác phẩm có bản quyền.'], ['🚫', 'Không bắt chước quá giống phong cách một tác giả.'], ['🚫', 'Không tạo nội dung xâm phạm quyền người khác.']] },
+        { type: 'drop', q: 'Kéo từ vào chỗ trống.', text: 'Dùng thông tin tùy ý có thể thành người {0} hoặc vi phạm {1}.', ans: ['đạo văn', 'bản quyền'], decoy: ['tác giả'],
+          hint: 'Sao chép như của mình.', exp: 'Dùng tùy ý có thể bị coi là đạo văn và vi phạm bản quyền.', extra: true }
+      ] },
+    { title: 'Bản quyền', en: 'Copyright', icon: '©️', badge: '🥈',
+      steps: [
+        { type: 'learn', icon: '©️', title: 'Bản quyền là gì?', lines: [
+          ['👤', 'Tác giả có quyền hợp pháp, <b>độc quyền</b> đối với <span class="en">quyền sở hữu (Ownership)</span> tác phẩm.'], ['⚡', 'Bản quyền có <b>ngay khi</b> tác phẩm được tạo ra.']] },
+        { type: 'learn', icon: '🛡️', title: 'Bản quyền bảo vệ', lines: [
+          ['🧑‍⚖️', 'Quyền quyết định của tác giả.'], ['📋', 'Quyền sao chép và phân phối.'], ['💰', 'Quyền lợi tài chính.']] },
+        { type: 'single', q: 'Hãy chọn cụm từ thích hợp: Bản quyền cung cấp cho tác giả quyền hợp pháp độc quyền đối với <mark>___</mark>. Chủ sở hữu có quyền kiểm soát người in, phân phối và sử dụng tác phẩm của họ.',
+          opts: ['Sự tiến triển (Progression)', 'Quyền sở hữu (Ownership)', 'Suy thoái (Degradation)', 'Sự sáng tạo (Creation)'], a: 1,
+          hint: 'Tác phẩm “thuộc về” ai?', exp: 'Bản quyền cho tác giả độc quyền về quyền sở hữu tác phẩm.' },
+        { type: 'learn', icon: '🎨', title: 'Các loại tác phẩm được bảo hộ', lines: [
+          ['📖', 'Văn học: sách, bài báo, thơ, phần mềm…'], ['🖼️', 'Nghệ thuật: tranh, điêu khắc, ảnh…'], ['🎵', 'Âm nhạc: bài hát, bản ghi âm…'], ['🎬', 'Phim: phim điện ảnh, truyền hình…'], ['🏛️', 'Khác: kiến trúc, thiết kế công nghiệp…']] },
+        { type: 'table', q: 'Với mỗi câu về bản quyền, chọn <mark>Đúng</mark> hoặc <mark>Sai</mark>.', cols: ['Đúng', 'Sai'],
+          rows: [['Bản quyền tồn tại ngay sau khi một tác phẩm được tạo ra.', 0], ['Luật bản quyền bảo vệ quyền sao chép tác phẩm có bản quyền.', 0], ['Luật bản quyền chỉ bảo vệ các tác phẩm nghệ thuật, chẳng hạn như tranh vẽ và tác phẩm điêu khắc.', 1]],
+          hint: 'Bản quyền bảo vệ nhiều loại tác phẩm, không chỉ tranh.', exp: 'Bản quyền có ngay khi tạo ra, bảo vệ quyền sao chép và bảo vệ nhiều loại tác phẩm.' },
+        { type: 'learn', icon: '⏳', title: 'Thời gian bảo hộ', lines: [
+          ['🌏', 'Khác nhau theo từng quốc gia và lĩnh vực.'], ['📖', 'Văn học, nghệ thuật: cả đời tác giả <b>+ 50 năm</b>.'], ['📦', 'Loại khác: thường <b>70 năm</b> từ lần công bố đầu.']] },
+        { type: 'learn', icon: '⚖️', title: 'Sử dụng bản quyền hợp pháp', lines: [
+          ['🎯', 'Mục đích sử dụng (ưu tiên giáo dục).'], ['🧬', 'Bản chất của tác phẩm.'], ['📏', 'Lượng tác phẩm được sao chép.'], ['📉', 'Tác động đến thị trường.']] },
+        { type: 'multi', q: 'Bài thuyết trình của bạn bị từ chối vì các bài hát đã vi phạm bản quyền. <mark>Ba</mark> yếu tố nào được dùng để đánh giá sử dụng bản quyền hợp pháp? (Chọn 3)',
+          opts: ['Được sao chép từ tác phẩm do một người bạn của bạn đã mua.', 'Mục đích sử dụng của bạn.', 'Lượng tác phẩm được sao chép.', 'Ảnh hưởng của việc sử dụng của bạn đối với thị trường tiềm năng của tác phẩm được sao chép.', 'Nếu nó được sử dụng bởi một giáo viên hoặc học sinh.', 'Lấy từ một trang Web đăng ký.'], a: [1, 2, 3],
+          hint: 'Mục đích, lượng, thị trường.', exp: 'Mục đích sử dụng, lượng sao chép và tác động đến thị trường là các yếu tố đánh giá.' },
+        { type: 'drop', q: 'Kéo từ vào chỗ trống.', text: 'Bản quyền tồn tại {0} sau khi tác phẩm được tạo ra. Nó bảo vệ quyền {1} và phân phối.', ans: ['ngay', 'sao chép'], decoy: ['nhiều năm', 'xóa'],
+          hint: 'Không cần chờ đợi hay đăng ký.', exp: 'Bản quyền có ngay lập tức và bảo vệ quyền sao chép, phân phối.', extra: true }
+      ] },
+    { title: 'Tài sản công cộng', en: 'Public domain', icon: '🌍', badge: '🥇',
+      steps: [
+        { type: 'learn', icon: '🌍', title: 'Tài sản công cộng', lines: [
+          ['👥', 'Thuộc sở hữu của <b>công chúng</b>.'], ['🆓', '<b>Miễn phí</b> để sử dụng.'], ['🙌', 'Không cần xin phép tác giả.']] },
+        { type: 'learn', icon: '🔓', title: 'Khi nào thành tài sản công cộng?', lines: [
+          ['⌛', 'Bản quyền đã <b>hết hạn</b>.'], ['📝', 'Chủ sở hữu <b>không gia hạn</b>.'], ['🕊️', 'Chủ sở hữu <b>từ bỏ</b> tác quyền.'], ['❓', 'Không xác định được tác giả nên <b>không áp dụng</b> được quyền.']] },
+        { type: 'multi', q: 'Nội dung nào <mark>đúng</mark> với miền công cộng (Public Domain)? (Chọn 3)',
+          opts: ['Nó được bảo vệ bởi luật sở hữu trí tuệ.', 'Nó là miễn phí để sử dụng.', 'Nó có thể được mua để sở hữu sau 50 năm.', 'Nó tự động trở thành miền công cộng 50-100 năm sau khi tác giả ban đầu qua đời.', 'Nó thuộc sở hữu của công chúng chứ không phải của bất kỳ cá nhân hay công ty nào.'], a: [1, 3, 4],
+          hint: 'Miễn phí, thuộc công chúng, hết hạn sau nhiều năm.', exp: 'Miền công cộng: miễn phí, thuộc công chúng và tự có sau 50–100 năm. [CẦN GIÁO VIÊN XÁC NHẬN]' },
+        { type: 'multi', q: 'Ba cách nào để một tác phẩm có thể xuất hiện trong miền công cộng? (Chọn 3)',
+          opts: ['Bản quyền đã không được nộp cho chính phủ (Copyright wasn\'t filed with the government)', 'Quyền đã hết hạn (Rights have expired)', 'Quyền không thể áp dụng (Rights were inapplicable)', 'Các quyền đã được từ bỏ một cách rõ ràng (Rights were expressly waived)', 'Quyền không bao giờ được yêu cầu (Rights were never requested)', 'Quyền không bao giờ bị từ chối (Rights were never denied)'], a: [1, 2, 3],
+          hint: 'Hết hạn, không áp dụng được, tự nguyện từ bỏ.', exp: 'Quyền hết hạn, không thể áp dụng hoặc đã bị từ bỏ rõ ràng.' },
+        { type: 'table', q: 'Chọn <mark>Có</mark> nếu có thể dùng hợp pháp mà không xin phép, <mark>Không</mark> nếu không thể.', cols: ['Có', 'Không'],
+          rows: [['Hình ảnh từ một cuốn sách bạn muốn sử dụng đã được xuất bản vào năm 1992.', 1], ['Một bức ảnh bạn muốn sử dụng đã được tạo ra cách đây 100 năm bởi một nhiếp ảnh gia đã qua đời 10 năm sau đó.', 0], ['Lời bài hát bạn muốn sử dụng chưa được đăng ký bản quyền.', 1]],
+          hint: 'Bản quyền có ngay cả khi chưa đăng ký.', exp: 'Ảnh 100 năm tuổi đã hết hạn nên dùng được; sách 1992 và lời bài hát chưa đăng ký vẫn được bảo vệ. [CẦN GIÁO VIÊN XÁC NHẬN]' },
+        { type: 'table', q: 'Chọn <mark>Đúng</mark> nếu đó là lí do một tác phẩm rơi vào phạm vi công cộng, <mark>Sai</mark> nếu không.', cols: ['Đúng', 'Sai'],
+          rows: [['Bản quyền đã hết hạn.', 0], ['Chủ sở hữu bản quyền không thực hiện quy trình gia hạn bản quyền.', 0], ['Chủ sở hữu bản quyền lựa chọn chuyển tác phẩm sang phạm vi công cộng.', 0]],
+          hint: 'Cả ba đều là lí do được học.', exp: 'Hết hạn, không gia hạn và tự nguyện chuyển đều đưa tác phẩm vào phạm vi công cộng.' },
+        { type: 'table', q: 'Bạn KHÔNG có thời gian xin giấy phép. Chọn <mark>Có</mark> nếu dùng được hợp pháp, <mark>Không</mark> nếu không.', cols: ['Có', 'Không'],
+          rows: [['Tác giả là người quen của bạn.', 1], ['Các tác phẩm nghệ thuật được bản quyền bảo vệ.', 1], ['Chủ sở hữu bản quyền đã chuyển tác phẩm nghệ thuật sang phạm vi công cộng.', 0]],
+          hint: 'Quen biết không thay cho giấy phép.', exp: 'Chỉ khi đã thuộc phạm vi công cộng thì dùng được mà không cần xin phép.' },
+        { type: 'single', q: 'Tùy chọn nào sau đây <mark>không</mark> được xem là tài sản trí tuệ và có thể dùng mà không cần cho phép?',
+          opts: ['Sứ mệnh của một tổ chức nào đó (bản in và bản trực tuyến)', 'Hình ảnh của một thiết bị được tạo ra bởi một tổ chức nào đó', 'Sản phẩm do một tổ chức nào đó tạo ra', 'Danh sách các mặt hàng được ghi chú trên ứng dụng Sticky Note', 'Logo một tổ chức nào đó'], a: 3,
+          hint: 'Một danh sách đơn giản, không phải sáng tạo.', exp: 'Danh sách ghi chú đơn giản không phải sáng tạo được bảo hộ. [CẦN GIÁO VIÊN XÁC NHẬN]' },
+        { type: 'drop', q: 'Kéo từ vào chỗ trống.', text: 'Tài sản công cộng thuộc sở hữu của {0}, được dùng {1} và không cần xin phép.', ans: ['công chúng', 'miễn phí'], decoy: ['tác giả', 'mất tiền'],
+          hint: 'Ai cũng dùng được.', exp: 'Tài sản công cộng thuộc về công chúng và miễn phí.', extra: true }
+      ] },
+    { title: 'Chia sẻ sáng tạo miễn phí', en: 'Creative Commons', icon: '🤝', badge: '🏅',
+      steps: [
+        { type: 'learn', icon: '🤝', title: 'Creative Commons (CC)', lines: [
+          ['🏢', 'Tổ chức <b>phi lợi nhuận</b>.'], ['📜', 'Cung cấp nhiều loại <b>giấy phép</b> để chia sẻ tác phẩm.'], ['©️', 'Tác giả vẫn <b>giữ bản quyền</b>.']] },
+        { type: 'learn', icon: '📜', title: 'Giấy phép CC', lines: [
+          ['⚖️', 'Trong giới hạn của luật bản quyền.'], ['🏷️', 'Chủ sở hữu được <b>ghi công</b>.'], ['🆓', 'Miễn phí cho công chúng.'], ['📎', 'Phải <b>trích dẫn nguồn</b>.']] },
+        { type: 'learn', icon: '🔤', title: 'Bốn điều kiện CC', lines: [
+          ['BY', '<span class="en">Attribution</span> – ghi công tác giả.'], ['NC', '<span class="en">Non-Commercial</span> – không dùng thương mại.'], ['ND', '<span class="en">No Derivatives</span> – không sửa đổi.'], ['SA', '<span class="en">Share Alike</span> – chia sẻ theo cùng giấy phép.']] },
+        { type: 'single', q: 'Em hãy cho biết, giấy phép <mark>CC</mark> là viết tắt của giấy phép?',
+          opts: ['Creative Commons', 'Commons Creative', 'Creative Commercial', 'Commercial Creative'], a: 0,
+          hint: 'Sáng tạo + chung.', exp: 'CC = Creative Commons.' },
+        { type: 'single', q: 'Em hãy cho biết, giấy phép Creative Commons được sử dụng khi nào?',
+          opts: ['Khi miền công cộng bị đóng', 'Khi tác giả của tác phẩm muốn cho người khác sử dụng tác phẩm của mình nhưng phải áp dụng các điều kiện cụ thể', 'Khi người dùng muốn truy cập một tác phẩm có bản quyền', 'Khi cơ quan chức năng yêu cầu'], a: 1,
+          hint: 'Tác giả chia sẻ có điều kiện.', exp: 'CC giúp tác giả chia sẻ tác phẩm kèm điều kiện cụ thể.' },
+        { type: 'single', q: 'Ghi nhận tác giả (Attribution) ở đó tác giả hoặc chủ sở hữu được <mark>__________</mark> cho tác phẩm của họ.',
+          opts: ['Giữ bản quyền', 'Sở hữu', 'Tiền', 'Ghi công'], a: 3,
+          hint: 'BY = nêu tên tác giả.', exp: 'Attribution nghĩa là tác giả được ghi công.' },
+        { type: 'multi', q: 'Chọn phát biểu <mark>đúng</mark> về Creative Commons (CC). (Chọn 2)',
+          opts: ['Creative Commons (CC) là một trường nghệ thuật.', 'Creative Commons (CC) là một tổ chức chia sẻ các tác phẩm sáng tạo.', 'Creative Commons (CC) là phần mềm độc quyền.', 'Creative Commons (CC) là một tổ chức dành để kiếm tiền từ các tác phẩm sáng tạo.', 'Giấy phép Creative Commons (CC) miễn phí cho công chúng.'], a: [1, 4],
+          hint: 'Tổ chức phi lợi nhuận và miễn phí.', exp: 'CC là tổ chức chia sẻ tác phẩm, giấy phép miễn phí cho công chúng.' },
+        { type: 'single', q: 'Điều nào sau đây được phép với giấy phép <mark>CC-BY</mark>?',
+          opts: ['Viết ý kiến của riêng bạn và gửi nó lên blog cộng đồng.', 'Phân phối bài hát của ai đó trực tuyến mà không cần ghi công.', 'Tham gia vào tác phẩm nghệ thuật của người khác như của chính bạn trong một cuộc thi nghệ thuật.', 'Hiển thị một bức ảnh trong một buổi thuyết trình trong lớp học mà không được phép của nhiếp ảnh gia.'], a: 0,
+          hint: 'BY bắt buộc ghi công; các đáp án sai đều bỏ qua điều đó.', exp: 'Ba đáp án kia không ghi công hoặc nhận là của mình. [CẦN GIÁO VIÊN XÁC NHẬN]' },
+        { type: 'table', q: 'Về hình ảnh có giấy phép CC (không thuộc phạm vi công cộng), chọn <mark>Đúng</mark> hoặc <mark>Sai</mark>.', cols: ['Đúng', 'Sai'],
+          rows: [['Bạn có thể sử dụng hình ảnh miễn phí.', 0], ['Bạn có thể sử dụng hình ảnh vô điều kiện.', 1], ['Nếu sử dụng hình ảnh, bạn phải trích dẫn nguồn của hình ảnh đó.', 0]],
+          hint: 'Miễn phí nhưng có điều kiện.', exp: 'Ảnh CC miễn phí, nhưng phải tuân theo điều kiện, nhất là trích dẫn nguồn.' },
+        { type: 'table', q: 'Chọn <mark>Có</mark> nếu giấy phép CC cho phép, <mark>Không</mark> nếu không.', cols: ['Có', 'Không'],
+          rows: [['Trưng bày một áp phích trong đêm chiếu phim miễn phí tại trường học của bạn.', 0], ['Cho một bài thơ vào danh mục tác phẩm gốc của bạn.', 1], ['Biểu diễn một tác phẩm kịch cho phụ huynh tại chương trình tài năng của lớp.', 0], ['Trình bày hình ảnh cho các học sinh khác trong bài thuyết trình trước lớp.', 0]],
+          hint: 'Dùng và trình bày thì được; nhận là của mình thì không.', exp: 'Trưng bày, biểu diễn, trình bày được; ghi là tác phẩm gốc của mình thì không. [CẦN GIÁO VIÊN XÁC NHẬN]' },
+        { type: 'chat', title: 'Hỏi AI về hình ảnh', msgs: [
+          ['u', 'AI ơi, vẽ giúp em nhân vật hoạt hình nổi tiếng y hệt phim nhé!'],
+          ['a', 'Mình không nên sao chép nhân vật có bản quyền. Em có thể tự nghĩ nhân vật mới nhé!'],
+          ['u', 'Vậy em dùng ảnh AI này cần chú ý gì?'],
+          ['a', 'Hãy xem quyền sở hữu, nguồn dữ liệu và quy định sử dụng sản phẩm đầu ra.']] },
+        { type: 'drop', q: 'Kéo chữ viết tắt vào chỗ trống.', text: '{0} là ghi công tác giả. {1} là không dùng thương mại. {2} là không sửa đổi.', ans: ['BY', 'NC', 'ND'], decoy: ['SA'],
+          hint: 'BY = Attribution.', exp: 'BY ghi công, NC không thương mại, ND không sửa đổi.', extra: true }
+      ] }
+  ],
+  explain: { type: 'select', q: 'Nói lại bằng lời của em: chọn từ đúng.', text: 'Tác phẩm được bảo vệ bởi {0}. Tác phẩm thuộc {1} thì ai cũng dùng miễn phí. Khi dùng giấy phép CC, em phải {2}.',
+    opts: [['bản quyền', 'mật khẩu', 'tường lửa'], ['tài sản công cộng', 'một công ty', 'một cá nhân'], ['ghi công tác giả', 'xóa tên tác giả', 'bán lại']], ans: ['bản quyền', 'tài sản công cộng', 'ghi công tác giả'],
+    hint: 'Nhớ lại ba phần của bài.', exp: 'Bản quyền bảo vệ tác giả; tài sản công cộng dùng miễn phí; CC cần ghi công.' },
+  cards: [
+    ['Copyright', 'Bản quyền – quyền độc quyền của tác giả'], ['Ownership', 'Quyền sở hữu'], ['Public Domain', 'Phạm vi công cộng – ai cũng dùng miễn phí'],
+    ['Plagiarism', 'Đạo văn – nhận tác phẩm người khác là của mình'], ['Creative Commons', 'Tổ chức cấp giấy phép chia sẻ tác phẩm'],
+    ['BY – Attribution', 'Ghi công tác giả'], ['NC – Non-Commercial', 'Không dùng cho mục đích thương mại'], ['ND – No Derivatives', 'Không được sửa đổi'], ['SA – Share Alike', 'Chia sẻ theo cùng giấy phép']
+  ]
+};
+</script>
+<script src="../learn.js"></script>
+</body>
+</html>
