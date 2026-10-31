@@ -21,12 +21,12 @@ body{margin:0;background:linear-gradient(#CFE3FB,#E6F0FD 35%,#F4F8FE);color:var(
 button{font:inherit;color:inherit}
 
 /* ---------- khung ngoài ---------- */
-.ung-dung{padding:.8rem 0 .8rem .8rem;min-height:100%;display:flex;flex-direction:column}
-.bo-cuc{display:block;flex:1;padding-right:458px}
+.ung-dung{padding:0;min-height:100%;display:flex;flex-direction:column}
+.bo-cuc{display:block;flex:1;padding-right:450px}
 
 /* ---------- cửa sổ Word ---------- */
-.cua-so{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 10px 30px rgba(20,58,140,.25);
-  border:1px solid #9bb3d9;display:flex;flex-direction:column;height:calc(100vh - 1.6rem);min-height:560px;
+.cua-so{background:#fff;border-radius:0;overflow:hidden;box-shadow:none;
+  border:0;display:flex;flex-direction:column;height:100vh;min-height:560px;
   font-family:"Segoe UI","Be Vietnam Pro",Arial,sans-serif;font-size:12px;color:#222}
 .tieu-de{background:var(--xanh);color:#fff;display:flex;align-items:center;gap:.6rem;padding:.35rem .7rem;font-size:12.5px}
 .tieu-de img{width:18px;height:18px;background:#fff;border-radius:3px;padding:1px}
@@ -74,12 +74,15 @@ button{font:inherit;color:inherit}
 @keyframes xung{50%{box-shadow:0 0 0 6px rgba(198,138,21,.35)}}
 
 /* ---------- bảng nhiệm vụ ---------- */
-.bang{background:#fff;border-radius:16px 0 0 16px;box-shadow:0 8px 20px rgba(20,58,140,.15);padding:0;display:flex;flex-direction:column;position:fixed;top:.8rem;bottom:.8rem;right:0;width:450px;overflow:hidden;z-index:5}
+.bang{background:#fff;border-radius:0;border-left:1px solid #C9D9F2;padding:0;display:flex;flex-direction:column;position:fixed;top:0;bottom:0;right:0;width:450px;overflow:hidden;z-index:5}
 .bang-dau{display:flex;align-items:center;gap:.7rem;margin-bottom:.9rem}
 .menu-ds{flex:none;width:42px;height:42px;border-radius:12px;background:var(--xanh-sang);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 0 var(--xanh-dam);text-decoration:none}
 .menu-ds:hover{filter:brightness(1.1)}
-.tien-do{flex:1;display:flex;align-items:center;gap:.5rem}
-.cham{width:34px;height:34px;border-radius:50%;border:2px solid #B9CBEA;background:#fff;color:var(--xanh);font-weight:700;font-size:.85rem;cursor:pointer;
+.tien-do{flex:1;min-width:0;display:flex;align-items:center;gap:.3rem}
+.mui-ten{flex:none;width:30px;height:46px;border:0;background:none;color:var(--xanh-sang);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;border-radius:8px}
+.mui-ten:hover:not(:disabled){background:#DCE8FB}
+.mui-ten:disabled{color:#B9CBEA;cursor:default}
+.cham{flex:0 1 46px;min-width:0;aspect-ratio:1;height:auto;border-radius:50%;padding:0;border:2px solid #B9CBEA;background:#fff;color:var(--xanh);font-weight:700;font-size:1.3rem;cursor:pointer;
   font-family:"Baloo 2",sans-serif;line-height:1;display:flex;align-items:center;justify-content:center}
 .cham.chon{background:var(--xanh-sang);border-color:var(--xanh-sang);color:#fff}
 .cham.xong{background:var(--luc);border-color:var(--luc);color:#fff}
@@ -136,11 +139,11 @@ kbd{background:#fff;border:1px solid #B9CBEA;border-bottom-width:2px;border-radi
 
 @media(max-width:1200px){
   .bo-cuc{padding-right:0}
-  .ung-dung{padding:.6rem}
+  .ung-dung{padding:0}
   .cua-so{height:auto;min-height:0}
   .vung-doc{padding:1rem .6rem 1.4rem}
   .giay{padding:36px 26px;min-height:380px;font-size:17px}
-  .bang{position:static;width:auto;margin-top:1rem;border-radius:16px}
+  .bang{position:static;width:auto;margin-top:0;border-radius:0;border-left:0}
 }
 .cua-so{position:relative}
 .luu-nhanh{min-width:24px;height:24px;padding:0 .2rem;background:rgba(255,255,255,.15);color:#fff}
@@ -542,9 +545,15 @@ kbd{background:#fff;border:1px solid #B9CBEA;border-bottom-width:2px;border-radi
 
   /* ---------- Hiển thị bảng nhiệm vụ ---------- */
   function veTienDo(){
-    $('#tienDo').innerHTML = BAI.map((b,i)=>`<button class="cham ${i===cur?'chon':''} ${THEO_DOI && xong.includes(i)?"xong":""}" data-i="${i}" aria-label="Bài ${i+1}: ${b.ten}">${THEO_DOI && xong.includes(i)?'✓':i+1}</button>`).join('')
+    const dau = Math.max(0, Math.min(BAI.length-5, cur-2)); // cửa sổ 5 số bài quanh bài hiện tại
+    const mui = (huong, d) => `<button type="button" class="mui-ten" data-mui="${huong}" ${d?'disabled':''} aria-label="${huong<0?'Bài trước':'Bài sau'}"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="${huong<0?'M15 5l-7 7 7 7':'M9 5l7 7-7 7'}" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>`;
+    $('#tienDo').innerHTML = mui(-1, cur===0)
+      + BAI.map((b,i)=>i).filter(i=>i>=dau && i<dau+5).map(i=>{ const b = BAI[i];
+          return `<button class="cham ${i===cur?'chon':''} ${THEO_DOI && xong.includes(i)?"xong":""}" data-i="${i}" aria-label="Bài ${i+1}: ${b.ten}">${THEO_DOI && xong.includes(i)?'✓':i+1}</button>`; }).join('')
+      + mui(1, cur===BAI.length-1)
       + (THEO_DOI ? `<div class="thanh" title="Tiến độ"><i style="width:${xong.length/BAI.length*100}%"></i></div>` : "");
     $('#tienDo').querySelectorAll('.cham').forEach(b => b.onclick = () => vaoBai(+b.dataset.i));
+    $('#tienDo').querySelectorAll('.mui-ten').forEach(b => b.onclick = () => vaoBai(cur + +b.dataset.mui));
   }
   function veBuoc(){
     const b = BAI[cur];
