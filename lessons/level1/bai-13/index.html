@@ -1,134 +1,675 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Bài 13 · Tài sản công cộng &amp; Creative Commons</title>
-<link rel="stylesheet" href="../learn.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bài 13, Tài sản công cộng &amp; Creative Commons</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#fbf6ea; --card:#fffdf7; --ink:#1f2a37; --muted:#64707d; --line:#e6dcc4;
+  --teal:#0f766e; --teal-soft:#d5efe9;
+  --coral:#e4572e; --coral-soft:#fde0d6;
+  --gold:#f2b134; --gold-soft:#fdf0cf;
+  --plum:#6d3fa0; --plum-soft:#eadcf8;
+  --ok:#157f4a; --bad:#c0392b;
+  --radius:18px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:20px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Lexend",system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.6;font-size:17px}
+h1,h2,h3{margin:0;line-height:1.2}
+.serif{font-family:"Baloo 2","Lexend",sans-serif;letter-spacing:0}
+.wrap{max-width:1680px;margin:0 auto;padding:0 clamp(16px,3.5vw,64px)}
+
+/* ---------- top bar ---------- */
+.bar{position:sticky;top:0;z-index:20;background:rgba(251,246,234,.93);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);transition:transform .3s}
+.bar.hide{transform:translateY(-100%)}
+.bar .wrap{display:flex;align-items:center;gap:14px;padding-top:10px;padding-bottom:10px}
+.segs{display:flex;gap:6px;flex:1;min-width:0}
+.seg{flex:1 1 0;min-width:0;text-decoration:none;color:var(--ink);font-size:15px;font-weight:600;padding:6px 8px 7px;border-radius:10px;background:#efe6cd;position:relative;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.seg.on{background:var(--c-soft);outline:2px solid var(--c)}
+.seg b{font-weight:800;margin-right:4px}
+.score{font-weight:800;font-size:16px;background:var(--gold);padding:5px 12px;border-radius:999px;white-space:nowrap}
+
+.q .tag.add{background:var(--ink);color:#fff;margin-left:6px}
+/* ---------- hero ---------- */
+.hero{padding-top:56px;padding-bottom:36px;position:relative}
+.eyebrow{font-weight:700;font-size:16px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal)}
+.hero h1{font-size:clamp(34px,6vw,60px);margin:10px 0 14px}
+.hero h1 em{font-style:normal}
+.hero p.lead{max-width:640px;font-size:18px;color:#3b4755;margin:0 0 24px}
+.goals{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.goal{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;font-size:17px}
+.goal b{display:block;font-size:15px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+/* ---------- sections ---------- */
+section.part{padding:44px 0;border-top:2px dashed var(--line);--c:var(--teal);--cs:var(--teal-soft)}
+.part.p1{--c:var(--coral);--cs:var(--coral-soft)}
+.part.p2{--c:#a8760a;--cs:var(--gold-soft)}
+.part.p3{--c:var(--plum);--cs:var(--plum-soft)}
+.part.p4{--c:var(--ink);--cs:#e8e2d0}
+.part-head{display:flex;align-items:flex-end;gap:16px;margin-bottom:22px;flex-wrap:wrap}
+.part-no{font-family:"Baloo 2","Lexend",sans-serif;font-weight:800;font-size:76px;line-height:.8;color:var(--c);opacity:.9}
+.part-head h2{font-size:clamp(26px,4vw,38px)}
+h3.sub{font-size:17px;letter-spacing:.1em;text-transform:uppercase;color:var(--c);margin:30px 0 12px}
+
+.card{background:var(--card);border:1.5px solid var(--line);border-radius:var(--radius);padding:20px 22px}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+.key{background:var(--cs);border-radius:var(--radius);padding:16px 20px;font-weight:500}
+.key b{color:var(--c)}
+.tile{background:var(--card);border:1.5px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.tile .ic{font-size:26px;display:block;margin-bottom:4px}
+.tile h4{margin:0 0 4px;font-size:17px}
+.tile p{margin:0;font-size:17px;color:#46525f}
+.tile.num{border-top:5px solid var(--c)}
+.tile.num .n_unused{font-family:"Baloo 2","Lexend",sans-serif;font-weight:800;font-size:34px;color:var(--c);line-height:1}
+
+/* risk chain */
+.chain{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-weight:600}
+.chain span{background:var(--card);border:1.5px solid var(--line);padding:8px 14px;border-radius:12px}
+.chain span.bad{background:var(--coral-soft);border-color:var(--coral);color:#8a2a0e}
+.chain i{font-style:normal;color:var(--muted)}
+
+/* lifespan bar */
+.life{margin-top:6px}
+.life .track{display:flex;height:46px;border-radius:12px;overflow:hidden;font-weight:700;font-size:16px;color:#fff}
+.life .track div{display:flex;align-items:center;justify-content:center;text-align:center;padding:0 6px}
+.life .l1{flex:3;background:var(--coral)}
+.life .l2{flex:1.6;background:#f09a7c}
+.life .l3{flex:1.4;background:var(--gold);color:#4a3200}
+.life .ticks{display:flex;font-size:15px;color:var(--muted);margin-top:5px}
+.life .ticks span:nth-child(1){flex:3}.life .ticks span:nth-child(2){flex:1.6}.life .ticks span:nth-child(3){flex:1.4}
+
+/* 4 ways to PD */
+.ways .tile{position:relative;padding-top:20px}
+.ways .tile::before{content:attr(data-n);position:absolute;top:-12px;left:14px;background:var(--c);color:#fff;border-radius:999px;width:26px;height:26px;display:grid;place-items:center;font-weight:800;font-size:16px}
+
+/* ---------- license builder ---------- */
+.builder{display:grid;grid-template-columns:1.05fr 1fr;gap:18px}
+@media(max-width:760px){.builder{grid-template-columns:1fr}}
+.toggles{display:grid;gap:10px}
+.tg{display:flex;align-items:center;gap:12px;text-align:left;font:inherit;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:10px 14px;cursor:pointer;transition:.15s}
+.tg .badge{width:46px;height:46px;border-radius:12px;background:#e8e2d0;display:grid;place-items:center;font-weight:800;font-size:18px;flex:none;transition:.15s}
+.tg small{display:block;color:var(--muted);font-size:16px;line-height:1.3}
+.tg b{display:block}
+.tg[aria-pressed=true]{border-color:var(--c);background:var(--cs)}
+.tg[aria-pressed=true] .badge{background:var(--c);color:#fff}
+.tg.locked{opacity:.45;cursor:not-allowed}
+.tg.fixed{cursor:default}
+.result{background:var(--ink);color:#fff;border-radius:var(--radius);padding:20px 22px}
+.result .code{font-family:"Baloo 2","Lexend",sans-serif;font-weight:800;font-size:34px;letter-spacing:-.01em}
+.result .vn{color:#cfd6de;font-size:17px;margin-bottom:12px}
+.can{list-style:none;margin:0;padding:0;display:grid;gap:7px;font-size:18px}
+.can li{display:flex;gap:10px;align-items:flex-start}
+.can li::before{content:"✓";flex:none;width:22px;height:22px;border-radius:50%;background:#2fbf71;color:#04301a;font-weight:800;display:grid;place-items:center;font-size:16px;margin-top:2px}
+.can li.no::before{content:"✕";background:#ff6b5a;color:#3a0700}
+.can li.warn::before{content:"!";background:var(--gold);color:#3a2600}
+
+table.lic{width:100%;border-collapse:collapse;font-size:17px;background:var(--card);border-radius:var(--radius);overflow:hidden;border:1.5px solid var(--line)}
+table.lic th,table.lic td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+table.lic th{background:#efe6cd;font-size:15px;letter-spacing:.06em;text-transform:uppercase}
+table.lic tr:last-child td{border-bottom:0}
+.pill{display:inline-block;font-weight:800;border-radius:8px;padding:2px 9px;background:var(--plum-soft);color:var(--plum);white-space:nowrap}
+.yes{color:var(--ok);font-weight:700}.nop{color:var(--bad);font-weight:700}
+.scroll{overflow-x:auto}
+
+/* ---------- quiz ---------- */
+.q{background:var(--card);border:1.5px solid var(--line);border-radius:var(--radius);padding:18px 20px;margin:14px 0;position:relative}
+.q .tag{display:inline-block;font-size:14px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;background:var(--cs);color:var(--c);padding:3px 10px;border-radius:999px;margin-bottom:8px}
+.q .prompt{font-weight:600;margin:0 0 12px}
+.opts{display:grid;gap:8px}
+.opt{display:flex;gap:12px;align-items:flex-start;text-align:left;font:inherit;background:#fff;border:2px solid var(--line);border-radius:12px;padding:10px 14px;cursor:pointer;transition:.12s;color:inherit}
+.opt:hover:not(:disabled){border-color:var(--c);transform:translateX(2px)}
+.opt .k{flex:none;width:26px;height:26px;border-radius:8px;background:#efe6cd;font-weight:800;font-size:16px;display:grid;place-items:center}
+.opt.sel{border-color:var(--c);background:var(--cs)}
+.opt.sel .k{background:var(--c);color:#fff}
+.opt.right{border-color:var(--ok);background:#e3f6ea}.opt.right .k{background:var(--ok);color:#fff}
+.opt.wrong{border-color:var(--bad);background:#fde7e3}.opt.wrong .k{background:var(--bad);color:#fff}
+.opt.miss{border-style:dashed;border-color:var(--ok)}
+.opt:disabled{cursor:default}
+.tfrow{display:grid;grid-template-columns:1fr auto;gap:10px 14px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.tfrow:first-of-type{border-top:0}
+.tfrow .st{font-size:18px}
+.tfbtns{display:flex;gap:6px}
+.tfbtns button{font:inherit;font-weight:700;border:2px solid var(--line);background:#fff;border-radius:10px;padding:5px 16px;cursor:pointer;min-width:62px}
+.tfbtns button:hover:not(:disabled){border-color:var(--c)}
+.tfbtns button.right{background:var(--ok);border-color:var(--ok);color:#fff}
+.tfbtns button.wrong{background:var(--bad);border-color:var(--bad);color:#fff}
+.tfbtns button:disabled{cursor:default}
+.why{grid-column:1/-1;font-size:13.5px;color:#46525f;background:#f5efdc;border-radius:10px;padding:7px 12px;display:none}
+.why.show{display:block}
+.fb{margin-top:12px;padding:10px 14px;border-radius:12px;font-size:14.5px;display:none}
+.fb.show{display:block}
+.fb.ok{background:#e3f6ea;color:#0d4d2c}
+.fb.no{background:#fde7e3;color:#7a1f14}
+.actions{margin-top:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.hint{font-size:16px;color:var(--muted)}
+
+/* ---------- warm up reveal ---------- */
+.ideas{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin-top:14px}
+
+/* ---------- decision steps ---------- */
+.steps{counter-reset:s;display:grid;gap:12px}
+.step{background:var(--card);border:1.5px solid var(--line);border-radius:var(--radius);padding:14px 18px 14px 64px;position:relative}
+.step::before{counter-increment:s;content:counter(s);position:absolute;left:16px;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:800}
+.step b{display:block}
+.step span.ar{color:var(--muted);font-size:17px}
+
+.final{background:var(--ink);color:#fff;border-radius:24px;padding:28px;text-align:center;margin-top:30px}
+.final .big{font-family:"Baloo 2","Lexend",sans-serif;font-weight:800;font-size:56px;line-height:1}
+footer{padding:36px 0 60px;text-align:center;color:var(--muted);font-size:16px}
+@media(max-width:620px){
+  .bar .wrap{flex-wrap:wrap}
+  .segs{order:2;flex-basis:100%}
+  .seg{font-size:14px;padding:5px 5px 6px}
+  .seg span{display:none}
+  .tfrow{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+/* ---------- v3: phóng to khi dạy, căn đều, hình minh họa ---------- */
+body{font-size:19px}
+.btn{font:inherit;font-weight:700;border:0;border-radius:999px;padding:8px 18px;cursor:pointer;background:var(--ink);color:#fff}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn.ghost{background:transparent;color:var(--ink);border:2px solid var(--ink)}
+.btn.ghost:hover{background:var(--ink);color:#fff}
+.bar .btn{padding:6px 14px;font-size:15px}
+p,li,.st,.prompt,.key,.tile p,.goal,.step span.ar,.why,.fb,.opt span:last-child,.can li,.tg small,.card>p{text-align:justify;text-wrap:pretty;hyphens:auto}
+.hero p.lead{max-width:none}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(280px,1fr);gap:clamp(20px,4vw,64px);align-items:center}
+.hero-art{width:100%;height:auto;max-width:560px;justify-self:center;filter:drop-shadow(0 10px 0 rgba(31,42,55,.08))}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr}.hero-art{max-width:380px}}
+.part-head .art{margin-left:auto;width:clamp(84px,9vw,140px);height:auto;flex:none}
+.qgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,560px),1fr));gap:18px;align-items:start}
+.qgrid .q{margin:0}
+.fb .replay{display:block;margin-top:12px;font-size:15px;padding:6px 16px}
+.tg .badge svg{display:block}
+.shot{margin:0;background:var(--card);border:1.5px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.shot svg{display:block;width:100%;height:clamp(190px,20vw,290px)}
+.shot figcaption{padding:12px 18px;font-size:16px;border-top:1.5px solid var(--line)}
+.shot figcaption b{color:var(--plum)}
+.attr-list{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:8px}
+.attr-list li{display:flex;gap:10px;align-items:baseline}
+.attr-list b{flex:none;min-width:92px;color:var(--plum)}.hero .goals{grid-template-columns:repeat(2,minmax(0,1fr))}
+.tile p,.goal{text-align:left;hyphens:manual}
+.part-head{flex-wrap:nowrap;align-items:center}
+.part-head h2{flex:1 1 0;min-width:0}
+.part-head .part-no{flex:none}
+.part-head .art{width:clamp(56px,8vw,140px)}
+.hero .slogan{font-family:"Baloo 2","Lexend",sans-serif;font-weight:700;font-size:clamp(22px,2.6vw,34px);line-height:1.25;margin:0 0 14px;color:var(--coral)}
+.hero .eyebrow{white-space:nowrap;font-size:clamp(11px,1.15vw,16px);letter-spacing:.08em}
+.hero .eyebrow{font-size:clamp(14px,1.45vw,21px);letter-spacing:.04em}
+.hero-grid{grid-template-columns:minmax(0,2.2fr) minmax(220px,1fr)}
+.hero-art{max-width:340px}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr}.hero .eyebrow{white-space:normal}}
+.hero .slogan{white-space:nowrap;font-size:clamp(16px,2vw,32px)}
+.hero-grid{grid-template-columns:minmax(0,1fr) auto}
+.hero-art{width:auto;max-width:none;height:clamp(120px,12vw,190px)}
+@media(max-width:900px){.hero .slogan{white-space:normal}.hero-grid{grid-template-columns:1fr}.hero-art{height:140px}}
+.hero-grid{grid-template-columns:auto auto;justify-content:center;gap:clamp(24px,5vw,90px)}
+.hero-art{height:clamp(150px,15vw,230px)}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr;justify-content:stretch}.hero-art{height:140px;justify-self:center}}
+.hero h1{white-space:nowrap;font-size:clamp(28px,4vw,62px)}
+@media(max-width:900px){.hero h1{white-space:normal}}
+.hero h1{font-size:clamp(26px,3.6vw,56px)}
+.hero-grid{gap:clamp(20px,3vw,56px)}
+@media(max-width:1150px){.hero-art{display:none}.hero-grid{grid-template-columns:1fr;justify-content:stretch}}
+.g1{grid-template-columns:1fr}
+.qgrid{grid-template-columns:1fr}
+.life{background:#fff;border:2px solid var(--ink);border-radius:16px;padding:14px 16px 12px}
+.life-label{font-weight:800;font-size:18px;margin-bottom:10px;color:var(--coral)}
+.tile.sign{text-align:center}
+.signic{width:84px;height:84px;margin:0 auto 10px;border-radius:50%;background:#fff;border:5px solid #111;color:#111;display:grid;place-items:center}
+.signic svg{width:50px;height:50px}
+.tile.sign h4{font-size:18px}
+.tile.sign .code{display:table;margin:0 auto 6px;background:#111;color:#fff;border-radius:8px;padding:1px 14px}
+.tile.sign p{text-align:center}
+.shot img{display:block;width:100%;height:clamp(220px,24vw,360px);object-fit:cover}
+.shot figcaption a{color:inherit}
+.ways .tile::before{content:none;display:none}
+.ways .tile{padding-top:16px}
+.tile.sign:nth-child(1){--sc:#0f766e}
+.tile.sign:nth-child(2){--sc:#d9480f}
+.tile.sign:nth-child(3){--sc:#a8760a}
+.tile.sign:nth-child(4){--sc:#6d3fa0}
+.tile.sign h4,.tile.sign p b{color:var(--sc)}
+.tile.sign .code{background:var(--sc);color:#fff}
+.tile.sign{border-top:5px solid var(--sc)}
+.attr-list li{display:grid;grid-template-columns:7.5em minmax(0,1fr);gap:12px;align-items:baseline}
+.attr-list b{min-width:0}
+.attr-list li{text-align:left}
+.card>.attr-list{margin-top:14px;gap:12px}
+</style>
 </head>
 <body>
-<div class="app" id="app"></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="photo" viewBox="0 0 320 200"><rect width="320" height="200" fill="#bfe6f2"/><circle cx="250" cy="52" r="26" fill="#f2b134"/><polygon points="0,200 0,135 70,70 130,125 185,85 320,175 320,200" fill="#2f8f83"/><polygon points="0,200 0,170 80,140 150,165 230,130 320,170 320,200" fill="#0f766e"/></symbol></defs></svg>
+
+<header class="bar">
+  <div class="wrap">
+    <nav class="segs" aria-label="Các phần của bài học">
+      <a class="seg" href="#p0" data-i="0" style="--c:var(--teal);--c-soft:var(--teal-soft)"><span>Khởi động</span></a>
+      <a class="seg" href="#p1" data-i="1" style="--c:var(--coral);--c-soft:var(--coral-soft)"><span>Bản quyền</span></a>
+      <a class="seg" href="#p2" data-i="2" style="--c:#a8760a;--c-soft:var(--gold-soft)"><span>Tài sản công cộng</span></a>
+      <a class="seg" href="#p3" data-i="3" style="--c:var(--plum);--c-soft:var(--plum-soft)"><span>Creative Commons</span></a>
+      <a class="seg" href="#p4" data-i="4" style="--c:var(--ink);--c-soft:#e8e2d0"><span>Tổng kết</span></a>
+    </nav>
+    <button type="button" class="btn ghost" id="resetAll">↻ Làm lại tất cả</button>
+    <div class="score" id="score">0 / 0 điểm</div>
+  </div>
+</header>
+
+<main>
+<!-- ================= HERO ================= -->
+<div class="wrap hero"><div class="hero-grid"><div>
+  <div class="eyebrow">IC3 GS6, Level 1, Bài 13, Chủ đề: Quản lí thông tin</div>
+  <h1 class="serif">Tài sản công cộng &amp; <em>Creative Commons</em></h1>
+  <p class="slogan">Có sẵn trên mạng không có nghĩa là được dùng tự do.</p>
+</div>
+<svg class="hero-art" viewBox="0 0 440 330" role="img" aria-label="Cửa sổ trình duyệt có ảnh và ba nhãn: bản quyền, miền công cộng, Creative Commons"><rect x="10" y="14" width="420" height="290" rx="22" fill="#fff" stroke="#1f2a37" stroke-width="5"/><path d="M10 60h420" stroke="#1f2a37" stroke-width="5"/><circle cx="38" cy="38" r="7" fill="#e4572e"/><circle cx="60" cy="38" r="7" fill="#f2b134"/><circle cx="82" cy="38" r="7" fill="#0f766e"/><rect x="112" y="27" width="290" height="22" rx="11" fill="#efe6cd"/><svg x="32" y="82" width="250" height="156" viewBox="0 0 320 200"><use href="#photo"/></svg><rect x="32" y="252" width="150" height="12" rx="6" fill="#d9cfb2"/><rect x="32" y="274" width="100" height="12" rx="6" fill="#e8e0c8"/><g font-family="Baloo 2,Lexend,sans-serif" font-weight="800" text-anchor="middle"><circle cx="352" cy="112" r="34" fill="#111" stroke="#fff" stroke-width="5"/><text x="352" y="126" font-size="42" fill="#fff">©</text><circle cx="352" cy="190" r="34" fill="#f2b134" stroke="#fff" stroke-width="5"/><text x="352" y="202" font-size="30" fill="#1f2a37">PD</text><circle cx="352" cy="268" r="34" fill="#111" stroke="#fff" stroke-width="5"/><text x="352" y="280" font-size="30" fill="#fff">cc</text></g></svg></div></div>
+<!-- ===== 0, KHỞI ĐỘNG ================= -->
+<section class="part p0" id="p0" data-i="0">
+  <div class="wrap">
+    <div class="part-head"><div class="part-no">0</div><h2 class="serif">Khởi động: thông tin trên mạng</h2><svg class="art" viewBox="0 0 120 120" role="img" aria-hidden="true"><circle cx="56" cy="58" r="44" fill="#d5efe9" stroke="#0f766e" stroke-width="4"/><ellipse cx="56" cy="58" rx="19" ry="44" fill="none" stroke="#0f766e" stroke-width="3"/><path d="M12 58h88M20 36h72M20 80h72" stroke="#0f766e" stroke-width="3" fill="none"/><path d="M94 66l22 40H72z" fill="#f2b134" stroke="#1f2a37" stroke-width="4" stroke-linejoin="round"/><path d="M94 80v13" stroke="#1f2a37" stroke-width="5" stroke-linecap="round"/><circle cx="94" cy="99" r="3" fill="#1f2a37"/></svg></div>
+
+    <div class="grid g1">
+      <div class="card">
+        <h3>Thông tin trên Internet…</h3>
+        <p style="margin:8px 0 0">Có sẵn để <b style="color:var(--teal)">học tập, tham khảo</b>, nhưng chưa chắc được <b style="color:var(--coral)">sao chép hay dùng như của mình</b>.</p>
+      </div>
+      <div class="card">
+        <h3>Dùng tùy ý có thể dẫn tới</h3>
+        <div class="chain" style="margin-top:10px">
+          <span class="bad">Đạo văn</span><i>/</i><span class="bad">Vi phạm bản quyền</span>
+        </div>
+        <p style="margin:10px 0 0;font-size:14px;color:var(--muted)">Hậu quả về cả đạo đức lẫn pháp luật.</p>
+      </div>
+    </div>
+
+    <div class="key" style="margin-top:14px">Hai lối an toàn: dùng nội dung trong <b>phạm vi công cộng (Public Domain)</b>, hoặc nội dung có giấy phép <b>CC</b> và <b>ghi công tác giả</b>.</div>
+
+    <h3 class="sub" style="--c:var(--teal)">Thử nhanh</h3>
+    <div class="q" data-q="w1"></div>
+
+    <div class="card" style="margin-top:14px;border-color:var(--teal)">
+      <h3>🤖 Còn khi dùng AI?</h3>
+      <p style="margin:8px 0 0">Đừng yêu cầu AI <b style="color:var(--coral)">sao chép tác phẩm có bản quyền</b> hay <b style="color:var(--coral)">bắt chước quá giống một tác giả</b>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 1, BẢN QUYỀN ================= -->
+<section class="part p1" id="p1" data-i="1">
+  <div class="wrap">
+    <div class="part-head"><div class="part-no">1</div><h2 class="serif">Bản quyền (Copyright)</h2><svg class="art" viewBox="0 0 120 120" role="img" aria-hidden="true"><circle cx="60" cy="60" r="50" fill="#fff" stroke="#111" stroke-width="7"/><path d="M78 43a24 24 0 1 0 0 34" fill="none" stroke="#111" stroke-width="9" stroke-linecap="round"/></svg></div>
+
+    <div class="key"><b>Bản quyền</b> cho tác giả quyền hợp pháp <b>độc quyền</b> đối với <b>quyền sở hữu (Ownership)</b> tác phẩm của mình. Chủ sở hữu kiểm soát việc in, phân phối và sử dụng tác phẩm.</div>
+
+    <div class="grid g2" style="margin-top:14px">
+      <div class="tile num"><h4>Có ngay khi tạo ra</h4><p>Không cần đăng ký hay gắn ký hiệu ©. Vẽ xong, viết xong là đã có bản quyền.</p></div>
+      <div class="tile num"><h4>Bảo vệ điều gì?</h4><p>Quyền quyết định của tác giả, quyền sao chép và phân phối, quyền lợi tài chính.</p></div>
+    </div>
+
+    <h3 class="sub">Năm nhóm tác phẩm được bảo hộ</h3>
+    <div class="grid g4">
+      <div class="tile"><span class="ic">📚</span><h4>Văn học</h4><p>Sách, bài báo, thơ, kịch bản</p></div>
+      <div class="tile"><span class="ic">🎨</span><h4>Nghệ thuật</h4><p>Tranh, điêu khắc, ảnh, đồ họa, thiết kế</p></div>
+      <div class="tile"><span class="ic">🎵</span><h4>Âm nhạc</h4><p>Bài hát, bản nhạc, bản ghi âm</p></div>
+      <div class="tile"><span class="ic">🎬</span><h4>Phim</h4><p>Phim điện ảnh, phim truyền hình</p></div>
+      <div class="tile"><span class="ic">🏛️</span><h4>Sáng tạo khác</h4><p>Phần mềm, kiến trúc, thiết kế công nghiệp</p></div>
+    </div>
+
+    <h3 class="sub">Bảo hộ trong bao lâu?</h3>
+    <div class="card">
+      <p style="margin:0 0 12px;font-size:14px;color:#46525f">Quy định chung (mỗi quốc gia và lĩnh vực có thể khác nhau).</p>
+      <div class="life"><div class="life-label">Tác phẩm văn học, nghệ thuật:</div>
+        <div class="track"><div class="l1">Suốt đời tác giả</div><div class="l2">+ 50 năm sau khi mất</div><div class="l3">→ Tài sản công cộng</div></div>
+        <div class="ticks"><span>Tác phẩm ra đời</span><span>Tác giả qua đời</span><span>Hết hạn</span></div>
+      </div>
+      <p style="margin:12px 0 0;font-size:14px">Các loại tác phẩm khác: thường <b>70 năm</b> kể từ lần công bố đầu tiên.</p>
+    </div>
+
+    <h3 class="sub">4 câu hỏi để đánh giá "sử dụng hợp lí"</h3>
+    <div class="grid g4">
+      <div class="tile"><span class="ic">🎯</span><h4>Mục đích</h4><p>Ưu tiên mục đích giáo dục</p></div>
+      <div class="tile"><span class="ic">🧬</span><h4>Bản chất</h4><p>Loại tác phẩm có bản quyền</p></div>
+      <div class="tile"><span class="ic">✂️</span><h4>Lượng dùng</h4><p>Sao chép bao nhiêu phần</p></div>
+      <div class="tile"><span class="ic">💰</span><h4>Thị trường</h4><p>Có làm giảm giá trị tác phẩm?</p></div>
+    </div>
+
+    <h3 class="sub">Luyện tập</h3>
+    <div class="qgrid">
+    <div class="q" data-q="c1"></div>
+    <div class="q" data-q="c2"></div>
+    <div class="q" data-q="c3"></div>
+    <div class="q" data-q="c4"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 2, TÀI SẢN CÔNG CỘNG ================= -->
+<section class="part p2" id="p2" data-i="2">
+  <div class="wrap">
+    <div class="part-head"><div class="part-no">2</div><h2 class="serif">Tài sản công cộng (Public Domain)</h2><svg class="art" viewBox="0 0 120 120" role="img" aria-hidden="true"><path d="M44 58V40a16 16 0 0 1 32 0v8" fill="none" stroke="#1f2a37" stroke-width="6" stroke-linecap="round"/><rect x="26" y="56" width="68" height="52" rx="10" fill="#f2b134" stroke="#1f2a37" stroke-width="5"/><text x="60" y="92" text-anchor="middle" font-size="26" font-weight="800" fill="#1f2a37" font-family="Baloo 2,Lexend,sans-serif">PD</text></svg></div>
+
+    <div class="key">Là tập hợp các tác phẩm <b>thuộc sở hữu của công chúng</b>, <b>miễn phí</b> sử dụng, <b>không cần xin phép</b> tác giả.</div>
+
+    <h3 class="sub">Để một tác phẩm trở thành Public Domain</h3>
+    <div class="grid g4 ways">
+      <div class="tile" data-n="1"><h4>Hết hạn</h4><p>Bản quyền đã hết thời hạn bảo hộ</p></div>
+      <div class="tile" data-n="2"><h4>Không gia hạn</h4><p>Chủ sở hữu không làm thủ tục gia hạn</p></div>
+      <div class="tile" data-n="3"><h4>Từ bỏ</h4><p>Chủ sở hữu chủ động từ bỏ tác quyền</p></div>
+      <div class="tile" data-n="4"><h4>Không áp dụng được</h4><p>Không xác định được tác giả, nên không thực thi được quyền</p></div>
+    </div>
+    <p class="hint" style="margin-top:10px">⚠ "Không đăng ký bản quyền" <b>không</b> nằm trong danh sách này — bản quyền có sẵn từ khi tác phẩm ra đời.</p>
+
+    <h3 class="sub">Luyện tập</h3>
+    <div class="qgrid">
+    <div class="q" data-q="d1"></div>
+    <div class="q" data-q="d2"></div>
+    <div class="q" data-q="d3"></div>
+    <div class="q" data-q="d4"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 3, CREATIVE COMMONS ================= -->
+<section class="part p3" id="p3" data-i="3">
+  <div class="wrap">
+    <div class="part-head"><div class="part-no">3</div><h2 class="serif">Chia sẻ sáng tạo miễn phí: Creative Commons</h2><svg class="art" viewBox="0 0 120 120" role="img" aria-hidden="true"><circle cx="60" cy="60" r="50" fill="#fff" stroke="#111" stroke-width="7"/><text x="60" y="76" text-anchor="middle" font-size="46" font-weight="800" fill="#111" font-family="Baloo 2,Lexend,sans-serif" letter-spacing="-2">cc</text><circle cx="96" cy="96" r="16" fill="#fff" stroke="#111" stroke-width="4"/><circle cx="96" cy="90" r="4" fill="#111"/><path d="M88 104a8 8 0 0 1 16 0z" fill="#111"/></svg></div>
+
+    <div class="key"><b>Creative Commons (CC)</b> là tổ chức phi lợi nhuận cung cấp nhiều loại giấy phép để tác giả <b>chia sẻ miễn phí</b> mà vẫn <b>giữ bản quyền</b>.</div>
+
+    <div class="grid g1" style="margin-top:14px">
+      <div class="card"><h3>Giấy phép CC là một chuẩn</h3>
+        <ul style="margin:8px 0 0;padding-left:20px">
+          <li>Nằm trong khuôn khổ luật bản quyền</li>
+          <li>Chủ sở hữu được <b>ghi công</b></li>
+          <li>Miễn phí cho công chúng</li>
+          <li>Luôn phải <b>trích dẫn nguồn</b></li>
+        </ul>
+      </div>
+      <div class="card"><h3>So sánh nhanh</h3>
+        <table class="lic" style="margin-top:10px">
+          <tr><th></th><th>Public Domain</th><th>Creative Commons</th></tr>
+          <tr><td><b>Bản quyền</b></td><td>Không còn</td><td>Vẫn còn</td></tr>
+          <tr><td><b>Điều kiện</b></td><td>Không</td><td>Có (tuỳ loại)</td></tr>
+          <tr><td><b>Ghi nguồn</b></td><td>Nên</td><td>Bắt buộc</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <h3 class="sub">Ghi công trông như thế nào?</h3>
+    <div class="grid g2">
+      <figure class="shot"><img src="img/halong-bay.jpg" alt="Thuyền trên vịnh Hạ Long trong sương" loading="lazy"><figcaption>“<a href="https://commons.wikimedia.org/wiki/File:Halong_Bay_after_dark,_the_infinity_of_Halong_Bay.jpg" target="_blank" rel="noopener">Halong Bay after dark</a>” — <b>Vyacheslav Argenberg</b> — <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener"><b>CC BY 4.0</b></a> — Wikimedia Commons</figcaption></figure>
+      <div class="card"><h3>Chú thích ghi công gồm 4 phần</h3>
+        <ul class="attr-list"><li><b>Tiêu đề</b>Halong Bay after dark</li><li><b>Tác giả</b>Vyacheslav Argenberg</li><li><b>Giấy phép</b>CC BY 4.0, kèm liên kết đến giấy phép</li><li><b>Nguồn</b>Wikimedia Commons</li></ul></div>
+    </div>
+
+    <h3 class="sub">Kí hiệu của giấy phép Creative Commons</h3>
+    <div class="grid g4">
+      <div class="tile sign"><div class="signic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="6.5" r="3.5"/><path d="M5 21v-4a7 7 0 0 1 14 0v4"/></svg></div><h4><span class="code">BY</span> Attribution</h4><p><b>Ghi công</b><br>Nêu tên tác giả và nguồn</p></div>
+      <div class="tile sign"><div class="signic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M14.5 8.5c-.6-.8-1.5-1.1-2.5-1.1-1.5 0-2.6.8-2.6 2s1 1.7 2.6 2.1 2.6.9 2.6 2.1-1.1 2-2.6 2c-1 0-2-.4-2.6-1.2M12 5.5v13M5 5l14 14"/></svg></div><h4><span class="code">NC</span> NonCommercial</h4><p><b>Phi thương mại</b><br>Không dùng để kiếm tiền</p></div>
+      <div class="tile sign"><div class="signic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M7.5 9.5h9M7.5 14.5h9"/></svg></div><h4><span class="code">ND</span> NoDerivatives</h4><p><b>Không phái sinh</b><br>Không chỉnh sửa, giữ nguyên bản</p></div>
+      <div class="tile sign"><div class="signic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.6-5.9M20 4v5h-5"/></svg></div><h4><span class="code">SA</span> ShareAlike</h4><p><b>Chia sẻ tương tự</b><br>Tác phẩm mới dùng cùng giấy phép</p></div>
+      </div>
+
+
+    <h3 class="sub">Sáu giấy phép phổ biến</h3>
+    <div class="scroll">
+    <table class="lic">
+      <tr><th>Giấy phép</th><th>Dùng &amp; chia sẻ</th><th>Chỉnh sửa</th><th>Thương mại</th><th>Lưu ý</th></tr>
+      <tr><td><span class="pill">CC BY</span></td><td class="yes">Được</td><td class="yes">Được</td><td class="yes">Được</td><td>Chỉ cần ghi công</td></tr>
+      <tr><td><span class="pill">CC BY-SA</span></td><td class="yes">Được</td><td class="yes">Được</td><td class="yes">Được</td><td>Tác phẩm mới dùng cùng giấy phép</td></tr>
+      <tr><td><span class="pill">CC BY-NC</span></td><td class="yes">Được</td><td class="yes">Được</td><td class="nop">Không</td><td>Chỉ phi thương mại</td></tr>
+      <tr><td><span class="pill">CC BY-ND</span></td><td class="yes">Được</td><td class="nop">Không</td><td class="yes">Được</td><td>Giữ nguyên bản</td></tr>
+      <tr><td><span class="pill">CC BY-NC-SA</span></td><td class="yes">Được</td><td class="yes">Được</td><td class="nop">Không</td><td>Phi thương mại + chia sẻ cùng giấy phép</td></tr>
+      <tr><td><span class="pill">CC BY-NC-ND</span></td><td class="yes">Được</td><td class="nop">Không</td><td class="nop">Không</td><td>Chặt nhất: chỉ chia sẻ nguyên bản, phi thương mại</td></tr>
+    </table>
+    </div>
+
+    <h3 class="sub">Luyện tập</h3>
+    <div class="qgrid">
+    <div class="q" data-q="e2"></div>
+    <div class="q" data-q="e3"></div>
+    <div class="q" data-q="e4"></div>
+    <div class="q" data-q="e5"></div>
+    <div class="q" data-q="e6"></div>
+    <div class="q" data-q="e8"></div>
+    <div class="q" data-q="e9"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 4, TỔNG KẾT ================= -->
+<section class="part p4" id="p4" data-i="4">
+  <div class="wrap">
+    <div class="part-head"><div class="part-no">4</div><h2 class="serif">Tổng kết &amp; thử thách</h2><svg class="art" viewBox="0 0 120 120" role="img" aria-hidden="true"><rect x="22" y="14" width="76" height="98" rx="10" fill="#fff" stroke="#1f2a37" stroke-width="5"/><rect x="42" y="8" width="36" height="16" rx="6" fill="#1f2a37"/><path d="M34 46l7 7 12-14M34 74l7 7 12-14" fill="none" stroke="#157f4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M62 47h24M62 75h24" stroke="#64707d" stroke-width="5" stroke-linecap="round"/></svg></div>
+
+    <h3 class="sub" style="margin-top:0">Gặp một nội dung trên mạng, em hỏi theo thứ tự</h3>
+    <div class="steps">
+      <div class="step"><b>Nó có giấy phép CC không?</b><span class="ar">Có → dùng theo điều kiện: BY (ghi công), NC, ND, SA.</span></div>
+      <div class="step"><b>Nó thuộc Public Domain không?</b><span class="ar">Có → dùng tự do, không cần xin phép.</span></div>
+      <div class="step"><b>Không rõ?</b><span class="ar">Coi như đang có bản quyền → xin phép, hoặc tìm nguồn khác.</span></div>
+    </div>
+
+    <h3 class="sub">Thử thách tình huống</h3>
+    <div class="qgrid">
+    <div class="q" data-q="f2"></div>
+    <div class="q" data-q="f3"></div>
+    <div class="q" data-q="f4"></div>
+    </div>
+
+    <div class="final" id="final">
+      <div class="big" id="finalScore">0 / 0</div>
+      <p id="finalMsg" style="margin:8px 0 0;color:#cfd6de">Làm hết các câu hỏi để xem kết quả của em.</p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>IC3 GS6, Level 1, Bài 13 — Tài sản công cộng &amp; Creative Commons</footer>
+
 <script>
-/* ===== DỮ LIỆU BÀI HỌC (chỉnh sửa tại đây) ===== */
-window.LESSON = {
-  id: 'bai-13',
-  icon: '©️',
-  title: 'Bài 13 · Tài sản công cộng & Creative Commons',
-  sub: 'IC3 GS6 Level 1 · Quản lí thông tin',
-  intro: 'Học cách dùng thông tin của người khác đúng luật và đúng đạo đức.',
-  sections: [
-    { title: 'Sử dụng thông tin', en: 'Using information', icon: '📚', badge: '🥉',
-      steps: [
-        { type: 'learn', icon: '📚', title: 'Thông tin trên Internet', lines: [
-          ['👀', 'Em có thể đọc, nghe, học và nghiên cứu.'], ['⚠️', 'Nhưng <b>không phải</b> cái gì cũng được sao chép hay trình bày như của mình.']] },
-        { type: 'learn', icon: '🚨', title: 'Dùng tùy ý sẽ ra sao?', lines: [
-          ['✍️', 'Trở thành người <b>đạo văn</b>.'], ['⚖️', 'Trở thành người <b>vi phạm bản quyền</b>.'], ['😟', 'Hậu quả về đạo đức và pháp luật.']] },
-        { type: 'learn', icon: '🛡️', title: 'Cách dùng an toàn', lines: [
-          ['🌍', 'Dùng thông tin trong <span class="en">Public Domain</span> (phạm vi công cộng).'], ['🏷️', 'Hoặc <b>ghi công tác giả</b> (CC).']] },
-        { type: 'learn', icon: '🤖', title: 'Khi dùng AI', lines: [
-          ['🚫', 'Không bảo AI sao chép tác phẩm có bản quyền.'], ['🚫', 'Không bắt chước quá giống phong cách một tác giả.'], ['🚫', 'Không tạo nội dung xâm phạm quyền người khác.']] },
-        { type: 'drop', q: 'Kéo từ vào chỗ trống.', text: 'Dùng thông tin tùy ý có thể thành người {0} hoặc vi phạm {1}.', ans: ['đạo văn', 'bản quyền'], decoy: ['tác giả'],
-          hint: 'Sao chép như của mình.', exp: 'Dùng tùy ý có thể bị coi là đạo văn và vi phạm bản quyền.', extra: true }
-      ] },
-    { title: 'Bản quyền', en: 'Copyright', icon: '©️', badge: '🥈',
-      steps: [
-        { type: 'learn', icon: '©️', title: 'Bản quyền là gì?', lines: [
-          ['👤', 'Tác giả có quyền hợp pháp, <b>độc quyền</b> đối với <span class="en">quyền sở hữu (Ownership)</span> tác phẩm.'], ['⚡', 'Bản quyền có <b>ngay khi</b> tác phẩm được tạo ra.']] },
-        { type: 'learn', icon: '🛡️', title: 'Bản quyền bảo vệ', lines: [
-          ['🧑‍⚖️', 'Quyền quyết định của tác giả.'], ['📋', 'Quyền sao chép và phân phối.'], ['💰', 'Quyền lợi tài chính.']] },
-        { type: 'single', q: 'Hãy chọn cụm từ thích hợp: Bản quyền cung cấp cho tác giả quyền hợp pháp độc quyền đối với <mark>___</mark>. Chủ sở hữu có quyền kiểm soát người in, phân phối và sử dụng tác phẩm của họ.',
-          opts: ['Sự tiến triển (Progression)', 'Quyền sở hữu (Ownership)', 'Suy thoái (Degradation)', 'Sự sáng tạo (Creation)'], a: 1,
-          hint: 'Tác phẩm “thuộc về” ai?', exp: 'Bản quyền cho tác giả độc quyền về quyền sở hữu tác phẩm.' },
-        { type: 'learn', icon: '🎨', title: 'Các loại tác phẩm được bảo hộ', lines: [
-          ['📖', 'Văn học: sách, bài báo, thơ, phần mềm…'], ['🖼️', 'Nghệ thuật: tranh, điêu khắc, ảnh…'], ['🎵', 'Âm nhạc: bài hát, bản ghi âm…'], ['🎬', 'Phim: phim điện ảnh, truyền hình…'], ['🏛️', 'Khác: kiến trúc, thiết kế công nghiệp…']] },
-        { type: 'table', q: 'Với mỗi câu về bản quyền, chọn <mark>Đúng</mark> hoặc <mark>Sai</mark>.', cols: ['Đúng', 'Sai'],
-          rows: [['Bản quyền tồn tại ngay sau khi một tác phẩm được tạo ra.', 0], ['Luật bản quyền bảo vệ quyền sao chép tác phẩm có bản quyền.', 0], ['Luật bản quyền chỉ bảo vệ các tác phẩm nghệ thuật, chẳng hạn như tranh vẽ và tác phẩm điêu khắc.', 1]],
-          hint: 'Bản quyền bảo vệ nhiều loại tác phẩm, không chỉ tranh.', exp: 'Bản quyền có ngay khi tạo ra, bảo vệ quyền sao chép và bảo vệ nhiều loại tác phẩm.' },
-        { type: 'learn', icon: '⏳', title: 'Thời gian bảo hộ', lines: [
-          ['🌏', 'Khác nhau theo từng quốc gia và lĩnh vực.'], ['📖', 'Văn học, nghệ thuật: cả đời tác giả <b>+ 50 năm</b>.'], ['📦', 'Loại khác: thường <b>70 năm</b> từ lần công bố đầu.']] },
-        { type: 'learn', icon: '⚖️', title: 'Sử dụng bản quyền hợp pháp', lines: [
-          ['🎯', 'Mục đích sử dụng (ưu tiên giáo dục).'], ['🧬', 'Bản chất của tác phẩm.'], ['📏', 'Lượng tác phẩm được sao chép.'], ['📉', 'Tác động đến thị trường.']] },
-        { type: 'multi', q: 'Bài thuyết trình của bạn bị từ chối vì các bài hát đã vi phạm bản quyền. <mark>Ba</mark> yếu tố nào được dùng để đánh giá sử dụng bản quyền hợp pháp? (Chọn 3)',
-          opts: ['Được sao chép từ tác phẩm do một người bạn của bạn đã mua.', 'Mục đích sử dụng của bạn.', 'Lượng tác phẩm được sao chép.', 'Ảnh hưởng của việc sử dụng của bạn đối với thị trường tiềm năng của tác phẩm được sao chép.', 'Nếu nó được sử dụng bởi một giáo viên hoặc học sinh.', 'Lấy từ một trang Web đăng ký.'], a: [1, 2, 3],
-          hint: 'Mục đích, lượng, thị trường.', exp: 'Mục đích sử dụng, lượng sao chép và tác động đến thị trường là các yếu tố đánh giá.' },
-        { type: 'drop', q: 'Kéo từ vào chỗ trống.', text: 'Bản quyền tồn tại {0} sau khi tác phẩm được tạo ra. Nó bảo vệ quyền {1} và phân phối.', ans: ['ngay', 'sao chép'], decoy: ['nhiều năm', 'xóa'],
-          hint: 'Không cần chờ đợi hay đăng ký.', exp: 'Bản quyền có ngay lập tức và bảo vệ quyền sao chép, phân phối.', extra: true }
-      ] },
-    { title: 'Tài sản công cộng', en: 'Public domain', icon: '🌍', badge: '🥇',
-      steps: [
-        { type: 'learn', icon: '🌍', title: 'Tài sản công cộng', lines: [
-          ['👥', 'Thuộc sở hữu của <b>công chúng</b>.'], ['🆓', '<b>Miễn phí</b> để sử dụng.'], ['🙌', 'Không cần xin phép tác giả.']] },
-        { type: 'learn', icon: '🔓', title: 'Khi nào thành tài sản công cộng?', lines: [
-          ['⌛', 'Bản quyền đã <b>hết hạn</b>.'], ['📝', 'Chủ sở hữu <b>không gia hạn</b>.'], ['🕊️', 'Chủ sở hữu <b>từ bỏ</b> tác quyền.'], ['❓', 'Không xác định được tác giả nên <b>không áp dụng</b> được quyền.']] },
-        { type: 'multi', q: 'Nội dung nào <mark>đúng</mark> với miền công cộng (Public Domain)? (Chọn 3)',
-          opts: ['Nó được bảo vệ bởi luật sở hữu trí tuệ.', 'Nó là miễn phí để sử dụng.', 'Nó có thể được mua để sở hữu sau 50 năm.', 'Nó tự động trở thành miền công cộng 50-100 năm sau khi tác giả ban đầu qua đời.', 'Nó thuộc sở hữu của công chúng chứ không phải của bất kỳ cá nhân hay công ty nào.'], a: [1, 3, 4],
-          hint: 'Miễn phí, thuộc công chúng, hết hạn sau nhiều năm.', exp: 'Miền công cộng: miễn phí, thuộc công chúng và tự có sau 50–100 năm. [CẦN GIÁO VIÊN XÁC NHẬN]' },
-        { type: 'multi', q: 'Ba cách nào để một tác phẩm có thể xuất hiện trong miền công cộng? (Chọn 3)',
-          opts: ['Bản quyền đã không được nộp cho chính phủ (Copyright wasn\'t filed with the government)', 'Quyền đã hết hạn (Rights have expired)', 'Quyền không thể áp dụng (Rights were inapplicable)', 'Các quyền đã được từ bỏ một cách rõ ràng (Rights were expressly waived)', 'Quyền không bao giờ được yêu cầu (Rights were never requested)', 'Quyền không bao giờ bị từ chối (Rights were never denied)'], a: [1, 2, 3],
-          hint: 'Hết hạn, không áp dụng được, tự nguyện từ bỏ.', exp: 'Quyền hết hạn, không thể áp dụng hoặc đã bị từ bỏ rõ ràng.' },
-        { type: 'table', q: 'Chọn <mark>Có</mark> nếu có thể dùng hợp pháp mà không xin phép, <mark>Không</mark> nếu không thể.', cols: ['Có', 'Không'],
-          rows: [['Hình ảnh từ một cuốn sách bạn muốn sử dụng đã được xuất bản vào năm 1992.', 1], ['Một bức ảnh bạn muốn sử dụng đã được tạo ra cách đây 100 năm bởi một nhiếp ảnh gia đã qua đời 10 năm sau đó.', 0], ['Lời bài hát bạn muốn sử dụng chưa được đăng ký bản quyền.', 1]],
-          hint: 'Bản quyền có ngay cả khi chưa đăng ký.', exp: 'Ảnh 100 năm tuổi đã hết hạn nên dùng được; sách 1992 và lời bài hát chưa đăng ký vẫn được bảo vệ. [CẦN GIÁO VIÊN XÁC NHẬN]' },
-        { type: 'table', q: 'Chọn <mark>Đúng</mark> nếu đó là lí do một tác phẩm rơi vào phạm vi công cộng, <mark>Sai</mark> nếu không.', cols: ['Đúng', 'Sai'],
-          rows: [['Bản quyền đã hết hạn.', 0], ['Chủ sở hữu bản quyền không thực hiện quy trình gia hạn bản quyền.', 0], ['Chủ sở hữu bản quyền lựa chọn chuyển tác phẩm sang phạm vi công cộng.', 0]],
-          hint: 'Cả ba đều là lí do được học.', exp: 'Hết hạn, không gia hạn và tự nguyện chuyển đều đưa tác phẩm vào phạm vi công cộng.' },
-        { type: 'table', q: 'Bạn KHÔNG có thời gian xin giấy phép. Chọn <mark>Có</mark> nếu dùng được hợp pháp, <mark>Không</mark> nếu không.', cols: ['Có', 'Không'],
-          rows: [['Tác giả là người quen của bạn.', 1], ['Các tác phẩm nghệ thuật được bản quyền bảo vệ.', 1], ['Chủ sở hữu bản quyền đã chuyển tác phẩm nghệ thuật sang phạm vi công cộng.', 0]],
-          hint: 'Quen biết không thay cho giấy phép.', exp: 'Chỉ khi đã thuộc phạm vi công cộng thì dùng được mà không cần xin phép.' },
-        { type: 'single', q: 'Tùy chọn nào sau đây <mark>không</mark> được xem là tài sản trí tuệ và có thể dùng mà không cần cho phép?',
-          opts: ['Sứ mệnh của một tổ chức nào đó (bản in và bản trực tuyến)', 'Hình ảnh của một thiết bị được tạo ra bởi một tổ chức nào đó', 'Sản phẩm do một tổ chức nào đó tạo ra', 'Danh sách các mặt hàng được ghi chú trên ứng dụng Sticky Note', 'Logo một tổ chức nào đó'], a: 3,
-          hint: 'Một danh sách đơn giản, không phải sáng tạo.', exp: 'Danh sách ghi chú đơn giản không phải sáng tạo được bảo hộ. [CẦN GIÁO VIÊN XÁC NHẬN]' },
-        { type: 'drop', q: 'Kéo từ vào chỗ trống.', text: 'Tài sản công cộng thuộc sở hữu của {0}, được dùng {1} và không cần xin phép.', ans: ['công chúng', 'miễn phí'], decoy: ['tác giả', 'mất tiền'],
-          hint: 'Ai cũng dùng được.', exp: 'Tài sản công cộng thuộc về công chúng và miễn phí.', extra: true }
-      ] },
-    { title: 'Chia sẻ sáng tạo miễn phí', en: 'Creative Commons', icon: '🤝', badge: '🏅',
-      steps: [
-        { type: 'learn', icon: '🤝', title: 'Creative Commons (CC)', lines: [
-          ['🏢', 'Tổ chức <b>phi lợi nhuận</b>.'], ['📜', 'Cung cấp nhiều loại <b>giấy phép</b> để chia sẻ tác phẩm.'], ['©️', 'Tác giả vẫn <b>giữ bản quyền</b>.']] },
-        { type: 'learn', icon: '📜', title: 'Giấy phép CC', lines: [
-          ['⚖️', 'Trong giới hạn của luật bản quyền.'], ['🏷️', 'Chủ sở hữu được <b>ghi công</b>.'], ['🆓', 'Miễn phí cho công chúng.'], ['📎', 'Phải <b>trích dẫn nguồn</b>.']] },
-        { type: 'learn', icon: '🔤', title: 'Bốn điều kiện CC', lines: [
-          ['BY', '<span class="en">Attribution</span> – ghi công tác giả.'], ['NC', '<span class="en">Non-Commercial</span> – không dùng thương mại.'], ['ND', '<span class="en">No Derivatives</span> – không sửa đổi.'], ['SA', '<span class="en">Share Alike</span> – chia sẻ theo cùng giấy phép.']] },
-        { type: 'single', q: 'Em hãy cho biết, giấy phép <mark>CC</mark> là viết tắt của giấy phép?',
-          opts: ['Creative Commons', 'Commons Creative', 'Creative Commercial', 'Commercial Creative'], a: 0,
-          hint: 'Sáng tạo + chung.', exp: 'CC = Creative Commons.' },
-        { type: 'single', q: 'Em hãy cho biết, giấy phép Creative Commons được sử dụng khi nào?',
-          opts: ['Khi miền công cộng bị đóng', 'Khi tác giả của tác phẩm muốn cho người khác sử dụng tác phẩm của mình nhưng phải áp dụng các điều kiện cụ thể', 'Khi người dùng muốn truy cập một tác phẩm có bản quyền', 'Khi cơ quan chức năng yêu cầu'], a: 1,
-          hint: 'Tác giả chia sẻ có điều kiện.', exp: 'CC giúp tác giả chia sẻ tác phẩm kèm điều kiện cụ thể.' },
-        { type: 'single', q: 'Ghi nhận tác giả (Attribution) ở đó tác giả hoặc chủ sở hữu được <mark>__________</mark> cho tác phẩm của họ.',
-          opts: ['Giữ bản quyền', 'Sở hữu', 'Tiền', 'Ghi công'], a: 3,
-          hint: 'BY = nêu tên tác giả.', exp: 'Attribution nghĩa là tác giả được ghi công.' },
-        { type: 'multi', q: 'Chọn phát biểu <mark>đúng</mark> về Creative Commons (CC). (Chọn 2)',
-          opts: ['Creative Commons (CC) là một trường nghệ thuật.', 'Creative Commons (CC) là một tổ chức chia sẻ các tác phẩm sáng tạo.', 'Creative Commons (CC) là phần mềm độc quyền.', 'Creative Commons (CC) là một tổ chức dành để kiếm tiền từ các tác phẩm sáng tạo.', 'Giấy phép Creative Commons (CC) miễn phí cho công chúng.'], a: [1, 4],
-          hint: 'Tổ chức phi lợi nhuận và miễn phí.', exp: 'CC là tổ chức chia sẻ tác phẩm, giấy phép miễn phí cho công chúng.' },
-        { type: 'single', q: 'Điều nào sau đây được phép với giấy phép <mark>CC-BY</mark>?',
-          opts: ['Viết ý kiến của riêng bạn và gửi nó lên blog cộng đồng.', 'Phân phối bài hát của ai đó trực tuyến mà không cần ghi công.', 'Tham gia vào tác phẩm nghệ thuật của người khác như của chính bạn trong một cuộc thi nghệ thuật.', 'Hiển thị một bức ảnh trong một buổi thuyết trình trong lớp học mà không được phép của nhiếp ảnh gia.'], a: 0,
-          hint: 'BY bắt buộc ghi công; các đáp án sai đều bỏ qua điều đó.', exp: 'Ba đáp án kia không ghi công hoặc nhận là của mình. [CẦN GIÁO VIÊN XÁC NHẬN]' },
-        { type: 'table', q: 'Về hình ảnh có giấy phép CC (không thuộc phạm vi công cộng), chọn <mark>Đúng</mark> hoặc <mark>Sai</mark>.', cols: ['Đúng', 'Sai'],
-          rows: [['Bạn có thể sử dụng hình ảnh miễn phí.', 0], ['Bạn có thể sử dụng hình ảnh vô điều kiện.', 1], ['Nếu sử dụng hình ảnh, bạn phải trích dẫn nguồn của hình ảnh đó.', 0]],
-          hint: 'Miễn phí nhưng có điều kiện.', exp: 'Ảnh CC miễn phí, nhưng phải tuân theo điều kiện, nhất là trích dẫn nguồn.' },
-        { type: 'table', q: 'Chọn <mark>Có</mark> nếu giấy phép CC cho phép, <mark>Không</mark> nếu không.', cols: ['Có', 'Không'],
-          rows: [['Trưng bày một áp phích trong đêm chiếu phim miễn phí tại trường học của bạn.', 0], ['Cho một bài thơ vào danh mục tác phẩm gốc của bạn.', 1], ['Biểu diễn một tác phẩm kịch cho phụ huynh tại chương trình tài năng của lớp.', 0], ['Trình bày hình ảnh cho các học sinh khác trong bài thuyết trình trước lớp.', 0]],
-          hint: 'Dùng và trình bày thì được; nhận là của mình thì không.', exp: 'Trưng bày, biểu diễn, trình bày được; ghi là tác phẩm gốc của mình thì không. [CẦN GIÁO VIÊN XÁC NHẬN]' },
-        { type: 'chat', title: 'Hỏi AI về hình ảnh', msgs: [
-          ['u', 'AI ơi, vẽ giúp em nhân vật hoạt hình nổi tiếng y hệt phim nhé!'],
-          ['a', 'Mình không nên sao chép nhân vật có bản quyền. Em có thể tự nghĩ nhân vật mới nhé!'],
-          ['u', 'Vậy em dùng ảnh AI này cần chú ý gì?'],
-          ['a', 'Hãy xem quyền sở hữu, nguồn dữ liệu và quy định sử dụng sản phẩm đầu ra.']] },
-        { type: 'drop', q: 'Kéo chữ viết tắt vào chỗ trống.', text: '{0} là ghi công tác giả. {1} là không dùng thương mại. {2} là không sửa đổi.', ans: ['BY', 'NC', 'ND'], decoy: ['SA'],
-          hint: 'BY = Attribution.', exp: 'BY ghi công, NC không thương mại, ND không sửa đổi.', extra: true }
-      ] }
-  ],
-  explain: { type: 'select', q: 'Nói lại bằng lời của em: chọn từ đúng.', text: 'Tác phẩm được bảo vệ bởi {0}. Tác phẩm thuộc {1} thì ai cũng dùng miễn phí. Khi dùng giấy phép CC, em phải {2}.',
-    opts: [['bản quyền', 'mật khẩu', 'tường lửa'], ['tài sản công cộng', 'một công ty', 'một cá nhân'], ['ghi công tác giả', 'xóa tên tác giả', 'bán lại']], ans: ['bản quyền', 'tài sản công cộng', 'ghi công tác giả'],
-    hint: 'Nhớ lại ba phần của bài.', exp: 'Bản quyền bảo vệ tác giả; tài sản công cộng dùng miễn phí; CC cần ghi công.' },
-  cards: [
-    ['Copyright', 'Bản quyền – quyền độc quyền của tác giả'], ['Ownership', 'Quyền sở hữu'], ['Public Domain', 'Phạm vi công cộng – ai cũng dùng miễn phí'],
-    ['Plagiarism', 'Đạo văn – nhận tác phẩm người khác là của mình'], ['Creative Commons', 'Tổ chức cấp giấy phép chia sẻ tác phẩm'],
-    ['BY – Attribution', 'Ghi công tác giả'], ['NC – Non-Commercial', 'Không dùng cho mục đích thương mại'], ['ND – No Derivatives', 'Không được sửa đổi'], ['SA – Share Alike', 'Chia sẻ theo cùng giấy phép']
-  ]
+/* ===================== DỮ LIỆU CÂU HỎI ===================== */
+const TF = ["Đúng","Sai"], YN = ["Có","Không"];
+/* add:true = câu do trang này bổ sung, không có trong file PowerPoint gốc.
+   src = số slide gốc (đã chỉnh nhẹ câu chữ cho rõ nghĩa, giữ nguyên đáp án). */
+const QUIZ = {
+  w1:{add:true,type:"single",tag:"Khởi động",
+    p:"Em thấy một bức ảnh rất đẹp trên Internet và muốn đưa vào bài thuyết trình của lớp. Em làm gì đầu tiên?",
+    o:["Dùng ngay — ảnh có sẵn trên mạng mà","Kiểm tra nguồn và giấy phép trước khi dùng","Chỉnh sửa một chút rồi nhận là ảnh của mình"],a:1,
+    e:"Có sẵn trên mạng ≠ được dùng tự do. Hãy tìm xem ảnh có giấy phép CC, thuộc Public Domain, hay đang có bản quyền."},
+
+  c1:{src:11,type:"single",tag:"Điền vào chỗ trống",
+    p:"Hãy chọn cụm từ thích hợp vào khẳng định sau: Bản quyền cung cấp cho tác giả quyền hợp pháp độc quyền đối với ______. Chủ sở hữu có quyền kiểm soát việc in, phân phối và sử dụng tác phẩm của họ.",
+    o:["Sự sáng tạo (Creation)","Quyền sở hữu (Ownership)","Suy thoái (Degradation)","Sự tiến triển (Progression)"],a:1,
+    e:"Bản quyền = quyền sở hữu (Ownership) tác phẩm."},
+  c2:{src:13,type:"tf",tag:"Đúng / Sai",labels:TF,p:"Với mỗi câu phát biểu về bản quyền, hãy chọn Đúng hoặc Sai.",
+    s:[
+      {t:"Bản quyền tồn tại ngay sau khi một tác phẩm được tạo ra.",a:0,e:"Không cần đăng ký — có ngay từ lúc tạo ra."},
+      {t:"Luật bản quyền bảo vệ quyền sao chép tác phẩm có bản quyền.",a:0,e:"Quyền sao chép và phân phối là hai quyền cốt lõi."},
+      {t:"Luật bản quyền chỉ bảo vệ các tác phẩm nghệ thuật, chẳng hạn như tranh vẽ và tác phẩm điêu khắc.",a:1,e:"Còn văn học, âm nhạc, phim, kiến trúc, phần mềm…"}]},
+  c3:{src:15,type:"tf",tag:"Có / Không",labels:YN,p:"Đối với mỗi tuyên bố về bản quyền, hãy chọn Có nếu em có thể sử dụng hợp pháp tác phẩm sáng tạo mà không cần xin phép, hoặc Không nếu em không thể.",
+    s:[
+      {t:"Hình ảnh từ một cuốn sách em muốn sử dụng đã được xuất bản vào năm 1992.",a:1,e:"Mới hơn 30 năm — còn trong thời hạn bảo hộ."},
+      {t:"Một bức ảnh em muốn sử dụng đã được tạo ra cách đây 100 năm bởi một nhiếp ảnh gia đã qua đời 10 năm sau đó.",a:0,e:"Tác giả mất đã khoảng 90 năm, quá mốc \"đời tác giả + 50 năm\" → đã hết hạn."},
+      {t:"Lời bài hát em muốn sử dụng chưa được đăng ký bản quyền.",a:1,e:"Bản quyền có ngay khi sáng tác, không cần đăng ký."}]},
+  c4:{src:17,type:"multi",tag:"Chọn 3",n:3,
+    p:"Em đã tải xuống một số bài hát yêu thích và dùng trong bài thuyết trình gửi tới Hội chợ Khoa học toàn quốc. Bài thuyết trình bị từ chối vì các bài hát đã vi phạm bản quyền. Ba yếu tố nào được dùng để đánh giá việc sử dụng bản quyền hợp pháp?",
+    o:["Được sao chép từ tác phẩm do một người bạn của em đã mua","Mục đích sử dụng của em","Lượng tác phẩm được sao chép","Ảnh hưởng của việc sử dụng đối với thị trường tiềm năng của tác phẩm được sao chép","Nếu nó được sử dụng bởi một giáo viên hoặc học sinh","Lấy từ một trang web đăng ký"],a:[1,2,3],
+    e:"Mục đích, lượng sao chép, ảnh hưởng thị trường (cùng với bản chất tác phẩm). Là học sinh không tự động có nghĩa là được dùng."},
+
+  d1:{src:22,type:"multi",tag:"Chọn 3",n:3,
+    p:"Miền công cộng bao gồm tất cả các tác phẩm sáng tạo không có quyền sở hữu trí tuệ độc quyền nào được áp dụng. Ba cách nào để một tác phẩm có thể xuất hiện trong miền công cộng?",
+    o:["Bản quyền đã không được nộp cho chính phủ","Quyền đã hết hạn","Quyền không thể áp dụng","Các quyền đã được từ bỏ một cách rõ ràng","Quyền không bao giờ được yêu cầu","Quyền không bao giờ bị từ chối"],a:[1,2,3],
+    e:"Hết hạn, không thể áp dụng, bị từ bỏ rõ ràng. Không nộp/đăng ký không làm mất bản quyền."},
+  d2:{src:23,type:"tf",tag:"Đúng / Sai",labels:TF,p:"Em đang làm dự án nghiên cứu và cần xác minh một nguồn thông tin có thuộc phạm vi công cộng hay không. Với mỗi câu, chọn Đúng nếu đó là lí do khiến một tác phẩm có bản quyền có thể rơi vào phạm vi công cộng, Sai nếu không phải.",
+    s:[
+      {t:"Bản quyền đã hết hạn.",a:0,e:"Con đường phổ biến nhất."},
+      {t:"Chủ sở hữu bản quyền không thực hiện quy trình gia hạn bản quyền.",a:0,e:"Không gia hạn → bản quyền chấm dứt."},
+      {t:"Chủ sở hữu bản quyền lựa chọn chuyển tác phẩm sang phạm vi công cộng.",a:0,e:"Tác giả hoàn toàn có thể chủ động từ bỏ quyền."}]},
+  d3:{src:24,type:"multi",tag:"Chọn 3",n:3,
+    p:"Nội dung nào đúng với nội dung thuộc miền công cộng (Public Domain)?",
+    o:["Nó được bảo vệ bởi luật sở hữu trí tuệ","Nó là miễn phí để sử dụng","Nó có thể được mua để sở hữu sau 50 năm","Nó tự động trở thành miền công cộng 50–100 năm sau khi tác giả ban đầu qua đời","Nó thuộc sở hữu của công chúng chứ không phải của bất kỳ cá nhân hay công ty nào"],a:[1,3,4],
+    e:"Miễn phí, tự động sau khoảng 50–100 năm, thuộc về công chúng. Không ai độc quyền sở hữu nó."},
+  d4:{src:18,type:"single",tag:"Chọn 1",
+    p:"Tùy chọn nào sau đây sẽ không được xem là tài sản trí tuệ và có thể được sử dụng bởi bất cứ ai mà không cần sự cho phép?",
+    o:["Sứ mệnh của một tổ chức nào đó (bản in và bản trực tuyến)","Hình ảnh của một thiết bị được tạo ra bởi một tổ chức nào đó","Sản phẩm do một tổ chức nào đó tạo ra","Danh sách các mặt hàng được ghi chú trên ứng dụng Sticky Note","Logo của một tổ chức nào đó"],a:3,
+    e:"Danh sách ghi chú cá nhân đơn giản không phải sáng tạo có tính độc quyền. Logo, sản phẩm, hình ảnh của tổ chức đều là tài sản trí tuệ."},
+
+  e2:{src:28,type:"single",tag:"Chọn 1",
+    p:"Giấy phép Creative Commons được sử dụng khi nào?",
+    o:["Khi miền công cộng bị đóng","Khi tác giả của tác phẩm muốn cho người khác sử dụng tác phẩm của mình nhưng phải áp dụng các điều kiện cụ thể","Khi người dùng muốn truy cập một tác phẩm có bản quyền","Khi cơ quan chức năng yêu cầu"],a:1,
+    e:"CC = tác giả chủ động chia sẻ, giữ bản quyền và đặt điều kiện."},
+  e3:{src:30,type:"multi",tag:"Chọn 2",n:2,
+    p:"Em đang chuẩn bị bài thuyết trình cho dự án của lớp. Giáo viên yêu cầu dùng nội dung Creative Commons (CC). Chọn hai phát biểu đúng về Creative Commons.",
+    o:["Creative Commons (CC) là một trường nghệ thuật","Creative Commons (CC) là một tổ chức chia sẻ các tác phẩm sáng tạo","Creative Commons (CC) là phần mềm độc quyền","Creative Commons (CC) là một tổ chức dùng để kiếm tiền từ các tác phẩm sáng tạo","Giấy phép Creative Commons (CC) miễn phí cho công chúng"],a:[1,4],
+    e:"CC là tổ chức phi lợi nhuận, giấy phép của họ miễn phí."},
+  e4:{src:31,type:"tf",tag:"Đúng / Sai",labels:TF,p:"Với mỗi câu phát biểu về hình ảnh được bảo vệ bởi giấy phép Creative Commons (CC) và không thuộc phạm vi công cộng (PD), hãy chọn Đúng hoặc Sai.",
+    s:[
+      {t:"Em có thể sử dụng hình ảnh miễn phí.",a:0,e:"Giấy phép CC miễn phí cho công chúng."},
+      {t:"Em có thể sử dụng hình ảnh vô điều kiện.",a:1,e:"Luôn có điều kiện, tối thiểu là ghi công (BY)."},
+      {t:"Nếu sử dụng hình ảnh, em phải trích dẫn nguồn của hình ảnh đó.",a:0,e:"Ghi công là điều kiện chung của mọi giấy phép CC."}]},
+  e5:{src:32,type:"tf",tag:"Có / Không",labels:YN,p:"Em cần thêm một tác phẩm nghệ thuật vào bài trình chiếu của lớp nhưng KHÔNG có thời gian xin giấy phép. Với mỗi câu, chọn Có nếu em có thể sử dụng tác phẩm một cách hợp pháp mà không cần xin giấy phép, hoặc Không nếu không.",
+    s:[
+      {t:"Tác giả là người quen của em.",a:1,e:"Quen biết không thay thế cho sự cho phép."},
+      {t:"Các tác phẩm nghệ thuật được bản quyền bảo vệ.",a:1,e:"Còn bản quyền → phải xin phép."},
+      {t:"Chủ sở hữu bản quyền đã chuyển tác phẩm nghệ thuật sang phạm vi công cộng.",a:0,e:"Public Domain → dùng tự do."}]},
+  e6:{src:33,type:"tf",tag:"Có / Không",labels:YN,p:"Đối với từng loại hình sử dụng nội dung, chọn Có nếu giấy phép Creative Commons (có ghi công tác giả) cho phép em sử dụng, hoặc Không nếu không cho phép.",
+    s:[
+      {t:"Trưng bày một áp phích trong đêm chiếu phim miễn phí tại trường học của em.",a:0,e:"Dùng công khai, phi thương mại — được."},
+      {t:"Cho một bài thơ của người khác vào danh mục tác phẩm gốc của em.",a:1,e:"Tác phẩm gốc nghĩa là do em sáng tác. Nhận bài thơ của người khác là đạo văn."},
+      {t:"Biểu diễn một tác phẩm kịch cho phụ huynh tại chương trình tài năng của lớp.",a:0,e:"Trình diễn trong hoạt động của lớp — được, kèm ghi công."},
+      {t:"Trình bày hình ảnh cho các học sinh khác trong bài thuyết trình trước lớp.",a:0,e:"Dùng cho học tập — được, kèm ghi công."}]},
+  e8:{src:38,type:"single",tag:"Chọn 1",
+    p:"Điều nào sau đây được phép với giấy phép Creative Commons CC-BY (khi đã ghi công tác giả)?",
+    o:["Viết ý kiến của riêng em và đăng lên blog cộng đồng","Phân phối bài hát của ai đó trực tuyến mà không ghi công","Đưa tác phẩm nghệ thuật của người khác vào cuộc thi như tác phẩm của chính em","Hiển thị một bức ảnh trong buổi thuyết trình ở lớp mà không cần xin phép riêng nhiếp ảnh gia"],a:3,
+    e:"CC-BY cho phép dùng mà không xin phép riêng, nhưng bắt buộc ghi công. Không ghi công hoặc nhận là của mình đều sai."},
+  e9:{add:true,type:"tf",tag:"Có / Không, Ghép giấy phép",labels:YN,p:"Với giấy phép ghi bên cạnh, hành động này có được phép không? (đều đã ghi công)",
+    s:[
+      {t:"CC BY — in ảnh lên áo thun để bán.",a:0,e:"Không có NC nên được dùng thương mại."},
+      {t:"CC BY-NC — dùng ảnh trong quảng cáo bán sản phẩm.",a:1,e:"NC = cấm mục đích thương mại."},
+      {t:"CC BY-ND — cắt ghép và đổi màu ảnh rồi đăng lại.",a:1,e:"ND = không được chỉnh sửa."},
+      {t:"CC BY-SA — chỉnh sửa ảnh và đăng lại bằng giấy phép CC BY-SA.",a:0,e:"Đúng yêu cầu của SA: cùng giấy phép."},
+      {t:"CC BY-NC-ND — chia sẻ nguyên bản cho bạn học, có ghi tên tác giả.",a:0,e:"Chia sẻ nguyên bản, phi thương mại — được."}]},
+
+  f2:{add:true,type:"single",tag:"Tình huống 2",
+    p:"Một bản nhạc cổ điển đã hết hạn bản quyền hơn 100 năm. Em dùng làm nhạc nền như thế nào?",
+    o:["Phải xin phép gia đình tác giả","Phải trả phí cho tổ chức CC","Dùng tự do — nó thuộc Public Domain"],a:2,
+    e:"Hết hạn → thuộc công chúng. (Bản thu âm hiện đại có thể là tác phẩm riêng — hãy kiểm tra.)"},
+  f3:{add:true,type:"single",tag:"Tình huống 3, AI",
+    p:"Em nhờ AI: \"Vẽ nhân vật hoạt hình giống hệt nhân vật trong phim của hãng X\". Điều này có ổn không?",
+    o:["Ổn, vì AI tạo ra chứ không phải em","Không nên — đó là yêu cầu sao chép tác phẩm có bản quyền","Ổn nếu em xóa logo hãng"],a:1,
+    e:"Không yêu cầu AI sao chép tác phẩm có bản quyền hay bắt chước quá giống một tác giả cụ thể."},
+  f4:{add:true,type:"single",tag:"Tình huống 4",
+    p:"Em vẽ tranh và muốn mọi người dùng lại miễn phí, kể cả bán lại, miễn là ghi tên em. Giấy phép nào hợp nhất?",
+    o:["CC BY","CC BY-NC-ND","Public Domain (từ bỏ toàn bộ quyền)"],a:0,
+    e:"CC BY: cho dùng, sửa, bán — chỉ cần ghi công. NC-ND quá chặt; Public Domain thì không còn quyền được ghi công."}
 };
+
+/* ===================== ĐIỂM ===================== */
+const results = {}, total = Object.keys(QUIZ).length;
+function refresh(){
+  const done = Object.keys(results).length, good = Object.values(results).filter(Boolean).length;
+  document.getElementById("score").textContent = good+" / "+done+" điểm";
+  document.getElementById("finalScore").textContent = good+" / "+total;
+  const rest = total-done;
+  document.getElementById("finalMsg").textContent = rest>0 ? "Còn "+rest+" câu chưa làm." :
+    good>=total*.85 ? "Xuất sắc! Em sẵn sàng dùng thông tin đúng luật." :
+    good>=total*.6 ? "Khá tốt. Bấm \"Làm lại\" ở các câu sai để luyện thêm." : "Cần ôn lại — bấm \"Làm lại\" ở từng câu và đọc kĩ phần giải thích.";
+}
+refresh();
+/* ===================== VẼ CÂU HỎI ===================== */
+const L = "ABCDEF";
+function el(h){const d=document.createElement("div");d.innerHTML=h.trim();return d.firstChild}
+function renderQ(host, id){
+  const q = QUIZ[id];
+  host.innerHTML = `<span class="tag">${q.tag}</span>${q.add?'<span class="tag add" title="Câu hỏi bổ sung, không có trong PowerPoint gốc">★ Bổ sung</span>':`<span class="tag" style="background:#efe6cd;color:var(--muted)">Slide ${q.src}</span>`}<p class="prompt">${q.p}</p><div class="body"></div><div class="fb"></div>`;
+  const body = host.querySelector(".body"), fb = host.querySelector(".fb");
+  const finish = ok=>{results[id]=ok;refresh();const r=el('<button type="button" class="btn ghost replay">↻ Làm lại câu này</button>');r.onclick=()=>{delete results[id];refresh();renderQ(host,id)};fb.appendChild(r)};
+  const show = (ok,msg)=>{fb.className="fb show "+(ok?"ok":"no");fb.innerHTML=(ok?"✔ Chính xác. ":"✘ Chưa đúng. ")+msg};
+
+  if(q.type==="single"){
+    body.className="body opts";
+    q.o.forEach((t,i)=>{
+      const b=el(`<button type="button" class="opt"><span class="k">${L[i]}</span><span>${t}</span></button>`);
+      b.onclick=()=>{
+        const ok=i===q.a;
+        body.querySelectorAll(".opt").forEach((x,j)=>{x.disabled=true;if(j===q.a)x.classList.add("right")});
+        if(!ok)b.classList.add("wrong");
+        show(ok,q.e);finish(ok);
+      };
+      body.appendChild(b);
+    });
+  }
+  if(q.type==="multi"){
+    body.className="body opts";
+    const picked=new Set();
+    q.o.forEach((t,i)=>{
+      const b=el(`<button type="button" class="opt"><span class="k">${L[i]}</span><span>${t}</span></button>`);
+      b.onclick=()=>{
+        if(picked.has(i)){picked.delete(i);b.classList.remove("sel")}
+        else if(picked.size<q.n){picked.add(i);b.classList.add("sel")}
+        btn.disabled=picked.size!==q.n;
+        cnt.textContent="Đã chọn "+picked.size+"/"+q.n;
+      };
+      body.appendChild(b);
+    });
+    const act=el(`<div class="actions"><button type="button" class="btn" disabled>Kiểm tra</button><span class="hint">Đã chọn 0/${q.n}</span></div>`);
+    host.insertBefore(act,fb);
+    const btn=act.querySelector("button"), cnt=act.querySelector(".hint");
+    btn.onclick=()=>{
+      const opts=[...body.querySelectorAll(".opt")];
+      let ok=true;
+      opts.forEach((x,i)=>{
+        x.disabled=true;x.classList.remove("sel");
+        const right=q.a.includes(i), was=picked.has(i);
+        if(was&&right)x.classList.add("right");
+        else if(was&&!right){x.classList.add("wrong");ok=false}
+        else if(!was&&right){x.classList.add("miss");ok=false}
+      });
+      btn.disabled=true;show(ok,q.e);finish(ok);
+    };
+  }
+  if(q.type==="tf"){
+    let answered=0, allOk=true;
+    q.s.forEach(s=>{
+      const row=el(`<div class="tfrow"><div class="st">${s.t}</div><div class="tfbtns"><button type="button">${q.labels[0]}</button><button type="button">${q.labels[1]}</button></div><div class="why">${s.e}</div></div>`);
+      const bs=row.querySelectorAll("button");
+      bs.forEach((b,i)=>b.onclick=()=>{
+        const correct=(i===s.a);
+        bs.forEach(x=>x.disabled=true);
+        b.classList.add(correct?"right":"wrong");
+        if(!correct){bs[s.a].classList.add("right");allOk=false}
+        row.querySelector(".why").classList.add("show");
+        if(++answered===q.s.length){
+          show(allOk,allOk?"Đúng cả "+q.s.length+" ý.":"Xem phần giải thích từng ý ở trên.");finish(allOk);
+        }
+      });
+      body.appendChild(row);
+    });
+  }
+}
+document.querySelectorAll(".q[data-q]").forEach(h=>renderQ(h,h.dataset.q));
+
+document.getElementById("resetAll").onclick=()=>{for(const k in results)delete results[k];document.querySelectorAll(".q[data-q]").forEach(h=>renderQ(h,h.dataset.q));refresh()};
+(function(){const bar=document.querySelector(".bar");let y=scrollY;addEventListener("scroll",()=>{const c=scrollY;if(c>y&&c>120)bar.classList.add("hide");else if(c<y)bar.classList.remove("hide");y=c},{passive:true})})();
+/* ===================== ĐỒNG HỒ & ĐIỀU HƯỚNG ===================== */
+(function(){
+  const segs=[...document.querySelectorAll(".seg")];
+  // highlight section in view
+  const sections=[...document.querySelectorAll("section.part")];
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{ if(e.isIntersecting){ segs.forEach(s=>s.classList.toggle("on",s.dataset.i===e.target.dataset.i)) } });
+  },{rootMargin:"-30% 0px -60% 0px"});
+  sections.forEach(s=>io.observe(s));
+})();
 </script>
-<script src="../learn.js"></script>
 </body>
 </html>

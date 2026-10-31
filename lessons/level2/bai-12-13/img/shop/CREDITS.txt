@@ -1,0 +1,15 @@
+﻿Product photos used in the Bai 12-13 shop simulator (all from Wikimedia Commons):
+
+op-lung.jpg        "Mobile phone case.jpg" - Tiia Monto - CC BY-SA 4.0
+tai-nghe.jpg       "Headphones (56330).jpg" - 17mdnasim89 - CC0
+giay-chay-bo.jpg   "Running shoes.jpg" - Tiia Monto - CC BY-SA 4.0
+mu-luoi-trai.jpg   "5tashabbus kepka.jpg" - Abdurraxmon Abdumajidov - CC BY-SA 4.0
+sach-python.jpg    "Natural Language Processing with Python - Flickr - brewbooks.jpg" - brewbooks - CC BY-SA 2.0
+truyen.jpg         "Children's books (Unsplash).jpg" - Robyn Budlender - CC0
+cap-sac.jpg        "Xbox-360-Play&Charge-Kit-White.jpg" - Evan-amos - Public domain
+tai-nghe-nhet.jpg  "Earfun wireless black headphones, September 2024 24.jpg" - Chenspec - CC BY-SA 4.0
+giay-tre-em.jpg    "Campus Martin Running Shoes.jpg" - dfgfdd - CC BY-SA 4.0
+
+Images were resized to 480 px wide. Source pages: https://commons.wikimedia.org/wiki/File:<file name>
+
+thu-vien.jpg       "Library collection (Unsplash).jpg" - Jamie Taylor - CC0 (900 px wide)

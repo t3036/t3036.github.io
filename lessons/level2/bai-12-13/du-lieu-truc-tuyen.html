@@ -1,0 +1,767 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dữ liệu trực tuyến – Bài 12–13</title>
+<script>try{if(localStorage.getItem('k7_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<style>
+:root{
+  --paper:#f5f0e4; --card:#fffdf7; --ink:#1f1c16; --mute:#6a6457; --line:#d9d0bb;
+  --red:#c8432a; --red-soft:#f7ddd5; --teal:#16695f; --teal-soft:#d3ece6; --gold:#e0a526; --gold-soft:#f8e8bd; --plum:#6b4ba1;
+  --ok:#1d7a4d; --ok-bg:#d6efdf; --no:#b3261e; --no-bg:#f9d9d5;
+  --serif:Cambria,"Times New Roman","Noto Serif",serif; --sans:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --paper:#14120e; --card:#1d1a14; --ink:#f1ebdc; --mute:#a59e8c; --line:#3a352a;
+  --red:#ef7358; --red-soft:#3a201a; --teal:#4fc4b2; --teal-soft:#14302b; --gold:#f0bd48; --gold-soft:#3a2f12; --plum:#b49ae6;
+  --ok:#6fd49c; --ok-bg:#15301f; --no:#ff8f86; --no-bg:#3a1a17;
+}
+.theme{display:inline-flex;align-items:center;gap:8px;margin-top:14px;border:2px solid var(--ink);background:var(--card);border-radius:99px;padding:5px 14px 5px 6px;cursor:pointer;font-weight:700;font-size:14px}
+.theme .dot{width:22px;height:22px;border-radius:50%;background:var(--gold);display:grid;place-items:center;font-size:13px;line-height:1}
+.theme:hover{background:var(--gold-soft)}
+.fig{margin:0 0 20px;background:var(--card);border:2px solid var(--ink);border-radius:12px;overflow:hidden}
+.fig img{display:block;width:100%;height:auto;background:#fff}
+.fig figcaption{padding:8px 14px;font-size:14px;color:var(--mute);border-top:2px solid var(--ink)}
+.fig-svg{padding:10px 12px 0;background:var(--card)}
+.fig-svg svg{display:block;width:100%;height:auto}
+.fig-svg figcaption{margin:8px -12px 0}
+.figs{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:0 0 20px}
+.figs .fig{margin:0}
+.figs .fig img{aspect-ratio:4/3;object-fit:contain}
+.gform{background:#ece8f5;border:2px solid var(--ink);border-radius:14px;padding:10px;margin:0 0 24px;color:#202124;color-scheme:light}
+.gcard{background:#fff;border:1px solid #dadce0;border-radius:8px;padding:10px 14px;min-width:0}
+.gform form{display:grid;grid-template-columns:1fr;gap:8px}
+.gfull{grid-column:1/-1}
+.gtitle{border-top:8px solid #673ab7}
+.gtitle h3{font:400 22px/1.25 var(--sans);margin:0 0 4px;color:#202124}
+.gtitle p{margin:0 0 3px;font-size:13.5px;color:#3c4043}
+.gnote{color:#d93025!important;font-size:13.5px!important;border-top:1px solid #dadce0;padding-top:5px;margin-top:5px!important}
+.gform .rq{color:#d93025}
+.gq{display:block;font-size:15px;margin-bottom:4px;color:#202124}
+.gcard input[type=text],.gcard input[type=email]{width:100%;border:none;border-bottom:1px solid #bdc1c6;background:transparent;border-radius:0;padding:6px 0;font:inherit;color:#202124;outline:none}
+.gcard input[type=text]:focus,.gcard input[type=email]:focus{border-bottom:2px solid #673ab7}
+.gcard input.bad{border-bottom:2px solid #d93025}
+.gcard select{border:1px solid #dadce0;border-radius:4px;padding:8px 10px;background:#fff;color:#202124;font:inherit;min-width:180px}
+.gopts{display:flex;flex-wrap:wrap;gap:2px 24px}
+.go{display:flex;align-items:center;gap:8px;padding:1px 0;font-size:14.5px;color:#202124;cursor:pointer}
+.go input{accent-color:#673ab7;width:18px;height:18px;margin:0}
+.gform .err{color:#d93025;font-size:13px;font-weight:400;margin-top:6px}
+.gform .err:not(:empty)::before{content:"⚠ "}
+.grow{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.gform .btn.pri{background:#673ab7;border-color:#673ab7;color:#fff;border-radius:4px;padding:7px 24px}
+.gform .btn.pri:hover{background:#5b32a3;border-color:#5b32a3}
+.ghint{color:#5f6368;font-size:13.5px}
+.sim{background:var(--card);border:2px solid var(--ink);border-radius:14px;margin:0 0 24px;overflow:hidden;box-shadow:5px 5px 0 var(--teal)}
+.sim .top{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:2px solid var(--ink)}
+.sim .top h3{font:700 13px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin:0}
+.sim .url{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--ink);color:var(--paper);font:13.5px Consolas,monospace}
+.sim .url i{font-style:normal;opacity:.7}
+.sim .code{font:12.5px/1.5 Consolas,monospace;background:var(--paper);border:1px dashed var(--mute);border-radius:8px;padding:8px 10px;margin-bottom:10px;white-space:pre-wrap;word-break:break-word}
+.sim .btn:disabled{opacity:.4}
+[hidden]{display:none!important}
+.stat{background:#fff;color:#222;color-scheme:light;font-size:15px;font-family:var(--serif)}
+.st-head{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:10px 16px;background:#14507a;color:#fff}
+.st-head nav{display:flex;gap:4px}
+.st-head nav button{border:none;background:transparent;color:#cfe6f7;padding:5px 12px;cursor:pointer;font:600 14px var(--sans);border-bottom:3px solid transparent}
+.st-head nav button[aria-pressed=true]{color:#fff;border-bottom-color:#ffd23f}
+.st-banner{display:block;width:100%;height:150px;object-fit:cover}
+.st-body{padding:14px 18px}
+.st-body h4{margin:0 0 8px;font-size:21px;color:#14507a}
+.st-body p{margin:0 0 8px;line-height:1.6}
+.st-body ul{margin:0;padding-left:20px;line-height:1.7}
+.st-body table{border-collapse:collapse;min-width:280px}
+.st-body td,.st-body th{border:1px solid #ccd6df;padding:4px 12px;text-align:left}
+.st-body th{background:#e8f1f8}
+.st-note{margin-top:10px!important;color:#6a7a88;font:italic 13px var(--sans)}
+.st-foot{padding:8px 16px;background:#eef3f7;color:#5a6b78;font:12.5px var(--sans);border-top:1px solid #d6dfe6}
+.shop{background:#f5f5f5;color:#222;color-scheme:light;font-size:14px}
+.sh-head{display:flex;align-items:center;gap:14px;padding:10px 14px;background:linear-gradient(#f53d2d,#f63);color:#fff}
+.sh-logo{font:700 20px var(--sans);white-space:nowrap}
+.sh-search{flex:1;display:flex;background:#fff;border-radius:3px;padding:3px;min-width:0}
+.sh-search input{flex:1;min-width:0;border:none;outline:none;padding:6px 10px;font:inherit;color:#222;background:transparent}
+.sh-search span{background:#fb5533;border-radius:2px;padding:4px 14px;display:grid;place-items:center}
+.sh-cart{position:relative;font-size:24px;line-height:1;padding:2px 6px}
+.sh-cart b{position:absolute;right:-4px;top:-6px;min-width:18px;height:18px;border-radius:9px;background:#fff;color:#ee4d2d;font:700 11px/18px var(--sans);text-align:center;padding:0 4px}
+.sh-cats{display:flex;flex-wrap:wrap;gap:6px;padding:10px 14px 0;background:#fff}
+.sh-cats button{border:1px solid #ddd;background:#fff;color:#222;border-radius:2px;padding:5px 14px;cursor:pointer;font:inherit}
+.sh-cats button[aria-pressed=true]{border-color:#ee4d2d;color:#ee4d2d;background:#fff5f1;font-weight:700}
+.sh-cats button:disabled{opacity:.45;cursor:default}
+.sh-info{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center;padding:8px 14px;background:#fff;color:#757575;font-size:13px;border-bottom:1px solid #eee}
+.sh-add{border:1px dashed #ee4d2d;background:#fff;color:#ee4d2d;border-radius:2px;padding:3px 10px;cursor:pointer;font:600 12.5px var(--sans)}
+.sh-add:disabled{opacity:.4;cursor:default}
+.sh-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:10px 14px 14px}
+.sh-card{background:#fff;border:1px solid #eee;border-radius:2px;display:flex;flex-direction:column;overflow:hidden}
+.sh-img{position:relative;height:130px;background:#fff;overflow:hidden}
+.sh-img img{width:100%;height:100%;object-fit:cover;display:block}
+.sh-img em{position:absolute;left:0;top:6px;background:#ee4d2d;color:#fff;font:700 11px var(--sans);padding:1px 6px;border-radius:0 8px 8px 0}
+.sh-name{padding:8px 8px 2px;font-size:13px;line-height:1.35;min-height:38px}
+.sh-price{padding:0 8px;color:#ee4d2d;font-weight:700;font-size:15px}
+.sh-sold{padding:0 8px 6px;color:#757575;font-size:12px}
+.sh-buy{margin:auto 8px 8px;border:1px solid #ee4d2d;background:#fff5f1;color:#ee4d2d;border-radius:2px;padding:5px;cursor:pointer;font:600 13px var(--sans)}
+.sh-buy:hover:not(:disabled){background:#ee4d2d;color:#fff}
+.sh-buy:disabled{opacity:.4;cursor:default}
+.sh-none{grid-column:1/-1;padding:24px;text-align:center;color:#757575}
+.sim table{border-collapse:collapse;width:100%;font-size:12.5px}
+.sim td,.sim th{border:1px solid var(--line);padding:3px 6px;text-align:left}
+.sim th{background:var(--gold-soft)}
+.sim tr.hit td{background:var(--ok-bg);font-weight:700}
+.sim .hint{padding:8px 14px;border-top:2px solid var(--ink);background:var(--gold-soft);font-size:14.5px}
+@media (max-width:700px){.sh-grid{grid-template-columns:repeat(2,1fr)!important}.figs{grid-template-columns:1fr}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.65 var(--sans);
+  background-image:repeating-linear-gradient(to bottom,transparent 0 31px,color-mix(in srgb,var(--line) 45%,transparent) 31px 32px)}
+button,select{font:inherit;color:inherit}
+h1,h2,h3{font-family:var(--serif);line-height:1.2;margin:0}
+p{margin:0 0 .8em}
+a{color:var(--teal)}
+
+.shell{display:grid;grid-template-columns:270px minmax(0,1fr);max-width:1180px;margin:0 auto;gap:0 40px;padding:0 20px}
+
+/* ---------- rail ---------- */
+.rail{position:sticky;top:0;align-self:start;height:100vh;padding:34px 0 24px;display:flex;flex-direction:column;gap:22px}
+.brand small{display:block;font:700 12px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:10px}
+.brand h1{font-size:30px}
+.brand p{color:var(--mute);font-size:14px;margin-top:8px}
+.toc{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px;counter-reset:c}
+.toc a{display:grid;grid-template-columns:30px 1fr 20px;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;text-decoration:none;color:var(--ink);font-size:15px;line-height:1.3}
+.toc a:hover{background:color-mix(in srgb,var(--gold) 22%,transparent)}
+.toc a.on{background:var(--ink);color:var(--paper)}
+.toc .n{font:700 15px var(--serif);color:var(--red)}
+.toc a.on .n{color:var(--gold)}
+.toc .t{color:var(--teal);font-weight:800;visibility:hidden}
+.toc a.full .t{visibility:visible}
+.toc a.on.full .t{color:var(--gold)}
+.meter{margin-top:auto;border:2px solid var(--ink);border-radius:12px;padding:12px 14px;background:var(--card)}
+.meter b{font:700 28px var(--serif)}
+.meter span{color:var(--mute);font-size:14px}
+.bar{height:8px;border-radius:99px;background:var(--line);margin-top:8px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--teal);transition:width .4s}
+
+/* ---------- main ---------- */
+main{padding:34px 0 80px;min-width:0}
+.chapter{margin-bottom:80px;scroll-margin-top:20px}
+.ch-head{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;align-items:end;margin-bottom:22px}
+.ch-num{font:700 92px/0.8 var(--serif);color:transparent;-webkit-text-stroke:2px var(--red);grid-row:span 2}
+.ch-head .kick{font:700 12px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.ch-head h2{font-size:34px}
+
+.note{background:var(--card);border:2px solid var(--ink);border-radius:4px 18px 4px 18px;padding:18px 22px;margin:0 0 20px;box-shadow:5px 5px 0 var(--gold)}
+.note h3{font:700 13px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-bottom:8px}
+.note ul{margin:0;padding-left:20px}
+.note li{margin:4px 0}
+.fix{border-left:5px solid var(--teal);background:var(--teal-soft);border-radius:0 10px 10px 0;padding:10px 16px;margin:0 0 20px;font-size:15.5px}
+.fix b:first-child{color:var(--teal)}
+mark{background:var(--gold-soft);color:inherit;padding:0 3px;border-radius:3px}
+
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:0 0 20px}
+.vs>div{background:var(--card);border:2px solid var(--ink);border-radius:12px;padding:14px 18px}
+.vs h4{margin:0 0 6px;font:700 19px var(--serif)}
+.vs .s h4{color:var(--teal)} .vs .d h4{color:var(--red)}
+.vs p{margin:0;font-size:15.5px}
+.vs em{display:block;color:var(--mute);font-size:14px;margin-top:6px}
+
+/* ---------- demos ---------- */
+.lab{background:var(--card);border:2px dashed var(--mute);border-radius:14px;padding:16px 18px;margin:0 0 24px}
+.lab>h3{font:700 13px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:10px}
+.btn{border:2px solid var(--ink);background:var(--card);border-radius:99px;padding:6px 16px;cursor:pointer;font-weight:700;font-size:15px}
+.btn:hover{background:var(--gold-soft)}
+.btn.pri{background:var(--ink);color:var(--paper)}
+.btn.pri:hover{background:var(--red);border-color:var(--red);color:#fff}
+.btn[aria-pressed=true]{background:var(--ink);color:var(--paper)}
+.btn:disabled{opacity:.45;cursor:default}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.win{border:2px solid var(--ink);border-radius:10px;overflow:hidden;background:var(--paper);font-size:15px}
+.win .tb{display:flex;gap:6px;align-items:center;padding:6px 10px;background:var(--ink);color:var(--paper);font-size:12.5px}
+.win .tb i{width:9px;height:9px;border-radius:50%;background:var(--gold)}
+.win .bd{padding:12px 14px;min-height:92px}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.win h5{margin:0 0 4px;font:700 16px var(--serif)}
+
+.flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:6px;margin:10px 0}
+.node{flex:1 1 120px;border:2px solid var(--line);border-radius:10px;padding:10px;text-align:center;font-size:14px;line-height:1.35;background:var(--paper);transition:.25s}
+.node b{display:block;font:700 22px var(--serif);color:var(--mute)}
+.node.on{border-color:var(--red);background:var(--red-soft);transform:translateY(-3px)}
+.node.on b{color:var(--red)}
+.arrow{align-self:center;font-weight:800;color:var(--mute)}
+.say{min-height:44px;background:var(--gold-soft);border-radius:8px;padding:8px 12px;font-size:15.5px}
+
+.srch{display:flex;gap:8px}
+.srch input,.form input[type=text],.form input[type=email],.form select{width:100%;padding:8px 10px;border:2px solid var(--ink);border-radius:8px;background:var(--paper);color:var(--ink);font:inherit}
+.res{list-style:none;margin:10px 0 0;padding:0;font-size:15px;min-height:50px}
+.res li{padding:6px 10px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:10px}
+.res li span{color:var(--mute)}
+.res .empty{color:var(--mute);border:none}
+.sql{font:13px/1.5 Consolas,monospace;color:var(--plum);margin-top:6px}
+
+.form{display:grid;gap:12px}
+.form label.f{display:block;font-weight:700;font-size:15px}
+.form .rq{color:var(--red)}
+.form fieldset{border:2px solid var(--line);border-radius:10px;padding:8px 12px;margin:0}
+.form legend{font-weight:700;font-size:15px;padding:0 6px}
+.form fieldset label{margin-right:14px;font-size:15px;white-space:nowrap}
+.form .err{color:var(--no);font-size:13.5px;font-weight:700;min-height:0}
+.form input.bad{border-color:var(--no)}
+.form-out{margin-top:10px;padding:8px 12px;border-radius:8px;background:var(--ok-bg);color:var(--ok);font-weight:700;display:none}
+
+/* ---------- questions ---------- */
+.qhead{display:flex;align-items:center;gap:10px;margin:26px 0 10px;font:700 13px var(--sans);letter-spacing:.12em;text-transform:uppercase}
+.qhead::after{content:"";flex:1;height:2px;background:var(--ink);opacity:.15}
+.q{background:var(--card);border:2px solid var(--ink);border-radius:14px;margin-bottom:16px;position:relative;overflow:hidden}
+.q .tag{position:absolute;right:0;top:0;font:700 11.5px var(--sans);letter-spacing:.1em;text-transform:uppercase;padding:4px 12px 4px 14px;border-radius:0 0 0 12px;background:var(--ink);color:var(--paper)}
+.q.extra{border-style:dashed}
+.q.extra .tag{background:var(--gold);color:#1f1c16}
+.q .body{padding:30px 20px 16px}
+.q .qt{font-weight:700;margin-bottom:12px;font-size:17px}
+.q .qt small{font-weight:600;color:var(--red);margin-left:4px}
+.opts.cols{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
+@media (max-width:560px){.opts.cols{grid-template-columns:1fr}}
+.opt{display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:center;width:100%;text-align:left;border:2px solid var(--line);background:var(--paper);border-radius:10px;padding:8px 12px 8px 8px;margin-bottom:8px;cursor:pointer}
+.opt:hover{border-color:var(--ink)}
+.ord-lab{font-size:14px;color:var(--mute);margin-bottom:8px}
+.oslots,.opool{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.opool{margin-top:12px;padding-top:12px;border-top:2px dashed var(--line);min-height:90px}
+.opool:empty{display:none}
+.oslot{position:relative;min-height:150px;border:2px dashed var(--mute);border-radius:12px;background:color-mix(in srgb,var(--ink) 4%,transparent)}
+.oslot::before{content:attr(data-n);position:absolute;left:-8px;top:-10px;z-index:1;width:26px;height:26px;border-radius:50%;background:var(--ink);color:var(--paper);display:grid;place-items:center;font:700 14px var(--serif)}
+.oslot:has(.ocard){border-style:solid;border-color:var(--ink);background:transparent}
+.oslot.right{border-color:var(--ok);background:var(--ok-bg)}
+.oslot.wrong{border-color:var(--no);background:var(--no-bg)}
+.ocard{display:flex;flex-direction:column;gap:6px;width:100%;height:100%;padding:6px 6px 8px;border:2px solid var(--line);border-radius:10px;background:var(--card);cursor:pointer;text-align:center}
+.opool .ocard:hover{border-color:var(--ink);transform:translateY(-2px)}
+.oslot .ocard{border:none;background:transparent}
+.q.done .ocard{cursor:default}
+.oimg svg{display:block;width:100%;height:auto}
+.otx{font-size:13px;line-height:1.35}
+@media (max-width:640px){.oslots,.opool{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.lg{display:flex;align-items:center;gap:12px}
+.lg svg,.lg img{height:34px;width:40px;flex:none;object-fit:contain}
+.lg span{font-size:16px}
+.opt .k{width:30px;height:30px;border-radius:8px;border:2px solid var(--ink);display:grid;place-items:center;font:700 14px var(--serif)}
+.opt[aria-pressed=true]{border-color:var(--ink);background:var(--gold-soft)}
+.opt[aria-pressed=true] .k{background:var(--ink);color:var(--paper)}
+.q.done .opt{cursor:default}
+.opt.right{border-color:var(--ok);background:var(--ok-bg)}
+.opt.right .k{background:var(--ok);border-color:var(--ok);color:#fff}
+.opt.wrong{border-color:var(--no);background:var(--no-bg)}
+.opt.wrong .k{background:var(--no);border-color:var(--no);color:#fff}
+.opt.miss{border-style:dashed;border-color:var(--ok)}
+.sub{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 14px;align-items:center;padding:8px 0;border-bottom:1px dashed var(--line)}
+.sub:last-of-type{border-bottom:none}
+.sub .st{font-size:16px;flex:1 1 150px;min-width:0}
+.sub>div[style*="grid-column"]{flex-basis:100%}
+.sub .tg{display:flex;gap:6px;flex:none}
+.sub .tg .btn{padding:3px 14px;font-size:14px}
+.sub.right{background:var(--ok-bg);border-radius:8px;padding-left:8px;padding-right:8px}
+.sub.wrong{background:var(--no-bg);border-radius:8px;padding-left:8px;padding-right:8px}
+.sub select{padding:5px 8px;border:2px solid var(--ink);border-radius:8px;background:var(--paper);min-width:170px}
+.sub .st svg{display:block}
+.act{display:flex;gap:10px;align-items:center;margin-top:10px}
+.fb{display:none;margin-top:12px;padding:10px 14px;border-radius:10px;font-size:15.5px}
+.fb.show{display:block}
+.fb.ok{background:var(--ok-bg);color:var(--ok)}
+.fb.no{background:var(--no-bg);color:var(--no)}
+.fb p{margin:.3em 0 0;color:var(--ink)}
+.fb strong{display:block}
+
+.wrap-up{background:var(--ink);color:var(--paper);border-radius:18px;padding:30px 30px 26px}
+.wrap-up h2{color:var(--gold);margin-bottom:12px}
+.wrap-up ul{margin:0 0 18px;padding-left:20px}
+.wrap-up li{margin:6px 0}
+.wrap-up .big{font:700 46px var(--serif);color:var(--gold)}
+.wrap-up .btn{background:transparent;color:var(--paper);border-color:var(--paper)}
+.wrap-up .btn:hover{background:var(--paper);color:var(--ink)}
+
+@media (max-width:900px){
+  .shell{display:block;padding:0 16px}
+  .rail{position:static;height:auto;padding:22px 0 0;gap:14px}
+  .toc{flex-direction:row;overflow-x:auto;gap:6px;padding-bottom:6px}
+  .toc a{display:flex;white-space:nowrap;border:2px solid var(--line)}
+  .toc .t{display:none}
+  .meter{margin-top:0}
+  .ch-num{font-size:64px}
+  .ch-head h2{font-size:26px}
+  .vs,.pair{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<aside class="rail">
+  <div class="brand">
+    <small>Level 2 · Bài 12–13</small>
+    <h1>Dữ liệu trực tuyến</h1>
+    <p>Web tĩnh &amp; động · cơ sở dữ liệu · biểu mẫu · thu thập phản hồi</p>
+    <button type="button" class="theme" id="theme" aria-label="Đổi giao diện sáng/tối"><span class="dot" id="themeico">☀</span><span id="themetxt">Giao diện sáng</span></button>
+  </div>
+  <ol class="toc" id="toc"></ol>
+  <div class="meter">
+    <b id="score">0</b><span> / <span id="total">0</span> câu đúng</span>
+    <div class="bar"><i id="barfill"></i></div>
+    <button type="button" class="btn" id="replay" style="margin-top:10px;padding:3px 14px;font-size:13.5px">↻ Làm lại từ đầu</button>
+  </div>
+</aside>
+
+<main>
+
+<!-- ===== 1 ===== -->
+<section class="chapter" id="c1" data-title="Web tĩnh và động">
+  <div class="ch-head"><div class="ch-num">1</div><div class="kick">Slide 38–39</div><h2>Trang web tĩnh và trang web động</h2></div>
+  <div class="vs">
+    <div class="s"><h4>Trang web tĩnh</h4><p>Hiển thị <mark>nội dung cố định</mark>. Chỉ thay đổi khi quản trị viên chỉnh sửa trang.</p><em>Ví dụ: trang giới thiệu, thông báo cố định.</em></div>
+    <div class="d"><h4>Trang web động</h4><p><mark>Tự động thay đổi nội dung</mark> dựa trên hành động của người dùng hoặc dữ liệu, thường được viết bằng PHP, ASP.NET,…</p><em>Ví dụ: trang chủ mạng xã hội, giỏ hàng.</em></div>
+  </div>
+  <div class="fix"><b>Hiểu đúng.</b> “Động” ở đây nói về <i>nội dung do máy chủ tạo ra theo từng yêu cầu</i>, không phải hiệu ứng chuyển động. Một trang có ảnh trượt qua lại nhưng nội dung do quản trị viên đặt sẵn vẫn là trang tĩnh.</div>
+
+  <div class="sim" id="sim">
+    <div class="top"><h3>Mô phỏng website · Trang tĩnh và trang động</h3>
+      <div class="row"><button class="btn" id="m-static" aria-pressed="false">Trang tĩnh</button><button class="btn" id="m-dyn" aria-pressed="true">Trang động + CSDL</button></div></div>
+    <div class="url"><i>🔒</i><span id="simurl">https://chovui.example/tim-kiem</span></div>
+    <div class="shop">
+      <div class="sh-head">
+        <div class="sh-logo">🛍 Chợ Vui</div>
+        <label class="sh-search"><input id="simq" type="text" placeholder="Tìm sản phẩm, thương hiệu…" aria-label="Tìm sản phẩm"><span aria-hidden="true">🔍</span></label>
+        <div class="sh-cart" title="Giỏ hàng">🛒<b id="simcart">0</b></div>
+      </div>
+      <div class="sh-cats" id="simtools">
+        <button type="button" data-cat="" aria-pressed="true">Tất cả</button><button type="button" data-cat="Điện thoại" aria-pressed="false">Điện thoại</button><button type="button" data-cat="Thời trang" aria-pressed="false">Thời trang</button><button type="button" data-cat="Sách" aria-pressed="false">Sách</button>
+      </div>
+      <div class="sh-info"><span id="simbanner"></span><button type="button" class="sh-add" id="simadd">＋ Người bán đăng thêm 1 sản phẩm</button></div>
+      <div class="sh-grid" id="simbooks"></div>
+    </div>
+    <div class="stat" id="simstat" hidden>
+      <div class="st-head"><b>📚 Thư viện trường THCS Cầu Vồng</b>
+        <nav id="stnav"><button type="button" data-p="gioi-thieu" aria-pressed="true">Giới thiệu</button><button type="button" data-p="gio-mo-cua" aria-pressed="false">Giờ mở cửa</button><button type="button" data-p="noi-quy" aria-pressed="false">Nội quy</button></nav></div>
+      <img class="st-banner" src="img/shop/thu-vien.jpg" alt="Các kệ sách trong thư viện">
+      <div class="st-body" id="stbody"></div>
+      <div class="st-foot">© Thư viện trường · Liên hệ: thuvien@truong.example</div>
+    </div>
+    <div class="hint" id="simhint"></div>
+  </div>
+
+  <div class="qs" data-ch="c1"></div>
+</section>
+
+<!-- ===== 2 ===== -->
+<section class="chapter" id="c2" data-title="Cơ sở dữ liệu">
+  <div class="ch-head"><div class="ch-num">2</div><div class="kick">Slide 40–41</div><h2>Trang web có cơ sở dữ liệu</h2></div>
+  <div class="note">
+    <h3>Ghi nhớ</h3>
+    <ul>
+      <li>Phần lớn dữ liệu trên Internet được thu thập và lưu dưới dạng <b>cơ sở dữ liệu</b> (Database).</li>
+      <li>Trang web có cơ sở dữ liệu được viết bằng một hoặc nhiều <b>ngôn ngữ lập trình</b> (JavaScript, PHP, ASP.NET,…) để <b>truy xuất</b> thông tin từ cơ sở dữ liệu và <b>hiển thị</b> lên trang web.</li>
+      <li>Cơ sở dữ liệu không chỉ có ở trang bán hàng: thư viện, trường học, ngân hàng, tin tức,… đều dùng.</li>
+    </ul>
+  </div>
+  <div class="qs" data-ch="c2"></div>
+</section>
+
+<!-- ===== 3 ===== -->
+<section class="chapter" id="c3" data-title="Lưu trữ tập trung">
+  <div class="ch-head"><div class="ch-num">3</div><div class="kick">Slide 42–44</div><h2>Hệ thống lưu trữ tập trung dữ liệu</h2></div>
+  <div class="note">
+    <h3>Ghi nhớ</h3>
+    <ul>
+      <li>Dữ liệu được đặt <b>ở một nơi chung</b> (máy chủ hoặc đám mây); nhiều người cùng truy cập qua mạng.</li>
+      <li>Ví dụ: <b>Google Workspace</b> (Drive, Docs, Sheets, Forms), <b>Microsoft SharePoint</b> (thư viện tài liệu), cơ sở dữ liệu hàng tồn kho – đơn hàng.</li>
+      <li>Lợi ích: mọi người dùng chung <mark>phiên bản mới nhất</mark>, phân quyền truy cập, dễ sao lưu.</li>
+    </ul>
+  </div>
+  <div class="figs">
+    <figure class="fig"><img src="img/google-workspace.jpg" alt="Google Workspace gồm Gmail, Drive, Docs, Sheets, Forms, Meet…" loading="lazy"><figcaption>Google Workspace: Drive là nơi lưu trữ chung (STORE) cho cả nhóm.</figcaption></figure>
+    <figure class="fig"><img src="img/sharepoint.jpg" alt="Sơ đồ Microsoft SharePoint với quản lý nội dung, quy trình, lịch, ứng dụng di động" loading="lazy"><figcaption>Microsoft SharePoint: quản lý tài liệu, quy trình và cộng tác tại một nơi.</figcaption></figure>
+  </div>
+  <div class="qs" data-ch="c3"></div>
+</section>
+
+<!-- ===== 4 ===== -->
+<section class="chapter" id="c4" data-title="Dữ liệu đã thu thập">
+  <div class="ch-head"><div class="ch-num">4</div><div class="kick">Slide 45</div><h2>Xác định dữ liệu đã được máy chủ web thu thập</h2></div>
+  <div class="note">
+    <h3>Ghi nhớ</h3>
+    <ul>
+      <li>Khi tìm kiếm trên một trang web mà thấy <b>kết quả trả về</b>, nghĩa là dữ liệu đó <b>đã có trong cơ sở dữ liệu</b> của máy chủ (đã được thu thập và lưu).</li>
+      <li>Kết quả hiển thị trên trang chính là kết quả của việc <b>truy vấn cơ sở dữ liệu</b>.</li>
+    </ul>
+  </div>
+  <div class="fix"><b>Bổ sung.</b> Không thấy kết quả chưa chắc là web lỗi: có thể dữ liệu chưa được lưu, hoặc từ khóa chưa khớp với dữ liệu.</div>
+  <figure class="fig fig-svg">
+    <svg viewBox="0 0 720 320" role="img" aria-label="Sơ đồ: em gõ từ khóa toán vào ô tìm kiếm, từ khóa đi tới cơ sở dữ liệu trên máy chủ, cơ sở dữ liệu trả về các bản ghi khớp và trang web hiển thị thành danh sách kết quả">
+      <defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--ink)"/></marker></defs>
+      <!-- browser -->
+      <rect x="16" y="24" width="300" height="270" rx="12" style="fill:var(--card);stroke:var(--ink);stroke-width:3"/>
+      <path d="M16 62h300" style="stroke:var(--ink);stroke-width:3"/>
+      <circle cx="36" cy="43" r="5" style="fill:var(--red)"/><circle cx="54" cy="43" r="5" style="fill:var(--gold)"/><circle cx="72" cy="43" r="5" style="fill:var(--teal)"/>
+      <rect x="32" y="80" width="200" height="38" rx="19" style="fill:var(--paper);stroke:var(--ink);stroke-width:2.5"/>
+      <text x="52" y="105" style="font:700 18px 'Segoe UI',sans-serif;fill:var(--ink)">toán</text>
+      <rect x="240" y="80" width="62" height="38" rx="19" style="fill:var(--red)"/>
+      <text x="271" y="105" text-anchor="middle" style="font:700 15px 'Segoe UI',sans-serif;fill:#fff">Tìm</text>
+      <text x="32" y="148" style="font:700 13px 'Segoe UI',sans-serif;fill:var(--mute);letter-spacing:.08em">KẾT QUẢ HIỂN THỊ</text>
+      <g style="stroke:var(--ink);stroke-width:2">
+        <rect x="32" y="158" width="270" height="36" rx="8" style="fill:var(--ok-bg);stroke:var(--ok);stroke-width:2"/>
+        <rect x="32" y="200" width="270" height="36" rx="8" style="fill:var(--ok-bg);stroke:var(--ok);stroke-width:2"/>
+        <rect x="32" y="242" width="270" height="36" rx="8" style="fill:var(--ok-bg);stroke:var(--ok);stroke-width:2"/>
+      </g>
+      <g style="font:600 15px 'Segoe UI',sans-serif;fill:var(--ink)">
+        <text x="48" y="182">✓ Toán học vui</text><text x="48" y="224">✓ Toán tư duy lớp 7</text><text x="48" y="266">✓ Toán đố vui</text>
+      </g>
+      <!-- arrows -->
+      <path d="M232 99h0" style="stroke:none"/>
+      <path d="M322 100H430" style="fill:none;stroke:var(--ink);stroke-width:3.5" marker-end="url(#ah)"/>
+      <text x="376" y="86" text-anchor="middle" style="font:700 14px 'Segoe UI',sans-serif;fill:var(--ink)">① Gửi từ khóa</text>
+      <path d="M430 220H322" style="fill:none;stroke:var(--ok);stroke-width:3.5" marker-end="url(#ah)"/>
+      <text x="376" y="204" text-anchor="middle" style="font:700 14px 'Segoe UI',sans-serif;fill:var(--ok)">③ Trả kết quả</text>
+      <!-- database -->
+      <path d="M440 70v170c0 16 36 28 112 28s112-12 112-28V70" style="fill:var(--card);stroke:var(--ink);stroke-width:3"/>
+      <ellipse cx="552" cy="70" rx="112" ry="26" style="fill:var(--teal-soft);stroke:var(--ink);stroke-width:3"/>
+      <path d="M440 130c0 16 36 28 112 28s112-12 112-28M440 190c0 16 36 28 112 28s112-12 112-28" style="fill:none;stroke:var(--ink);stroke-width:2.5"/>
+      <g style="font:600 14px 'Segoe UI',sans-serif;fill:var(--ink)">
+        <rect x="462" y="98" width="180" height="24" rx="6" style="fill:var(--ok-bg);stroke:var(--ok);stroke-width:2"/><text x="474" y="115">Toán học vui</text>
+        <rect x="462" y="158" width="180" height="24" rx="6" style="fill:var(--ok-bg);stroke:var(--ok);stroke-width:2"/><text x="474" y="175">Toán tư duy lớp 7</text>
+        <rect x="462" y="218" width="180" height="24" rx="6" style="fill:var(--card);stroke:var(--mute);stroke-width:1.5;stroke-dasharray:4 3"/><text x="474" y="235" style="fill:var(--mute)">Tin học cơ bản</text>
+      </g>
+      <text x="552" y="304" text-anchor="middle" style="font:700 15px 'Segoe UI',sans-serif;fill:var(--ink)">② Cơ sở dữ liệu trên máy chủ</text>
+    </svg>
+    <figcaption>Thấy kết quả trên trang web nghĩa là dữ liệu đó <b>đã có trong cơ sở dữ liệu</b>: máy chủ tìm trong cơ sở dữ liệu rồi trả về các bản ghi khớp với từ khóa.</figcaption>
+  </figure>
+  <div class="qs" data-ch="c4"></div>
+</section>
+
+<!-- ===== 5 ===== -->
+<section class="chapter" id="c5" data-title="Biểu mẫu trực tuyến">
+  <div class="ch-head"><div class="ch-num">5</div><div class="kick">Slide 46–50</div><h2>Thu thập dữ liệu bằng biểu mẫu trực tuyến</h2></div>
+  <div class="note">
+    <h3>Ghi nhớ</h3>
+    <ul>
+      <li>Biểu mẫu trực tuyến dùng để <b>thu thập dữ liệu</b> từ người dùng.</li>
+      <li>Trường có dấu sao <span class="rq" style="color:var(--red);font-weight:800">*</span> là <b>bắt buộc</b>, không được để trống.</li>
+      <li>Ứng dụng tạo biểu mẫu: <b>Google Forms</b>, <b>Microsoft Forms</b>.</li>
+      <li><b>Radio</b> (tròn): chọn <b>một</b>. <b>Check box</b> (vuông): chọn <b>nhiều</b>. <b>Danh sách chọn</b>: giữ <kbd>Ctrl</kbd> để chọn nhiều mục (nếu danh sách cho phép).</li>
+      <li>Câu trả lời <b>chỉ được ghi lại sau khi nhấn nút Gửi</b>.</li>
+    </ul>
+  </div>
+  <div class="gform">
+    <form id="demoform" novalidate>
+      <div class="gcard gtitle gfull">
+        <h3>Phiếu đăng ký khóa học Tin học hè</h3>
+        <p>Trung tâm Tin học Cầu Vồng · Khai giảng ngày 10/06. Phụ huynh vui lòng điền đầy đủ thông tin bên dưới.</p>
+        <p class="gnote"><span class="rq">*</span> Biểu thị câu hỏi bắt buộc</p>
+      </div>
+      <div class="gcard"><label class="gq" for="fn">Họ và tên học sinh <span class="rq">*</span></label><input type="text" id="fn" data-req="Họ và tên" placeholder="Câu trả lời của bạn"><div class="err"></div></div>
+      <div class="gcard" id="fg"><div class="gq">Khối lớp <span class="rq">*</span></div><div class="gopts"><label class="go"><input type="radio" name="g" value="6"> Lớp 6</label><label class="go"><input type="radio" name="g" value="7"> Lớp 7</label><label class="go"><input type="radio" name="g" value="8"> Lớp 8</label></div><div class="err"></div></div>
+      <div class="gcard"><div class="gq">Môn muốn học</div><div class="gopts"><label class="go"><input type="checkbox" name="c" value="Scratch"> Scratch</label><label class="go"><input type="checkbox" name="c" value="Python"> Python</label><label class="go"><input type="checkbox" name="c" value="Thiết kế web"> Thiết kế web</label></div></div>
+      <div class="gcard"><label class="gq" for="fs">Cơ sở học</label><select id="fs"><option value="">Chọn</option><option>Cơ sở 1</option><option>Cơ sở 2</option><option>Học trực tuyến</option></select></div>
+      <div class="grow gfull"><button class="btn pri" type="submit">Gửi</button><span class="ghint">Thử bỏ trống ô có dấu *, rồi thử chọn nhiều radio.</span></div>
+      <div class="form-out gfull" id="formout"></div>
+    </form>
+  </div>
+  <div class="qs" data-ch="c5"></div>
+</section>
+
+<!-- ===== 6 ===== -->
+<section class="chapter" id="c6" data-title="Thu thập phản hồi">
+  <div class="ch-head"><div class="ch-num">6</div><div class="kick">Slide 51–54</div><h2>Thu thập phản hồi để cải thiện sản phẩm</h2></div>
+  <div class="note">
+    <h3>Ba nguyên tắc</h3>
+    <ul>
+      <li><b>Bám mục tiêu:</b> chỉ hỏi điều giúp đạt mục tiêu khảo sát (viết Blog → hỏi sở thích, chủ đề; cải tiến xe → hỏi điểm cần cải thiện).</li>
+      <li><b>Câu hỏi hữu ích:</b> câu hỏi mở như “Điều gì có thể cải thiện?” cho nhiều thông tin hơn câu chỉ trả lời “Có/Không”.</li>
+      <li><b>Kênh phù hợp:</b> chọn cách tiếp cận được đúng đối tượng, dễ trả lời và dễ tổng hợp: khảo sát, biểu mẫu, ý kiến chuyên gia.</li>
+    </ul>
+  </div>
+  <div class="qs" data-ch="c6"></div>
+</section>
+
+<section class="wrap-up" id="end">
+  <h2>Tổng kết</h2>
+  <ul>
+    <li>Trang <b>tĩnh</b>: nội dung cố định · trang <b>động</b>: nội dung thay đổi theo người dùng/dữ liệu.</li>
+    <li>Trang web có <b>cơ sở dữ liệu</b> dùng ngôn ngữ lập trình để <b>truy xuất</b> và <b>hiển thị</b> dữ liệu.</li>
+    <li><b>Lưu trữ tập trung</b>: dữ liệu ở một nơi chung, nhiều người dùng chung.</li>
+    <li><b>Biểu mẫu</b>: dấu <b>*</b> là bắt buộc; radio chọn một; check box chọn nhiều; chỉ lưu sau khi <b>Gửi</b>.</li>
+    <li><b>Phản hồi tốt</b> = câu hỏi bám mục tiêu + kênh phù hợp.</li>
+  </ul>
+  <div class="big"><span id="score2">0</span> / <span id="total2">0</span> câu đúng</div>
+  <p style="margin:6px 0 16px;opacity:.8">Tiến độ được lưu trên trình duyệt này.</p>
+  <button class="btn" id="resetall">Làm lại tất cả</button>
+</section>
+
+</main>
+</div>
+
+<script>
+/* ---------- question bank ---------- */
+const SK='style="fill:none;stroke:var(--ink);stroke-width:2"';
+const ILL1='<svg viewBox="0 0 120 80" aria-hidden="true"><rect x="4" y="6" width="112" height="68" rx="7" style="fill:var(--card);stroke:var(--ink);stroke-width:2"/><path d="M4 22h112" '+SK+'/><circle cx="14" cy="14" r="2.5" style="fill:var(--red)"/><circle cx="23" cy="14" r="2.5" style="fill:var(--gold)"/><circle cx="32" cy="14" r="2.5" style="fill:var(--teal)"/><rect x="12" y="32" width="70" height="18" rx="9" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.8"/><text x="24" y="45" style="font:700 11px sans-serif;fill:var(--ink)">toán</text><rect x="86" y="32" width="24" height="18" rx="9" style="fill:var(--red)"/><circle cx="96" cy="40" r="3.6" style="fill:none;stroke:#fff;stroke-width:1.7"/><path d="M99 43l4 4" style="stroke:#fff;stroke-width:1.7"/><path d="M56 52v16l4-3.5 3 6.5 3-1.4-3-6.5h5.5z" style="fill:var(--ink);stroke:var(--card);stroke-width:1"/></svg>';
+const ILL2='<svg viewBox="0 0 120 80" aria-hidden="true"><g style="fill:var(--card);stroke:var(--ink);stroke-width:2"><rect x="8" y="8" width="64" height="19" rx="4"/><rect x="8" y="30" width="64" height="19" rx="4"/><rect x="8" y="52" width="64" height="19" rx="4"/></g><g style="fill:var(--teal)"><circle cx="18" cy="17.5" r="2.8"/><circle cx="18" cy="39.5" r="2.8"/><circle cx="18" cy="61.5" r="2.8"/></g><g '+SK.replace('stroke-width:2','stroke-width:2.4;stroke-linecap:round')+'><path d="M30 17.5h34M30 39.5h34M30 61.5h34"/></g><circle cx="98" cy="40" r="12" style="fill:var(--gold-soft);stroke:var(--ink);stroke-width:2"/><circle cx="98" cy="40" r="4.5" style="fill:var(--card);stroke:var(--ink);stroke-width:2"/><g '+SK.replace('stroke-width:2','stroke-width:4;stroke-linecap:round')+'><path d="M98 22v6M98 52v6M80 40h6M110 40h6M85.3 27.3l4.2 4.2M106.5 48.5l4.2 4.2M110.7 27.3l-4.2 4.2M89.5 48.5l-4.2 4.2"/></g></svg>';
+const ILL3='<svg viewBox="0 0 120 80" aria-hidden="true"><path d="M26 16v48c0 6 15 11 34 11s34-5 34-11V16" style="fill:var(--card);stroke:var(--ink);stroke-width:2"/><ellipse cx="60" cy="16" rx="34" ry="10" style="fill:var(--teal-soft);stroke:var(--ink);stroke-width:2"/><path d="M26 34c0 6 15 11 34 11s34-5 34-11M26 52c0 6 15 11 34 11s34-5 34-11" '+SK+'/><rect x="38" y="25" width="44" height="7" rx="3" style="fill:var(--ok-bg);stroke:var(--ok);stroke-width:1.6"/><rect x="38" y="43" width="44" height="7" rx="3" style="fill:var(--ok-bg);stroke:var(--ok);stroke-width:1.6"/><circle cx="96" cy="62" r="7" style="fill:none;stroke:var(--red);stroke-width:2.4"/><path d="M101 67l8 8" style="stroke:var(--red);stroke-width:3;stroke-linecap:round"/></svg>';
+const ILL4='<svg viewBox="0 0 120 80" aria-hidden="true"><rect x="4" y="6" width="112" height="68" rx="7" style="fill:var(--card);stroke:var(--ink);stroke-width:2"/><path d="M4 22h112" '+SK+'/><circle cx="14" cy="14" r="2.5" style="fill:var(--red)"/><circle cx="23" cy="14" r="2.5" style="fill:var(--gold)"/><circle cx="32" cy="14" r="2.5" style="fill:var(--teal)"/><g><rect x="12" y="28" width="18" height="12" rx="2" style="fill:var(--red)"/><rect x="36" y="29" width="56" height="3.5" rx="1.7" style="fill:var(--ink)"/><rect x="36" y="35.5" width="38" height="3" rx="1.5" style="fill:var(--mute)"/><rect x="12" y="44" width="18" height="12" rx="2" style="fill:var(--teal)"/><rect x="36" y="45" width="56" height="3.5" rx="1.7" style="fill:var(--ink)"/><rect x="36" y="51.5" width="38" height="3" rx="1.5" style="fill:var(--mute)"/><rect x="12" y="60" width="18" height="10" rx="2" style="fill:var(--gold)"/><rect x="36" y="61" width="56" height="3.5" rx="1.7" style="fill:var(--ink)"/></g><path d="M100 30l6 6-6 6" style="fill:none;stroke:var(--ok);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round"/></svg>';
+const GF='<svg width="46" height="56" viewBox="0 0 46 56" aria-label="Logo màu tím, tờ giấy có ba dòng"><path d="M4 4a4 4 0 0 1 4-4h22l16 16v36a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z" fill="#673ab7"/><path d="M30 0l16 16H34a4 4 0 0 1-4-4z" fill="#b39ddb"/><g fill="#fff"><circle cx="13" cy="30" r="2.4"/><circle cx="13" cy="39" r="2.4"/><circle cx="13" cy="48" r="2.4"/><rect x="20" y="28" width="18" height="4" rx="2"/><rect x="20" y="37" width="18" height="4" rx="2"/><rect x="20" y="46" width="18" height="4" rx="2"/></g></svg>';
+const MF='<svg width="56" height="56" viewBox="0 0 56 56" aria-label="Logo màu xanh ngọc, chữ F"><rect x="16" y="2" width="38" height="52" rx="5" fill="#0f7b7b"/><rect x="16" y="2" width="38" height="20" rx="5" fill="#36c5cf"/><circle cx="41" cy="12" r="6" fill="#0f5f6b"/><rect x="2" y="16" width="30" height="30" rx="4" fill="#0b8a8a"/><text x="17" y="40" text-anchor="middle" font-family="Arial" font-weight="700" font-size="24" fill="#fff">F</text></svg>';
+const PT='<img src="img/mspaint.png" alt="" width="40" height="40">';
+const PR='<svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><rect x="1" y="1" width="38" height="38" rx="8" fill="#00005b"/><text x="20" y="27" text-anchor="middle" font-family="Arial" font-weight="700" font-size="19" fill="#9999ff">Pr</text></svg>';
+const lg=(svg,t)=>'<span class="lg">'+svg+'<span>'+t+'</span></span>';
+
+const BANK={
+c1:[
+ {id:'c1a',src:'Slide 39',type:'choice',n:2,q:'Em hãy cho biết, tùy chọn nào sau đây là đúng khi nói về trang Web động (Dynamic Web Page)?',
+  opts:['Trang Web động là trang Web tự động thay đổi nội dung dựa trên hành động của người dùng','Trang Web động là trang Web hiển thị nội dung cố định','Nội dung trên các trang Web động chỉ được thay đổi khi người quản trị viên trang Web cập nhật','Trang Web động được xây dựng bằng các ngôn ngữ lập trình như: PHP, ASP.NET,...'],
+  ans:[0,3],why:'B và C mô tả trang <b>tĩnh</b>. Trang động thay đổi theo hành động của người dùng và được lập trình bằng PHP, ASP.NET,…'},
+ {id:'c1b',type:'tf',labels:['Tĩnh','Động'],q:'Phân loại mỗi trang sau là trang tĩnh hay trang động.',
+  items:[['Trang giới thiệu trường, chỉ đổi khi nhà trường cập nhật',0],['Trang chủ mạng xã hội hiện bài viết khác nhau cho mỗi tài khoản',1],['Giỏ hàng hiển thị đúng sản phẩm em vừa thêm',1],['Trang hướng dẫn sử dụng bằng văn bản, ai xem cũng giống nhau',0],['Dự báo thời tiết hiển thị theo thành phố em chọn',1]],
+  why:'Hễ nội dung thay đổi theo người dùng hay dữ liệu thì là trang động.'},
+],
+c2:[
+ {id:'c2a',src:'Slide 41',type:'choice',n:1,q:'Em hãy cho biết, tùy chọn nào sau đây là đúng về trang Web có cơ sở dữ liệu?',
+  opts:['Các trang Web tĩnh luôn có cơ sở dữ liệu.','Nội dung của các trang Web có cơ sở dữ liệu chỉ chứa âm thanh và hình ảnh.','Các trang Web có cơ sở dữ liệu được xây dựng bởi một hoặc nhiều ngôn ngữ lập trình như: JavaScript, PHP, ASP.NET,... giúp truy xuất thông tin từ cơ sở dữ liệu và hiển thị thông tin đó lên trang Web.','Cơ sở dữ liệu chỉ được áp dụng cho các trang Web mua bán hàng hóa Online.'],ans:[2],
+  why:'Trang tĩnh không cần cơ sở dữ liệu; dữ liệu có thể là chữ, số, ảnh,…; và cơ sở dữ liệu còn dùng ở thư viện, trường học, ngân hàng,… chứ không chỉ ở trang bán hàng.'},
+ {id:'c2b',type:'order',q:'Em gõ “toán” vào ô tìm kiếm của web thư viện. Bấm các thẻ để xếp 4 bước sau theo đúng thứ tự diễn ra.',
+  steps:[{t:'Em gõ từ khóa và nhấn Tìm',svg:ILL1},{t:'Máy chủ web chạy chương trình và gửi truy vấn',svg:ILL2},{t:'Cơ sở dữ liệu tìm và trả về các bản ghi phù hợp',svg:ILL3},{t:'Trình duyệt hiển thị danh sách sách em tìm thấy',svg:ILL4}],
+  shuf:[3,1,0,2],
+  why:'Thứ tự đúng: em gửi yêu cầu → máy chủ truy vấn → cơ sở dữ liệu trả bản ghi → trang web hiển thị kết quả.'},
+],
+c3:[
+ {id:'c3a',src:'Slide 44',type:'choice',n:2,q:'Hai tùy chọn nào sau đây giải thích hệ thống lưu trữ dữ liệu trung tâm?',
+  opts:['Hệ thống quản lý tài liệu và thư viện, chẳng hạn như SharePoint.','Chia sẻ ổ cứng trên máy tính của bạn với các nhân viên khác.','Thiết bị lưu trữ được đặt bên trong máy tính.','Cơ sở dữ liệu theo dõi hàng tồn kho, đơn đặt hàng của khách hàng và giao hàng.'],ans:[0,3],
+  why:'A và D là hệ thống chung, nhiều người cùng dùng và được quản lý tập trung. B chỉ là chia sẻ tạm từ một máy cá nhân; C là lưu trữ riêng trong một máy.'},
+ {id:'c3b',type:'tf',labels:['Tập trung','Không'],q:'Cách lưu trữ nào sau đây là lưu trữ tập trung?',
+  items:[['Thư viện tài liệu SharePoint của công ty',0],['Tệp trong USB cá nhân',1],['Google Drive dùng chung của cả lớp',0],['Thư mục trong ổ D của máy mình',1],['Cơ sở dữ liệu đơn hàng của cửa hàng online',0]],
+  why:'Tập trung = một nơi chung, nhiều người truy cập qua mạng và có quản lý.'}
+
+],
+c4:[
+ {id:'c4a',type:'choice',n:1,q:'Em gõ “toán” vào ô tìm kiếm của web thư viện và thấy 3 kết quả. Điều đó cho biết gì?',
+  opts:['Dữ liệu liên quan đã có trong cơ sở dữ liệu và máy chủ đã truy vấn ra','Máy tính của em đã tự lưu sẵn 3 cuốn sách','Trang web này là trang tĩnh','Cơ sở dữ liệu đã bị xóa'],ans:[0],
+  why:'Kết quả hiển thị chính là kết quả truy vấn cơ sở dữ liệu của máy chủ.'},
+],
+c5:[
+ {id:'c5a',src:'Slide 47',type:'choice',n:2,q:'Em hãy cho biết, tùy chọn nào sau đây là ứng dụng giúp tạo một biểu mẫu trực tuyến?',
+  opts:[lg(GF,'Google Forms'),lg(PT,'Microsoft Paint'),lg(PR,'Adobe Premiere'),lg(MF,'Microsoft Forms')],ans:[0,3],
+  why:'Paint dùng để vẽ, Premiere dùng để dựng video.'},
+ {id:'c5c',src:'Slide 49',type:'choice',n:1,q:'Em hãy cho biết, tùy chọn nào sau đây là đúng khi nói về những trường có dấu sao (*) trên một biểu mẫu trực tuyến?',
+  opts:['Những trường có dấu sao (*) là không bắt buộc phải điền thông tin','Những trường có dấu sao (*) chỉ được áp dụng cho thông tin là hình ảnh','Những trường có dấu sao (*) là bắt buộc phải điền thông tin, không được để trống','Những trường có dấu sao (*) chỉ được áp dụng cho thông tin là Video'],ans:[2],
+  why:'Dấu * nghĩa là bắt buộc, không phụ thuộc loại dữ liệu.'},
+ {id:'c5d',src:'Slide 50',type:'tf',labels:['Đúng','Sai'],q:'Khi điền vào biểu mẫu, điều nào sau đây là đúng? Đối với mỗi phát biểu về việc điền vào biểu mẫu, hãy chọn Đúng nếu phát biểu là đúng hoặc Sai nếu sai.',
+  items:[['Khi được chọn nhiều hộp kiểm (Check Box) trong bộ chọn, bạn chỉ có thể chọn một.',1],['Nếu bạn giữ phím Ctrl, bạn có thể chọn nhiều mục từ danh sách thả.',0],['Sau khi điền vào biểu mẫu, câu trả lời của bạn sẽ không được ghi lại cho đến khi bạn nhấp vào nút gửi.',0],['Khi được chọn nhiều tùy chọn (Option/Radio) trong bộ chọn, nếu bạn giữ phím Ctrl, bạn có thể chọn nhiều hơn một.',1]],
+  why:'Check box cho chọn nhiều, còn radio chỉ chọn một dù có giữ Ctrl. Ở câu 2, Ctrl chỉ có tác dụng với danh sách cho phép chọn nhiều mục. Câu trả lời chỉ được ghi lại sau khi nhấn Gửi.'},
+ {id:'c5e',type:'match',q:'Chọn loại điều khiển phù hợp nhất cho mỗi câu hỏi.',opts:['Ô văn bản','Radio (chọn một)','Check box (chọn nhiều)','Danh sách thả xuống'],
+  rows:[['Họ và tên của em',0],['Em học khối lớp nào? (6, 7, 8 hoặc 9)',1],['Những môn thể thao em thích (chọn tất cả môn phù hợp)',2],['Tỉnh/thành phố nơi em sống (63 lựa chọn)',3]],
+  why:'Một lựa chọn → radio; nhiều lựa chọn → check box; danh sách dài → danh sách thả xuống; thông tin tự do → ô văn bản.'},
+],
+c6:[
+ {id:'c6a',src:'Slide 51',type:'choice',n:3,q:'Bạn đang tạo một cuộc khảo sát để thu thập phản hồi từ bạn bè về một Blog mới mà bạn muốn xuất bản về trượt ván. Ba câu hỏi nào là thích hợp để hỏi trong một cuộc khảo sát để giúp bạn tạo một Blog mới?',
+  opts:['Họ sẽ trả bao nhiêu cho một ván trượt.','Phim lướt sóng hay nhất.','Thương hiệu yêu thích của ván trượt.','Đề xuất tiêu đề.','Thủ thuật họ muốn học.'],ans:[1,2,4],
+  why:'Blog cần biết sở thích và nội dung người đọc muốn xem. Giá mua ván là câu hỏi bán hàng, không giúp xây dựng nội dung. “Đề xuất tiêu đề” là yêu cầu sáng tạo hộ, không phải phản hồi về nhu cầu người đọc.'},
+ {id:'c6b',src:'Slide 52',type:'choice',n:2,q:'Một cô gái xây dựng trang Web đầu tiên. Cô gái phải suy nghĩ về thiết kế và chức năng. Vì vậy, cô ấy đang tìm kiếm phản hồi để cung cấp thông tin và cải thiện việc học của mình. Hai ví dụ nào về cách người dùng có thể tìm kiếm phản hồi hiệu quả để cung cấp thông tin và cải thiện việc học của họ?',
+  opts:['Chạy quảng cáo trên trang Web và theo dõi số lượng nhấp chuột được thu thập.','Gửi một cuộc khảo sát mời người dùng đưa ra phản hồi về trang Web.','Đọc một cuốn sách hay về thiết kế trang Web.','Nhờ người có chuyên môn xem xét trang Web và đưa ra phản hồi.'],ans:[1,3],
+  why:'Phản hồi cần đến từ người dùng thật (khảo sát) hoặc người có chuyên môn xem trang. Số lần nhấp quảng cáo không cho biết thiết kế tốt hay chưa; đọc sách là tự học, không phải phản hồi về trang của mình.'},
+ {id:'c6c',src:'Slide 53',type:'tf',labels:['Có','Không'],q:'Công ty của bạn muốn cải tiến thiết kế của chiếc xe chạy bằng điện mà công ty sản xuất. Bạn cần khảo sát những khách hàng lẻ đã mua xe và cung cấp phản hồi hữu ích để giúp công ty đạt được mục tiêu nói trên. Với mỗi câu hỏi, hãy chọn Có nếu câu hỏi này mang đến phản hồi hữu ích hoặc Không nếu không.',
+  items:[['Bạn có thích phương tiện này không?',1],['Điều gì có thể cải thiện phương tiện này?',0],['Các tính năng quan trọng nhất của xe là gì?',0],['Bạn có muốn giới thiệu phương tiện đi lại này cho một người bạn không?',1]],
+  why:'Mục tiêu là <b>cải tiến thiết kế</b>. “Có thích không?” và “có giới thiệu không?” chỉ cho câu trả lời Có/Không, không chỉ ra cần sửa gì. Hai câu còn lại nói rõ cần cải thiện gì và tính năng nào quan trọng.'},
+ {id:'c6d',src:'Slide 54',type:'tf',labels:['Đúng','Sai'],q:'Người sử dụng lao động đã giao bạn phụ trách viết bản tin hàng tháng cho công ty của bạn. Cô ấy yêu cầu bạn mời tất cả nhân viên đóng góp ý kiến về những gì họ muốn đưa vào bản tin mỗi tháng. Công ty của bạn có hơn 200 nhân viên ở bốn vị trí địa lý. Các phương pháp khác nhau mà bạn có thể sử dụng để thu thập phản hồi từ các nhân viên khác là gì? Đối với mỗi phát biểu về việc thu thập câu trả lời, hãy chọn Đúng nếu phù hợp hoặc Sai nếu không phù hợp.',
+  items:[['Viết Blog về công việc mà người sử dụng lao động đã giao cho bạn.',1],['Yêu cầu mọi người trên mạng xã hội đăng ý tưởng của họ.',1],['Gửi một cuộc khảo sát qua Email cho tất cả nhân viên của công ty.',0],['Đăng biểu mẫu trên trang Web của công ty và mời tất cả nhân viên hoàn thành biểu mẫu.',0]],
+  why:'Viết blog là nói, không phải thu thập ý kiến. Đăng trên mạng xã hội công khai khó kiểm soát và lẫn người ngoài công ty. Email và biểu mẫu trên web công ty đến được đúng 200 nhân viên ở mọi địa điểm và dễ tổng hợp.'},
+ {id:'c6f',type:'choice',n:1,q:'Câu “Bạn có thích ứng dụng này không?” khó giúp cải tiến ứng dụng. Cách viết lại nào hữu ích nhất?',
+  opts:['Phần nào của ứng dụng gây khó khăn nhất cho bạn và vì sao?','Bạn có thích không? Trả lời Có hoặc Không.','Ứng dụng này tuyệt vời, đúng không?','Bạn bao nhiêu tuổi?'],ans:[0],
+  why:'Câu hỏi cụ thể, mở, bám mục tiêu cải tiến sẽ cho thông tin để sửa. Câu C là câu hỏi gợi ý đáp án.'},
+ {id:'c6e',type:'tf',labels:['Mở','Đóng'],q:'Mỗi câu hỏi khảo sát sau là câu hỏi mở (trả lời tự do) hay câu hỏi đóng (chọn trong các lựa chọn có sẵn)?',
+  items:[['Em muốn bổ sung điều gì vào bản tin?',0],['Em thích màu nào nhất: đỏ, xanh, vàng hay tím?',1],['Em có hài lòng với ứng dụng không? (Có/Không)',1],['Hãy mô tả khó khăn lớn nhất khi em dùng ứng dụng.',0]],
+  why:'Câu hỏi mở cho ý kiến chi tiết; câu hỏi đóng dễ tổng hợp số liệu. Tùy mục tiêu mà chọn loại phù hợp.'}
+
+]
+};
+
+
+/* ---------- state ---------- */
+const KEY='k7_b12_13_du_lieu_truc_tuyen';
+let done={};
+try{done=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){done={}}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(done))}catch(e){}};
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const L='ABCDE';
+
+/* ---------- render ---------- */
+function build(ch){
+  const host=$('.qs[data-ch="'+ch+'"]');
+  const list=BANK[ch];
+  const orig=list.filter(q=>q.src), extra=list.filter(q=>!q.src);
+  if(orig.length){host.insertAdjacentHTML('beforeend','<div class="qhead" style="color:var(--ink)">Câu hỏi từ slide</div>');orig.forEach(q=>host.append(card(q)))}
+  if(extra.length){host.insertAdjacentHTML('beforeend','<div class="qhead" style="color:var(--gold)">Luyện thêm</div>');extra.forEach(q=>host.append(card(q)))}
+}
+function card(q){
+  const el=document.createElement('div');
+  el.className='q'+(q.src?'':' extra');
+  el.dataset.id=q.id;
+  const hint=q.type==='choice'&&q.n>1?'<small>(Chọn '+q.n+')</small>':'';
+  let inner='';
+  if(q.type==='choice'){
+    inner=q.opts.map((o,i)=>'<button type="button" class="opt" aria-pressed="false" data-i="'+i+'"><span class="k">'+L[i]+'</span><span>'+o+'</span></button>').join('');
+    const short=q.opts.every(o=>o.replace(/<svg[\s\S]*?<\/svg>|<[^>]+>/g,'').trim().length<=40);
+    inner='<div class="opts'+(short?' cols':'')+'">'+inner+'</div>';
+  }else if(q.type==='tf'){
+    inner=q.items.map((it,i)=>'<div class="sub" data-i="'+i+'"><div class="st">'+it[0]+'</div><div class="tg">'+q.labels.map((l,j)=>'<button type="button" class="btn" aria-pressed="false" data-j="'+j+'">'+l+'</button>').join('')+'</div></div>').join('');
+  }else if(q.type==='order'){
+    inner='<div class="ord-lab">Bấm thẻ để xếp vào ô (bấm lại thẻ đã xếp để bỏ ra)</div><div class="oslots">'+q.steps.map((s,i)=>'<div class="oslot" data-n="'+(i+1)+'"></div>').join('')+'</div><div class="opool">'+q.shuf.map(k=>'<button type="button" class="ocard" data-k="'+k+'"><span class="oimg">'+q.steps[k].svg+'</span><span class="otx">'+q.steps[k].t+'</span></button>').join('')+'</div>';
+  }else{
+    inner=q.rows.map((r,i)=>'<div class="sub" data-i="'+i+'"><div class="st">'+r[0]+'</div><select aria-label="Lựa chọn '+(i+1)+'"><option value="">— chọn —</option>'+q.opts.map((o,j)=>'<option value="'+j+'">'+o+'</option>').join('')+'</select></div>').join('');
+  }
+  el.innerHTML='<span class="tag">'+(q.src||'Luyện thêm')+'</span><div class="body"><div class="qt">'+q.q+' '+hint+'</div>'+inner+
+    '<div class="act"><button type="button" class="btn pri chk">Kiểm tra</button><button type="button" class="btn rst" style="display:none">Làm lại</button></div><div class="fb" role="status"></div></div>';
+  wire(el,q);
+  if(done[q.id]) el.classList.add('was');
+  return el;
+}
+function wire(el,q){
+  const chk=$('.chk',el), rst=$('.rst',el), fb=$('.fb',el);
+  el.addEventListener('click',e=>{
+    if(el.classList.contains('done'))return;
+    const oc=e.target.closest('.ocard');
+    if(oc){
+      if(oc.parentNode.classList.contains('oslot'))$('.opool',el).append(oc);
+      else{const s=$$('.oslot',el).find(x=>!x.querySelector('.ocard'));if(s)s.append(oc)}
+      return;
+    }
+    const o=e.target.closest('.opt');
+    if(o){
+      if(q.n===1) $$('.opt',el).forEach(x=>x.setAttribute('aria-pressed','false'));
+      o.setAttribute('aria-pressed',o.getAttribute('aria-pressed')==='true'?'false':'true');
+      return;
+    }
+    const b=e.target.closest('.tg .btn');
+    if(b){$$('.btn',b.parentNode).forEach(x=>x.setAttribute('aria-pressed','false'));b.setAttribute('aria-pressed','true')}
+  });
+  chk.onclick=()=>{
+    let ok=false,msg='',xtra='';
+    if(q.type==='choice'){
+      const sel=$$('.opt[aria-pressed=true]',el).map(x=>+x.dataset.i);
+      if(!sel.length){msg='Em hãy chọn đáp án trước.';return flash(fb,msg)}
+      ok=sel.length===q.ans.length&&q.ans.every(a=>sel.includes(a));
+      $$('.opt',el).forEach(x=>{const i=+x.dataset.i,s=sel.includes(i),a=q.ans.includes(i);
+        if(s&&a)x.classList.add('right'); else if(s&&!a)x.classList.add('wrong'); else if(!s&&a)x.classList.add('miss')});
+    }else if(q.type==='tf'){
+      const rows=$$('.sub',el); ok=true;
+      for(const r of rows){if(!$('.btn[aria-pressed=true]',r)){return flash(fb,'Em hãy trả lời tất cả các dòng.')}}
+      rows.forEach((r,i)=>{const v=+$('.btn[aria-pressed=true]',r).dataset.j,good=v===q.items[i][1];
+        r.classList.add(good?'right':'wrong'); if(!good)ok=false});
+    }else if(q.type==='order'){
+      const slots=$$('.oslot',el); ok=true;
+      if(slots.some(s=>!s.querySelector('.ocard')))return flash(fb,'Em hãy xếp đủ cả 4 bước vào các ô.');
+      slots.forEach((s,i)=>{const good=+s.querySelector('.ocard').dataset.k===i;s.classList.add(good?'right':'wrong');if(!good)ok=false});
+      if(!ok)xtra='<p><b>Thứ tự đúng:</b> '+q.steps.map((s,i)=>(i+1)+'. '+s.t).join(' → ')+'</p>';
+    }else{
+      const rows=$$('.sub',el); ok=true;
+      for(const r of rows){if($('select',r).value===''){return flash(fb,'Em hãy chọn cho tất cả các dòng.')}}
+      rows.forEach((r,i)=>{const v=+$('select',r).value,good=v===q.rows[i][1];
+        r.classList.add(good?'right':'wrong'); if(!good)ok=false; if(!good)r.insertAdjacentHTML('beforeend','<div style="grid-column:1/-1;font-size:14px;color:var(--ok)">Đáp án: '+q.opts[q.rows[i][1]]+'</div>')});
+    }
+    if(q.type==='tf')$$('.sub',el).forEach((r,i)=>{if(r.classList.contains('wrong'))r.insertAdjacentHTML('beforeend','<div style="grid-column:1/-1;font-size:14px;color:var(--ok)">Đáp án: '+q.labels[q.items[i][1]]+'</div>')});
+    el.classList.add('done'); $$('select,.btn:not(.chk):not(.rst)',el).forEach(x=>{if(x.tagName==='SELECT')x.disabled=true});
+    fb.className='fb show '+(ok?'ok':'no');
+    fb.innerHTML='<strong>'+(ok?'Chính xác!':'Chưa đúng hoàn toàn.')+'</strong><p>'+q.why+'</p>'+xtra;
+    chk.style.display='none'; rst.style.display='';
+    if(ok)done[q.id]=1; else delete done[q.id];
+    save(); refresh();
+  };
+  rst.onclick=()=>{const n=card(q); el.replaceWith(n); delete done[q.id]; save(); refresh()};
+}
+function flash(fb,m){fb.className='fb show no';fb.innerHTML='<strong>'+m+'</strong>'}
+
+/* ---------- progress ---------- */
+const chapters=$$('.chapter');
+const total=Object.values(BANK).reduce((a,l)=>a+l.length,0);
+function refresh(){
+  const n=Object.keys(done).filter(k=>Object.values(BANK).flat().some(q=>q.id===k)).length;
+  $('#score').textContent=n;$('#total').textContent=total;$('#score2').textContent=n;$('#total2').textContent=total;
+  $('#barfill').style.width=(n/total*100)+'%';
+  chapters.forEach(c=>{const l=BANK[c.id];const a=$('#toc a[href="#'+c.id+'"]');
+    if(a)a.classList.toggle('full',l&&l.length&&l.every(q=>done[q.id]))});
+}
+$('#toc').innerHTML=chapters.map((c,i)=>'<li><a href="#'+c.id+'"><span class="n">'+(i+1)+'</span><span>'+c.dataset.title+'</span><span class="t">✓</span></a></li>').join('')+
+  '<li><a href="#end"><span class="n">★</span><span>Tổng kết</span><span class="t"></span></a></li>';
+Object.keys(BANK).forEach(build);
+refresh();
+function resetAll(){done={};save();$$('.qs').forEach(h=>h.innerHTML='');Object.keys(BANK).forEach(build);refresh();window.scrollTo({top:0}) }
+$('#resetall').onclick=resetAll;
+$('#replay').onclick=()=>{if(!Object.keys(done).length||confirm('Xóa kết quả và làm lại từ đầu?'))resetAll()};
+// bài đã làm đúng trước đó: nhắc nhẹ trên thẻ
+$$('.q.was .tag').forEach(t=>t.textContent+=' · đã đúng ✓');
+
+/* highlight current chapter in the contents list */
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){$$('#toc a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+e.target.id))}})},{rootMargin:'-20% 0px -70% 0px'});
+[...chapters,$('#end')].forEach(s=>io.observe(s));
+
+/* ---------- theme (mặc định: sáng) ---------- */
+function applyTheme(t){
+  if(t==='dark')document.documentElement.setAttribute('data-theme','dark');else document.documentElement.removeAttribute('data-theme');
+  $('#themeico').textContent=t==='dark'?'☾':'☀';$('#themetxt').textContent=t==='dark'?'Giao diện tối':'Giao diện sáng';
+  try{localStorage.setItem('k7_theme',t)}catch(e){}
+}
+applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'dark':'light');
+$('#theme').onclick=()=>applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');
+
+/* ---------- simulator: sàn thương mại điện tử ---------- */
+const DB=[
+ {id:1,ten:'Ốp lưng điện thoại nắp gập',loai:'Điện thoại',gia:35000,ban:'1,2k',img:'op-lung.jpg'},
+ {id:2,ten:'Tai nghe chụp tai không dây',loai:'Điện thoại',gia:199000,ban:'850',img:'tai-nghe.jpg'},
+ {id:3,ten:'Giày chạy bộ siêu nhẹ',loai:'Thời trang',gia:259000,ban:'640',img:'giay-chay-bo.jpg'},
+ {id:4,ten:'Mũ lưỡi trai thể thao',loai:'Thời trang',gia:69000,ban:'2,3k',img:'mu-luoi-trai.jpg'},
+ {id:5,ten:'Sách lập trình Python cơ bản',loai:'Sách',gia:55000,ban:'320',img:'sach-python.jpg'},
+ {id:6,ten:'Truyện thiếu nhi (trọn bộ)',loai:'Sách',gia:120000,ban:'1,1k',img:'truyen.jpg'}];
+const EXTRA=[
+ {ten:'Cáp sạc nhanh dài 1m',loai:'Điện thoại',gia:49000,ban:'0',img:'cap-sac.jpg'},
+ {ten:'Tai nghe nhét tai Bluetooth',loai:'Điện thoại',gia:149000,ban:'0',img:'tai-nghe-nhet.jpg'},
+ {ten:'Giày thể thao trẻ em',loai:'Thời trang',gia:179000,ban:'0',img:'giay-tre-em.jpg'}];
+const STATIC_PAGES={
+ 'gioi-thieu':'<h4>Chào mừng đến Thư viện trường</h4><p>Thư viện có hơn 5.000 đầu sách giáo khoa, truyện và sách tham khảo dành cho học sinh khối 6–9. Mỗi bạn có thể mượn tối đa 2 cuốn trong 14 ngày.</p>',
+ 'gio-mo-cua':'<h4>Giờ mở cửa</h4><table><tr><th>Ngày</th><th>Giờ</th></tr><tr><td>Thứ hai – Thứ sáu</td><td>7:00 – 16:30</td></tr><tr><td>Thứ bảy</td><td>7:00 – 11:30</td></tr><tr><td>Chủ nhật</td><td>Đóng cửa</td></tr></table>',
+ 'noi-quy':'<h4>Nội quy thư viện</h4><ul><li>Giữ trật tự, nói nhỏ.</li><li>Không mang đồ ăn, nước uống vào khu đọc.</li><li>Giữ gìn sách, không viết vẽ lên sách.</li><li>Trả sách đúng hạn.</li></ul>'};
+const vnd=n=>n.toLocaleString('vi-VN')+'₫';
+let sim={page:'gioi-thieu',mode:'dyn',cat:'',q:'',cart:0,extra:0};
+function drawSim(){
+  const dyn=sim.mode==='dyn';
+  const rows=dyn?DB.filter(b=>(!sim.cat||b.loai===sim.cat)&&(!sim.q||b.ten.toLowerCase().includes(sim.q.toLowerCase()))):DB;
+  const qs=[];if(dyn&&sim.cat)qs.push('loai='+encodeURIComponent(sim.cat));if(dyn&&sim.q)qs.push('q='+encodeURIComponent(sim.q));
+  $('#simurl').textContent=dyn?'https://chovui.example/tim-kiem'+(qs.length?'?'+qs.join('&'):''):'https://thuvien.example/'+sim.page+'.html';
+  $('.shop').hidden=!dyn;$('#simstat').hidden=dyn;
+  $('#stbody').innerHTML=STATIC_PAGES[sim.page]+'<p class="st-note">Trang này là một tệp .html viết sẵn: ai mở cũng thấy giống hệt nhau.</p>';
+  $$('#stnav button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.p===sim.page)));
+  $('#simbooks').innerHTML=rows.length?rows.map(b=>'<div class="sh-card"><div class="sh-img"><img src="img/shop/'+b.img+'" alt="'+b.ten+'" loading="lazy">'+(b.id>6?'<em>Mới</em>':'')+'</div><div class="sh-name">'+b.ten+'</div><div class="sh-price">'+vnd(b.gia)+'</div><div class="sh-sold">Đã bán '+b.ban+'</div><button type="button" class="sh-buy" data-buy="'+b.id+'"'+(dyn?'':' disabled')+'>Thêm vào giỏ</button></div>').join(''):'<div class="sh-none">Không tìm thấy sản phẩm nào khớp.</div>';
+  $$('#simtools button').forEach(b=>{b.disabled=!dyn;b.setAttribute('aria-pressed',String(b.dataset.cat===sim.cat))});
+  $('#simq').disabled=!dyn;
+  $('#simadd').disabled=!dyn||sim.extra>=EXTRA.length;
+  $('#simcart').textContent=sim.cart;
+  $('#simbanner').textContent='Tìm thấy '+rows.length+' sản phẩm'+(sim.cat?' trong “'+sim.cat+'”':'')+(sim.q?' cho “'+sim.q+'”':'');
+  $('#m-static').setAttribute('aria-pressed',String(!dyn));$('#m-dyn').setAttribute('aria-pressed',String(dyn));
+  $('#simhint').textContent=dyn?'Mỗi lần bấm danh mục hoặc gõ tìm kiếm, nội dung trang thay đổi theo hành động của người mua (trang động). Thử bấm “Người bán đăng thêm sản phẩm”: trang tự có hàng mới, không ai sửa tệp HTML.':'Trang tĩnh: mỗi trang là một tệp .html viết sẵn, ai mở cũng thấy giống nhau. Bấm các mục Giới thiệu, Giờ mở cửa, Nội quy để thấy mỗi mục là một tệp riêng. Muốn đổi giờ mở cửa, quản trị viên phải sửa tệp rồi tải lên lại. Chuyển sang “Trang động” để so sánh.';
+}
+$('#stnav').addEventListener('click',e=>{const b=e.target.closest('[data-p]');if(b){sim.page=b.dataset.p;drawSim()}});
+$('#m-static').onclick=()=>{sim.mode='static';drawSim()};
+$('#m-dyn').onclick=()=>{sim.mode='dyn';drawSim()};
+$('#simtools').addEventListener('click',e=>{const b=e.target.closest('[data-cat]');if(b&&!b.disabled){sim.cat=b.dataset.cat;drawSim()}});
+$('#simq').addEventListener('input',e=>{sim.q=e.target.value.trim();drawSim()});
+$('#simbooks').addEventListener('click',e=>{const b=e.target.closest('[data-buy]');if(b&&!b.disabled){sim.cart++;drawSim()}});
+$('#simadd').onclick=()=>{const x=EXTRA[sim.extra++];DB.push({id:DB.length+1,...x});drawSim()};
+drawSim();
+
+/* ---------- demo 4: form ---------- */
+$('#demoform').addEventListener('submit',e=>{
+  e.preventDefault();
+  let ok=true;
+  $$('#demoform [data-req]').forEach(i=>{
+    const bad=!i.value.trim();i.classList.toggle('bad',bad);
+    i.parentNode.querySelector('.err').textContent=bad?i.dataset.req+' là trường bắt buộc (*).':'';if(bad)ok=false});
+  const g=($('input[name=g]:checked')||{}).value;
+  $('#fg .err').textContent=g?'':'Khối lớp là trường bắt buộc (*).';if(!g)ok=false;
+  const out=$('#formout');
+  if(!ok){out.style.display='none';return}
+  const c=$$('input[name=c]:checked').map(x=>x.value),s=$('#fs').value;
+  out.style.display='block';
+  out.textContent='Đã gửi! Dữ liệu được ghi lại: '+$('#fn').value.trim()+' · lớp '+g+' · '+(c.length?c.join(', '):'chưa chọn môn')+' · '+(s||'chưa chọn cơ sở');
+});
+</script>
+</body>
+</html>
