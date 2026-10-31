@@ -88,8 +88,9 @@ button{font:inherit;color:inherit}
 .cham.xong{background:var(--luc);border-color:var(--luc);color:#fff}
 .thanh{flex:1;height:8px;border-radius:99px;background:#C3D6F3;overflow:hidden}
 .thanh i{display:block;height:100%;width:0;background:linear-gradient(90deg,#5B9BF2,#157F4A);transition:width .4s}
-.so-bai{font-size:.9rem;font-weight:700;color:var(--xanh-sang);letter-spacing:.05em;text-transform:uppercase}
 .bang h2{font-family:"Baloo 2",sans-serif;font-weight:800;font-size:1.8rem;color:var(--xanh-dam);margin:0 0 .2rem;line-height:1.2}
+.yeu-cau-hop{margin:0 -.8rem 1rem;padding:.8rem .8rem .4rem;background:#FEF0F0;border-radius:0}
+.yeu-cau{margin:0;color:var(--muc);font-size:1.05rem}
 .muc-tieu{margin:0 0 .8rem;color:var(--mo);font-size:1.05rem}
 .cach-hoc-hop{position:absolute;left:1.4rem;right:1.4rem;top:4.6rem;z-index:10;background:#fff;border:1px solid #9bb3d9;border-radius:12px;box-shadow:0 12px 28px rgba(20,58,140,.28);padding:.8rem 1rem;color:var(--xanh-dam);font-size:1rem}
 .cach-hoc-hop[hidden]{display:none}
@@ -102,6 +103,8 @@ button{font:inherit;color:inherit}
 .nv-dau #demBuoc{font-size:.92rem;color:var(--mo);font-weight:600}
 .buoc{list-style:none;padding:0;margin:0 0 .9rem;display:flex;flex-direction:column;gap:.45rem}
 .buoc li{display:flex;gap:.55rem;align-items:flex-start;padding:.5rem .65rem;border-radius:10px;background:#F2F6FD;font-size:1.05rem}
+.buoc li>span:last-child{flex:1;text-align:justify}
+.yeu-cau,.goi{text-align:justify}
 .buoc li .o{flex:none;width:26px;height:26px;border-radius:50%;border:2px solid #B9CBEA;background:#fff;display:flex;align-items:center;justify-content:center;font-size:.8rem;color:#fff;margin-top:1px}
 .buoc li.ok{background:var(--luc-nhat)}
 .buoc li.ok .o{background:var(--luc);border-color:var(--luc)}
@@ -123,8 +126,14 @@ button{font:inherit;color:inherit}
 .muc{padding:1.2rem 1.4rem}
 .muc-thong-tin{background:var(--xanh-nhat);border-bottom:1px solid #C9D9F2;flex:none}
 .muc-nhiem-vu{flex:1;overflow-y:auto;min-height:0}
-.muc-chuyen{flex:none;display:flex;justify-content:space-between;gap:.6rem;border-top:1px solid #DCE5F3;background:#F7FAFF;padding:.9rem 1.4rem}
-.muc-chuyen .nut{flex:1}
+.muc-chuyen{flex:none;display:flex;flex-wrap:nowrap;justify-content:space-between;gap:.4rem;border-top:1px solid #DCE5F3;background:#F7FAFF;padding:.9rem 1.4rem}
+.muc-chuyen .nut{flex:1 1 0;min-width:0;padding:.6rem .3rem;font-size:.9rem;white-space:nowrap}
+.muc-chuyen .hang-nut{display:contents}
+#nutGoiY{background:#F5B73B;color:#4a3203;box-shadow:0 3px 0 #B27C0E}
+#nutLai{background:#F28B82;color:#fff;box-shadow:0 3px 0 #C2554C}
+#nutTruoc,#nutSau{background:var(--xanh-sang);color:#fff;box-shadow:0 3px 0 var(--xanh-dam)}
+#nutTruoc:disabled,#nutSau:disabled{background:#E3E9F3;color:#8A97AD;box-shadow:0 3px 0 #C9D2E2}
+
 
 .chuc-mung{position:fixed;inset:0;background:rgba(20,40,90,.55);display:none;align-items:center;justify-content:center;z-index:50;padding:1rem}
 .chuc-mung.hien{display:flex}
@@ -330,25 +339,28 @@ kbd{background:#fff;border:1px solid #B9CBEA;border-bottom-width:2px;border-radi
           <div class="tien-do" id="tienDo"></div>
         </div>
         <div class="cach-hoc-hop" id="cachHoc" hidden><strong>📖 Cách học</strong><ol class="cach-hoc"><li>Đọc <strong>nhiệm vụ</strong> bên dưới.</li><li>Thực hành trực tiếp trên <strong>cửa sổ Word</strong> bên trái.</li><li>Làm đúng thì bước sẽ tự <strong>tick ✓</strong>.</li><li>Tick hết các bước là hoàn thành, nhấn <strong>Bài sau</strong>.</li></ol></div>
-        <div class="so-bai" id="soBai"></div>
         <h2 id="tenBai"></h2>
         <p class="muc-tieu" id="mucTieu"></p>
       </section>
 
       <!-- 2. Nhiệm vụ -->
       <section class="muc muc-nhiem-vu" aria-label="Nhiệm vụ">
+        <div class="yeu-cau-hop">
+          <div class="nv-dau"><span>🎯 Yêu cầu</span></div>
+          <p class="yeu-cau" id="yeuCau"></p>
+        </div>
         <div class="nv-dau"><span>📋 Nhiệm vụ</span><span id="demBuoc"></span></div>
         <ul class="buoc" id="buoc"></ul>
         <div class="goi" id="goi"></div>
         <div class="phan-hoi" id="phanHoi"></div>
+      </section>
+
+      <!-- 3. Gợi ý, làm lại và chuyển bài -->
+      <section class="muc muc-chuyen" aria-label="Chuyển bài">
         <div class="hang-nut">
           <button class="nut goi-nut" id="nutGoiY">💡 Gợi ý</button>
           <button class="nut phu" id="nutLai">↺ Làm lại</button>
         </div>
-      </section>
-
-      <!-- 3. Chuyển bài -->
-      <section class="muc muc-chuyen" aria-label="Chuyển bài">
         <button class="nut phu" id="nutTruoc">‹ Bài trước</button>
         <button class="nut" id="nutSau">Bài sau ›</button>
       </section>
@@ -417,7 +429,7 @@ kbd{background:#fff;border:1px solid #B9CBEA;border-bottom-width:2px;border-radi
   });
 
   const BAI = [
-    { ten:'Nhập văn bản', mt:'Gõ chữ vào trang giấy bằng bàn phím.',
+    { ten:'Nhập văn bản', mt:'Gõ chữ vào trang giấy bằng bàn phím.', yc:'Gõ câu “' + MAU1 + '” vào trang giấy.',
       html:'<p><br></p>', khoa:false, dung:[],
       buoc:[
         {nd:'Nhấp chuột vào trang giấy để đặt con trỏ.', chot:true,
@@ -426,7 +438,7 @@ kbd{background:#fff;border:1px solid #B9CBEA;border-bottom-width:2px;border-radi
          test:() => chuan(textGiay()).includes(chuan(MAU1)), goiY:'Gõ chính xác từng chữ: “' + MAU1 + '”. Viết hoa chữ H và W bằng phím Shift. Gõ sai thì nhấn Backspace để xóa.', dich:'#giay'}
       ]
     },
-    { ten:'Chọn văn bản', mt:'Bôi đen một từ, một câu và toàn bộ văn bản.',
+    { ten:'Chọn văn bản', mt:'Bôi đen một từ, một câu và toàn bộ văn bản.', yc:'Chọn một từ, một câu và toàn bộ văn bản.',
       html:html(DOAN2), khoa:true, dung:[],
       buoc:[
         {nd:'Chọn <strong>một từ</strong>: nhấp đúp vào một từ bất kỳ.', chot:true,
@@ -440,7 +452,7 @@ kbd{background:#fff;border:1px solid #B9CBEA;border-bottom-width:2px;border-radi
          goiY:'Nhấp vào trang giấy, giữ phím Ctrl rồi nhấn phím A. Cả 3 câu sẽ được bôi xanh.', dich:'#giay'}
       ]
     },
-    { ten:'In đậm (Bold)', mt:'Chọn chữ rồi dùng nút B trên thẻ Home.',
+    { ten:'In đậm (Bold)', mt:'Chọn chữ rồi dùng nút B trên thẻ Home.', yc:'In đậm chữ “Word” trong văn bản.',
       html:html(['Word là phần mềm soạn thảo văn bản.','Em đang học cách in đậm chữ.']), khoa:true, dung:['bold'],
       buoc:[
         buocChonTu('Word', chuDam),
@@ -449,7 +461,7 @@ kbd{background:#fff;border:1px solid #B9CBEA;border-bottom-width:2px;border-radi
          goiY:'Tìm nút chữ <strong>B</strong> đậm trong nhóm Font trên thanh Ribbon rồi nhấn vào. Nếu nhấn nhầm, nhấn B lần nữa để bỏ in đậm và chọn lại chữ Word.', dich:'#nutB'}
       ]
     },
-    { ten:'In nghiêng (Italic)', mt:'Chọn chữ rồi dùng nút I để làm chữ nghiêng.',
+    { ten:'In nghiêng (Italic)', mt:'Chọn chữ rồi dùng nút I để làm chữ nghiêng.', yc:'In nghiêng chữ “nghiêng” trong văn bản.',
       html:html(['Chữ nghiêng làm câu văn thêm duyên dáng.','Em hãy thử ngay nhé.']), khoa:true, dung:['italic'],
       buoc:[
         buocChonTu('nghiêng', chuNghieng),
@@ -458,7 +470,7 @@ kbd{background:#fff;border:1px solid #B9CBEA;border-bottom-width:2px;border-radi
          goiY:'Tìm nút chữ <em>I</em> nghiêng, nằm cạnh nút B trong nhóm Font, rồi nhấn vào.', dich:'#nutI'}
       ]
     },
-    { ten:'Gạch chân (Underline)', mt:'Chọn chữ rồi dùng nút U để gạch chân.',
+    { ten:'Gạch chân (Underline)', mt:'Chọn chữ rồi dùng nút U để gạch chân.', yc:'Gạch chân cho chữ “chính” trong văn bản.',
       html:html(['Gạch chân giúp ý chính nổi bật.','Em hãy thử gạch chân nhé.']), khoa:true, dung:['underline'],
       buoc:[
         buocChonTu('chính', chuGachChan),
@@ -467,7 +479,7 @@ kbd{background:#fff;border:1px solid #B9CBEA;border-bottom-width:2px;border-radi
          goiY:'Tìm nút chữ <u>U</u> có gạch dưới, nằm cạnh nút I trong nhóm Font, rồi nhấn vào.', dich:'#nutU'}
       ]
     },
-    { ten:'Đổi cỡ chữ', mt:'Làm tiêu đề to hơn bằng ô Font Size.',
+    { ten:'Đổi cỡ chữ', mt:'Làm tiêu đề to hơn bằng ô Font Size.', yc:'Đổi cỡ chữ của dòng tiêu đề thành 24.',
       html:html([TIEU1,'Hôm nay chúng ta học Word.']), khoa:true, dung:['size'],
       buoc:[
         {nd:'Chọn <strong>cả dòng tiêu đề</strong> (nhấp ba lần vào dòng “' + TIEU1 + '”).', chot:true,
@@ -478,7 +490,7 @@ kbd{background:#fff;border:1px solid #B9CBEA;border-bottom-width:2px;border-radi
          goiY:'Nhấn vào ô số (đang ghi 11) trong nhóm Font, chọn số <strong>24</strong> trong danh sách. Hoặc nhấn nút <strong>A▲</strong> vài lần.', dich:'#hopCo'}
       ]
     },
-    { ten:'Đổi màu chữ', mt:'Tô màu đỏ cho một từ bằng nút Font Color.',
+    { ten:'Đổi màu chữ', mt:'Tô màu đỏ cho một từ bằng nút Font Color.', yc:'Đổi chữ “đỏ” trong văn bản thành màu đỏ.',
       html:html(['Hoa hồng màu đỏ, lá cây màu xanh.','Em hãy tô màu thật đẹp nhé.']), khoa:true, dung:['color'],
       buoc:[
         buocChonTu('đỏ', chuMau),
@@ -487,7 +499,7 @@ kbd{background:#fff;border:1px solid #B9CBEA;border-bottom-width:2px;border-radi
          goiY:'Nhấn nút chữ A có thanh màu bên dưới trong nhóm Font, rồi chọn ô màu <strong>đỏ</strong> trong bảng màu.', dich:'#nutMau'}
       ]
     },
-    { ten:'Căn lề văn bản', mt:'Căn giữa dòng tiêu đề bằng các nút căn lề.',
+    { ten:'Căn lề văn bản', mt:'Căn giữa dòng tiêu đề bằng các nút căn lề.', yc:'Căn giữa dòng tiêu đề “THIỆP MỜI”.',
       html:html(['THIỆP MỜI','Mời các bạn đến lớp học Word vào thứ Hai.']), khoa:true,
       dung:['justifyLeft','justifyCenter','justifyRight','justifyFull'],
       buoc:[
@@ -499,7 +511,7 @@ kbd{background:#fff;border:1px solid #B9CBEA;border-bottom-width:2px;border-radi
          goiY:'Tìm nút có các vạch ngắn ở giữa (nút thứ hai) trong hàng căn lề của nhóm Paragraph rồi nhấn vào.', dich:'[data-cmd="justifyCenter"]'}
       ]
     },
-    { ten:'Sao chép và dán', mt:'Sao chép một câu rồi dán sang dòng bên dưới.',
+    { ten:'Sao chép và dán', mt:'Sao chép một câu rồi dán sang dòng bên dưới.', yc:'Sao chép câu đầu tiên và dán xuống dòng bên dưới.',
       html:html([CAU9, '']), khoa:true, dung:['copy','paste'],
       buoc:[
         {nd:'Chọn cả dòng <strong>' + CAU9 + '</strong> (nhấp ba lần).', chot:true,
@@ -513,7 +525,7 @@ kbd{background:#fff;border:1px solid #B9CBEA;border-bottom-width:2px;border-radi
          goiY:'Nhấp chuột vào dòng trống phía dưới câu để đặt con trỏ, rồi nhấn nút Paste lớn ở góc trái thanh Ribbon.', dich:'#nutPaste'}
       ]
     },
-    { ten:'Lưu tài liệu', mt:'Lưu bài làm vào thư mục Documents.',
+    { ten:'Lưu tài liệu', mt:'Lưu bài làm vào thư mục Documents.', yc:'Lưu tài liệu vào thư mục Documents với tên mới.',
       html:html(['Bài làm của em về Microsoft Word.']), khoa:true, dung:['save'],
       buoc:[
         {nd:'Nhấn biểu tượng <strong>💾 Save</strong> trên thanh tiêu đề (hoặc <kbd>Ctrl</kbd> + <kbd>S</kbd>) để mở hộp Save As.', chot:true,
@@ -544,16 +556,18 @@ kbd{background:#fff;border:1px solid #B9CBEA;border-bottom-width:2px;border-radi
   document.addEventListener('click', e => { if(!hopCH.hidden && !hopCH.contains(e.target)) moCH(false); });
 
   /* ---------- Hiển thị bảng nhiệm vụ ---------- */
+  let dauDay = 0; // số bài đầu tiên của cửa sổ 5 số; mũi tên chỉ dịch cửa sổ, không đổi bài
   function veTienDo(){
-    const dau = Math.max(0, Math.min(BAI.length-5, cur-2)); // cửa sổ 5 số bài quanh bài hiện tại
+    const toiDa = Math.max(0, BAI.length-5);
+    const dau = dauDay = Math.max(0, Math.min(toiDa, dauDay));
     const mui = (huong, d) => `<button type="button" class="mui-ten" data-mui="${huong}" ${d?'disabled':''} aria-label="${huong<0?'Bài trước':'Bài sau'}"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="${huong<0?'M15 5l-7 7 7 7':'M9 5l7 7-7 7'}" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>`;
-    $('#tienDo').innerHTML = mui(-1, cur===0)
+    $('#tienDo').innerHTML = mui(-1, dau===0)
       + BAI.map((b,i)=>i).filter(i=>i>=dau && i<dau+5).map(i=>{ const b = BAI[i];
           return `<button class="cham ${i===cur?'chon':''} ${THEO_DOI && xong.includes(i)?"xong":""}" data-i="${i}" aria-label="Bài ${i+1}: ${b.ten}">${THEO_DOI && xong.includes(i)?'✓':i+1}</button>`; }).join('')
-      + mui(1, cur===BAI.length-1)
+      + mui(1, dau===toiDa)
       + (THEO_DOI ? `<div class="thanh" title="Tiến độ"><i style="width:${xong.length/BAI.length*100}%"></i></div>` : "");
     $('#tienDo').querySelectorAll('.cham').forEach(b => b.onclick = () => vaoBai(+b.dataset.i));
-    $('#tienDo').querySelectorAll('.mui-ten').forEach(b => b.onclick = () => vaoBai(cur + +b.dataset.mui));
+    $('#tienDo').querySelectorAll('.mui-ten').forEach(b => b.onclick = () => { dauDay += +b.dataset.mui; veTienDo(); });
   }
   function veBuoc(){
     const b = BAI[cur];
@@ -579,6 +593,7 @@ kbd{background:#fff;border:1px solid #B9CBEA;border-bottom-width:2px;border-radi
   function vaoBai(i){
     cur = Math.max(0, Math.min(BAI.length-1, i));
     const b = BAI[cur];
+    dauDay = cur-2; // đưa bài hiện tại vào giữa cửa sổ số bài
     chotBuoc = []; daBao = false;
     bangTam = ''; daSaoChep = false; daMoLuu = false; thuMuc = ''; daLuu = false;
     dongPop(); dongHopLuu();
@@ -586,9 +601,9 @@ kbd{background:#fff;border:1px solid #B9CBEA;border-bottom-width:2px;border-radi
     document.querySelectorAll('[data-thumuc]').forEach(x => x.classList.remove('chon'));
     $('.ten-tep').textContent = 'Document1 - Word';
     giay.innerHTML = b.html;
-    $('#soBai').textContent = 'Bài ' + (cur+1) + ' / ' + BAI.length;
     $('#tenBai').textContent = b.ten;
     $('#mucTieu').textContent = b.mt;
+    $('#yeuCau').innerHTML = b.yc;
     anGoi(); anPhanHoi();
     veTienDo(); veBuoc();
     $('#nutTruoc').disabled = cur === 0;
@@ -611,7 +626,7 @@ kbd{background:#fff;border:1px solid #B9CBEA;border-bottom-width:2px;border-radi
     const b = BAI[cur], tt = trangThaiBuoc();
     let i = tt.findIndex(x => !x); if(i < 0) i = b.buoc.length - 1;
     const s = b.buoc[i];
-    $('#goi').innerHTML = '💡 <strong>Gợi ý:</strong> ' + s.goiY;
+    $('#goi').innerHTML = '💡 <strong>Gợi ý:</strong><br>' + s.goiY.replace(/([.!?])\s+(?=[A-ZĐÀÁẢÃẠĂÂÈÉẺẼẸÊÌÍỈĨỊÒÓỎÕỌÔƠÙÚỦŨỤƯỲÝỶỸỴ“<])/g, '$1<br>'); // mỗi câu một dòng
     $('#goi').classList.add('hien');
     const d = document.querySelector(s.dich); if(d) d.classList.add('goi-y');
   };
