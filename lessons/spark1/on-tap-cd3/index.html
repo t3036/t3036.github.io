@@ -1,0 +1,824 @@
+<!doctype html>
+<html lang="vi" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hải Đăng Trình Duyệt</title>
+<style>
+:root{
+  --fs:1;
+  --bg:#e9f3f7; --bg2:#d5e9f1; --card:#fbfdfe; --card2:#f0f6f9; --ink:#1f2d3d; --ink2:#4a5d70;
+  --line:#c3d6e0; --brand:#0e8f9b; --brand-ink:#ffffff; --sun:#f5a800; --ok:#23915a; --ok-bg:#dcf3e6;
+  --bad:#c8374e; --bad-bg:#fbe3e7; --pick:#d9eefb; --pick-line:#2b86c5; --shadow:0 4px 0 rgba(31,45,61,.10);
+  --ctl-w:208px;
+}
+:root[data-theme="dark"]{
+  --bg:#0e1a2b; --bg2:#14263d; --card:#182b45; --card2:#1f3554; --ink:#e4edf6; --ink2:#a9bccf;
+  --line:#33506f; --brand:#3cc3cf; --brand-ink:#08222a; --sun:#ffc83d; --ok:#4cc88a; --ok-bg:#16402f;
+  --bad:#ff7a8d; --bad-bg:#4a2230; --pick:#1d4468; --pick-line:#5db4f0; --shadow:0 4px 0 rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html{font-size:calc(20px * var(--fs))}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:ui-rounded,"Nunito","Segoe UI","Trebuchet MS",Arial,sans-serif;line-height:1.45;overflow:hidden}
+button,select{font:inherit;color:inherit}
+button{cursor:pointer}
+button:focus-visible,select:focus-visible,.zone:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+mark{background:color-mix(in srgb,var(--sun) 55%,transparent);color:inherit;border-radius:4px;padding:0 3px}
+#app{height:100dvh;display:flex;flex-direction:column;max-width:1800px;margin:0 auto;position:relative}
+
+/* ---- controls (fixed, top-right) ---- */
+#ctl{position:fixed;top:6px;right:8px;z-index:50;display:flex;gap:2px;background:var(--card);border:2px solid var(--line);border-radius:999px;padding:0 2px;box-shadow:var(--shadow)}
+#ctl button{width:48px;height:48px;border:0;background:transparent;border-radius:50%;font-size:1.15rem;font-weight:800}
+#ctl button:hover{background:var(--card2)}
+
+/* ---- HUD ---- */
+.hud{padding:8px 14px 6px;padding-right:calc(var(--ctl-w) + 18px);display:grid;gap:6px;flex:none;min-height:66px}
+.hud-top{display:flex;align-items:center;gap:10px;min-height:48px}
+.ibtn{width:48px;height:48px;border-radius:50%;border:2px solid var(--line);background:var(--card);font-size:1.2rem;flex:none;box-shadow:var(--shadow)}
+.hud-title{font-weight:800;font-size:1rem;line-height:1.2;min-width:0}
+.hud-title small{display:block;font-weight:600;color:var(--ink2)}
+.meter{grid-column:1/-1;padding:0 14px 10px;flex:none}
+.meter-row{display:flex;justify-content:space-between;font-weight:800;font-size:.95rem;margin-bottom:3px}
+.track{position:relative;height:22px;border-radius:999px;background:var(--card2);border:2px solid var(--line);overflow:visible}
+.track .fill{position:absolute;left:0;top:0;bottom:0;border-radius:999px 0 0 999px;background:linear-gradient(90deg,#ffd35a,var(--sun));transition:width .5s}
+.track .lost{position:absolute;right:0;top:0;bottom:0;background:repeating-linear-gradient(45deg,transparent 0 5px,color-mix(in srgb,var(--bad) 35%,transparent) 5px 8px);border-radius:0 999px 999px 0;transition:width .5s}
+.track .passline{position:absolute;top:-6px;bottom:-6px;width:0;border-left:3px dashed var(--brand)}
+.track .passline b{position:absolute;top:-1.15rem;left:50%;transform:translateX(-50%);font-size:.75rem;background:var(--brand);color:var(--brand-ink);border-radius:8px;padding:0 6px;white-space:nowrap}
+.meter{padding-top:14px}
+
+/* ---- main / panel / actions ---- */
+main{flex:1;min-height:0;overflow:auto;padding:6px 14px 10px}
+.panel[hidden]{display:none}
+.panel{margin:0;border:2px solid var(--line);background:var(--card);border-radius:18px;padding:10px 14px;font-size:1.05rem}
+.panel.ok{border-color:var(--ok);background:var(--ok-bg)}
+.panel.bad{border-color:var(--bad);background:var(--bad-bg)}
+.panel .hd{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.05rem;margin-bottom:2px}
+.panel .hint{margin:3px 0}
+.panel .ghost{color:var(--ink2)}
+.actions{flex:none;display:flex;gap:10px;padding:10px 14px 14px}
+.btn{min-height:52px;border-radius:16px;border:2px solid var(--line);background:var(--card);padding:0 18px;font-weight:800;box-shadow:var(--shadow)}
+.btn.main{background:var(--brand);color:var(--brand-ink);border-color:var(--brand);flex:1}
+.btn.hintb{background:#fff4cf;color:#5b4300;border-color:#e6bd3d}
+:root[data-theme="dark"] .btn.hintb{background:#4b3d12;color:#ffe49a;border-color:#a98516}
+.btn[disabled]{opacity:.45;cursor:not-allowed;box-shadow:none}
+.btn.ghostb{background:transparent;box-shadow:none}
+
+/* ---- question card ---- */
+.say{display:flex;gap:10px;align-items:center;margin-bottom:2px}
+.say svg{flex:none;width:42px;height:42px}
+.bubble{font-size:1.05rem !important;background:var(--card);border:2px solid var(--line);border-radius:6px 18px 18px 18px;padding:8px 12px;font-weight:600;color:var(--ink2);font-size:.95rem}
+.qcard{background:var(--card);border:2px solid var(--line);border-radius:20px;padding:10px 14px;box-shadow:var(--shadow)}
+.qtext{font-size:1.4rem;line-height:1.35;font-weight:800;margin:0 0 6px}
+.qhead{display:flex;gap:8px;align-items:flex-start;justify-content:space-between}
+.tts{flex:none;min-width:48px;height:48px;border-radius:14px;border:2px solid var(--line);background:var(--card2);font-weight:700;padding:0 10px;font-size:.85rem}
+.tts[disabled]{opacity:.55;cursor:not-allowed}
+.how{display:inline-flex;gap:6px;align-items:center;font-size:.85rem;font-weight:700;color:var(--ink2);margin-bottom:8px}
+.qimg{position:relative;display:block;width:fit-content;margin:6px auto 4px;max-width:100%;border-radius:12px;overflow:hidden;border:2px solid var(--line);touch-action:manipulation}
+.qimg.svg{width:min(100%,72vh)}
+.qimg.svg.sm{width:min(100%,46vh)}
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:center}
+.split .qimg.svg{width:min(100%,52vh);margin:0}
+@media (max-width:800px){.split{grid-template-columns:1fr}}
+.qimg img{display:block;max-width:100%;max-height:26vh;width:auto;height:auto;user-select:none;-webkit-user-drag:none}
+.opts{display:grid;gap:8px}
+.opt{display:flex;align-items:center;gap:10px;text-align:left;min-height:52px;padding:8px 12px;border-radius:14px;border:2px solid var(--line);background:var(--card2);font-weight:600}
+.opt .tag{flex:none;width:32px;height:32px;display:grid;place-items:center;border-radius:10px;background:var(--card);border:2px solid var(--line);font-weight:800}
+.multi .opt .tag{border-radius:6px}
+.opt.pick{background:var(--pick);border-color:var(--pick-line)}
+.opt.pick .tag{background:var(--pick-line);color:#fff;border-color:var(--pick-line)}
+.opt .ic{margin-left:auto;flex:none;width:30px;height:30px;display:none;place-items:center;color:#fff;font-weight:900}
+.opt.right{background:var(--ok-bg);border-color:var(--ok)}
+.opt.right .ic{display:grid;background:var(--ok);border-radius:50%}
+.opt.wrong{background:var(--bad-bg);border-color:var(--bad)}
+.opt.wrong .ic{display:grid;background:var(--bad);border-radius:7px;transform:rotate(45deg)}
+.opt.wrong .ic i{transform:rotate(-45deg);font-style:normal}
+.opt.locked{cursor:default}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:8px 0;border-top:2px dashed var(--line)}
+.row:first-of-type{border-top:0}
+.row .rt{flex:1 1 220px;font-weight:600}
+.seg{display:flex;gap:6px}
+.seg button{min-width:84px;min-height:48px;border-radius:12px;border:2px solid var(--line);background:var(--card2);font-weight:800}
+.seg button.pick{background:var(--pick);border-color:var(--pick-line)}
+select.sel{min-height:48px;border-radius:12px;border:2px solid var(--line);background:var(--card2);padding:0 10px;font-weight:700;max-width:100%}
+.row.right{border-radius:12px;background:var(--ok-bg)}
+.row.wrong{border-radius:12px;background:var(--bad-bg)}
+.rmark{width:30px;height:30px;display:none;place-items:center;color:#fff;font-weight:900}
+.row.right .rmark{display:grid;background:var(--ok);border-radius:50%}
+.row.wrong .rmark{display:grid;background:var(--bad);border-radius:7px}
+.fix{flex-basis:100%;font-size:.88rem;font-weight:700;color:var(--bad)}
+.mt{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mt .col{display:grid;gap:8px;align-content:start}
+.mt .opt{font-size:.92rem}
+.num{flex:none;min-width:28px;height:28px;border-radius:50%;display:none;place-items:center;background:var(--pick-line);color:#fff;font-weight:800;font-size:.85rem}
+.opt.paired .num{display:grid}
+.opt.sel1{outline:3px solid var(--sun)}
+.zone{position:absolute;border:0;background:transparent;border-radius:6px;padding:0}
+.zone:hover{outline:3px dashed var(--pick-line)}
+.zone.pick{outline:4px solid var(--pick-line);background:rgba(43,134,197,.22)}
+.zone.right{outline:4px solid var(--ok);background:rgba(35,145,90,.28)}
+.zone.wrong{outline:4px solid var(--bad);background:rgba(200,55,78,.25)}
+.dot{position:absolute;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;border:4px solid var(--pick-line);background:rgba(255,255,255,.7);pointer-events:none}
+.letters{display:flex;gap:8px;justify-content:center;margin-bottom:6px}
+.letters .opt{min-height:48px;padding:4px 14px}
+
+/* ---- screens ---- */
+.center{max-width:none;margin:0 auto}
+.narrow{max-width:760px}
+.qtext.long{font-size:1.15rem;font-weight:700}
+.qgrid{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;align-items:start}
+.bigmsg{font-size:1.3rem;font-weight:800;padding:24px 8px;text-align:center}
+.opt{font-size:1.05rem}
+
+.hero{display:flex;gap:16px;align-items:center;flex-wrap:wrap;justify-content:center;padding:8px 0}
+.hero svg.house{width:min(190px,40vw);height:auto;flex:none}
+.hero h1{margin:0;font-size:1.9rem;line-height:1.15}
+.hero p{margin:6px 0 0;color:var(--ink2);font-weight:600}
+.chs{display:grid;gap:12px;margin-top:10px}
+.ch{display:flex;gap:14px;align-items:center;text-align:left;border:2px solid var(--line);background:var(--card);border-radius:20px;padding:12px 14px;min-height:84px;box-shadow:var(--shadow);width:100%}
+.ch .em{font-size:2.2rem;width:56px;text-align:center;flex:none}
+.ch b{display:block;font-size:1.05rem}
+.ch span.s{color:var(--ink2);font-size:.9rem;font-weight:600}
+.ch .st{margin-left:auto;text-align:right;font-weight:800;white-space:nowrap}
+.ch.off{opacity:.55;cursor:not-allowed;box-shadow:none}
+.tagp{display:inline-block;border-radius:999px;padding:1px 10px;font-size:.8rem;font-weight:800;background:var(--ok);color:#fff}
+.tagp.no{background:var(--ink2)}
+.stars{font-size:1.6rem;letter-spacing:3px;color:var(--sun)}
+.stars .off{color:var(--line)}
+.story{text-align:center;padding-top:6px}
+.story .big{font-size:4rem;line-height:1.1}
+.story .chipbox svg{width:72px;height:72px}
+.story p{font-size:1.6rem;font-weight:700;margin:12px auto}
+.dots{display:flex;justify-content:center;gap:8px;margin:8px 0}
+.dots i{width:12px;height:12px;border-radius:50%;background:var(--line)}
+.dots i.on{background:var(--brand)}
+.resbox{background:var(--card);border:2px solid var(--line);border-radius:22px;padding:14px;text-align:center;box-shadow:var(--shadow)}
+.lore{font-size:1.1rem;font-weight:600;line-height:1.6;background:var(--card);border:2px solid var(--line);border-radius:18px;padding:12px 16px;margin:4px 0 12px}
+.resbox svg.house{width:130px;height:auto}
+.resbox .score{font-size:2.6rem;font-weight:900}
+.resbox .verdict{font-size:1.2rem;font-weight:800;margin:4px 0}
+.miss{text-align:left;margin-top:12px}
+.miss h3{margin:0 0 6px;font-size:1.05rem}
+.mi{border:2px solid var(--bad);background:var(--bad-bg);border-radius:14px;padding:8px 12px;margin-bottom:8px}
+.mi .qa{font-weight:700;font-size:.95rem}
+.mi .aa{font-size:.9rem;margin-top:2px;white-space:pre-line}
+.mi .aa::before{content:"✓ Đáp án: ";font-weight:800;color:var(--ok)}
+.confirm{position:fixed;inset:0;background:rgba(10,20,35,.55);display:grid;place-items:center;z-index:80;padding:20px}
+.confirm div{background:var(--card);border-radius:20px;padding:20px;max-width:360px;text-align:center;border:2px solid var(--line)}
+.beam{transition:opacity .8s}
+.lamp{flex:none;width:64px;height:64px;position:relative}
+.lamp svg{width:100%;height:100%;overflow:visible}
+.lamp .lit{transition:opacity 1s}
+@keyframes flash{0%{transform:scale(1)}40%{transform:scale(1.25)}100%{transform:scale(1)}}
+.lamp.pulse{animation:flash .7s}
+@keyframes pop{0%{transform:scale(.6);opacity:0}100%{transform:scale(1);opacity:1}}
+.stars span{display:inline-block;animation:pop .5s both}
+.stars span:nth-child(2){animation-delay:.15s}.stars span:nth-child(3){animation-delay:.3s}
+@media (max-width:560px){
+  :root{--ctl-w:0px}
+  #ctl{top:auto;bottom:auto}
+  .hud{padding-right:14px;padding-top:62px}
+  .mt{grid-template-columns:1fr}
+  .hero h1{font-size:1.5rem}
+}
+</style>
+</head>
+<body>
+<div id="ctl" aria-label="Điều khiển">
+  <button id="bTheme" title="Sáng / tối" aria-label="Đổi giao diện sáng tối">🌓</button>
+  <button id="bSound" title="Âm thanh" aria-label="Bật tắt âm thanh">🔊</button>
+  <button id="bFm" title="Chữ nhỏ hơn" aria-label="Giảm cỡ chữ">A−</button>
+  <button id="bFp" title="Chữ to hơn" aria-label="Tăng cỡ chữ">A+</button>
+</div>
+<div id="app"></div>
+
+<script>
+/* =====================================================================
+   DỮ LIỆU — Giáo viên có thể sửa ở đây (câu hỏi giữ nguyên theo SparkLV1_QLesson.docx)
+   Loại câu: single | multi | tf | dropdown | match | hotspot
+   ===================================================================== */
+const CONFIG = { total: 1000, pass: 900, hintPool: 3, hintCum: [0.10, 0.25, 0.50], storeKey: "spark1.cd3.hai-dang.v1" };
+// hintPool: tổng số gợi ý cho CẢ hải trình (không phải mỗi câu).
+// hintCum: tổng phần trăm điểm câu bị trừ sau khi dùng 1, 2, 3 gợi ý.
+
+const INTRO = [
+  { icon: "🌊", text: "Ngọn hải đăng ở Biển Mạng đã tắt đèn. Các thuyền thông tin bị lạc!" },
+  { icon: "🤖", text: "Chip, chú robot hải âu, cần em giúp. Mỗi câu đúng thắp thêm tia sáng." },
+  { icon: "💡", text: "Đủ 900 trên 1000 tia sáng, đèn sẽ sáng lại. Cả hải trình chỉ có 3 gợi ý, và mỗi gợi ý tốn một ít tia sáng." }
+];
+
+// Tọa độ vùng chạm theo khung vẽ 800 × 480 (xem hàm scene bên dưới).
+const ZONES_NETPC = [
+  { id: "A", x: 310, y: 10, w: 190, h: 52, label: "A – thẻ trình duyệt" },
+  { id: "B", x: 100, y: 66, w: 540, h: 40, label: "B – thanh địa chỉ" },
+  { id: "C", x: 650, y: 66, w: 130, h: 40, label: "C – nút yêu thích và menu" },
+  { id: "D", x: 130, y: 224, w: 540, h: 68, label: "D – dãy Home | About | Search | Store | Contact" }
+];
+const ZONES_URL = [
+  { id: "A", x: 110, y: 10, w: 190, h: 52, label: "A – thẻ trình duyệt" },
+  { id: "B", x: 100, y: 66, w: 540, h: 40, label: "B – thanh địa chỉ" },
+  { id: "C", x: 650, y: 66, w: 130, h: 40, label: "C – nút yêu thích và menu" },
+  { id: "D", x: 240, y: 322, w: 320, h: 50, label: "D – ô tìm kiếm" }
+];
+const ZONES_CLOSE = [{ id: "X", x: 738, y: 4, w: 58, h: 54, label: "dấu X ở góc trên bên phải" }];
+
+const CHAPTERS = [
+  {
+    id: "b13", num: 13, icon: "🏝️", name: "Đảo Sự Thật", lesson: "Bài 13: Thông tin trực tuyến",
+    story: [
+      { icon: "🏝️", text: "Trên Đảo Sự Thật, tin thật và tin đồn lẫn vào nhau." },
+      { icon: "🔎", text: "Giúp Chip phân biệt sự thật, ý kiến và trang Web đáng tin nhé!" }
+    ],
+    passText: "Đèn Đảo Sự Thật đã sáng! Các thuyền không còn tin nhầm tin đồn.",
+    failText: "Đèn còn chập chờn. Chip tin em sẽ làm tốt hơn lần sau!",
+    questions: [
+      { id: "b13q1", type: "single", say: "Chip thấy một tấm biển. Đâu là ví dụ về một trang Web?",
+        q: "Em hãy cho biết, tùy chọn nào là ví dụ về một trang Web (Webpage)?", hl: ["trang Web (Webpage)"],
+        options: ["Một ứng dụng được tải xuống trên điện thoại thông minh.", "Trang chủ trên trang Web của trường học.", "Một Email giữa các học sinh ở các trường khác nhau."], answer: 1,
+        hints: ["Trang Web là thứ em mở bằng trình duyệt.", "Nó nằm trên Internet. Nó không phải ứng dụng tải về, cũng không phải thư.", "Chọn trang chủ của trường học."],
+        explain: "Trang chủ của trường là một trang Web. Em mở nó bằng trình duyệt." },
+      { id: "b13q2", type: "hotspot", say: "Chip muốn đi sang các trang khác của Net PC.",
+        q: "Em sẽ nhấp vào đâu để truy cập các trang khác của trang Web Net PC trong cửa sổ trình duyệt?", scene: "netpc", imgAlt: "Cửa sổ trình duyệt hiển thị trang Net PC, có bốn vùng A, B, C, D", zones: ZONES_NETPC, answer: "D",
+        hints: ["Tìm dãy chữ như Home, About, Search…", "Dãy chữ này nằm ngay dưới tên Net PC.", "Đó là khung có chữ D."],
+        explain: "Dãy menu Home | About | Search | Store | Contact giúp em đi tới các trang khác của trang Web." },
+      { id: "b13q3", type: "single", say: "Chip đang ghi chép. Thứ gì có ở mọi nơi?",
+        q: "Em thường tìm thấy điều gì trong ứng dụng máy tính để bàn và trên các trang Web?",
+        options: ["Giỏ hàng", "Nút đặt hàng", "Thanh địa chỉ", "Đoạn văn bản"], answer: 3,
+        hints: ["Hãy nghĩ tới thứ có ở hầu hết ứng dụng và trang Web.", "Giỏ hàng và nút đặt hàng chỉ có ở nơi bán hàng.", "Đáp án là chữ để em đọc."],
+        explain: "Đoạn văn bản xuất hiện ở hầu hết ứng dụng và trang Web." },
+      { id: "b13q4", type: "tf", say: "Một bức thư tới: tin nào là sự thật?",
+        q: "Em hãy chọn Đúng nếu là những phát biểu về sự thật (Facts) hoặc chọn Sai nếu không phải.", hl: ["sự thật (Facts)"],
+        items: [{ t: "Có 24 giờ trong một ngày.", a: true }, { t: "Nhảy dù rất nguy hiểm.", a: false }, { t: "Thật là một ngày tuyệt vời.", a: false }],
+        hints: ["Sự thật là điều có thể kiểm tra được.", "Các từ như “nguy hiểm”, “tuyệt vời” là cảm nghĩ của người nói.", "Chỉ câu về 24 giờ là sự thật."],
+        explain: "Sự thật kiểm tra được. 24 giờ một ngày là sự thật; còn “nguy hiểm”, “tuyệt vời” chỉ là ý kiến." },
+      { id: "b13q5", type: "tf", say: "Lần này Chip tìm ý kiến của người viết.",
+        q: "Em hãy chọn Đúng nếu là các ý kiến hoặc chọn Sai nếu không phải.", hl: ["ý kiến"],
+        items: [{ t: "Có 24 giờ trong một ngày.", a: false }, { t: "Nhảy dù rất nguy hiểm.", a: true }, { t: "Thật là một ngày tuyệt vời.", a: true }],
+        hints: ["Ý kiến là điều một người nghĩ hoặc cảm thấy.", "Mỗi người có thể nghĩ khác nhau về “nguy hiểm” hay “tuyệt vời”.", "Hai câu sau là ý kiến, câu 24 giờ thì không."],
+        explain: "Ý kiến là cảm nghĩ riêng, mỗi người có thể khác nhau. Câu về 24 giờ là sự thật nên không phải ý kiến." },
+      { id: "b13q6", type: "single", say: "Chip làm bài về đại dương và chỉ được dùng sự kiện.",
+        q: "Em đang nghiên cứu trực tuyến cho một bài tập về đại dương. Giáo viên đã hướng dẫn em bao gồm ít nhất ba sự kiện và không có ý kiến. Theo em, tùy chọn nào sau đây là một ý kiến?", hl: ["một ý kiến"],
+        options: ["Đại dương luôn chuyển động.", "Đại dương tối tăm và đáng sợ.", "Nhiều loại động vật sống trong đại dương.", "Cá sống trong đại dương."], answer: 1,
+        hints: ["Ý kiến nói về cảm xúc, không đo đếm được.", "Tìm từ thể hiện cảm xúc, như “đáng sợ”.", "Chọn câu có “tối tăm và đáng sợ”."],
+        explain: "“Đáng sợ” là cảm nghĩ của một người, nên đó là ý kiến. Ba câu còn lại là sự kiện." },
+      { id: "b13q7", type: "dropdown", say: "Chip đọc bài đánh giá nhà hàng. Có nên tin không nhỉ?",
+        q: "Em đang tìm kiếm một nơi để đi với các bạn cùng lớp. Em đọc một bài đánh giá trực tuyến cho một nhà hàng nghe có vẻ tốt. Em không chắc liệu có nên tin vào tuyên bố của người đánh giá hay không. Em hãy chọn Thực tế hoặc chọn Ý kiến với mỗi phát biểu sau.",
+        choices: ["Thực tế (Fact)", "Ý kiến (Opinion)"],
+        items: [{ t: "Nhà hàng có một khu trò chơi điện tử thực sự thú vị.", a: 1 }, { t: "Nhà hàng có các món tráng miệng ngon nhất.", a: 1 }, { t: "Nhà hàng chỉ cách trường học một dãy nhà.", a: 0 }, { t: "Nhà hàng có mười loại Pizza khác nhau.", a: 0 }],
+        hints: ["Hỏi: em có thể đếm hoặc đo điều này không?", "“Thú vị”, “ngon nhất” là cảm nghĩ.", "Một dãy nhà và mười loại Pizza là thực tế; hai câu còn lại là ý kiến."],
+        explain: "Điều đếm hoặc đo được là thực tế. Điều chỉ là cảm nghĩ như “thú vị”, “ngon nhất” là ý kiến." },
+      { id: "b13q8", type: "single", say: "Bạn Vy chỉ muốn đọc bài viết dựa trên sự thật.",
+        q: "Vy thích đọc các bài báo trực tuyến. Cô ấy chỉ muốn đọc các bài báo dựa trên sự thật, không phải ý kiến. Câu hỏi nào có thể giúp Vy xác định các bài báo dựa trên thực tế?",
+        options: ["Bài viết dài bao nhiêu?", "Bài viết có hình ảnh không?", "Kiểu phông chữ nào đã được sử dụng?", "Ai đã viết bài báo?"], answer: 3,
+        hints: ["Bài dựa trên sự thật thường do người đáng tin viết.", "Độ dài, hình ảnh, phông chữ không cho biết bài có thật hay không.", "Hãy hỏi về tác giả."],
+        explain: "Biết ai viết bài giúp em kiểm tra xem nguồn có đáng tin không." },
+      { id: "b13q9", type: "match", say: "Chip có ba tấm thẻ từ khóa cần ghép với ý nghĩa.",
+        q: "Ghép mỗi thuật ngữ với định nghĩa đúng.", how: "Chạm một định nghĩa, rồi chạm thuật ngữ tương ứng.",
+        left: ["Tài liệu siêu văn bản có thể được hiển thị bằng trình duyệt Web.", "Một chương trình hoặc phần mềm được sử dụng để tìm kiếm thông tin, thường là trên World Wide Web.", "Thu thập thông tin về một chủ đề."],
+        right: ["Trang Web (Web Page)", "Công cụ tìm kiếm (Search Engine)", "Nghiên cứu (Research)"],
+        hints: ["Đọc kỹ từng định nghĩa và tìm từ khóa.", "“Tìm kiếm thông tin” là công cụ tìm kiếm; “thu thập thông tin” là nghiên cứu.", "Tài liệu hiển thị bằng trình duyệt là Trang Web."],
+        explain: "Trang Web hiển thị bằng trình duyệt. Công cụ tìm kiếm giúp tìm thông tin. Nghiên cứu là thu thập thông tin về một chủ đề." }
+    ]
+  },
+  {
+    id: "b14", num: 14, icon: "⚓", name: "Cảng Địa Chỉ", lesson: "Bài 14: Trang Web và trình duyệt (1) – Trình duyệt Web",
+    story: [
+      { icon: "⚓", text: "Cảng Địa Chỉ có rất nhiều cửa sổ trình duyệt và thanh địa chỉ." },
+      { icon: "🧭", text: "Chip cần em chỉ đúng nơi để gõ địa chỉ và đóng cửa sổ." }
+    ],
+    passText: "Đèn Cảng Địa Chỉ đã sáng! Mọi thuyền đều tìm được đúng địa chỉ.",
+    failText: "Đèn còn chập chờn. Cùng thử lại để thắp sáng cảng nhé!",
+    questions: [
+      { id: "b14q1", type: "match", say: "Ba tấm biển chỉ đường bị đứt. Hãy nối lại!",
+        q: "Em hãy ghép mỗi thuật ngữ ở cột bên phải với định nghĩa tương ứng ở cột bên trái.", how: "Chạm một định nghĩa, rồi chạm thuật ngữ tương ứng.",
+        left: ["Tập hợp các trang Web có thể truy cập công khai và chia sẻ với một tên miền duy nhất.", "Một chương trình hoặc phần mềm được sử dụng để tìm kiếm thông tin, thường là trên World Wide Web.", "Một chương trình phần mềm được sử dụng để điều hướng trên World Wide Web."],
+        right: ["Website", "Công cụ tìm kiếm (Search Engine)", "Trình duyệt (Web Browser)"],
+        hints: ["Tìm từ khóa trong từng định nghĩa.", "“Điều hướng trên Web” là việc của trình duyệt.", "“Tập hợp các trang Web” là Website; “tìm kiếm thông tin” là công cụ tìm kiếm."],
+        explain: "Website là nhiều trang Web chung một tên miền. Công cụ tìm kiếm giúp tìm thông tin. Trình duyệt giúp điều hướng trên Web." },
+      { id: "b14q2", type: "match", say: "Chip muốn biết ba người bạn này làm gì.",
+        q: "Em hãy ghép mỗi thuật ngữ ở cột bên trái với định nghĩa tương ứng ở cột bên phải.", how: "Chạm một thuật ngữ, rồi chạm định nghĩa tương ứng.",
+        left: ["Trình duyệt Web (Web Browser)", "Công cụ tìm kiếm (Search Engine)", "Trang Web (Web Page)"],
+        right: ["Phần mềm bạn sử dụng để xem mọi thứ trên Internet.", "Phần mềm bạn sử dụng để tìm mọi thứ trên Internet.", "Một tài liệu với văn bản và hình ảnh mà bạn nhìn thấy và đọc trên Internet."],
+        hints: ["“Xem”, “tìm”, “đọc” là ba việc khác nhau.", "Tìm mọi thứ → công cụ tìm kiếm. Xem mọi thứ → trình duyệt.", "Tài liệu có văn bản và hình ảnh là Trang Web."],
+        explain: "Trình duyệt để xem Internet, công cụ tìm kiếm để tìm, còn trang Web là tài liệu em đọc." },
+      { id: "b14q3", type: "single", say: "Chip cần một phần mềm để duyệt Internet.",
+        q: "Em hãy cho biết, tùy chọn nào dưới đây cho phép truy cập và duyệt thông tin trên Internet?",
+        options: ["Internet Explorer", "Client (Máy khách)", "Cloud Storage (Lưu trữ đám mây)", "Server (Máy chủ)"], answer: 0,
+        hints: ["Chọn phần mềm dùng để duyệt Web.", "Client và Server là máy; Cloud Storage dùng để lưu trữ.", "Internet Explorer là một trình duyệt."],
+        explain: "Internet Explorer là trình duyệt Web, giúp em truy cập và duyệt thông tin trên Internet." },
+      { id: "b14q4", type: "single", say: "Một ứng dụng chạy ngay trên trình duyệt. Là cái nào?",
+        q: "Em hãy cho biết, tùy chọn nào là một ứng dụng Web (Web Application)?", hl: ["ứng dụng Web (Web Application)"],
+        options: ["Trang Web của một trường học.", "Một trò chơi được tải xuống trên máy tính để bàn.", "Một chương trình Email như Gmail, Yahoo, Hotmail."], answer: 2,
+        hints: ["Ứng dụng Web chạy ngay trên trình duyệt.", "Trò chơi tải về chạy ngoài trình duyệt. Trang Web trường chỉ để đọc.", "Chọn chương trình Email như Gmail."],
+        explain: "Gmail, Yahoo, Hotmail dùng ngay trong trình duyệt nên là ứng dụng Web." },
+      { id: "b14q5", type: "hotspot", say: "Đến giờ đóng cửa sổ! Nút nào làm được?",
+        q: "Em nên nhấp vào biểu tượng nào để đóng (Close) cửa sổ trình duyệt hiển thị?", scene: "close", imgAlt: "Cửa sổ trình duyệt có dấu X ở góc trên bên phải", zones: ZONES_CLOSE, answer: "X", how: "Chạm vào đúng vị trí trên hình.",
+        hints: ["Nút đóng thường nằm ở góc cửa sổ.", "Nó có hình chữ X màu trắng.", "Góc trên bên phải."],
+        explain: "Nhấp vào dấu X ở góc trên bên phải để đóng cửa sổ trình duyệt." },
+      { id: "b14q6", type: "single", say: "Chip nhìn vào khung đỏ trên hình.",
+        q: "Em hãy cho biết, khu vực ở đầu cửa sổ trình duyệt hiển thị URL trang Web được gọi là gì?", scene: "address", imgAlt: "Cửa sổ trình duyệt, khung đỏ bao quanh thanh có chữ http://",
+        options: ["Thẻ trình duyệt (Tab)", "Bookmarks/Favorites", "Thanh tiêu đề (Title Bar)", "Thanh địa chỉ (Address Bar)"], answer: 3,
+        hints: ["Nhìn vào khung đỏ trên hình.", "Khung này chứa chữ http://.", "Thanh địa chỉ (Address Bar)."],
+        explain: "Thanh địa chỉ (Address Bar) hiển thị URL của trang Web em đang xem." },
+      { id: "b14q7", type: "multi", pick: 3, say: "Chip đang vẽ lại cửa sổ trình duyệt.",
+        q: "Em hãy chọn những thành phần nào thuộc giao diện của trình duyệt Web? (Chọn 3)", hl: ["(Chọn 3)"],
+        options: ["Tác giả trang Web (Site Author)", "Thanh địa chỉ (Address Bar)", "Các ứng dụng (Applications)", "Thẻ (Tab)", "Công cụ tìm kiếm (Search Engine)", "Cửa sổ (Window)"], answer: [1, 3, 5],
+        hints: ["Giao diện là phần em nhìn thấy trên cửa sổ trình duyệt.", "Tác giả, ứng dụng và công cụ tìm kiếm không phải phần giao diện.", "Thanh địa chỉ, Thẻ và Cửa sổ."],
+        explain: "Giao diện trình duyệt gồm thanh địa chỉ, thẻ và cửa sổ." },
+      { id: "b14q8", type: "hotspot", say: "Chip muốn đến một trang Web mới.",
+        q: "Trên trang Web được hiển thị, em nên nhập URL mới vào đâu?", scene: "typeurl", imgAlt: "Cửa sổ trình duyệt có bốn vùng A, B, C, D", zones: ZONES_URL, answer: "B", how: "Chạm vào đúng vị trí trên hình.",
+        hints: ["URL được gõ vào thanh có chữ http://.", "Thanh này nằm dưới các thẻ và rất dài.", "Khung B."],
+        explain: "Em nhập URL mới vào thanh địa chỉ (khung B)." },
+      { id: "b14q9", type: "single", say: "Chip cần sao chép địa chỉ một trang Web.",
+        q: "Em hãy cho biết, em có thể tìm thấy URL của một trang Web ở đâu để có thể sao chép và dán?",
+        options: ["Một Tab mới", "Trong thanh địa chỉ", "Một cửa sổ mới"], answer: 1,
+        hints: ["URL là địa chỉ của trang Web.", "Thẻ mới và cửa sổ mới chỉ là nơi mở trang.", "Chọn thanh địa chỉ."],
+        explain: "URL nằm trong thanh địa chỉ. Em có thể sao chép và dán nó từ đó." },
+      { id: "b14q10", type: "single", say: "Chip gặp một từ khó: URL. Nó là gì nhỉ?",
+        q: "Em hãy cho biết, URL là gì?",
+        options: ["Một hình thức nhắn tin giữa người này với người khác qua Internet.", "Một trang Web hoặc Email giả được thiết kế trông có vẻ đáng tin cậy.", "Tập hợp các trang Web được liên kết với nhau sử dụng chung một tên miền, mà mọi người có thể truy cập được."], answer: 2,
+        hints: ["Hai đáp án đầu nói về nhắn tin và trang giả.", "Đáp án đúng nói về nhiều trang Web liên kết với nhau.", "Chọn câu có “chung một tên miền”."],
+        explain: "Theo đề, đáp án là mô tả nhóm trang Web liên kết, dùng chung một tên miền." },
+      { id: "b14q11", type: "multi", pick: 3, say: "Một trang Web lạ xuất hiện. Có đáng tin không?",
+        q: "Em có thể sử dụng những thông tin nào để kiểm tra độ tin cậy của một trang Web? (Chọn 3)", hl: ["(Chọn 3)"],
+        options: ["Tiêu đề (Title)", "Tác giả (Author)", "Cách trình bày (Layout)", "Ngày (Date)"], answer: [0, 1, 3],
+        hints: ["Hãy tìm thông tin cho biết ai viết và khi nào.", "Cách trình bày chỉ là hình thức bên ngoài.", "Tiêu đề, Tác giả và Ngày."],
+        explain: "Tiêu đề, tác giả và ngày giúp em kiểm tra trang Web có đáng tin hay không." }
+    ]
+  },
+  {
+    id: "b16", num: 16, icon: "🕳️", name: "Hang Dấu Trang", lesson: "Bài 16: Trang Web và trình duyệt (3) – Lịch sử Web và dấu trang",
+    story: [
+      { icon: "📖", text: "Trong hang có cuốn sổ ghi mọi nơi em đã đi. Đó là lịch sử Web." },
+      { icon: "⭐", text: "Những lá cờ nhỏ giúp em quay lại nơi yêu thích. Đó là dấu trang." }
+    ],
+    passText: "Đèn Hang Dấu Trang đã sáng! Em không bao giờ lạc đường nữa.",
+    failText: "Đèn còn chập chờn. Chip sẽ đợi em thử lại!",
+    questions: [
+      { id: "b16q1", type: "single", say: "Cô giáo muốn kiểm tra xem Chip có học thật không.",
+        q: "Một giáo viên bảo học sinh của mình nghiên cứu một chủ đề trên máy tính bảng của họ trong 30 phút tiếp theo. Khi giáo viên hỏi một học sinh xem bạn ấy có thực hiện nghiên cứu hay không, bạn ấy nói có. Làm thế nào giáo viên có thể tìm ra liệu học sinh có nói sự thật hay không?",
+        options: ["Bằng cách kiểm tra thời lượng Pin còn lại của máy tính bảng.", "Bằng cách kiểm tra lịch sử trình duyệt của học sinh.", "Bằng cách kiểm tra xem có bất kÌ thẻ trình duyệt nào được mở trên máy tính bảng hay không.", "Bằng cách hỏi những học sinh khác ngồi gần trong thời gian nghiên cứu."], answer: 1,
+        hints: ["Hãy nghĩ tới nơi trình duyệt ghi lại các trang đã xem.", "Pin và bạn ngồi gần không cho biết trang nào đã mở.", "Chọn lịch sử trình duyệt."],
+        explain: "Lịch sử trình duyệt ghi lại những trang Web em đã xem." },
+      { id: "b16q2", type: "single", say: "Chip muốn quay lại hang này vào ngày mai.",
+        q: "Theo em, cách nào là nhanh nhất để lưu một trang Web để em có thể quay lại sau này?",
+        options: ["Tạo dấu trang (Bookmark)", "Chụp ảnh màn hình của trang Web", "Viết URL vào một cuốn sổ"], answer: 0,
+        hints: ["Hãy chọn cách ngay trong trình duyệt.", "Chụp ảnh và viết sổ đều mất nhiều bước.", "Tạo dấu trang."],
+        explain: "Dấu trang (Bookmark) là cách nhanh nhất để lưu trang Web và quay lại sau." },
+      { id: "b16q3", type: "single", say: "Chip hỏi lại một lần nữa cho chắc.",
+        q: "Theo em, cách nào nhanh nhất để lưu trang Web đang xem để có thể quay lại sau?",
+        options: ["Lưu địa chỉ trang Web trong một tập tin.", "Lưu trang Web vào màn hình máy tính của em.", "Viết địa chỉ trang Web trên một tờ giấy.", "Tạo dấu trang (Bookmark)."], answer: 3,
+        hints: ["Cách nhanh nhất chỉ cần một cú nhấp trong trình duyệt.", "Tập tin, màn hình và tờ giấy đều làm lâu hơn.", "Tạo dấu trang."],
+        explain: "Tạo dấu trang chỉ cần vài cú nhấp trong trình duyệt." },
+      { id: "b16q4", type: "single", say: "Chip cần tìm các lá cờ yêu thích của mình.",
+        q: "Em hãy cho biết, công cụ nào của trình duyệt cho phép truy cập vào các trang Web yêu thích?",
+        options: ["Back", "Bookmarks", "Settings", "Home"], answer: 1,
+        hints: ["Hãy tìm công cụ có từ “yêu thích”.", "Back là quay lại, Home là trang chủ, Settings là cài đặt.", "Bookmarks."],
+        explain: "Bookmarks lưu các trang Web yêu thích để em mở lại nhanh." },
+      { id: "b16q5", type: "single", say: "Lá cờ nhỏ này dùng để làm gì nhỉ?",
+        q: "Em hãy cho biết, mục đích của dấu trang/mục yêu thích (Bookmarks/Favorites) là gì?",
+        options: ["Đây là một cách nhanh chóng để lưu URL và quay lại trang Web sau.", "Đó là cách tốt nhất để chia sẻ URL với bạn cùng lớp hoặc giáo viên.", "Nó giúp việc in URL của một trang Web trở nên dễ dàng hơn."], answer: 0,
+        hints: ["Nghĩ tới việc em muốn làm khi tạo dấu trang.", "Dấu trang không dùng để chia sẻ hay in.", "Lưu URL và quay lại sau."],
+        explain: "Dấu trang giúp em lưu URL nhanh và quay lại trang Web sau." },
+      { id: "b16q6", type: "single", say: "Cuối cùng, Chip có thể cất gì vào hộp dấu trang?",
+        q: "Em có thể lưu gì trong tính năng Bookmarks/Favorites của trình duyệt Web?",
+        options: ["Liên kết trang Web (Webpage Links)", "Cookies trang Web (Webpage Cookies)", "Hình ảnh trang Web (Webpage Images)", "Cài đặt trang Web (Webpage Settings)"], answer: 0,
+        hints: ["Dấu trang giúp em quay lại một trang.", "Muốn quay lại, em cần địa chỉ chứ không cần hình hay cài đặt.", "Liên kết trang Web."],
+        explain: "Bookmarks lưu liên kết (Links) của trang Web để em mở lại." }
+    ]
+  }
+];
+// Bài 15 chưa có câu hỏi trong tệp nguồn.
+// Hải trình: gộp TẤT CẢ câu hỏi của các bài, xáo trộn, rồi chia thành các trạm (chia cho vui, không theo bài).
+const JOURNEY = {
+  id: "all", name: "Hải trình",
+  questions: CHAPTERS.flatMap(c => c.questions.map(q => Object.assign({}, q, { lesson: c.lesson, lessonTag: "Bài " + c.num }))),
+  passText: "Đèn hải đăng đã sáng rực! Mọi thuyền thông tin đều về bến an toàn.",
+  failText: "Đèn còn chập chờn. Chip tin em sẽ làm tốt hơn lần sau!"
+};
+const STATIONS = [
+  { icon: "⛵", name: "Bến Thuyền Con", text: "Chuyến hải trình bắt đầu! Trạm đầu tiên có vài câu hỏi bất ngờ." },
+  { icon: "🐙", name: "Vịnh Bạch Tuộc", text: "Bạch tuộc nghịch ngợm giấu đáp án khắp nơi. Em tìm ra nhé!" },
+  { icon: "🏴‍☠️", name: "Đảo Hải Tặc", text: "Hải tặc đánh cắp tia sáng. Trả lời đúng để lấy lại!" },
+  { icon: "🌋", name: "Núi Lửa Bí Ẩn", text: "Sắp đến nơi rồi! Núi lửa phun ra những câu đố lạ." },
+  { icon: "🌈", name: "Mỏm Cầu Vồng", text: "Trạm cuối cùng! Ngọn hải đăng đang chờ em." }
+];
+const stationOf = (i, n) => { for (let j = STATIONS.length - 1; j >= 0; j--) if (i >= Math.round(j * n / STATIONS.length)) return j; return 0; };
+
+const WRONG_MSGS = ["Gần đúng rồi! Cùng xem lại nhé.", "Chưa đúng, nhưng Chip tin em làm được!", "Không sao! Sai là cách để nhớ lâu hơn.", "Cố lên! Lần sau em sẽ làm đúng."];
+
+/* =====================================================================
+   LOGIC
+   ===================================================================== */
+const $app = document.getElementById("app");
+let store = { settings: { theme: "light", sound: true, fs: 1, intro: false }, ch: {}, run: null };
+try { const r = JSON.parse(localStorage.getItem(CONFIG.storeKey)); if (r) { store.settings = Object.assign(store.settings, r.settings); store.ch = r.ch || {}; store.run = r.run || null; } } catch (e) {}
+function save() { try { localStorage.setItem(CONFIG.storeKey, JSON.stringify(store)); } catch (e) {} }
+
+function h(tag, attrs, ...kids) {
+  const el = document.createElement(tag);
+  for (const k in (attrs || {})) {
+    const v = attrs[k];
+    if (k === "class") el.className = v;
+    else if (k.startsWith("on")) el.addEventListener(k.slice(2), v);
+    else if (v !== false && v != null) el.setAttribute(k, v === true ? "" : v);
+  }
+  kids.flat().forEach(c => { if (c != null && c !== false) el.append(c.nodeType ? c : document.createTextNode(c)); });
+  return el;
+}
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+function withMarks(el, text, hl) {
+  let parts = [text];
+  (hl || []).forEach(w => { parts = parts.flatMap(p => typeof p !== "string" ? [p] : p.split(w).flatMap((s, i, arr) => i < arr.length - 1 ? [s, h("mark", null, w)] : [s])); });
+  parts.forEach(p => el.append(p.nodeType ? p : document.createTextNode(p)));
+  return el;
+}
+
+/* ---- sound ---- */
+let actx = null;
+function tone(seq) {
+  if (!store.settings.sound) return;
+  try {
+    actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+    let t = actx.currentTime;
+    seq.forEach(([f, d, type]) => {
+      const o = actx.createOscillator(), g = actx.createGain();
+      o.type = type || "sine"; o.frequency.value = f; g.gain.setValueAtTime(.18, t); g.gain.exponentialRampToValueAtTime(.001, t + d);
+      o.connect(g); g.connect(actx.destination); o.start(t); o.stop(t + d); t += d * .9;
+    });
+  } catch (e) {}
+}
+const sfx = { ok: () => tone([[523, .12], [784, .2]]), bad: () => tone([[220, .22, "triangle"], [165, .3, "triangle"]]), win: () => tone([[523, .12], [659, .12], [784, .12], [1047, .35]]), tap: () => tone([[600, .05]]) };
+
+/* ---- settings ---- */
+function applySettings() {
+  document.documentElement.dataset.theme = store.settings.theme;
+  document.documentElement.style.setProperty("--fs", store.settings.fs);
+  document.getElementById("bSound").textContent = store.settings.sound ? "🔊" : "🔇";
+}
+document.getElementById("bTheme").onclick = () => { store.settings.theme = store.settings.theme === "light" ? "dark" : "light"; applySettings(); save(); };
+document.getElementById("bSound").onclick = () => { store.settings.sound = !store.settings.sound; applySettings(); save(); sfx.tap(); };
+document.getElementById("bFm").onclick = () => { store.settings.fs = Math.max(.85, +(store.settings.fs - .1).toFixed(2)); applySettings(); save(); };
+document.getElementById("bFp").onclick = () => { store.settings.fs = Math.min(1.5, +(store.settings.fs + .1).toFixed(2)); applySettings(); save(); };
+
+/* ---- art ---- */
+const CHIP = `<svg viewBox="0 0 120 120" aria-hidden="true"><line x1="60" y1="14" x2="60" y2="28" stroke="#6b7c8f" stroke-width="4"/><circle cx="60" cy="12" r="7" fill="#f5a800"/><ellipse cx="60" cy="72" rx="40" ry="38" fill="#4fb6d9"/><ellipse cx="60" cy="84" rx="26" ry="24" fill="#e9f7fc"/><rect x="26" y="34" width="68" height="40" rx="16" fill="#2c4a6b"/><circle cx="46" cy="54" r="11" fill="#fff"/><circle cx="74" cy="54" r="11" fill="#fff"/><circle cx="48" cy="56" r="5.5" fill="#1b2a3a"/><circle cx="76" cy="56" r="5.5" fill="#1b2a3a"/><path d="M52 70 L68 70 L60 82 Z" fill="#ff9a3c"/><path d="M20 76 Q8 92 24 98 Z" fill="#3a9cc0"/><path d="M100 76 Q112 92 96 98 Z" fill="#3a9cc0"/></svg>`;
+function lampSvg() {
+  return `<svg viewBox="0 0 120 120" aria-hidden="true">
+  <circle class="lit lg" cx="60" cy="40" r="38" fill="#ffd35a" opacity="0"/>
+  <polygon class="lit lb" points="60,38 -30,24 -30,56" fill="#ffe27a" opacity="0"/><polygon class="lit lb" points="60,38 150,24 150,56" fill="#ffe27a" opacity="0"/>
+  <polygon points="42,112 78,112 72,44 48,44" fill="#f4f1ea" stroke="#c9c3b5" stroke-width="2"/>
+  <polygon points="45,92 75,92 74,78 46,78" fill="#d9534f"/><polygon points="48,66 72,66 71,54 49,54" fill="#d9534f"/>
+  <rect x="46" y="26" width="28" height="20" rx="4" fill="#7d8a99"/><rect class="lit lr" x="46" y="26" width="28" height="20" rx="4" fill="#fff0a0" opacity="0"/>
+  <polygon points="42,26 78,26 60,8" fill="#2c4a6b"/>
+  <path d="M0 112 Q15 104 30 112 T60 112 T90 112 T120 112 V120 H0Z" fill="#3a9cc0"/></svg>`;
+}
+let lampPrev = 0;
+function setLamp(frac) {
+  const el = document.getElementById("lamp"); if (!el) return;
+  el.querySelector(".lg").setAttribute("opacity", (frac * .55).toFixed(2));
+  el.querySelectorAll(".lb").forEach(b => b.setAttribute("opacity", (frac * .6).toFixed(2)));
+  el.querySelector(".lr").setAttribute("opacity", frac.toFixed(2));
+  if (frac > lampPrev) { el.classList.remove("pulse"); void el.offsetWidth; el.classList.add("pulse"); }
+  lampPrev = frac;
+}
+function lighthouse(lit, total) {
+  const beams = [0, 1, 2].map(i => `<polygon class="beam" style="opacity:${i < lit ? .5 : 0}" points="${i === 0 ? "100,50 10,20 10,60" : i === 1 ? "100,50 190,20 190,60" : "100,50 60,0 140,0"}" fill="#ffd35a"/>`).join("");
+  return `<svg class="house" viewBox="0 0 200 220" aria-hidden="true">${beams}<polygon points="80,200 120,200 112,70 88,70" fill="#f4f1ea"/><polygon points="84,160 116,160 114,140 86,140" fill="#d9534f"/><polygon points="88,110 112,110 110,90 90,90" fill="#d9534f"/><rect x="86" y="46" width="28" height="24" rx="4" fill="${lit > 0 ? "#ffe27a" : "#8a97a6"}"/><polygon points="82,46 118,46 100,26" fill="#2c4a6b"/><path d="M0 204 Q25 192 50 204 T100 204 T150 204 T200 204 V220 H0Z" fill="#3a9cc0"/><path d="M0 212 Q25 202 50 212 T100 212 T150 212 T200 212 V220 H0Z" fill="#2c7fa3"/></svg>`;
+}
+
+/* ---- state ---- */
+let S = { screen: "home" };
+const chData = id => store.ch[id] || (store.ch[id] = { best: 0, stars: 0, passed: false, missed: [] });
+function render(node) { $app.replaceChildren(node); }
+const starsFor = s => s >= 950 ? 3 : s >= CONFIG.pass ? 2 : s >= 600 ? 1 : 0;
+const starHtml = n => h("span", { class: "stars", "aria-label": n + " trên 3 sao" }, [0, 1, 2].map(i => h("span", { class: i < n ? "" : "off" }, "★")));
+
+/* points per question: split exactly CONFIG.total */
+function pointsFor(ch) {
+  const n = ch.questions.length, base = Math.floor(CONFIG.total / n), r = CONFIG.total - base * n;
+  return ch.questions.map((q, i) => base + (i < r ? 1 : 0));
+}
+const hintCost = (p, k) => Math.round(p * CONFIG.hintCum[k]) - (k ? Math.round(p * CONFIG.hintCum[k - 1]) : 0);
+const earnedWith = (p, hints) => p - (hints ? Math.round(p * CONFIG.hintCum[hints - 1]) : 0);
+
+/* ---- HOME ---- */
+function screenHome() {
+  S.screen = "home";
+  const d = chData(JOURNEY.id), n = JOURNEY.questions.length;
+  const hero = h("div", { class: "hero" });
+  hero.innerHTML = lighthouse(d.passed ? 3 : 0);
+  hero.append(h("div", null, h("h1", null, "Hải Đăng Trình Duyệt"), h("p", null, "Ôn tập Chủ đề 3 · Spark 1"), h("p", null, `${n} câu hỏi trộn lẫn · ${STATIONS.length} trạm`), h("p", { style: "font-weight:800;color:var(--ink)" }, "💡 Cả hải trình chỉ có 3 gợi ý. Đạt 900/1000 tia sáng để thắp lại ngọn hải đăng!")));
+  const stops = h("div", { style: "display:flex;flex-wrap:nowrap;gap:6px;justify-content:center;margin:6px 0 12px;overflow-x:auto;padding-bottom:4px" },
+    STATIONS.map((st, k) => h("span", { class: "tagp no", style: "background:var(--card2);color:var(--ink);border:2px solid var(--line);padding:4px 10px;font-size:.72rem;white-space:nowrap;flex:none" }, `${st.icon} ${k + 1}. ${st.name}`)));
+  const rec = d.best ? h("div", { class: "resbox", style: "margin-bottom:12px" }, h("div", { style: "font-weight:800" }, `Điểm cao nhất: ${d.best} / ${CONFIG.total}`), starHtml(d.stars), h("div", null, h("span", { class: "tagp" + (d.passed ? "" : " no") }, d.passed ? "✓ Đạt" : "Chưa đạt"))) : null;
+  render(h("main", { style: "padding-top:70px" }, h("div", { class: "center", style: "max-width:1000px" }, hero, h("p", { class: "lore" }, "Ngày xưa, ngọn hải đăng ở Biển Mạng luôn chiếu sáng để dẫn đường cho các thuyền thông tin. Nhưng một đêm bão, ánh sáng của nó vụt tắt. Các thuyền lạc giữa biển, không biết nên đi hướng nào. Chú robot hải âu Chip đã bay khắp 5 trạm để tìm lại những tia sáng đã mất. Em hãy cùng Chip trả lời các câu hỏi về trình duyệt Web, gom đủ tia sáng và thắp lại ngọn hải đăng nhé!"), stops, rec,
+    validRun()
+      ? h("div", { style: "display:flex;gap:10px" },
+        h("button", { class: "btn main", type: "button", style: "min-height:60px;font-size:1.15rem", onclick: resumeRun }, `▶ Tiếp tục (câu ${store.run.i + 1}/${n})`),
+        h("button", { class: "btn", type: "button", style: "min-height:60px;font-size:1.05rem", onclick: () => askRestart() }, "↻ Học lại từ đầu"))
+      : h("button", { class: "btn main", type: "button", style: "width:100%;min-height:60px;font-size:1.15rem", onclick: startJourney }, d.best ? "↻ Chơi lại hải trình" : "⛵ Bắt đầu hải trình"))));
+}
+
+/* ---- STORY ---- */
+function screenStory(steps, done, label) {
+  S.screen = "story"; let i = 0;
+  const draw = () => {
+    const st = steps[i];
+    const chip = h("div", { class: "chipbox", style: "display:flex;justify-content:center" }); chip.innerHTML = CHIP;
+    const wrap = h("div", { style: "display:contents" },
+      h("main", { class: "story", style: "padding-top:70px" }, h("div", { class: "center" }, h("div", { class: "big" }, st.icon), chip, h("p", null, st.text),
+        h("div", { class: "dots" }, steps.map((_, k) => h("i", { class: k <= i ? "on" : "" }))))),
+      h("div", { class: "actions center", style: "width:100%" },
+                h("button", { class: "btn main", type: "button", onclick: () => { sfx.tap(); if (++i >= steps.length) done(); else draw(); } }, i === steps.length - 1 ? "Bắt đầu" : "Tiếp")));
+    render(wrap);
+  };
+  draw();
+}
+
+function startJourney() {
+  if (!store.settings.intro) screenStory(INTRO, () => { store.settings.intro = true; save(); beginRun(JOURNEY); });
+  else beginRun(JOURNEY);
+}
+function stationIntro(k, done) { screenStory([{ icon: STATIONS[k].icon, text: `Trạm ${k + 1}: ${STATIONS[k].name}. ${STATIONS[k].text}` }], done); }
+
+/* ---- QUIZ ---- */
+function saveRun(off) {
+  store.run = { ids: S.list.map(x => x.q.id), i: S.i + off, earned: S.earned, lost: S.lost, missed: S.missed, pool: S.pool };
+  save();
+}
+function validRun() {
+  const r = store.run, all = JOURNEY.questions.map(q => q.id);
+  return r && Array.isArray(r.ids) && r.ids.length === all.length && r.ids.every(id => all.includes(id)) && r.i >= 0 && r.i <= r.ids.length ? r : null;
+}
+function resumeRun() {
+  const r = validRun(); if (!r) return startJourney();
+  const pts = pointsFor(JOURNEY), by = {};
+  JOURNEY.questions.forEach((q, i) => by[q.id] = { q, p: pts[i] });
+  S = { screen: "quiz", ch: JOURNEY, list: r.ids.map(id => by[id]), i: r.i, earned: r.earned, lost: r.lost, missed: r.missed || [], hints: 0, pool: r.pool, answered: false };
+  S.i >= S.list.length ? finishRun() : showQuestion();
+}
+function beginRun(ch) {
+  const pts = pointsFor(ch);
+  const list = shuffle(ch.questions.map((q, i) => ({ q, p: pts[i] })));
+  S = { screen: "quiz", ch, list, i: 0, earned: 0, lost: 0, missed: [], hints: 0, pool: CONFIG.hintPool, answered: false };
+  saveRun(0);
+  stationIntro(0, showQuestion);
+}
+
+function showQuestion() {
+  const { ch, list, i } = S, { q, p } = list[i];
+  S.hints = 0; S.answered = false; lampPrev = Math.max(0, S.i - S.missed.length) / list.length;
+  const ctrl = BUILD[q.type](q);
+
+  const meterRow = h("div", { class: "meter-row" }, h("span", { id: "mScore" }), h("span", null, `Câu ${i + 1}/${list.length}`));
+  const fill = h("div", { class: "fill", id: "mFill" }), lost = h("div", { class: "lost", id: "mLost" });
+  const pass = h("div", { class: "passline", style: `left:${CONFIG.pass / CONFIG.total * 100}%` }, h("b", null, `${CONFIG.pass}`));
+  const meter = h("div", { class: "meter" }, meterRow, h("div", { class: "track" }, lost, fill, pass));
+
+  const lampEl = h("div", { class: "lamp", id: "lamp", title: "Ngọn hải đăng" }); lampEl.innerHTML = lampSvg();
+  const hud = h("div", { class: "hud" }, h("div", { class: "hud-top" },
+    h("button", { class: "ibtn", type: "button", title: "Về trang đầu", "aria-label": "Về trang đầu", onclick: () => askLeave() }, "⌂"), lampEl,
+    h("div", { class: "hud-title" }, `${STATIONS[stationOf(i, list.length)].icon} Trạm ${stationOf(i, list.length) + 1}/${STATIONS.length} · ${STATIONS[stationOf(i, list.length)].name}`)));
+
+  const qtext = withMarks(h("p", { class: "qtext" + (q.q.length > 140 ? " long" : "") }), q.q, q.hl);
+  const left = h("div", { class: "qcard" },
+    h("div", { class: "qhead" }, qtext),
+    h("div", { class: "how" }, h("span", { class: "tagp no", style: "background:var(--card2);color:var(--ink2);border:2px solid var(--line)" }, q.lessonTag), "👆 " + (q.how || HOW[q.type] || "")));
+  const right = h("div", { class: "qcard" }, ctrl.media && ctrl.el ? h("div", { class: "split" }, ctrl.media, ctrl.el) : [ctrl.media, ctrl.el]);
+  const panel = h("div", { class: "panel", "aria-live": "polite" });
+  const mainEl = h("main", null, h("div", { class: "qgrid" }, left, right, panel));
+
+  const hintBtn = h("button", { class: "btn hintb", type: "button" });
+  const mainBtn = h("button", { class: "btn main", type: "button", disabled: true }, "Kiểm tra");
+  const acts = h("div", { class: "actions center", style: "width:100%" }, hintBtn, mainBtn);
+
+  const drawMeter = () => {
+    meterRow.firstChild.textContent = `✨ ${S.earned} / ${CONFIG.total}`;
+    fill.style.width = S.earned / CONFIG.total * 100 + "%";
+    lost.style.width = S.lost / CONFIG.total * 100 + "%";
+    const okc = Math.max(0, S.i + (S.answered ? 1 : 0) - S.missed.length); setLamp(okc / list.length);
+  };
+  const drawHints = () => {
+    if (S.answered) return;
+    panel.className = "panel";
+    panel.hidden = !S.hints;
+    panel.replaceChildren(...(S.hints ? [h("div", { class: "hd" }, "💡 Gợi ý của Chip"), ...q.hints.slice(0, S.hints).map((t, k) => h("div", { class: "hint" }, `${k + 1}. ${t}`))]
+      : [h("div", { class: "ghost" }, "Chip đang chờ câu trả lời của em… Cần giúp thì bấm “Gợi ý”.")]));
+    const ok = S.pool > 0 && S.hints < 3;
+    hintBtn.disabled = !ok;
+    hintBtn.textContent = ok ? `💡 Gợi ý (còn ${S.pool}/${CONFIG.hintPool})` : S.pool > 0 ? "💡 Hết gợi ý câu này" : "💡 Hết gợi ý";
+  };
+  hintBtn.onclick = () => { if (S.answered || S.hints >= 3 || S.pool <= 0) return; S.hints++; S.pool--; sfx.tap(); drawHints(); panel.scrollIntoView({ block: "nearest", behavior: "smooth" }); };
+  ctrl.onChange = () => { if (!S.answered) mainBtn.disabled = !ctrl.complete(); };
+
+  mainBtn.onclick = () => {
+    if (S.answered) {
+      S.i++;
+      if (S.i >= list.length) finishRun();
+      else { const a = stationOf(S.i - 1, list.length), b = stationOf(S.i, list.length); b !== a ? stationIntro(b, showQuestion) : showQuestion(); }
+      return;
+    }
+    const ok = ctrl.check(); ctrl.reveal(); S.answered = true;
+    let gain = 0;
+    if (ok) { gain = earnedWith(p, S.hints); S.earned += gain; S.lost += p - gain; sfx.ok(); }
+    else { S.lost += p; S.missed.push(q.id); sfx.bad(); }
+    saveRun(1);
+    drawMeter();
+    const msg = ok ? `Đúng rồi! +${gain} tia sáng` : WRONG_MSGS[Math.floor(Math.random() * WRONG_MSGS.length)];
+    const icon = h("span", { class: ok ? "ic-ok" : "ic-no", style: `display:inline-grid;place-items:center;width:32px;height:32px;color:#fff;font-weight:900;background:${ok ? "var(--ok)" : "var(--bad)"};border-radius:${ok ? "50%" : "8px"}` }, ok ? "✓" : "✕");
+    const exp = h("div", { class: "hint" }, q.explain);
+    panel.hidden = false; panel.className = "panel " + (ok ? "ok" : "bad");
+    panel.replaceChildren(...[h("div", { class: "hd" }, icon, msg),
+      ok ? null : h("div", { class: "hint", style: "font-weight:700;white-space:pre-line" }, "✓ Đáp án: " + ansText(q)), exp].filter(Boolean));
+    hintBtn.disabled = true;
+    panel.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    mainBtn.disabled = false; mainBtn.textContent = i + 1 >= list.length ? "Xem kết quả" : "Câu tiếp";
+  };
+
+  const wrap = h("div", { style: "display:contents" }, hud, meter, mainEl, acts);
+  render(wrap); drawMeter(); drawHints();
+}
+
+const HOW = { single: "Chọn 1 đáp án.", multi: "Chọn nhiều đáp án.", tf: "Chọn Đúng hoặc Sai cho mỗi dòng.", dropdown: "Chọn đáp án trong từng ô.", match: "Chạm để ghép từng cặp.", hotspot: "Chạm vào đúng vị trí." };
+
+function askRestart() {
+  const box = h("div", { class: "confirm", role: "dialog" }, h("div", null, h("p", { style: "font-weight:800;font-size:1.1rem" }, "Em có chắc muốn học lại từ đầu? Tiến độ hiện tại sẽ bị xóa."),
+    h("div", { style: "display:flex;gap:10px;justify-content:center" },
+      h("button", { class: "btn", type: "button", onclick: () => box.remove() }, "Không"),
+      h("button", { class: "btn main", type: "button", style: "flex:none", onclick: () => { box.remove(); store.run = null; save(); startJourney(); } }, "Học lại"))));
+  document.body.append(box);
+}
+function askLeave() {
+  const box = h("div", { class: "confirm", role: "dialog" }, h("div", null, h("p", { style: "font-weight:800;font-size:1.1rem" }, "Về trang đầu? Tiến độ vẫn được lưu để em chơi tiếp."),
+    h("div", { style: "display:flex;gap:10px;justify-content:center" },
+      h("button", { class: "btn", type: "button", onclick: () => box.remove() }, "Ở lại"),
+      h("button", { class: "btn main", type: "button", style: "flex:none", onclick: () => { box.remove(); screenHome(); } }, "Về trang đầu"))));
+  document.body.append(box);
+}
+
+/* ---- answer text ---- */
+function ansText(q) {
+  switch (q.type) {
+    case "single": return q.options[q.answer];
+    case "multi": return q.answer.map(i => q.options[i]).join("\n");
+    case "tf": return q.items.map(it => `${it.t} → ${it.a ? "Đúng" : "Sai"}`).join("\n");
+    case "dropdown": return q.items.map(it => `${it.t} → ${q.choices[it.a]}`).join("\n");
+    case "match": return q.left.map((l, i) => `${l} → ${q.right[i]}`).join("\n");
+    case "hotspot": return q.zones.find(z => z.id === q.answer).label;
+  }
+}
+
+/* ---- question builders: each returns {el, complete(), check(), reveal(), onChange} ---- */
+const mk = (sym, cls) => h("span", { class: "ic " + cls }, h("i", null, sym));
+const BUILD = {
+  single(q) {
+    const c = { onChange() {} }, order = shuffle(q.options.map((t, i) => i)); let pick = null;
+    const btns = order.map((oi, k) => h("button", { class: "opt", type: "button", onclick: () => { if (c.locked) return; pick = oi; btns.forEach((b, j) => b.classList.toggle("pick", order[j] === pick)); sfx.tap(); c.onChange(); } },
+      h("span", { class: "tag" }, "ABCD"[k]), h("span", null, q.options[oi]), mk("✓", "")));
+    c.media = q.scene ? imgBox(q) : null; c.el = h("div", { class: "opts" }, btns);
+    c.complete = () => pick !== null; c.check = () => pick === q.answer;
+    c.reveal = () => { c.locked = true; btns.forEach((b, j) => { b.classList.add("locked"); b.disabled = false; if (order[j] === q.answer) { b.classList.add("right"); } else if (order[j] === pick) { b.classList.add("wrong"); b.querySelector(".ic i").textContent = "✕"; } }); };
+    return c;
+  },
+  multi(q) {
+    const c = { onChange() {} }, order = shuffle(q.options.map((t, i) => i)), sel = new Set();
+    const btns = order.map((oi, k) => h("button", { class: "opt", type: "button", onclick: () => {
+      if (c.locked) return;
+      if (sel.has(oi)) sel.delete(oi); else if (sel.size < q.pick) sel.add(oi);
+      btns.forEach((b, j) => b.classList.toggle("pick", sel.has(order[j]))); sfx.tap(); c.onChange();
+    } }, h("span", { class: "tag" }, "ABCDEF"[k]), h("span", null, q.options[oi]), mk("✓", "")));
+    c.el = h("div", { class: "opts multi" }, btns);
+    c.complete = () => sel.size === q.pick;
+    c.check = () => q.answer.length === sel.size && q.answer.every(i => sel.has(i));
+    c.reveal = () => { c.locked = true; btns.forEach((b, j) => { const oi = order[j]; if (q.answer.includes(oi)) b.classList.add("right"); else if (sel.has(oi)) { b.classList.add("wrong"); b.querySelector(".ic i").textContent = "✕"; } }); };
+    return c;
+  },
+  tf(q) {
+    const c = { onChange() {} }, val = q.items.map(() => null);
+    const rows = q.items.map((it, k) => {
+      const yes = h("button", { type: "button" }, "Đúng"), no = h("button", { type: "button" }, "Sai");
+      const set = v => { if (c.locked) return; val[k] = v; yes.classList.toggle("pick", v === true); no.classList.toggle("pick", v === false); sfx.tap(); c.onChange(); };
+      yes.onclick = () => set(true); no.onclick = () => set(false);
+      const fix = h("div", { class: "fix" });
+      return Object.assign(h("div", { class: "row" }, h("div", { class: "rt" }, it.t), h("div", { class: "seg" }, yes, no), h("span", { class: "rmark" }, "✓"), fix), { fix });
+    });
+    c.el = h("div", null, rows);
+    c.complete = () => val.every(v => v !== null); c.check = () => val.every((v, k) => v === q.items[k].a);
+    c.reveal = () => { c.locked = true; rows.forEach((r, k) => { const ok = val[k] === q.items[k].a; r.classList.add(ok ? "right" : "wrong"); r.querySelector(".rmark").textContent = ok ? "✓" : "✕"; if (!ok) r.fix.textContent = "Đáp án: " + (q.items[k].a ? "Đúng" : "Sai"); }); };
+    return c;
+  },
+  dropdown(q) {
+    const c = { onChange() {} }, val = q.items.map(() => -1);
+    const rows = q.items.map((it, k) => {
+      const sel = h("select", { class: "sel", "aria-label": it.t, onchange: () => { val[k] = +sel.value; sfx.tap(); c.onChange(); } },
+        h("option", { value: "-1" }, "Chọn…"), q.choices.map((t, i) => h("option", { value: i }, t)));
+      const fix = h("div", { class: "fix" });
+      return Object.assign(h("div", { class: "row" }, h("div", { class: "rt" }, it.t), sel, h("span", { class: "rmark" }, "✓"), fix), { fix, sel });
+    });
+    c.el = h("div", null, rows);
+    c.complete = () => val.every(v => v >= 0); c.check = () => val.every((v, k) => v === q.items[k].a);
+    c.reveal = () => { c.locked = true; rows.forEach((r, k) => { r.sel.disabled = true; const ok = val[k] === q.items[k].a; r.classList.add(ok ? "right" : "wrong"); r.querySelector(".rmark").textContent = ok ? "✓" : "✕"; if (!ok) r.fix.textContent = "Đáp án: " + q.choices[q.items[k].a]; }); };
+    return c;
+  },
+  match(q) {
+    const c = { onChange() {} }, n = q.left.length, pair = q.left.map(() => -1), rOrder = shuffle(q.right.map((t, i) => i)); let selL = null;
+    const lb = q.left.map((t, i) => h("button", { class: "opt", type: "button", onclick: () => { if (c.locked) return; pair[i] = -1; selL = i; sfx.tap(); paint(); } }, h("span", { class: "num" }), h("span", null, t), mk("✓", "")));
+    const rb = rOrder.map(ri => h("button", { class: "opt", type: "button", onclick: () => {
+      if (c.locked) return;
+      if (selL === null) { const li = pair.indexOf(ri); if (li >= 0) pair[li] = -1; paint(); return; }
+      const old = pair.indexOf(ri); if (old >= 0) pair[old] = -1;
+      pair[selL] = ri; selL = null; sfx.tap(); paint();
+    } }, h("span", { class: "num" }), h("span", null, q.right[ri]), mk("✓", "")));
+    function paint() {
+      lb.forEach((b, i) => { b.classList.toggle("sel1", selL === i); b.classList.toggle("paired", pair[i] >= 0); b.querySelector(".num").textContent = i + 1; });
+      rb.forEach((b, j) => { const li = pair.indexOf(rOrder[j]); b.classList.toggle("paired", li >= 0); b.querySelector(".num").textContent = li + 1; });
+      c.onChange();
+    }
+    c.el = h("div", { class: "mt" }, h("div", { class: "col" }, lb), h("div", { class: "col" }, rb));
+    c.complete = () => pair.every(v => v >= 0); c.check = () => pair.every((v, i) => v === i);
+    c.reveal = () => { c.locked = true; selL = null; lb.forEach((b, i) => { b.classList.remove("sel1"); b.classList.add(pair[i] === i ? "right" : "wrong"); if (pair[i] !== i) b.querySelector(".ic i").textContent = "✕"; });
+      rb.forEach((b, j) => { const li = pair.indexOf(rOrder[j]); b.classList.add(li === rOrder[j] ? "right" : "wrong"); if (li !== rOrder[j]) b.querySelector(".ic i").textContent = "✕"; });
+    };
+    paint();
+    return c;
+  },
+  hotspot(q) {
+    const c = { onChange() {} }; let hit = null, dot = null;
+    const box = h("div", { class: "qimg svg", style: "cursor:pointer" }); box.insertAdjacentHTML("afterbegin", scene(q.scene, q.imgAlt));
+    const svg = box.querySelector("svg"), zbtn = {};
+    const place = z => { const b = zbtn[z.id]; b.style.left = z.x / 8 + "%"; b.style.top = z.y / 4.8 + "%"; b.style.width = z.w / 8 + "%"; b.style.height = z.h / 4.8 + "%"; };
+    q.zones.forEach(z => { zbtn[z.id] = h("button", { class: "zone", type: "button", tabindex: "-1", "aria-label": z.label }); box.append(zbtn[z.id]); place(z); });
+    box.addEventListener("click", e => {
+      if (c.locked) return;
+      const r = svg.getBoundingClientRect(), px = (e.clientX - r.left) / r.width * 800, py = (e.clientY - r.top) / r.height * 480;
+      const z = q.zones.find(z => px >= z.x && px <= z.x + z.w && py >= z.y && py <= z.y + z.h);
+      hit = z ? z.id : "none"; sfx.tap();
+      Object.values(zbtn).forEach(b => b.classList.remove("pick"));
+      if (dot) { dot.remove(); dot = null; }
+      if (z) zbtn[z.id].classList.add("pick");
+      else { dot = h("div", { class: "dot" }); dot.style.left = px / 8 + "%"; dot.style.top = py / 4.8 + "%"; box.append(dot); }
+      c.onChange();
+    });
+    c.media = box; c.el = null;
+    c.complete = () => hit !== null; c.check = () => hit === q.answer;
+    c.reveal = () => { c.locked = true; Object.values(zbtn).forEach(b => b.classList.remove("pick")); zbtn[q.answer].classList.add("right"); if (hit !== q.answer && zbtn[hit]) zbtn[hit].classList.add("wrong"); box.style.cursor = "default"; };
+    return c;
+  }
+};
+function imgBox(q) { const d = h("div", { class: "qimg svg sm" }); d.innerHTML = scene(q.scene, q.imgAlt); return d; }
+
+/* ---- Hình minh họa cửa sổ trình duyệt (vẽ bằng SVG, khung 800 × 480) ---- */
+function scene(kind, alt) {
+  const tabs = ["New Tab", "New Tab", "New Tab"];
+  if (kind === "netpc") { tabs[0] = "Netpc"; tabs[1] = "Games"; }
+  const url = kind === "netpc" ? "http://netpc" : "http://";
+  const activeTab = kind === "netpc" ? 1 : 0;
+  const tabSvg = tabs.map((t, i) => `<g><path d="M${110 + i * 200} 60 q0 -48 22 -48 h146 q22 0 22 48 z" fill="${i === activeTab ? "#f6f6fb" : "#dcdcea"}"/><text x="${205 + i * 200}" y="44" font-size="22" text-anchor="middle" fill="#7a7a90">${t}</text><text x="${284 + i * 200}" y="34" font-size="18" fill="#9a9ab0">×</text></g>`).join("");
+  const badge = (z, col) => { const by = kind === "netpc" && z.id === "D" ? z.y - 32 : z.y; return `<g><rect x="${z.x}" y="${z.y}" width="${z.w}" height="${z.h}" rx="8" fill="none" stroke="${col}" stroke-width="4"/><rect x="${z.x}" y="${by}" width="30" height="30" rx="6" fill="${col}"/><text x="${z.x + 15}" y="${by + 23}" font-size="22" font-weight="800" text-anchor="middle" fill="#fff">${z.id}</text></g>`; };
+  const cols = { A: "#e89b00", B: "#3f8f2f", C: "#1e78c8", D: "#d82020" };
+  const labeled = kind === "netpc" ? ZONES_NETPC : kind === "typeurl" ? ZONES_URL : null;
+  let content;
+  if (kind === "netpc") content = `<text x="400" y="205" font-size="70" font-weight="900" text-anchor="middle" fill="#ef7d2d" font-family="Georgia,serif">Net PC</text><text x="400" y="266" font-size="26" font-weight="800" text-anchor="middle" fill="#8b8b96" font-family="Georgia,serif">Home | About | Search | Store | Contact</text><rect x="300" y="300" width="120" height="100" rx="6" fill="#6f7592"/><rect x="310" y="310" width="100" height="70" fill="#ff9a1f"/><rect x="345" y="400" width="30" height="14" fill="#555b78"/><rect x="430" y="310" width="70" height="90" rx="4" fill="#8f94b0"/><rect x="330" y="420" width="130" height="18" rx="6" fill="#d6d8e6"/><path d="M510 330 h50 v-22 l42 36 l-42 36 v-22 h-50 z" fill="#2f9e2f"/>`;
+  else content = `<text x="400" y="268" font-size="76" font-weight="300" text-anchor="middle" fill="#c9c9d0">Search</text><rect x="240" y="322" width="320" height="50" rx="25" fill="#fff" stroke="#d2d2da" stroke-width="3"/><circle cx="522" cy="345" r="9" fill="none" stroke="#b5b5c0" stroke-width="3"/><path d="M529 352 l10 10" stroke="#b5b5c0" stroke-width="3"/>`;
+  const marks = labeled ? labeled.map(z => badge(z, cols[z.id])).join("") : "";
+  const redBox = kind === "address" ? `<rect x="96" y="62" width="548" height="48" rx="8" fill="none" stroke="#e02020" stroke-width="6"/><path d="M420 170 L330 116" stroke="#e02020" stroke-width="6"/><path d="M322 112 l24 4 l-14 18 z" fill="#e02020"/>` : "";
+  return `<svg viewBox="0 0 800 480" role="img" aria-label="${alt || "Cửa sổ trình duyệt"}" font-family="Segoe UI,Arial,sans-serif" style="display:block;width:100%;height:auto">
+  <rect width="800" height="480" rx="18" fill="#6a5fd0"/><path d="M0 18 a18 18 0 0 1 18 -18 h764 a18 18 0 0 1 18 18 v42 h-800 z" fill="#3b3486"/>
+  <circle cx="30" cy="30" r="9" fill="#ff5f57"/><circle cx="58" cy="30" r="9" fill="#febc2e"/><circle cx="86" cy="30" r="9" fill="#28c840"/>
+  ${tabSvg}<text x="716" y="42" font-size="30" fill="#fff">+</text><text x="768" y="44" font-size="34" font-weight="900" text-anchor="middle" fill="#fff">✕</text>
+  <rect x="0" y="60" width="800" height="52" fill="#ececf3"/>
+  <text x="14" y="96" font-size="28" fill="#9a9aae">←</text><text x="50" y="96" font-size="28" fill="#9a9aae">→</text><text x="84" y="96" font-size="26" fill="#9a9aae">↻</text>
+  <rect x="100" y="66" width="540" height="40" rx="20" fill="#fff"/><text x="142" y="94" font-size="24" fill="#111">${url}</text>
+  <text x="692" y="96" font-size="28" fill="#8a8aa0">☆</text><g stroke="#8a8aa0" stroke-width="4" stroke-linecap="round"><path d="M728 76 h30 M728 86 h30 M728 96 h30"/></g>
+  <rect x="6" y="112" width="788" height="362" fill="#fff"/>${content}${redBox}${marks}</svg>`;
+}
+
+/* ---- RESULT ---- */
+function finishRun() {
+  const { ch, earned, missed, list } = S, d = chData(ch.id);
+  const passed = earned >= CONFIG.pass, stars = starsFor(earned);
+  d.best = Math.max(d.best, earned); d.stars = Math.max(d.stars, stars); d.passed = d.passed || passed; d.missed = missed.slice(); store.run = null; save();
+  passed ? sfx.win() : sfx.bad();
+  const qs = list.map(x => x.q).filter(q => missed.includes(q.id));
+  const hero = h("div"); hero.innerHTML = lighthouse(passed ? 3 : 0);
+  hero.style.cssText = "display:flex;justify-content:center";
+  const groups = [...new Set(qs.map(q => q.lesson))];
+  const missBox = qs.length ? h("div", { class: "miss" }, groups.map(g => h("div", null, h("h3", null, `Cần xem lại · ${g}`),
+    qs.filter(q => q.lesson === g).map(q => h("div", { class: "mi" }, h("div", { class: "qa" }, "✕ " + q.q), h("div", { class: "aa" }, ansText(q))))))) : h("p", { style: "font-weight:800" }, "🎉 Không sai câu nào!");
+  render(h("main", { style: "padding-top:70px" }, h("div", { class: "center" },
+    h("div", { class: "resbox" }, hero,
+      h("div", { class: "score" }, `${earned} / ${CONFIG.total}`),
+      starHtml(stars),
+      h("div", { class: "verdict", style: `color:${passed ? "var(--ok)" : "var(--bad)"}` }, passed ? "✓ ĐẠT" : "✕ CHƯA ĐẠT", ` (cần ${CONFIG.pass})`),
+      h("p", null, passed ? ch.passText : ch.failText),
+      h("div", { class: "actions", style: "justify-content:center;flex-wrap:wrap" },
+        h("button", { class: "btn main", type: "button", style: "flex:none", onclick: () => beginRun(JOURNEY) }, "↻ Chơi lại"),
+        h("button", { class: "btn", type: "button", onclick: screenHome }, "⌂ Về trang đầu"))),
+    missBox)));
+}
+
+applySettings();
+screenHome();
+</script>
+</body>
+</html>
