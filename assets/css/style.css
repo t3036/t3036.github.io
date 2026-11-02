@@ -258,6 +258,11 @@ body:has(.thanh-menu){font-family:"Be Vietnam Pro",-apple-system,"Segoe UI",Robo
 }
 
 /* Màu riêng cho từng loại nút */
+/* Tạm ẩn nút "Ôn tập" của từng bài (xóa rule này để hiện lại).
+   Dòng "Ôn tập theo chủ đề" có thêm nút "Kiểm tra" phía sau nên vẫn giữ nguyên. */
+.khung .nut-hd.nut-on-tap:last-child {
+  display: none;
+}
 .khung.spark .nut-hd.nut-on-tap {
   background: #dbeafe;
   color: #1e4fa8;
