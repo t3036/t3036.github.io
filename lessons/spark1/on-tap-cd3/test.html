@@ -523,9 +523,8 @@ function showQuestion() {
   const pass = h("div", { class: "passline", style: `left:${CONFIG.pass / CONFIG.total * 100}%` }, h("b", null, `${CONFIG.pass}`));
   const meter = h("div", { class: "meter" }, meterRow, h("div", { class: "track" }, lost, fill));
 
-  const lampEl = h("div", { class: "lamp", id: "lamp", title: "Ngọn hải đăng" }); lampEl.innerHTML = lampSvg();
   const hud = h("div", { class: "hud" }, h("div", { class: "hud-top" },
-    h("button", { class: "ibtn", type: "button", title: "Về trang đầu", "aria-label": "Về trang đầu", onclick: () => askLeave() }, "⌂"), lampEl,
+    h("button", { class: "ibtn", type: "button", title: "Về trang đầu", "aria-label": "Về trang đầu", onclick: () => askLeave() }, "⌂"),
     h("div", { class: "hud-title" }, `${STATIONS[stationOf(i, list.length)].icon} Trạm ${stationOf(i, list.length) + 1}/${STATIONS.length} · ${STATIONS[stationOf(i, list.length)].name}`)));
 
   const qtext = withMarks(h("p", { class: "qtext" + (q.q.length > 140 ? " long" : "") }), q.q, q.hl);

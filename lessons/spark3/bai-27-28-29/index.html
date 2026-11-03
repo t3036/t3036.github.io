@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Đội Khám phá – Bài 27·28·29 Cộng tác</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fff8ec; --bg2:#ffeccc; --card:#ffffff; --ink:#2b2540; --mute:#6b6585; --line:#eadfc8;
+  --ok:#16a34a; --okbg:#dcfce7; --bad:#dc2626; --badbg:#fee2e2; --focus:#2563eb;
+  --c1:#f97316; --c1s:#ffedd5; --c2:#0d9488; --c2s:#ccfbf1; --c3:#7c3aed; --c3s:#ede9fe; --c4:#db2777; --c4s:#fce7f3;
+  --shadow:0 4px 0 rgba(43,37,64,.10);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#1c1830; --bg2:#262042; --card:#2a2445; --ink:#f1edff; --mute:#b3accf; --line:#3d3562;
+    --okbg:#14532d; --badbg:#7f1d1d; --c1s:#4a2a12; --c2s:#0f3d3a; --c3s:#34265c; --c4s:#4c1d3a; --shadow:0 4px 0 rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1c1830; --bg2:#262042; --card:#2a2445; --ink:#f1edff; --mute:#b3accf; --line:#3d3562;
+  --okbg:#14532d; --badbg:#7f1d1d; --c1s:#4a2a12; --c2s:#0f3d3a; --c3s:#34265c; --c4s:#4c1d3a; --shadow:0 4px 0 rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font:17px/1.6 "Be Vietnam Pro",system-ui,sans-serif;color:var(--ink);background:var(--bg);min-height:100vh}
+button{font:inherit;color:inherit;cursor:pointer}
+img{max-width:100%;height:auto;display:block}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+
+/* top bar */
+.top{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:2px solid var(--line)}
+.top-in{max-width:880px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{font-weight:800;font-size:15px;display:flex;align-items:center;gap:8px;margin-right:auto}
+.brand a{color:var(--mute);text-decoration:none;font-weight:600;font-size:14px;margin-right:6px}
+.stars{font-weight:800;background:var(--bg2);border-radius:999px;padding:2px 12px}
+.icon-btn{border:2px solid var(--line);background:var(--card);border-radius:999px;padding:2px 12px;font-size:14px;font-weight:600}
+.path{max-width:880px;margin:0 auto;padding:0 16px 10px;display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.pill{border:2px solid var(--line);background:var(--card);border-radius:14px;padding:6px 2px;font-size:13px;font-weight:700;text-align:center;line-height:1.25;color:var(--mute)}
+.pill b{display:block;font-size:18px}
+.pill.on{color:var(--ink);border-color:var(--pc,var(--ink));background:var(--pcs,var(--bg2))}
+.pill.done::after{content:" ✓";color:var(--ok)}
+
+main{max-width:880px;margin:0 auto;padding:18px 16px 80px}
+h1{font-size:clamp(26px,5vw,36px);line-height:1.2;margin:.2em 0}
+h2{font-size:clamp(21px,4vw,26px);line-height:1.3;margin:0 0 .4em}
+h3{font-size:19px;margin:0 0 .3em}
+p{margin:.4em 0}
+.card{background:var(--card);border:2px solid var(--line);border-radius:22px;padding:18px;box-shadow:var(--shadow);margin:0 0 16px}
+.tag{display:inline-block;border-radius:999px;padding:1px 12px;font-size:13px;font-weight:800;background:var(--tc,var(--bg2));color:var(--ink)}
+.en{color:var(--mute);font-style:italic;font-weight:600}
+.key{background:var(--tc,var(--bg2));border-radius:14px;padding:10px 14px;margin:10px 0 0;font-weight:600}
+.btn{border:0;border-radius:16px;padding:12px 22px;font-weight:800;background:var(--ac,var(--c1));color:#fff;box-shadow:0 4px 0 rgba(0,0,0,.22);min-height:48px}
+.btn:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(0,0,0,.22)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btn.ghost{background:var(--card);color:var(--ink);border:2px solid var(--line);box-shadow:none}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.pic{border-radius:16px;margin:10px auto;max-height:340px;object-fit:contain;background:#fff}
+
+/* home */
+.hero{display:grid;gap:14px;grid-template-columns:1fr;align-items:center}
+@media(min-width:700px){.hero{grid-template-columns:1.1fr 1fr}}
+.stations{display:grid;gap:12px;margin-top:6px}
+.st{display:flex;gap:14px;align-items:center;text-align:left;width:100%;border:2px solid var(--line);background:var(--card);border-radius:20px;padding:14px 16px;box-shadow:var(--shadow)}
+.st .ic{font-size:34px;width:60px;height:60px;border-radius:18px;display:grid;place-items:center;background:var(--sc);flex:none}
+.st small{color:var(--mute);font-weight:600;display:block}
+.bar{height:10px;background:var(--bg2);border-radius:99px;overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;background:var(--ac);width:0;transition:width .4s}
+
+/* learn cards */
+.learn{display:grid;gap:14px}
+.lc{border-left:10px solid var(--ac)}
+.cols{display:grid;gap:10px}
+@media(min-width:640px){.cols.two{grid-template-columns:1fr 1fr}.cols.three{grid-template-columns:repeat(3,1fr)}}
+.mini{border-radius:16px;padding:12px 14px;background:var(--tc);font-weight:600}
+.mini b{display:block;font-size:18px}
+.big{font-size:30px;line-height:1}
+
+/* quiz */
+.dots{display:flex;gap:6px;margin:0 0 12px;flex-wrap:wrap}
+.dots i{width:26px;height:10px;border-radius:99px;background:var(--line)}
+.dots i.cur{background:var(--ac)}
+.dots i.ok{background:var(--ok)}
+.dots i.fix{background:#f59e0b}
+.q{font-size:19px;font-weight:700;margin:0 0 12px}
+.hint{color:var(--mute);font-size:14px;font-weight:600;margin:-6px 0 10px}
+.opt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;border:2px solid var(--line);background:var(--card);border-radius:16px;padding:12px 14px;margin:0 0 10px;font-weight:600}
+.opt .k{flex:none;width:30px;height:30px;border-radius:10px;border:2px solid var(--line);display:grid;place-items:center;font-weight:800;font-size:14px}
+.opt.sel{border-color:var(--ac);background:var(--acs)}
+.opt.sel .k{background:var(--ac);border-color:var(--ac);color:#fff}
+.opt.right{border-color:var(--ok);background:var(--okbg)}
+.opt.wrong{border-color:var(--bad);background:var(--badbg)}
+.opt.lock{pointer-events:none}
+.pairs{display:grid;gap:10px}
+@media(min-width:640px){.pairs{grid-template-columns:1fr 1.5fr}}
+.pairs .col{display:grid;gap:10px;align-content:start}
+.chip{position:relative;border:2px solid var(--line);background:var(--card);border-radius:14px;padding:10px 14px 10px 14px;text-align:left;font-weight:600}
+.chip.act{border-color:var(--ac);box-shadow:0 0 0 3px var(--acs)}
+.chip .n{position:absolute;right:8px;top:6px;width:24px;height:24px;border-radius:50%;background:var(--ac);color:#fff;font-size:13px;font-weight:800;display:grid;place-items:center}
+.chip.right{border-color:var(--ok);background:var(--okbg)}
+.chip.wrong{border-color:var(--bad);background:var(--badbg)}
+.sort{display:grid;gap:10px}
+.srow{border:2px solid var(--line);border-radius:16px;padding:10px 12px;background:var(--card)}
+.srow.right{border-color:var(--ok);background:var(--okbg)}
+.srow.wrong{border-color:var(--bad);background:var(--badbg)}
+.srow p{margin:0 0 8px;font-weight:600}
+.bk{display:flex;gap:8px;flex-wrap:wrap}
+.bk button{border:2px solid var(--line);background:var(--card);border-radius:999px;padding:4px 14px;font-weight:700;font-size:15px;min-height:40px}
+.bk button.sel{background:var(--ac);border-color:var(--ac);color:#fff}
+.fb{border-radius:16px;padding:12px 16px;margin:12px 0 0;font-weight:600}
+.fb.good{background:var(--okbg)}
+.fb.try{background:var(--badbg)}
+.fb.show{background:var(--bg2)}
+.fb b{display:block}
+.sum{text-align:center}
+.sum .big{font-size:56px}
+.badge{display:inline-grid;place-items:center;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#fde68a,#f59e0b);font-size:70px;box-shadow:0 6px 0 rgba(0,0,0,.2);margin:6px auto}
+.recap{text-align:left;padding-left:0;list-style:none;display:grid;gap:8px}
+.recap li{background:var(--bg2);border-radius:14px;padding:8px 14px;font-weight:600}
+@media(prefers-reduced-motion:no-preference){.pop{animation:pop .35s}@keyframes pop{0%{transform:scale(.9);opacity:0}100%{transform:none;opacity:1}}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <div class="brand"><a href="../../../spark-lv3.html" title="Về danh sách bài">←</a>🧭 Đội Khám phá · Cộng tác</div>
+    <span class="stars" id="stars" aria-label="Số sao">⭐ 0</span>
+    <button class="icon-btn" id="theme" title="Đổi sáng/tối">🌙</button>
+  </div>
+  <nav class="path" id="path" aria-label="Các trạm"></nav>
+</header>
+<main id="view"></main>
+
+<script>
+"use strict";
+/* ---------- tiny helpers ---------- */
+const h=(tag,props={},...kids)=>{
+  const e=document.createElement(tag);
+  for(const k in props){
+    if(k==="class")e.className=props[k];
+    else if(k==="html")e.innerHTML=props[k];
+    else if(k==="style")e.style.cssText=props[k];
+    else if(k.startsWith("on"))e.addEventListener(k.slice(2),props[k]);
+    else e.setAttribute(k,props[k]);
+  }
+  for(const c of kids.flat()){if(c!=null&&c!==false)e.append(c.nodeType?c:document.createTextNode(c))}
+  return e;
+};
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const KEY="spark3-b27-28-29";
+let save={};            // { "s1-0": 1 (first try) | 0 (needed retry) }
+try{save=JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){}
+const persist=()=>{try{localStorage.setItem(KEY,JSON.stringify(save))}catch(e){}};
+
+/* ---------- lesson content ---------- */
+const STATIONS=[
+{id:"s1",no:27,name:"Cộng tác",icon:"🤝",ac:"--c1",acs:"--c1s",
+ goal:"Hiểu cộng tác, đồng tác giả, cộng tác đồng bộ và không đồng bộ.",
+ learn:[
+  {t:"Cộng tác là gì?",img:"nhom.jpg",html:`<p><b>Cộng tác</b> <span class="en">(Collaboration)</span> là nhiều người cùng làm việc với nhau để hoàn thành một nhiệm vụ.</p><div class="key">Ví dụ: cả đội cùng làm tờ Báo tường số – mỗi bạn một phần việc, cùng một mục tiêu.</div>`},
+  {t:"Đồng tác giả",img:"dong-tac-gia.jpg",html:`<p><b>Đồng tác giả</b> <span class="en">(Co-authoring)</span> là quy trình mà nhiều người cùng tạo ra một sản phẩm.</p><div class="key">Ví dụ: em và một bạn cùng lớp tạo một ứng dụng – hợp tác ở lớp và làm việc một mình khi ở nhà.</div>`},
+  {t:"Đồng bộ hay không đồng bộ?",img:"dong-bo.jpg",html:`<div class="cols two"><div class="mini" style="--tc:var(--c1s)"><b>⚡ Đồng bộ <span class="en">Synchronous</span></b>Nhiều người hợp tác <u>cùng một lúc</u>. Ví dụ: họp video, cùng sửa tài liệu trực tiếp.</div><div class="mini" style="--tc:var(--c2s)"><b>📅 Không đồng bộ <span class="en">Asynchronous</span></b>Dùng tài liệu dùng chung nhưng làm vào <u>thời điểm khác nhau</u>. Ví dụ: gửi email, mỗi bạn sửa khi rảnh.</div></div><div class="key">Mẹo nhớ: <b>đồng bộ = cùng lúc</b> · <b>không đồng bộ = khác lúc</b>.</div>`},
+  {t:"Vai trò của con người khi dùng AI",img:"ai.jpg",html:`<p>AI hỗ trợ cộng tác nhưng <b>không thay trách nhiệm</b> của từng thành viên.</p><p>Nhóm phải có <b>đóng góp thật của con người</b> và thống nhất cách dùng AI một cách <b>minh bạch</b>.</p>`}
+ ],
+ qs:[
+  {t:"single",q:"Tùy chọn nào đúng nhất khi nói về khái niệm cộng tác?",
+   o:["Cộng tác (Collaboration) là nhiều người cùng làm việc với nhau để hoàn thành một nhiệm vụ.","Cộng tác (Collaboration) là mỗi thành viên chỉ cần quan tâm hoàn thành tốt công việc của mình.","Cộng tác (Collaboration) chỉ xảy ra khi hai thành viên cùng làm việc để hoàn thành một tài liệu.","Cộng tác (Collaboration) chỉ diễn ra khi thực hiện hội nghị truyền hình."],a:0,
+   why:"Cộng tác là nhiều người cùng làm việc để hoàn thành một nhiệm vụ – không giới hạn hai người hay một công cụ."},
+  {t:"match",q:"Nối từng thuật ngữ với định nghĩa đúng của nó. (Chạm thuật ngữ, rồi chạm định nghĩa)",
+   p:[["Đồng tác giả","Một quy trình mà ở đó nhiều người cùng tạo ra một sản phẩm"],["Cộng tác đồng bộ","Một quy trình mà ở đó nhiều người hợp tác cùng lúc để tạo ra một sản phẩm"],["Cộng tác không đồng bộ","Một quy trình mà ở đó nhiều người sử dụng các tài liệu dùng chung để tạo ra một sản phẩm theo thời gian riêng"]],
+   why:"Đồng bộ = cùng lúc. Không đồng bộ = mỗi người làm vào thời gian riêng trên tài liệu dùng chung."},
+  {t:"multi",q:"Tùy chọn nào đúng khi nói về Cộng tác đồng bộ?",
+   o:["Tiếng Anh của cộng tác đồng bộ là Synchronous Collaboration.","Cộng tác đồng bộ là việc nhiều người hợp tác cùng lúc trong thời gian thực để đạt được mục tiêu chung.","Một ví dụ về cộng tác đồng bộ là Video-conferencing (hội nghị truyền hình).","Một ví dụ của cộng tác đồng bộ là sử dụng Email.","Tin nhắn văn bản là ví dụ của cộng tác đồng bộ vì chúng ta nhận tin ngay lập tức."],a:[0,1,2],
+   why:"Email và tin nhắn văn bản không cần người nhận trả lời ngay – bạn có thể đọc và trả lời sau, nên không phải đồng bộ."},
+  {t:"single",q:"Tùy chọn nào đúng khi nói về Cộng tác không đồng bộ?",
+   o:["Tiếng Anh của cộng tác không đồng bộ là Asynchronous Collaboration.","Tiếng Anh của cộng tác không đồng bộ là Synchronous Collaboration.","Cộng tác không đồng bộ là việc nhiều người hợp tác cùng lúc trong thời gian thực để đạt được mục tiêu chung.","Một ví dụ về cộng tác không đồng bộ là Video Call."],a:0,
+   why:"Asynchronous = không đồng bộ. Cùng lúc, trong thời gian thực là đặc điểm của cộng tác đồng bộ; Video Call cũng là đồng bộ."},
+  {t:"single",q:"Tùy chọn nào đúng khi nói về Đồng tác giả?",
+   o:["Tiếng Anh của đồng tác giả là Co-authoring.","Là việc nhiều người phải hợp tác cùng lúc trong thời gian thực để đạt được mục tiêu chung.","Là việc nhiều người phải hợp tác trên cùng một máy tính.","Là việc nhiều người phải là bạn thân cùng nhau viết một tài liệu."],a:0,
+   why:"Đồng tác giả (Co-authoring) là nhiều người cùng tạo ra một sản phẩm – không bắt buộc cùng lúc, cùng máy hay là bạn thân."},
+  {t:"sort",q:"Đây có phải ví dụ của cộng tác ĐỒNG BỘ không?",b:["Đúng – đồng bộ","Sai – không đồng bộ"],
+   i:[["Hội nghị truyền hình",0],["Cùng sửa tài liệu trực tiếp trong lúc họp nhóm",0],["Email",1],["Tin nhắn văn bản (bạn trả lời khi rảnh)",1]],
+   why:"Chỉ khi mọi người cùng làm việc vào cùng một lúc thì mới là đồng bộ."},
+  {t:"sort",q:"Xếp mỗi ví dụ vào đúng loại.",b:["Đồng tác giả","Đồng bộ","Không đồng bộ"],
+   i:[["Em và một bạn tạo một ứng dụng: hợp tác ở lớp và làm một mình ở nhà",0],["Em và bạn cùng lớp mỗi người tạo 5 trang chiếu cho bài trình chiếu về động vật hoang dã",0],["Em tổ chức hội thảo video cho đội bóng chuyền để bàn chiến thuật mới",1],["Em và một bạn ngồi trong thư viện cùng thiết kế trang Web cho lớp",1],["Em và năm học sinh khác làm bài tập nhóm bằng một tài liệu dùng chung",2],["Em lên lịch gửi Email sau giờ học để hỏi bạn mẹo cải thiện bài tập",2]],
+   why:"Đồng tác giả: cùng tạo ra một sản phẩm. Đồng bộ: cùng lúc. Không đồng bộ: tài liệu dùng chung, thời gian riêng."},
+  {t:"single",q:"Đội của em dùng AI viết một đoạn cho Báo tường số. Em nên làm gì?",
+   o:["Cả đội cùng đọc, kiểm tra và chỉnh lại kết quả của AI.","Sao chép nguyên văn rồi nộp, vì AI luôn đúng.","Để AI làm hết, em không cần đóng góp gì.","Sửa sản phẩm chung theo ý mình, không cần hỏi nhóm."],a:0,
+   why:"AI chỉ hỗ trợ. Con người vẫn chịu trách nhiệm, phải đóng góp thật và thống nhất với cả nhóm."}
+ ],
+ recap:["Cộng tác = nhiều người cùng làm để hoàn thành một nhiệm vụ.","Đồng bộ = cùng lúc · Không đồng bộ = khác lúc.","Dùng AI: minh bạch, cả nhóm kiểm tra, vẫn có đóng góp thật của em."]},
+
+{id:"s2",no:28,name:"Lợi ích cộng tác kĩ thuật số",icon:"🌈",ac:"--c2",acs:"--c2s",
+ goal:"Nêu được các lợi ích khi cộng tác và cách dùng AI để nhóm làm việc tốt hơn.",
+ learn:[
+  {t:"Ba lợi ích lớn của cộng tác",html:`<div class="cols three"><div class="mini" style="--tc:var(--c1s)"><span class="big">⏱️</span><b>Tiết kiệm thời gian</b>Chia sẻ nhiệm vụ, học hỏi và giúp đỡ lẫn nhau nên xong việc nhanh hơn.</div><div class="mini" style="--tc:var(--c2s)"><span class="big">🌈</span><b>Quan điểm đa dạng</b>Mỗi người một ý. Ghép lại sẽ có nhiều ý tưởng sáng tạo mà một mình khó nghĩ ra.</div><div class="mini" style="--tc:var(--c3s)"><span class="big">🧩</span><b>Phát huy kĩ năng đa dạng</b>Chia bớt khối lượng việc, tận dụng điểm mạnh riêng của từng thành viên.</div></div>`},
+  {t:"Dùng AI trong hoạt động cộng tác",img:"hoc-tap.jpg",html:`<p>AI giúp nhóm làm việc <b>có kế hoạch</b> hơn.</p><p>Kết quả của AI cần <b>được cả nhóm kiểm tra</b>.</p><div class="key">Cộng tác tốt cần: <b>mục tiêu</b> · <b>phân công</b> · <b>phản hồi rõ ràng</b>.</div>`}
+ ],
+ qs:[
+  {t:"multi",q:"Tùy chọn nào sau đây là lợi ích khi cộng tác với người khác?",
+   o:["Tiết kiệm thời gian","Làm việc một mình","Đa dạng quan điểm","Đồng quan điểm (ai cũng nghĩ giống nhau)"],a:[0,2],
+   why:"Cộng tác giúp tiết kiệm thời gian và có nhiều quan điểm khác nhau."},
+  {t:"single",q:"Hành động nào mang lại các lợi ích: tiết kiệm thời gian, khám phá nhiều quan điểm đa dạng và phân chia công việc phù hợp thế mạnh cá nhân?",
+   o:["Sử dụng công cụ thu thập dữ liệu","Sử dụng một quy trình cộng tác","Hành động của công dân kĩ thuật số tích cực","Áp dụng các công cụ quản lí thông tin"],a:1,
+   why:"Chính quy trình cộng tác mang lại cả ba lợi ích này."},
+  {t:"multi",q:"Rian muốn cộng tác với một nhóm để làm bài tập. Bạn ấy sẽ nhận được lợi ích gì?",
+   o:["Nhiều ý tưởng sáng tạo hơn","Chia sẻ bớt khối lượng công việc","Có nhiều quyền kiểm soát hơn đối với bài tập","Đạt được điểm số cao nhất"],a:[0,1],
+   why:"Cộng tác không có nghĩa là một mình nắm quyền kiểm soát, cũng không đảm bảo điểm cao nhất."},
+  {t:"sort",q:"Đây có phải là lợi ích của việc cộng tác không?",b:["Có","Không"],
+   i:[["Dữ liệu có giá trị hơn khi có nhiều người xem nó",1],["Chia sẻ khối lượng công việc giúp tiết kiệm thời gian",0],["Những quan điểm đa dạng được chia sẻ",0],["Nhiệm vụ có thể phù hợp với kĩ năng của mỗi người",0]],
+   why:"Giá trị của dữ liệu không tăng chỉ vì có nhiều người xem."},
+  {t:"single",q:"Nhóm của An chia việc: Bình vẽ giỏi nên vẽ tranh, Chi viết giỏi nên viết bài, An cẩn thận nên kiểm tra lỗi. Đây là lợi ích nào?",
+   o:["Phát huy kĩ năng đa dạng, tận dụng điểm mạnh của từng người","Làm việc một mình cho nhanh","Mọi người cùng nghĩ giống nhau","Chỉ một bạn làm, các bạn khác xem"],a:0,
+   why:"Mỗi thành viên có điểm mạnh riêng – ghép lại sẽ hoàn thành nhiệm vụ hiệu quả hơn."},
+  {t:"single",q:"Điều gì giúp cộng tác với sự hỗ trợ của AI diễn ra tốt?",
+   o:["Có mục tiêu, phân công và phản hồi rõ ràng; kết quả AI được cả nhóm kiểm tra","Để AI quyết định mọi thứ","Không ai cần kiểm tra kết quả của AI","Mỗi người tự làm, không trao đổi"],a:0,
+   why:"AI giúp nhóm có kế hoạch hơn, nhưng cộng tác tốt vẫn cần con người trao đổi và kiểm tra."}
+ ],
+ recap:["3 lợi ích: tiết kiệm thời gian · quan điểm đa dạng · phát huy kĩ năng đa dạng.","Chia việc theo thế mạnh từng bạn.","Cộng tác tốt cần mục tiêu, phân công và phản hồi rõ ràng."]},
+
+{id:"s3",no:29,name:"Cộng tác trong học tập và giải trí",icon:"🎥",ac:"--c3",acs:"--c3s",
+ goal:"Dùng emoji, từ viết tắt, chia sẻ tài nguyên và hội nghị truyền hình đúng cách.",
+ learn:[
+  {t:"Biểu tượng cảm xúc (Emoji)",img:"emoji.png",html:`<p><b>Emoji</b> là những hình ảnh nhỏ dùng để nhấn mạnh hoặc thể hiện cảm xúc.</p><div class="key">Phù hợp khi giao tiếp kĩ thuật số <b>không trang trọng</b> (nhắn tin với bạn bè).</div>`},
+  {t:"Từ viết tắt",html:`<p>Từ viết tắt được tạo từ các chữ cái đầu hoặc kí hiệu để rút ngắn văn bản.</p><div class="cols two"><div class="mini" style="--tc:var(--okbg)"><b>✅ Nên dùng</b>“CPU” = Central Processing Unit. Dùng trong trao đổi, báo cáo, tài liệu khi mô tả thuật ngữ kĩ thuật hoặc tên gọi dài.</div><div class="mini" style="--tc:var(--badbg)"><b>⚠️ Không khuyến khích</b>Viết “G9!” thay cho “Good night!” – dễ gây hiểu lầm, mất tính chính xác.</div></div>`},
+  {t:"Lưu ý khi chia sẻ tài nguyên",html:`<p>Khi chia sẻ ảnh, video, trang Web, liên kết (Links), em cần chú ý:</p><div class="cols three"><div class="mini" style="--tc:var(--c3s)"><span class="big">🕶️</span><b>Quyền riêng tư</b></div><div class="mini" style="--tc:var(--c2s)"><span class="big">🔐</span><b>Bảo mật thông tin</b></div><div class="mini" style="--tc:var(--c1s)"><span class="big">✔️</span><b>Tính chính xác</b></div></div>`},
+  {t:"Công cụ hội nghị truyền hình",img:"hoi-nghi.jpg",html:`<p><b>Video Conferencing Tools</b> giúp nhóm thảo luận hiệu quả khi cộng tác.</p><p>Lợi ích: 🤝 giảm khoảng cách, tăng kết nối · 💰 tiết kiệm chi phí · ⏱️ tiết kiệm thời gian · 📈 tăng năng suất lao động.</p>`},
+  {t:"Hai mục đích của cộng tác kĩ thuật số",img:"hoc-tap.jpg",html:`<div class="cols two"><div class="mini" style="--tc:var(--c4s)"><b>🎉 Giải trí</b>Tạo niềm vui, gắn kết bạn bè. VD: thêm emoji vào tin nhắn, chia sẻ video hài hước.</div><div class="mini" style="--tc:var(--c2s)"><b>📚 Học tập</b>Chia sẻ, trao đổi, hợp tác để hỗ trợ học tập. VD: trao đổi bài với thầy cô, tham gia lớp học trực tuyến, làm bài tập.</div></div>`},
+  {t:"Phong cách phù hợp khi dùng AI",html:`<p>AI có thể hỗ trợ ý tưởng nhưng <b>không được dùng để gây hại</b>.</p><p>Không sửa sản phẩm chung theo ý mình nếu <b>chưa trao đổi với nhóm</b>.</p>`},
+  {t:"4 quy tắc ứng xử khi cộng tác kĩ thuật số",img:"quy-tac.jpg",html:`<p>Em cần xác định đúng mục đích, giao tiếp phù hợp, chia sẻ tài nguyên cẩn thận và dùng công cụ số để phối hợp hiệu quả.</p>`}
+ ],
+ qs:[
+  {t:"sort",q:"Cách dùng emoji và từ viết tắt này có phù hợp không?",b:["Phù hợp","Chưa phù hợp"],
+   i:[["Báo cáo Tin học: “Central Processing Unit (CPU) là bộ xử lí trung tâm.”",0],["Nhắn tin vui với bạn thân, kèm emoji 😄",0],["Nhắn cô giáo: “G9!” thay cho “Good night!”",1],["Gửi emoji 😂 trong email xin phép thầy hiệu trưởng",1]],
+   why:"Emoji hợp với giao tiếp không trang trọng. Từ viết tắt chuẩn như CPU dùng được; kiểu “G9!” dễ gây hiểu lầm, nhất là với thầy cô."},
+  {t:"match",q:"Nối điều cần chú ý khi chia sẻ với ý nghĩa của nó.",
+   p:[["Quyền riêng tư","Không đăng ảnh, thông tin của người khác khi họ chưa đồng ý"],["Bảo mật thông tin","Không gửi mật khẩu hay thông tin cá nhân quan trọng"],["Tính chính xác","Kiểm tra nguồn tin trước khi chia sẻ liên kết, trang Web"]],
+   why:"Nghĩ trước khi bấm gửi: có xâm phạm riêng tư không, có lộ thông tin không, có đúng sự thật không."},
+  {t:"single",q:"Em sẽ sử dụng hội nghị truyền hình như thế nào để cộng tác trong một dự án nhóm?",
+   o:["Để gửi các tập tin lớn cho các thành viên trong nhóm","Để thảo luận về nghiên cứu mà mỗi thành viên đã thu thập","Để bỏ phiếu ẩn danh về một chủ đề dự án","Để theo dõi bất kì liên kết hoặc trang Web hữu ích nào"],a:1,
+   why:"Hội nghị truyền hình dùng để trao đổi, thảo luận trực tiếp cùng lúc."},
+  {t:"sort",q:"Đây là mục đích HỌC TẬP hay GIẢI TRÍ?",b:["Học tập","Giải trí"],
+   i:[["Thêm Emoji mặt cười vào tin nhắn của bạn",1],["Tham gia hội thảo video với giáo viên và các bạn cùng lớp",0],["Chia sẻ video hài hước về một con gấu tuyết bị trượt trên băng",1]],
+   why:"Học tập: trao đổi với thầy cô, bạn bè về bài học. Giải trí: tạo niềm vui, gắn kết bạn bè."},
+  {t:"sort",q:"Mỗi tin nhắn dưới đây thuộc mục đích nào?",b:["Học tập","Giải trí"],
+   i:[["Hey tớ thấy cậu ở trung tâm mua sắm ngày hôm nay đó. Lol có BFF mới nha!",1],["Orson bảo rằng bạn ấy sẽ quay lại ngay sau khi nói chuyện với giáo viên",0],["Rian đang tìm bạn của mình ở đâu tại trận ⚽ nhưng rồi cậu ấy phải ❌",1],["Cảm ơn cậu đã giúp tớ làm bài tập về nhà hôm nay",0]],
+   why:"Tin nhắn vui vẻ với emoji và từ viết tắt là giải trí; tin liên quan đến thầy cô, bài tập là học tập."},
+  {t:"single",q:"Ken và Orson đều đang ở nhà. Họ có thể làm bài tập cùng nhau và cùng lúc qua hình thức kĩ thuật số nào?",
+   o:["Gửi Email vào buổi sáng","Tạo một hội thảo Video lúc 6 giờ chiều","Chụp ảnh để chia sẻ ở trường","Viết ghi chú cho nhau"],a:1,
+   why:"“Cùng lúc” nghĩa là cộng tác đồng bộ – hội thảo video là lựa chọn phù hợp."},
+  {t:"single",q:"Công nghệ hỗ trợ làm việc từ xa và linh hoạt tại nơi làm việc như thế nào?",
+   o:["Bằng cách không khuyến khích việc sử dụng thiết bị di động và máy tính xách tay","Bằng cách cung cấp các công cụ và phần mềm để cộng tác và liên lạc từ xa","Bằng cách yêu cầu nhân viên phải luôn có mặt tại văn phòng","Việc đó hạn chế quyền truy cập vào thông tin liên quan đến công việc"],a:1,
+   why:"Công cụ và phần mềm giúp mọi người cộng tác, liên lạc dù ở xa nhau."},
+  {t:"single",q:"Cách dùng AI nào là đúng khi cả nhóm cùng làm một sản phẩm?",
+   o:["Nhờ AI gợi ý ý tưởng, rồi trao đổi với nhóm trước khi sửa sản phẩm chung","Dùng AI để trêu chọc, làm bạn khác buồn","Tự sửa sản phẩm chung theo ý mình vì AI bảo vậy","Giấu cả nhóm việc mình dùng AI"],a:0,
+   why:"AI hỗ trợ ý tưởng nhưng không dùng để gây hại; thay đổi sản phẩm chung phải trao đổi với nhóm và minh bạch."}
+ ],
+ recap:["Emoji: dùng khi không trang trọng. Từ viết tắt: chỉ khi rõ nghĩa (như CPU).","Chia sẻ: nhớ quyền riêng tư · bảo mật · chính xác.","Họp video = cộng tác cùng lúc. Mục đích: học tập hoặc giải trí."]}
+];
+const TOTAL_Q=STATIONS.reduce((n,s)=>n+s.qs.length,0);
+
+/* ---------- state ---------- */
+let view={tab:"home",phase:"learn",qi:0};
+const $v=document.getElementById("view");
+const setVar=(el,st)=>{el.style.setProperty("--ac",`var(${st.ac})`);el.style.setProperty("--acs",`var(${st.acs})`)};
+const stationDone=st=>st.qs.every((_,i)=>st.id+"-"+i in save);
+const stationCount=st=>st.qs.filter((_,i)=>st.id+"-"+i in save).length;
+const starCount=()=>Object.values(save).filter(v=>v===1).length;
+
+/* ---------- chrome ---------- */
+function renderChrome(){
+  document.getElementById("stars").textContent="⭐ "+starCount();
+  const p=document.getElementById("path");p.replaceChildren();
+  const mk=(tab,top,label,pc,pcs,done)=>{
+    const b=h("button",{class:"pill"+(view.tab===tab?" on":"")+(done?" done":""),onclick:()=>go(tab)},h("b",{},top),label);
+    b.style.setProperty("--pc",`var(${pc})`);b.style.setProperty("--pcs",`var(${pcs})`);return b;
+  };
+  p.append(mk("home","🏠","Bắt đầu","--ink","--bg2",false));
+  STATIONS.forEach((s,i)=>p.append(mk(i,s.icon,"Bài "+s.no,s.ac,s.acs,stationDone(s))));
+  p.append(mk("end","🏆","Huy hiệu","--c4","--c4s",false));
+}
+function go(tab){
+  view={tab,phase:"learn",qi:0};
+  if(typeof tab==="number"){const st=STATIONS[tab];if(stationDone(st))view.phase="sum";}
+  render();window.scrollTo({top:0});
+}
+function render(){renderChrome();$v.replaceChildren();
+  if(view.tab==="home")renderHome();
+  else if(view.tab==="end")renderEnd();
+  else renderStation();
+}
+
+/* ---------- home ---------- */
+function renderHome(){
+  const wrap=h("div",{class:"pop"});
+  wrap.append(h("div",{class:"hero"},
+    h("div",{},h("span",{class:"tag"},"Spark Level 3 · Chủ đề Cộng tác"),
+      h("h1",{},"Đội Khám phá và Báo tường số"),
+      h("p",{},"Lớp em sắp làm một tờ ",h("b",{},"Báo tường số")," về động vật hoang dã. Cả đội cần vượt qua 3 trạm để biết cách cộng tác thật giỏi!"),
+      h("div",{class:"row",style:"margin-top:12px"},h("button",{class:"btn",onclick:()=>go(firstOpen())},"🚀 Bắt đầu hành trình"))),
+    h("img",{src:"img/nhom.jpg",alt:"Các bạn nhỏ cùng làm việc nhóm",class:"pic",style:"margin:0"})));
+  const list=h("div",{class:"stations"});
+  STATIONS.forEach((s,i)=>{
+    const n=stationCount(s),b=h("button",{class:"st",onclick:()=>go(i)});
+    b.style.setProperty("--sc",`var(${s.acs})`);b.style.setProperty("--ac",`var(${s.ac})`);
+    b.append(h("span",{class:"ic"},s.icon),h("div",{style:"flex:1"},h("b",{},`Trạm ${i+1} · Bài ${s.no}: ${s.name}`),h("small",{},s.goal),
+      h("div",{class:"bar"},h("i",{style:`width:${n/s.qs.length*100}%`})),h("small",{},`${n}/${s.qs.length} thử thách`)));
+    list.append(b);
+  });
+  wrap.append(h("h2",{style:"margin-top:22px"},"Bản đồ 3 trạm"),list);
+  $v.append(wrap);
+}
+const firstOpen=()=>{const i=STATIONS.findIndex(s=>!stationDone(s));return i<0?0:i};
+
+/* ---------- station ---------- */
+function renderStation(){
+  const st=STATIONS[view.tab];
+  const wrap=h("div",{class:"pop"});setVar(wrap,st);
+  if(view.phase==="learn"){
+    wrap.append(h("span",{class:"tag",style:"--tc:var(--acs)"},`Trạm ${view.tab+1} · Bài ${st.no}`),h("h1",{},`${st.icon} ${st.name}`),h("p",{style:"color:var(--mute);font-weight:600"},"Mục tiêu: "+st.goal));
+    const l=h("div",{class:"learn",style:"margin-top:14px"});
+    st.learn.forEach((c,i)=>{
+      const card=h("section",{class:"card lc"},h("h3",{},`${i+1}. ${c.t}`),h("div",{html:c.html}));
+      if(c.img)card.querySelector("div").before(h("img",{src:"img/"+c.img,alt:c.t,class:"pic",loading:"lazy"}));
+      l.append(card);
+    });
+    wrap.append(l,h("div",{class:"row"},h("button",{class:"btn",onclick:()=>{view.phase="quiz";view.qi=firstUnsolved(st);render();window.scrollTo({top:0})}},"🎯 Làm thử thách ("+st.qs.length+" câu)")));
+  }else if(view.phase==="quiz"){
+    wrap.append(h("span",{class:"tag",style:"--tc:var(--acs)"},`Thử thách · Bài ${st.no}`));
+    wrap.append(dotsEl(st),questionEl(st,view.qi));
+  }else{
+    wrap.append(summaryEl(st));
+  }
+  $v.append(wrap);
+}
+const firstUnsolved=st=>{const i=st.qs.findIndex((_,k)=>!(st.id+"-"+k in save));return i<0?0:i};
+function dotsEl(st){
+  const d=h("div",{class:"dots",style:"margin-top:10px","aria-hidden":"true"});
+  st.qs.forEach((_,i)=>{const k=st.id+"-"+i;d.append(h("i",{class:i===view.qi?"cur":k in save?(save[k]===1?"ok":"fix"):""}))});
+  return d;
+}
+function summaryEl(st){
+  const n=st.qs.filter((_,i)=>save[st.id+"-"+i]===1).length,idx=STATIONS.indexOf(st);
+  const next=idx<2?STATIONS[idx+1]:null;
+  return h("div",{class:"card sum"},
+    h("div",{class:"big"},n===st.qs.length?"🎉":"👏"),
+    h("h2",{},`Hoàn thành Trạm ${idx+1}!`),
+    h("p",{},`Đúng ngay lần đầu: ⭐ ${n}/${st.qs.length}`),
+    h("h3",{style:"margin-top:14px"},"Nhớ nhé"),
+    h("ul",{class:"recap"},st.recap.map(r=>h("li",{},r))),
+    h("div",{class:"row",style:"justify-content:center;margin-top:16px"},
+      h("button",{class:"btn ghost",onclick:()=>{st.qs.forEach((_,i)=>delete save[st.id+"-"+i]);persist();view.phase="learn";render()}},"🔄 Làm lại trạm"),
+      next?h("button",{class:"btn",onclick:()=>go(idx+1)},`Trạm ${idx+2} →`):h("button",{class:"btn",onclick:()=>go("end")},"🏆 Nhận huy hiệu")));
+}
+
+/* ---------- question engine ---------- */
+const LETTERS="ABCDEFGH";
+function questionEl(st,qi){
+  const q=st.qs[qi],key=st.id+"-"+qi;
+  const ctl=TYPES[q.t](q);
+  let tries=0,over=false;
+  const fb=h("div",{"aria-live":"polite"});
+  const ck=h("button",{class:"btn",disabled:""},"✔ Kiểm tra");
+  const nx=h("button",{class:"btn",style:"display:none"},qi<st.qs.length-1?"Câu tiếp →":"Xem kết quả →");
+  nx.onclick=()=>{if(qi<st.qs.length-1){view.qi=qi+1}else view.phase="sum";render();window.scrollTo({top:0})};
+  ctl.onchange=()=>{if(!over)ck.disabled=!ctl.ready()};
+  ck.onclick=()=>{
+    tries++;
+    if(ctl.check()){finish(tries===1?1:0,true)}
+    else if(tries>=2){ctl.reveal();finish(0,false)}
+    else fb.replaceChildren(h("div",{class:"fb try pop"},h("b",{},"Chưa đúng rồi, thử lại nhé! 💪"),"Những chỗ màu đỏ cần xem lại."));
+  };
+  function finish(score,right){
+    over=true;ctl.lock();ck.style.display="none";nx.style.display="";
+    save[key]=score;persist();renderChrome();
+    fb.replaceChildren(h("div",{class:"fb "+(right?"good":"show")+" pop"},
+      h("b",{},right?(score?"Chính xác! ⭐ +1":"Đúng rồi! Lần sau sẽ đúng ngay từ đầu nhé 👍"):"Đây là đáp án đúng 👀"),q.why));
+    nx.focus({preventScroll:false});
+  }
+  return h("div",{class:"card",style:"margin-top:12px"},
+    h("p",{class:"q"},`Câu ${qi+1}/${st.qs.length}. ${q.q}`),ctl.el,fb,h("div",{class:"row",style:"margin-top:14px"},ck,nx));
+}
+
+const TYPES={
+  single(q){
+    let sel=-1,locked=false;
+    const order=shuffle(q.o.map((_,i)=>i)),btns=[];
+    const api={el:h("div",{}),onchange(){}};
+    order.forEach((oi,pos)=>{
+      const b=h("button",{class:"opt",onclick:()=>{if(locked)return;sel=oi;btns.forEach(x=>x.b.classList.toggle("sel",x.oi===sel));api.onchange()}},h("span",{class:"k"},LETTERS[pos]),q.o[oi]);
+      btns.push({b,oi});api.el.append(b);
+    });
+    api.ready=()=>sel>=0;
+    api.check=()=>{btns.forEach(x=>x.b.classList.remove("wrong"));if(sel===q.a){btns.find(x=>x.oi===sel).b.classList.add("right");return true}
+      btns.find(x=>x.oi===sel).b.classList.add("wrong");return false};
+    api.reveal=()=>btns.forEach(x=>{x.b.classList.remove("wrong");x.b.classList.toggle("right",x.oi===q.a)});
+    api.lock=()=>{locked=true;btns.forEach(x=>x.b.classList.add("lock"))};
+    return api;
+  },
+  multi(q){
+    const sel=new Set();let locked=false;
+    const order=shuffle(q.o.map((_,i)=>i)),btns=[];
+    const api={el:h("div",{},h("p",{class:"hint"},`Chọn ${q.a.length} đáp án`)),onchange(){}};
+    order.forEach((oi,pos)=>{
+      const b=h("button",{class:"opt",onclick:()=>{if(locked)return;sel.has(oi)?sel.delete(oi):sel.add(oi);btns.forEach(x=>x.b.classList.toggle("sel",sel.has(x.oi)));api.onchange()}},h("span",{class:"k"},LETTERS[pos]),q.o[oi]);
+      btns.push({b,oi});api.el.append(b);
+    });
+    api.ready=()=>sel.size===q.a.length;
+    api.check=()=>{let ok=true;btns.forEach(x=>{x.b.classList.remove("right","wrong");if(sel.has(x.oi)){const r=q.a.includes(x.oi);x.b.classList.add(r?"right":"wrong");if(!r)ok=false}});return ok&&sel.size===q.a.length};
+    api.reveal=()=>btns.forEach(x=>{x.b.classList.remove("wrong","right");if(q.a.includes(x.oi))x.b.classList.add("right")});
+    api.lock=()=>{locked=true;btns.forEach(x=>x.b.classList.add("lock"))};
+    return api;
+  },
+  match(q){
+    const pair={};          // term idx -> def idx
+    let act=-1,locked=false;
+    const defs=shuffle(q.p.map((_,i)=>i));
+    const tEls=q.p.map((p,i)=>h("button",{class:"chip",onclick:()=>{if(locked)return;if(i in pair){delete pair[i];act=-1}else act=i;paint();api.onchange()}},p[0]));
+    const dEls=defs.map(di=>h("button",{class:"chip",onclick:()=>{if(locked)return;
+      if(act<0)return;
+      for(const t in pair)if(pair[t]===di)delete pair[t];
+      pair[act]=di;act=-1;paint();api.onchange()}},q.p[di][1]));
+    const api={el:h("div",{},h("p",{class:"hint"},"Chạm một thuật ngữ, rồi chạm định nghĩa tương ứng. Chạm lại thuật ngữ đã nối để gỡ."),
+      h("div",{class:"pairs"},h("div",{class:"col"},tEls),h("div",{class:"col"},dEls))),onchange(){}};
+    function paint(){
+      tEls.forEach((e,i)=>{e.classList.toggle("act",act===i);e.querySelector(".n")?.remove();if(i in pair)e.append(h("span",{class:"n"},i+1))});
+      dEls.forEach((e,k)=>{e.querySelector(".n")?.remove();const t=Object.keys(pair).find(t=>pair[t]===defs[k]);if(t!==undefined)e.append(h("span",{class:"n"},+t+1))});
+    }
+    api.ready=()=>Object.keys(pair).length===q.p.length;
+    api.check=()=>{let ok=true;tEls.forEach((e,i)=>{const r=pair[i]===i;e.classList.remove("right","wrong");e.classList.add(r?"right":"wrong");if(!r)ok=false});
+      dEls.forEach((e,k)=>{const t=Object.keys(pair).find(t=>pair[t]===defs[k]);e.classList.remove("right","wrong");if(t!==undefined)e.classList.add(+t===defs[k]?"right":"wrong")});return ok};
+    api.reveal=()=>{q.p.forEach((_,i)=>pair[i]=i);paint();tEls.forEach(e=>e.classList.remove("wrong"));tEls.forEach(e=>e.classList.add("right"));dEls.forEach(e=>{e.classList.remove("wrong");e.classList.add("right")})};
+    api.lock=()=>{locked=true};
+    paint();return api;
+  },
+  sort(q){
+    const val=q.i.map(()=>-1);let locked=false;
+    const rows=q.i.map((it,i)=>{
+      const bs=q.b.map((name,bi)=>h("button",{onclick:()=>{if(locked)return;val[i]=bi;bs.forEach((x,k)=>x.classList.toggle("sel",k===bi));rows[i].classList.remove("right","wrong");api.onchange()}},name));
+      const r=h("div",{class:"srow"},h("p",{},it[0]),h("div",{class:"bk"},bs));r._bs=bs;return r;
+    });
+    const api={el:h("div",{},h("p",{class:"hint"},"Chọn một đáp án cho mỗi dòng"),h("div",{class:"sort"},rows)),onchange(){}};
+    api.ready=()=>val.every(v=>v>=0);
+    api.check=()=>{let ok=true;rows.forEach((r,i)=>{const g=val[i]===q.i[i][1];r.classList.remove("right","wrong");r.classList.add(g?"right":"wrong");if(!g)ok=false});return ok};
+    api.reveal=()=>rows.forEach((r,i)=>{val[i]=q.i[i][1];r._bs.forEach((b,k)=>b.classList.toggle("sel",k===val[i]));r.classList.remove("wrong");r.classList.add("right")});
+    api.lock=()=>{locked=true};
+    return api;
+  }
+};
+
+/* ---------- final ---------- */
+function renderEnd(){
+  const s=starCount(),done=Object.keys(save).length,pct=Math.round(s/TOTAL_Q*100);
+  const lvl=done<TOTAL_Q?["🌱","Hãy hoàn thành cả 3 trạm để nhận huy hiệu!"]:pct>=90?["🏅","Trưởng nhóm Cộng tác xuất sắc"]:pct>=60?["🥈","Thành viên Cộng tác giỏi"]:["🥉","Thành viên Cộng tác tập sự – luyện thêm nhé!"];
+  const wrap=h("div",{class:"card sum pop"},
+    h("div",{class:"badge"},lvl[0]),
+    h("h2",{},lvl[1]),
+    h("p",{},`⭐ ${s}/${TOTAL_Q} câu đúng ngay lần đầu · Đã làm ${done}/${TOTAL_Q} câu`),
+    h("h3",{style:"margin-top:16px"},"Báo tường số cần nhớ"),
+    h("ul",{class:"recap"},STATIONS.flatMap(st=>st.recap.map(r=>h("li",{},r)))),
+    h("div",{class:"row",style:"justify-content:center;margin-top:16px"},
+      h("button",{class:"btn ghost",onclick:()=>{if(confirm("Xóa hết tiến độ và làm lại từ đầu?")){save={};persist();go("home")}}},"🔄 Làm lại từ đầu"),
+      h("button",{class:"btn",onclick:()=>go("home")},"🏠 Về bản đồ")));
+  $v.append(wrap);
+}
+
+/* ---------- theme ---------- */
+(function(){
+  const r=document.documentElement,b=document.getElementById("theme");
+  const cur=()=>r.dataset.theme||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");
+  try{const t=localStorage.getItem("spark3-theme");if(t)r.dataset.theme=t}catch(e){}
+  const label=()=>b.textContent=cur()==="dark"?"☀️":"🌙";
+  b.onclick=()=>{const t=cur()==="dark"?"light":"dark";r.dataset.theme=t;try{localStorage.setItem("spark3-theme",t)}catch(e){}label()};
+  label();
+})();
+render();
+</script>
+</body>
+</html>
