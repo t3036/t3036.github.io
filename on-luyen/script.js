@@ -1,42 +1,3 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ôn tập &mdash; IC3 GS6</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css">
-<style>
-.on-tap{max-width:900px;margin:0 auto;padding:1.5rem 1rem 3rem}
-.on-tap .dau-bai h1{margin:0;text-align:left}
-.on-tap .luoi-cap-do{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
-.on-tap .the-cap-do{background:rgba(255,255,255,.65);color:var(--muc);border:1px solid rgba(0,0,0,.08);box-shadow:0 4px 12px rgba(20,30,60,.06)}
-.on-tap .the-nuts .the-nut{background:rgba(74,144,217,.18);color:#2a5f9e}
-.on-tap .the-nuts .the-nut:hover{background:rgba(74,144,217,.32)}
-.on-tap .the-nut.het{opacity:.55;pointer-events:none}
-</style>
-</head>
-<body>
-
-<div data-include="site-header"></div>
-
-<main class="on-tap chuong-trinh muc-spark1" id="trang">
-  <div class="dau-bai">
-    <div class="dau-bai-tren">
-      <a href="index.html" class="quay-lai">← Quay lại</a>
-      <a href="#" class="tai-lieu" id="tai-lieu" target="_blank" rel="noopener">📄 Tài liệu</a>
-    </div>
-    <h1><span class="bieu-tuong" aria-hidden="true">📝</span> <span id="tieu-de">Ôn luyện</span></h1>
-  </div>
-  <div class="luoi-cap-do" id="luoi"></div>
-</main>
-
-<div data-include="site-footer"></div>
-
-<script src="assets/js/site.js"></script>
-<script>
 // Mỗi bài: ['Tên bài', 'link']. Tên '' thì hiện "Bài ôn N"; link '' = chưa có (7 bài).
 var ON_TAP = {
   spark1: { ten: 'SPARK Level 1', tai: 'https://drive.google.com/drive/folders/1u6SQvgswefPCEqlBE-VgtfwLnkDBbqf4?usp=drive_link', tests: [
@@ -117,6 +78,3 @@ cf.tests.forEach(function (t, i) {
     (href ? '' : '<span class="the-nuts"><span class="the-nut het">Sắp có</span></span>');
   luoi.appendChild(d);
 });
-</script>
-</body>
-</html>

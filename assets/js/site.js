@@ -22,6 +22,12 @@
     document.querySelectorAll('.thanh-menu .logo').forEach(a => {
       if(a.getAttribute('href') === here) a.classList.add('hien-tai');
     });
+    // Partial dùng link tương đối so với thư mục gốc -> đổi sang tuyệt đối để chạy được ở trang con
+    const root = new URL('../', base);
+    document.querySelectorAll('.thanh-menu a[href], footer a[href]').forEach(a => {
+      const h = a.getAttribute('href');
+      if(h && !/^([a-z]+:|#|\/\/)/i.test(h)) a.href = new URL(h, root).href;
+    });
     const s = document.createElement('script');
     s.src = new URL('js/script.js', base).href;
     document.body.appendChild(s);
