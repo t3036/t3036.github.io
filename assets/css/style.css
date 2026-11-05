@@ -81,7 +81,10 @@ body:has(.thanh-menu){font-family:"Be Vietnam Pro",-apple-system,"Segoe UI",Robo
   background:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.35 0 0 0 0 0.2 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E") 0 0/240px 240px,
     #FFFDF0;
-  min-height:100vh}
+  min-height:100vh;display:flex;flex-direction:column}
+/* Chân trang luôn nằm cuối màn hình khi nội dung ngắn */
+body:has(.thanh-menu)>main{flex:1 0 auto;width:100%;box-sizing:border-box}
+body:has(.thanh-menu)>.chan-trang{margin-top:auto}
 
 /* --- Thanh menu --- */
 .thanh-menu{position:sticky;top:0;z-index:50;background:#fff;
@@ -142,9 +145,9 @@ body:has(.thanh-menu){font-family:"Be Vietnam Pro",-apple-system,"Segoe UI",Robo
 .spark1{background:linear-gradient(160deg,#FFC94A,#E8A209)}
 .spark2{background:linear-gradient(160deg,#FF9F4A,#E17300)}
 .spark3{background:linear-gradient(160deg,#FF7A59,#D8461F)}
-.gs61{background:linear-gradient(160deg,#7DE3CF,#1A8C8F)}
-.gs62{background:linear-gradient(160deg,#6FE0C5,#12957F)}
-.gs63{background:linear-gradient(160deg,#8BE0BC,#168A6E)}
+.gs61{background:#2E9E5B}
+.gs62{background:#3FA66A}
+.gs63{background:#1E8E6A}
 .k12{background:linear-gradient(160deg,#2F7FC4,#094d8a)}
 
 .huong-dan{grid-column:span 2;background:#E6F1FB;border:1px solid #B5D4F0;border-radius:18px;
@@ -174,9 +177,9 @@ body:has(.thanh-menu){font-family:"Be Vietnam Pro",-apple-system,"Segoe UI",Robo
 .chuong-trinh.muc-spark1 .dau-bai{background:linear-gradient(160deg,#FFC94A,#E8A209)}
 .chuong-trinh.muc-spark2 .dau-bai{background:linear-gradient(160deg,#FF9F4A,#E17300)}
 .chuong-trinh.muc-spark3 .dau-bai{background:linear-gradient(160deg,#FF7A59,#D8461F)}
-.chuong-trinh.muc-gs61 .dau-bai{background:linear-gradient(160deg,#7DE3CF,#1A8C8F)}
-.chuong-trinh.muc-gs62 .dau-bai{background:linear-gradient(160deg,#6FE0C5,#12957F)}
-.chuong-trinh.muc-gs63 .dau-bai{background:linear-gradient(160deg,#8BE0BC,#168A6E)}
+.chuong-trinh.muc-gs61 .dau-bai{background:#2E9E5B}
+.chuong-trinh.muc-gs62 .dau-bai{background:#3FA66A}
+.chuong-trinh.muc-gs63 .dau-bai{background:#1E8E6A}
 
 /* =======================================================
    CSS BỔ SUNG: GIAO DIỆN DANH SÁCH DẠNG DÒNG NGANG
