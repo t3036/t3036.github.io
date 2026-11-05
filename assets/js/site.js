@@ -18,6 +18,10 @@
       tpl.innerHTML = parts[i].trim();
       slot.replaceWith(tpl.content);
     });
+    const here = location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('.thanh-menu .logo').forEach(a => {
+      if(a.getAttribute('href') === here) a.classList.add('hien-tai');
+    });
     const s = document.createElement('script');
     s.src = new URL('js/script.js', base).href;
     document.body.appendChild(s);

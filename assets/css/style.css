@@ -91,6 +91,8 @@ body:has(.thanh-menu){font-family:"Be Vietnam Pro",-apple-system,"Segoe UI",Robo
 .logo{display:flex;align-items:center;gap:.5rem;text-decoration:none;color:var(--muc);
   font-family:"Baloo 2",Bitter,serif;font-weight:800;font-size:1.35rem}
 .logo-icon{font-size:1.6rem}
+.logo{padding:.2rem .8rem;border-radius:999px;transition:background .15s,color .15s}
+.logo:hover,.logo.hien-tai{background:var(--xanh-nhat);color:var(--xanh-dam)}
 .dieu-huong{display:flex;align-items:center;gap:.3rem;margin-left:auto;flex-wrap:wrap}
 .dieu-huong a{color:var(--muc);text-decoration:none;font-weight:600;font-size:.95rem;
   padding:.5rem .8rem;border-radius:999px;transition:background .15s,color .15s}
