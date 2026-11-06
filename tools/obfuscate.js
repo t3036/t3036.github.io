@@ -1,4 +1,4 @@
-// Obfuscates every .js file and inline <script> in the repo, in place.
+﻿// Obfuscates every .js file and inline <script> in the repo, in place.
 // Usage (on the `obfuscated` branch): node tools/obfuscate.js
 // Requires: npm i javascript-obfuscator@4.0.0 (in tools/ or on NODE_PATH)
 const fs = require('fs');
