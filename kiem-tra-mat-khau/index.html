@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kiểm tra mật khẩu &mdash; IC3 GS6</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div data-include="site-header"></div>
+
+<main class="mk">
+  <section class="mk-the mk-chinh">
+    <h1 class="mk-tieu-de">🔐 Kiểm tra độ an toàn mật khẩu</h1>
+    <p class="mk-gioi-thieu">Gõ thử một mật khẩu và xem máy tính cần bao lâu để đoán ra nhé!</p>
+
+    <p class="mk-canh-bao">⚠️ Đừng nhập mật khẩu thật của em nhé! Hãy sử dụng mật khẩu giả định để thử nghiệm.</p>
+    <div class="mk-o-nhap">
+      <input id="mk-o" type="password" aria-label="Nhập mật khẩu vào đây" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Nhập mật khẩu vào đây" autofocus>
+      <button type="button" id="mk-hien" class="mk-nut" aria-label="Hiện mật khẩu" aria-pressed="false" title="Hiện mật khẩu">🙈</button>
+      <button type="button" id="mk-xoa" class="mk-nut" aria-label="Xóa mật khẩu" title="Xóa">✖️</button>
+    </div>
+    <div class="mk-muc-do" id="mk-muc-do" hidden>
+      <div class="mk-thanh" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="mk-thanh" aria-label="Độ mạnh mật khẩu">
+        <div class="mk-thanh-day" id="mk-day"></div>
+      </div>
+      <div class="mk-bac"><span>Rất yếu</span><span>Yếu</span><span>Khá</span><span>Mạnh</span></div>
+    </div>
+    <ul class="mk-kiem-tra" id="mk-kiem-tra" hidden></ul>
+
+    <div id="mk-kq" hidden aria-live="polite">
+      <div class="mk-thoi-gian">
+        <div class="mk-mat" id="mk-mat" aria-hidden="true">😐</div>
+        <div class="mk-tg-nho">Máy tính mạnh có thể đoán ra mật khẩu này trong khoảng</div>
+        <div class="mk-tg-lon" id="mk-tg">—</div>
+        <p class="mk-tg-giai-thich" id="mk-tg-gt"></p>
+      </div>
+    </div>
+
+    <div class="mk-cach-tinh">
+      <details>
+        <summary>Thời gian được tính như thế nào?</summary>
+        <ul class="mk-luoi-cach-tinh">
+          <li><span class="bt">🧩</span><div><b>Độ khó</b><p>Máy tính đánh giá dựa trên <em>độ dài</em>, <em>loại ký tự</em> em dùng, và kiểm tra xem có <em>mẫu dễ đoán</em> không (như "12345", ngày sinh, từ quen thuộc...).</p></div></li>
+          <li><span class="bt">⏱️</span><div><b>Thời gian trung bình</b><p>Kẻ gian thường tìm ra mật khẩu sau khi thử khoảng <em>một nửa</em> số khả năng có thể xảy ra.</p></div></li>
+          <li><span class="bt">🚀</span><div><b>Sức mạnh máy tính</b><p>Ước tính này giả định kẻ gian dùng siêu máy tính thử được <em>10 tỷ mật khẩu mỗi giây</em>. Máy càng mạnh, thời gian bẻ khóa càng ngắn lại!</p></div></li>
+          <li><span class="bt">💡</span><div><b>Lưu ý quan trọng</b><p>Đây chỉ là con số tham khảo để học tập. Nếu mật khẩu chứa <em>tên thật hay ngày sinh</em>, kẻ gian sẽ đoán ra nhanh hơn rất nhiều!</p></div></li>
+        </ul>
+      </details>
+    </div>
+  </section>
+
+  <div class="mk-chan">
+    <p>🔒 Mật khẩu em gõ chỉ được phân tích ngay trên trình duyệt này, không được lưu hay gửi đi đâu cả.</p>
+    <p>📚 Tham khảo: ý tưởng lấy cảm hứng từ <a href="https://www.passwordmonster.com/" target="_blank" rel="noopener">Password Monster</a>.</p>
+  </div>
+</main>
+
+<div data-include="site-footer"></div>
+
+<script src="../assets/js/site.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
