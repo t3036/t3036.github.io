@@ -273,7 +273,7 @@
     if(!hang || hang.querySelector('.mk-quay-lai')) return !!hang;
     const a = document.createElement('a');
     a.className = 'mk-quay-lai';
-    a.href = new URL('../vui-cung-tin-hoc.html', location.href).href; // tuyệt đối để site.js không đổi lại
+    a.href = new URL('../../vui-cung-tin-hoc.html', location.href).href; // tuyệt đối để site.js không đổi lại
     a.textContent = '← Quay lại';
     hang.insertBefore(a, hang.firstChild);
     return true;
