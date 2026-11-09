@@ -5,7 +5,7 @@
 .brs { margin-bottom: 8px; }
 
 /* Các nút điều hướng */
-.navlist { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+.navlist { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(230px,100%), 1fr)); }
 .nv { display: flex; gap: 14px; align-items: flex-start; box-shadow: none; padding: 14px 16px; }
 .nv + .nv { margin-top: 0; }
 .nv p { margin: 2px 0 0; font-size: 15.5px; color: var(--muted); }

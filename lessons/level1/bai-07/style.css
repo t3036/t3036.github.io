@@ -85,7 +85,7 @@ h2.title{font:800 clamp(19px,3.4vw,34px)/1.2 var(--sans);margin:0 0 6px}
 .toast.bad{border-color:var(--ro)}
 
 /* ---------- explorer window ---------- */
-.flist{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;padding:14px}
+.flist{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(190px,100%),1fr));gap:10px;padding:14px}
 .f{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 8px;text-align:center;font:600 19px var(--mono);transition:.15s;word-break:break-all}
 .f .ic{font-size:34px;display:block;margin-bottom:4px}
 .f:hover{border-color:var(--cy);transform:translateY(-2px)}
@@ -226,7 +226,7 @@ h2.title{font:800 clamp(19px,3.4vw,34px)/1.2 var(--sans);margin:0 0 6px}
 .wnav .sub{padding-left:34px}
 .wnav .act{background:var(--wsel)}
 .wmain{flex:1;min-width:0;background:#fff}
-.flist{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:6px;padding:12px}
+.flist{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(170px,100%),1fr));gap:6px;padding:12px}
 .wf{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 6px;background:transparent;border:1px solid transparent;font:inherit;text-align:center;word-break:break-all;line-height:1.25}
 .wf:hover{background:var(--whov);border-color:#e0efff}
 .wf.sel{background:var(--wsel);border-color:var(--wbl)}
@@ -297,7 +297,7 @@ h2.title{font:800 clamp(19px,3.4vw,34px)/1.2 var(--sans);margin:0 0 6px}
   #shell{grid-template-columns:310px 1fr}
   main{padding:20px 22px}
   .wnav{width:230px}
-  .flist{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
+  .flist{grid-template-columns:repeat(auto-fill,minmax(min(180px,100%),1fr))}
   .split{grid-template-columns:minmax(0,1.45fr) minmax(340px,1fr)}
   .treewrap{grid-template-columns:1fr 380px}
 }
@@ -310,7 +310,7 @@ h2.title{font:800 clamp(19px,3.4vw,34px)/1.2 var(--sans);margin:0 0 6px}
 .wbody{min-height:0}
 .wnav{width:210px;padding:4px 2px}
 .wnav div{padding:1px 8px}.wnav div span{width:28px}.wnav .sub{padding-left:28px}
-.flist{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:2px;padding:8px}
+.flist{grid-template-columns:repeat(auto-fill,minmax(min(140px,100%),1fr));gap:2px;padding:8px}
 .wf{padding:6px 4px;gap:3px;line-height:1.2}
 .fi{width:52px;height:66px}
 .fi::before{border-width:7px}

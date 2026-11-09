@@ -99,7 +99,7 @@ button{font:inherit;cursor:pointer}
 .hero{text-align:center;padding:10px 0}
 .hero .big{font-size:3.4rem}
 .hero h2{font-size:1.8rem}
-.plan{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:16px 0;text-align:left}
+.plan{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px,100%),1fr));gap:10px;margin:16px 0;text-align:left}
 .plan div{background:var(--bg);border-radius:12px;padding:10px 14px;font-size:1rem}
 .chat{max-width:520px;margin:14px auto;text-align:left;display:flex;flex-direction:column;gap:8px}
 .bub{max-width:80%;padding:8px 14px;border-radius:18px;font-size:1rem}
@@ -180,7 +180,7 @@ button{font:inherit;cursor:pointer}
 /* ---- đọc ví dụ lần lượt ---- */
 .rdwrap{display:flex;align-items:center;gap:12px;margin:14px 0 6px}
 .rdn{color:var(--mute);font-weight:700}
-.exs{margin-bottom:14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.exs{margin-bottom:14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:12px}
 .ex{border:0;border-radius:16px;overflow:hidden;background:var(--card);animation:inb .35s ease-out}
 .exi{aspect-ratio:1/.7;background-repeat:no-repeat;background-color:#fff}
 .ext{padding:8px 12px 10px}.ext b{display:block;font-size:1.05rem}.ext small{color:var(--mute)}
@@ -425,7 +425,7 @@ button{font:inherit;cursor:pointer}
 .snav .btn,.snav b{font-size:.9rem}
 
 /* thẻ bấm lần lượt (bài 26) */
-.rcg{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin:14px 0}
+.rcg{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr));gap:12px;margin:14px 0}
 .rc{border:2px dashed var(--line);border-radius:14px;padding:12px;background:var(--soft);min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:var(--ink);text-align:center;cursor:default}
 .rc .rn{font-size:1.8rem;font-weight:800;color:var(--mute)}
 .rc.next{border:2px solid var(--blue);cursor:pointer;animation:rcp 1.1s infinite}
@@ -452,7 +452,7 @@ button{font:inherit;cursor:pointer}
 .sch{background:var(--navy);color:#fff;padding:6px 12px;font-weight:700;font-size:.85rem;margin-bottom:8px}
 .scb{max-width:80%;margin:5px 12px;padding:7px 12px;border-radius:14px;font-size:.95rem;line-height:1.5;background:var(--card);border:1px solid var(--line)}
 .scb.r{margin-left:auto;background:var(--blue-l)}
-.scg{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;padding:10px}
+.scg{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(110px,100%),1fr));gap:8px;padding:10px}
 .sct{border-radius:10px;background:var(--card);border:2px solid var(--line);padding:8px 4px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:2px}
 .sct.talk{border-color:var(--green)}
 .sct.off{background:var(--soft2)}
@@ -478,7 +478,7 @@ button{font:inherit;cursor:pointer}
 .sc,.sc-chat,.sc-meet{max-width:none;width:100%}
 .qtext{text-wrap:pretty;max-width:none}
 .qtext{text-align:justify}
-.cmp{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin:14px 0}
+.cmp{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:14px;margin:14px 0}
 .cmp .sc{margin:0}
 .cmpl{font-weight:800;text-align:center;border-radius:10px;padding:4px 10px;margin-bottom:6px}
 .cmpl.ok{background:var(--green-l);color:#0b7a40}.cmpl.no{background:var(--red-l);color:#b3262a}

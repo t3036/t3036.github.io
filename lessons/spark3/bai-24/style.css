@@ -95,7 +95,7 @@ button{font:inherit;cursor:pointer}
 .hero{text-align:center;padding:10px 0}
 .hero .big{font-size:3.4rem}
 .hero h2{font-size:1.8rem}
-.plan{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:16px 0;text-align:left}
+.plan{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px,100%),1fr));gap:10px;margin:16px 0;text-align:left}
 .plan div{background:var(--bg);border-radius:12px;padding:10px 14px;font-size:1rem}
 .chat{max-width:520px;margin:14px auto;text-align:left;display:flex;flex-direction:column;gap:8px}
 .bub{max-width:80%;padding:8px 14px;border-radius:18px;font-size:1rem}
@@ -176,7 +176,7 @@ button{font:inherit;cursor:pointer}
 /* ---- đọc ví dụ lần lượt ---- */
 .rdwrap{display:flex;align-items:center;gap:12px;margin:14px 0 6px}
 .rdn{color:var(--mute);font-weight:700}
-.exs{margin-bottom:14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.exs{margin-bottom:14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:12px}
 .ex{border:0;border-radius:16px;overflow:hidden;background:var(--card);animation:inb .35s ease-out}
 .exi{aspect-ratio:1/.7;background-repeat:no-repeat;background-color:#fff}
 .ext{padding:8px 12px 10px}.ext b{display:block;font-size:1.05rem}.ext small{color:var(--mute)}

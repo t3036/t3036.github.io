@@ -45,7 +45,7 @@ h1:focus-visible{outline:none}
 .dau-bai h1{font-size:1.7rem;color:#fff;gap:.6rem}
 .dau-bai .bieu-tuong{font-size:2.1rem}
 
-.luoi{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.9rem}
+.luoi{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(150px,100%),1fr));gap:.9rem}
 .bai{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;
   text-align:center;gap:.4rem;text-decoration:none;border:2px solid transparent;border-radius:16px;
   padding:1rem .6rem 1.1rem;font-size:.95rem;font-weight:700;line-height:1.3;min-height:108px;

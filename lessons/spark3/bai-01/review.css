@@ -91,7 +91,7 @@ nav.tab button[aria-selected="true"]{background:var(--xanh);color:#fff}
 .buoc li span{font-size:.97rem}
 
 /* ---------- Lưới ngành nghề ---------- */
-.nganh{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:.7rem;margin-top:1rem}
+.nganh{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(215px,100%),1fr));gap:.7rem;margin-top:1rem}
 .nganh div{background:#F7F9FE;border:1px solid var(--vien);border-radius:14px;padding:.85rem}
 .nganh h3{font-size:1rem;margin-bottom:.25rem}
 .nganh p{font-size:.93rem;color:var(--muc-nhat);margin:0}

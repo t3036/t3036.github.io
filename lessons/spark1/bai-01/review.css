@@ -53,7 +53,7 @@ outline:3px solid var(--accent);outline-offset:3px}
 .intro{text-align:center;max-width:640px;margin:0 auto 18px}
 .intro h1{font-family:var(--font-ui);font-weight:800;font-size:clamp(1.4rem,4vw,2.15rem);line-height:1.12;margin-bottom:8px}
 .intro p{font-size:clamp(.9rem,2.2vw,1rem);opacity:.82;line-height:1.5}
-.levels{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;max-width:960px;margin:0 auto 10px}
+.levels{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr));gap:14px;max-width:960px;margin:0 auto 10px}
 .lvcard{
 text-align:left;cursor:pointer;color:var(--cream);font-family:var(--font-text);
 background:linear-gradient(170deg,rgba(255,255,255,.1),rgba(255,255,255,.03));
@@ -82,7 +82,7 @@ background:linear-gradient(170deg,rgba(255,255,255,.1),rgba(255,255,255,.03));
 border:1.5px solid rgba(255,255,255,.15);border-radius:var(--r-lg)}
 .hist h2{font-family:var(--font-ui);font-weight:800;font-size:1.5rem;text-align:center;margin-bottom:6px}
 .hist .note{text-align:center;font-size:.85rem;opacity:.7;line-height:1.5;margin-bottom:18px}
-.records{display:grid;grid-template-columns:repeat(auto-fit,minmax(196px,1fr));gap:11px;margin-bottom:20px}
+.records{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(196px,100%),1fr));gap:11px;margin-bottom:20px}
 .reccard{background:rgba(0,0,0,.24);border-radius:var(--r-md);padding:13px 15px;border-left:4px solid var(--accent-2)}
 .reccard .t{font-family:var(--font-ui);font-weight:700;font-size:.92rem;margin-bottom:5px}
 .reccard b{display:block;font-family:var(--font-ui);font-weight:800;font-size:1.5rem;line-height:1.2;color:var(--accent)}
@@ -150,7 +150,7 @@ padding:18px 18px 16px;box-shadow:0 14px 30px rgba(0,0,0,.3)}
 .tag.lv3{background:#F6DEE2;color:#94324A}
 .tag.topic{background:#DDEBF1;color:#2C5D71}
 .qtext{font-family:var(--font-ui);font-weight:700;font-size:clamp(1.02rem,1.55vw,1.3rem);line-height:1.36;margin-bottom:14px}
-.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:9px}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(215px,100%),1fr));gap:9px}
 .opt{display:flex;gap:10px;align-items:center;text-align:left;
 background:#fff;border:2.5px solid #E4D9C2;border-radius:var(--r-md);
 padding:11px 13px;cursor:pointer;font-family:var(--font-text);

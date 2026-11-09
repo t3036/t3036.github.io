@@ -22,7 +22,7 @@ p.sub{color:var(--mut);text-align:center;margin:8px 0;line-height:1.5}
 .big{font-size:5rem;animation:fl 3s ease-in-out infinite}
 @keyframes fl{50%{transform:translateY(-10px)}}
 /* training */
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:10px 0}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:10px;margin:10px 0}
 .card{height:150px;perspective:700px;cursor:pointer}
 .card>div{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
 .card.flip>div{transform:rotateY(180deg)}
@@ -58,6 +58,7 @@ p.sub{color:var(--mut);text-align:center;margin:8px 0;line-height:1.5}
 .clue{position:absolute;width:min(300px,70%);padding:10px 12px;background:#2a1530;border:2px solid var(--red);border-radius:12px;font-size:.88rem;line-height:1.35;box-shadow:0 0 14px #fb718555;transform:translateX(-50%)}
 .clue.ok{border-color:var(--green);background:#12351f;box-shadow:0 0 20px var(--green);transition:.3s;opacity:0;transform:translateX(-50%) scale(1.2)}
 .opts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:10px;background:#0e1430;border-top:2px solid var(--line)}
+@media(max-width:480px){.opts{grid-template-columns:1fr}}
 .opt{background:#1c2547;border:2px solid var(--line);color:var(--txt);border-radius:12px;padding:10px 4px;font-weight:700;cursor:pointer;font-size:.85rem}
 .opt:hover{border-color:var(--cyan)}.opt:active{transform:scale(.96)}
 /* inbox & decision */

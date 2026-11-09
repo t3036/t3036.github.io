@@ -189,9 +189,9 @@ p { margin: 0 0 12px; }
 .note.blue { border-color: var(--blue); background: color-mix(in srgb, var(--blue) 12%, var(--paper)); }
 .note.green { border-color: var(--good); background: var(--good-soft); }
 .grid { display: grid; gap: 14px; }
-.g2 { grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); }
-.g3 { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
-.g4 { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+.g2 { grid-template-columns: repeat(auto-fit, minmax(min(290px,100%), 1fr)); }
+.g3 { grid-template-columns: repeat(auto-fit, minmax(min(230px,100%), 1fr)); }
+.g4 { grid-template-columns: repeat(auto-fit, minmax(min(190px,100%), 1fr)); }
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   padding: 11px 22px; border-radius: 99px; border: 2px solid var(--accent);

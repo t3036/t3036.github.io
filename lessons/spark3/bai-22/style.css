@@ -234,7 +234,7 @@ header.top h1{font-size:1.5rem;color:var(--teal-d)}
 /* mở đầu & kết thúc */
 .final{text-align:center}
 .final .big{font-size:4rem}
-.recap{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px;text-align:left;margin:14px 0}
+.recap{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:10px;text-align:left;margin:14px 0}
 .recap div{background:#fff;border:2px solid var(--line);border-radius:12px;padding:10px 12px;font-size:1rem}
 .recap b{color:var(--teal-d)}
 

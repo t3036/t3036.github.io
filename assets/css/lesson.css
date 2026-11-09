@@ -335,7 +335,7 @@ input,select{font-family:inherit}
 
 .slide-gallery--multi{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));
   gap:clamp(10px,1.6vw,16px);
 }
 .slide-gallery--multi .slide-photo{
@@ -344,7 +344,7 @@ input,select{font-family:inherit}
 
 .things{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(128px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(min(128px,100%),1fr));
   gap:clamp(10px,1.6vw,16px);
 }
 .thing{
