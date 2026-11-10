@@ -1,0 +1,13 @@
+/* Trang kiểm tra: một cột, trải rộng, không cốt truyện */
+.test-wrap { width: 100%; padding: clamp(12px, 1.6vw, 28px) clamp(12px, 3vw, 56px); }
+.test-top { grid-template-columns: auto minmax(200px, 1fr) auto; }
+.test-top h1 { font-size: 1.5rem; line-height: 1.2; }
+.tt-prog .meter { margin: 6px 0 0; }
+.qgrid { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+.qn { width: 40px; height: 40px; border-radius: 10px; border: 2px solid var(--line); background: #fff; font-weight: 800; }
+.qn.done { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+.qn.now { background: var(--accent); border-color: var(--accent); color: #fff; }
+.test .card { border-top-color: var(--accent); }
+.test .actions .spacer { flex: 1; }
+.btn-ghost[disabled] { box-shadow: none; }
+@media (max-width: 700px) { .test-top { grid-template-columns: 1fr; position: static; } }
