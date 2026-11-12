@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ôn tập Spark 3 – Hiệp sĩ Mạng</title>
+  <meta name="description" content="Ôn tập Chủ đề 7: An toàn và bảo mật (Bài 30 – 35) qua hành trình giải cứu Thị trấn Mạng Xanh.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <noscript><p style="padding:24px">Trang ôn tập cần bật JavaScript để hoạt động.</p></noscript>
+
+  <!-- ===== Màn hình mở đầu ===== -->
+  <main id="start" class="start" aria-labelledby="start-title">
+    <section class="start-story">
+      <p class="eyebrow">Spark 3 · Chủ đề 7 · Ôn tập Bài 30 – 35</p>
+      <h1 id="start-title">Hiệp sĩ Mạng<br><span>giải cứu Thị trấn Mạng Xanh</span></h1>
+      <div class="start-chat">
+        <div class="avatar" aria-hidden="true">🦉</div>
+        <div class="bubble big">
+          <p>Chào Hiệp sĩ nhí! Mình là <b>Cú Bít</b>. Đêm qua, <b>Bóng Đen Mạng</b> 👾 đã lẻn vào Tháp Bảo Vệ và đánh cắp <b>6 Chìa Khóa</b> – sáu bí quyết giữ cho mọi người an toàn trên Internet!</p>
+          <p>Em hãy đi qua <b>6 khu vực</b>, trả lời câu hỏi để lấy lại từng chiếc chìa khóa. Khi đủ <b>900 điểm</b>, cổng Tháp Bảo Vệ sẽ mở ra!</p>
+        </div>
+      </div>
+      <button id="btn-start" class="btn btn-big" type="button">Bắt đầu hành trình 🚀</button>
+      <p id="best" class="best" hidden></p>
+    </section>
+
+    <aside class="start-rules" aria-label="Luật chơi">
+      <h2>Luật chơi</h2>
+      <ul class="rule-grid">
+        <li><span class="rule-num">1000</span><span>Tổng điểm của cả hành trình</span></li>
+        <li><span class="rule-num ok">900</span><span>Điểm tối thiểu để mở Tháp Bảo Vệ</span></li>
+        <li><span class="rule-num">💡 3</span><span>Lượt gợi ý dùng chung cho cả hành trình</span></li>
+        <li><span class="rule-num">29/32</span><span>Số câu đúng cần có để đạt 900 điểm</span></li>
+      </ul>
+      <h3>6 khu vực trên bản đồ</h3>
+      <ol id="start-map" class="start-map"></ol>
+    </aside>
+  </main>
+
+  <!-- ===== Màn hình chơi: 3 cột trải rộng hai bên ===== -->
+  <div id="game" class="game" hidden>
+    <aside class="pane pane-story" aria-label="Cốt truyện">
+      <div class="place-card">
+        <div id="place-icon" class="place-icon" aria-hidden="true">🏰</div>
+        <div>
+          <div id="place-lesson" class="place-lesson"></div>
+          <div id="place-name" class="place-name"></div>
+        </div>
+      </div>
+      <div class="chat">
+        <div id="mascot" class="avatar" aria-hidden="true">🦉</div>
+        <div id="bubble" class="bubble" role="status" aria-live="polite"></div>
+      </div>
+      <h2 class="side-title">Bản đồ hành trình</h2>
+      <ol id="map" class="map"></ol>
+      <button id="btn-restart" class="btn btn-ghost" type="button">🔄 Chơi lại từ đầu</button>
+    </aside>
+
+    <div class="pane pane-main">
+      <header class="topbar" aria-label="Điểm số và gợi ý">
+        <div class="tb-score">
+          <div class="tb-label">Điểm</div>
+          <div class="score-line"><span id="score" class="score">0</span><span class="score-max">/ 1000</span></div>
+          <div class="meter" role="img" id="meter" aria-label="Thanh điểm">
+            <div id="meter-fill" class="meter-fill"></div>
+            <div class="meter-pass" style="left:90%"><span>900</span></div>
+          </div>
+          <p id="score-note" class="score-note"></p>
+        </div>
+        <div class="tb-box">
+          <div class="tb-label">Gợi ý (dùng chung, không trừ điểm)</div>
+          <div id="bulbs" class="bulbs" aria-live="polite"></div>
+        </div>
+        <div class="tb-box tb-keys">
+          <div class="tb-label">Chìa khóa</div>
+          <ul id="keys" class="keys"></ul>
+        </div>
+      </header>
+      <main id="main" aria-live="polite"></main>
+    </div>
+  </div>
+
+  <div id="confetti" class="confetti" aria-hidden="true"></div>
+
+  <script src="questions.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

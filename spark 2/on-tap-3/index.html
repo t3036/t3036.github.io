@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Giải Cứu Chìa Khóa Vàng – Ôn tập Spark 2</title>
+  <meta name="description" content="Ôn tập Tin học Spark 2: hành trình 8 chặng để giải cứu Chìa Khóa Vàng của Tòa Tháp Văn Phòng.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-ico" aria-hidden="true">🗝️</span>
+      <div>
+        <strong>Giải Cứu Chìa Khóa Vàng</strong>
+        <small>Ôn tập Tin học · Spark 2</small>
+      </div>
+    </div>
+    <div class="topscore" aria-live="polite">
+      <span>Điểm</span> <b id="topScore">0</b><span>/1000</span>
+    </div>
+  </header>
+
+  <div class="layout">
+    <!-- Cột trái: câu chuyện + bản đồ -->
+    <aside class="side side-left" aria-label="Câu chuyện và bản đồ">
+      <section class="card bit">
+        <div class="bit-face" aria-hidden="true">🤖</div>
+        <div class="bit-say">
+          <div class="bit-name">Bit · robot dẫn đường</div>
+          <p id="bitText">Chào em! Mình là Bit.</p>
+        </div>
+      </section>
+      <section class="card">
+        <h2>Bản đồ hành trình</h2>
+        <ol class="map" id="map"></ol>
+      </section>
+    </aside>
+
+    <!-- Giữa: màn chơi -->
+    <main class="stage" id="main" tabindex="-1"></main>
+
+    <!-- Cột phải: điểm, gợi ý -->
+    <aside class="side side-right" aria-label="Điểm số và gợi ý">
+      <section class="card score-card">
+        <h2>Điểm của em</h2>
+        <div class="big-score"><b id="scoreNum">0</b><span>/1000</span></div>
+        <div class="meter" role="img" aria-label="Thanh điểm" id="meter">
+          <div class="meter-fill" id="meterFill"></div>
+          <div class="meter-pass" title="Điểm đạt 900"><span>900</span></div>
+        </div>
+        <p class="meter-note" id="meterNote">Cần 900 điểm để qua ải.</p>
+      </section>
+      <section class="card">
+        <h2>Gợi ý của Bit</h2>
+        <div class="bulbs" id="bulbs" aria-label="Số gợi ý còn lại"></div>
+        <button class="btn hint-btn" id="hintBtn" type="button" disabled>💡 Dùng gợi ý</button>
+        <p class="small" id="hintNote">Mỗi lượt chơi có 3 gợi ý. Em chỉ dùng được 1 gợi ý cho mỗi câu.</p>
+      </section>
+      <section class="card">
+        <h2>Tiến độ</h2>
+        <div class="prog"><div class="prog-fill" id="progFill"></div></div>
+        <p class="small" id="progText">Câu 0/45</p>
+        <p class="small">Mỗi câu đúng được khoảng 22 điểm.</p>
+      </section>
+    </aside>
+  </div>
+
+  <script src="questions.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
