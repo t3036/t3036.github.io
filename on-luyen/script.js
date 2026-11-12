@@ -24,7 +24,7 @@ var ON_TAP = {
     ['', 'https://tinhoc247.github.io/ic3-spark-lv3/bai-kiem-tra-hoc-sinh-spark-lv3-cong-dan-so-mvacoju8i4pl.html'],
     ['', 'https://tinhoc247.github.io/ic3-spark-lv3/bai-kiem-tra-hoc-sinh-spark-lv3-sang-tao-noi-dung-mvqsda7yzrdu.html'],
     ['', 'https://tinhoc247.github.io/ic3-spark-lv3/bai-kiem-tra-hoc-sinh-spark-lv3-giao-tiep-ki-thuat-so-mvt0kmvvozfa.html'],
-    ['', ''],
+    ['', 'https://tinhoc247.github.io/ic3-spark-lv3/bai-kiem-tra-hoc-sinh-spark-lv3-cong-tac-mw1rwcna0p55.html'],
     ['', '']
   ] },
   gs61:   { ten: 'GS6 Level 1', tai: 'https://drive.google.com/drive/u/1/folders/1f3yelu5x2Vu2cnZmChQHKFB4G45Q7Xbv', tests: [
