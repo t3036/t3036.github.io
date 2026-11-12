@@ -12,7 +12,7 @@ var ON_TAP = {
   spark2: { ten: 'SPARK Level 2', tai: 'https://drive.google.com/drive/folders/15uIfllDedxTDwMYGiz_3px-ZYbl_HcPT?usp=drive_link', tests: [
     ['', 'https://server2-ic3.netlify.app/bai-kiem-tra-hoc-sinh-spark-lv2-can-ban-ve-cong-nghe-mugnjayd2ayh.html'],
     ['', 'https://tinhoc247.github.io/ic3-spark-lv2/bai-kiem-tra-hoc-sinh-spark-lv2-quan-ly-thong-tin-mvachx9gs8cx.html'],
-    ['', ''],
+    ['', 'https://tinhoc247.github.io/ic3-spark-lv2/bai-kiem-tra-hoc-sinh-spark-lv2-sang-tao-noi-dung-mw8wwhj7hwrh.html'],
     ['', ''],
     ['', ''],
     ['', ''],
