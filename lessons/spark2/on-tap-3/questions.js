@@ -17,12 +17,12 @@ window.STAGES = [
     goal: "Nhớ ứng dụng PowerPoint, thẻ Insert, Transitions, Animations và Slide Show."
   },
   {
-    id: 3, icon: "🏙️", name: "Thành Phố Tài Liệu", lesson: "Bài 16+17 · Ứng dụng văn phòng — Microsoft Word",
+    hidden: true, id: 3, icon: "🏙️", name: "Thành Phố Tài Liệu", lesson: "Bài 16+17 · Ứng dụng văn phòng — Microsoft Word",
     story: "Bit và em bước vào Thành Phố Tài Liệu. Mọi con phố đều là một trang Word, nhưng chữ đang chạy lung tung, lỗi chính tả mọc khắp nơi! Hãy sửa lại thành phố bằng các thao tác đúng với Word.",
     goal: "Tiêu đề, đề mục, căn lề, chọn văn bản, Clipboard, Find/Replace, bảng và chia sẻ tài liệu."
   },
   {
-    id: 4, icon: "⛏️", name: "Mỏ Bảng Tính Excel", lesson: "Bài 16+17 · Ứng dụng văn phòng — Microsoft Excel",
+    hidden: true, id: 4, icon: "⛏️", name: "Mỏ Bảng Tính Excel", lesson: "Bài 16+17 · Ứng dụng văn phòng — Microsoft Excel",
     story: "Dưới lòng đất là Mỏ Bảng Tính — một mê cung toàn ô vuông. Muốn đi đúng đường, em phải biết cột nào là chữ cái, dòng nào là con số và cách di chuyển con trỏ. Chỉ 4 thử thách nữa là tới Tinh Thể!",
     goal: "Tiêu đề cột và dòng, di chuyển con trỏ, chỉnh độ rộng cột."
   },
@@ -312,3 +312,14 @@ window.QUESTIONS = [
     opts: ["Đổi màu nền.", "Dùng phông chữ đậm.", "Đính kèm chú thích.", "Viết một đoạn văn dài về từng ảnh."],
     a: 2, clue: "Chú thích là dòng chữ ngắn nằm bên dưới hình ảnh." }
 ];
+
+/* Ẩn các chặng có hidden: true (Bài 16+17 – Word, Excel), đánh số lại chặng còn lại.
+   Muốn hiện lại: xóa "hidden: true" ở các chặng tương ứng. */
+(function () {
+  var map = {}, kept = [];
+  window.STAGES.forEach(function (s) { if (!s.hidden) { kept.push(s); map[s.id] = kept.length; } });
+  window.QUESTIONS = window.QUESTIONS.filter(function (q) { return map[q.stage]; });
+  window.QUESTIONS.forEach(function (q) { q.stage = map[q.stage]; });
+  kept.forEach(function (s, i) { s.id = i + 1; });
+  window.STAGES = kept;
+})();

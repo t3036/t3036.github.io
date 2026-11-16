@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Spark 2</title>
+<link rel="stylesheet" href="../chain-assets/chain.css">
+</head>
+<body>
+<div class="tools" role="toolbar" aria-label="Công cụ">
+  <button id="t-theme" aria-label="Đổi sáng/tối">🌙</button>
+  <button id="t-snd" aria-label="Bật/tắt âm thanh">🔊</button>
+  <button id="t-sm" class="az" aria-label="Chữ nhỏ hơn">A−</button>
+  <button id="t-lg" class="az" aria-label="Chữ lớn hơn">A+</button>
+  <button id="t-rs" aria-label="Học lại từ đầu">↺</button>
+</div>
+<div class="wrap">
+  <header class="hero">
+    <div class="badge" id="badge">🔐</div>
+    <div><small id="lno"></small><h1 id="title"></h1></div>
+  </header>
+  <div id="start"></div>
+  <main id="main" hidden>
+    <div class="keys" id="keys" aria-label="Chìa khóa đã có"></div>
+    <div class="chain" id="chain"></div>
+  </main>
+</div>
+<div class="modal" id="modal" role="dialog" aria-modal="true"><div class="box"><h3>Học lại từ đầu?</h3><p>Em có chắc không? Chìa khóa và điểm của bài này sẽ bị xóa.</p><div class="row"><button class="btn danger" id="myes">Xóa và học lại</button><button class="btn ghost" id="mno">Không, ở lại</button></div></div></div>
+<div class="zoom" id="zoom"><img alt=""></div>
+<div class="toast" id="toast" role="status"></div>
+<script src="data.js"></script>
+<script src="../chain-assets/chain.js"></script>
+</body>
+</html>

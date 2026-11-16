@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Giải Cứu Chìa Khóa Vàng – Ôn tập Spark 2</title>
+  <meta name="description" content="Ôn tập Tin học Spark 2: hành trình giải cứu để giải cứu Chìa Khóa Vàng của Tòa Tháp Văn Phòng.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <noscript><p style="padding:24px">Trang ôn tập cần bật JavaScript để hoạt động.</p></noscript>
+
+  <!-- ===== Màn hình mở đầu ===== -->
+  <main id="start" class="start" aria-labelledby="start-title">
+    <section class="start-story">
+      <p class="eyebrow">Spark 2 · Ôn tập cuối kỳ · Bài 15 – 21</p>
+      <h1 id="start-title">Giải Cứu<br><span>Chìa Khóa Vàng</span></h1>
+      <div class="start-chat">
+        <div class="avatar" aria-hidden="true">🤖</div>
+        <div class="bubble big">
+          <p>Chào em! Mình là <b>Bit</b>. Phù thủy <b>Lỗi Lầm</b> 🧙 đã đập vỡ Chìa Khóa Vàng của Tòa Tháp Văn Phòng thành <b><span class="n-stages">8</span> mảnh Tinh Thể</b> và giấu khắp <span class="n-stages">8</span> vùng đất!</p>
+          <p>Em hãy đi qua <b><span class="n-stages">8</span> chặng</b>, trả lời câu hỏi để lấy lại từng mảnh Tinh Thể. Khi đủ <b>900 điểm</b>, cánh cửa Tòa Tháp sẽ mở ra!</p>
+        </div>
+      </div>
+      <button id="btn-start" class="btn btn-big" type="button">Bắt đầu hành trình 🚀</button>
+      <p id="best" class="best" hidden></p>
+    </section>
+
+    <aside class="start-rules" aria-label="Luật chơi">
+      <h2>Luật chơi</h2>
+      <ul class="rule-grid">
+        <li><span class="rule-num">1000</span><span>Tổng điểm của cả hành trình</span></li>
+        <li><span class="rule-num ok">900</span><span>Điểm tối thiểu để mở cửa Tòa Tháp</span></li>
+        <li><span class="rule-num">💡 3</span><span>Lượt gợi ý dùng chung cho cả hành trình</span></li>
+        <li><span class="rule-num" id="n-questions">45</span><span>Câu hỏi: ghép nối, chọn đáp án, chọn trên hình</span></li>
+      </ul>
+      <h3><span class="n-stages">8</span> chặng trên bản đồ</h3>
+      <ol id="start-map" class="start-map"></ol>
+    </aside>
+  </main>
+
+  <!-- ===== Màn hình chơi: 3 cột trải rộng hai bên ===== -->
+  <div id="game" class="game" hidden>
+    <aside class="pane pane-story" aria-label="Cốt truyện">
+      <div class="place-card">
+        <div id="place-icon" class="place-icon" aria-hidden="true">🏰</div>
+        <div>
+          <div id="place-lesson" class="place-lesson"></div>
+          <div id="place-name" class="place-name"></div>
+        </div>
+      </div>
+      <div class="chat">
+        <div id="mascot" class="avatar" aria-hidden="true">🤖</div>
+        <div id="bubble" class="bubble" role="status" aria-live="polite"></div>
+      </div>
+      <h2 class="side-title">Bản đồ hành trình</h2>
+      <ol id="map" class="map"></ol>
+      <button id="btn-restart" class="btn btn-ghost" type="button">🔄 Chơi lại từ đầu</button>
+    </aside>
+
+    <div class="pane pane-main">
+      <header class="topbar" aria-label="Điểm số và gợi ý">
+        <div class="tb-score">
+          <div class="tb-label">Điểm</div>
+          <div class="score-line"><span id="score" class="score">0</span><span class="score-max">/ 1000</span></div>
+          <div class="meter" role="img" id="meter" aria-label="Thanh điểm">
+            <div id="meter-fill" class="meter-fill"></div>
+            <div class="meter-pass" style="left:90%"><span>900</span></div>
+          </div>
+          <p id="score-note" class="score-note"></p>
+        </div>
+        <div class="tb-box">
+          <div class="tb-label">Gợi ý của Bit (dùng chung, không trừ điểm)</div>
+          <div id="bulbs" class="bulbs" aria-live="polite"></div>
+        </div>
+        <div class="tb-box tb-keys">
+          <div class="tb-label">Tinh Thể</div>
+          <ul id="keys" class="keys"></ul>
+        </div>
+      </header>
+      <main id="main" aria-live="polite"></main>
+    </div>
+  </div>
+
+  <div id="confetti" class="confetti" aria-hidden="true"></div>
+
+  <script src="questions.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

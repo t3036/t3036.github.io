@@ -25,7 +25,7 @@ var ON_TAP = {
     ['', 'https://tinhoc247.github.io/ic3-spark-lv3/bai-kiem-tra-hoc-sinh-spark-lv3-sang-tao-noi-dung-mvqsda7yzrdu.html'],
     ['', 'https://tinhoc247.github.io/ic3-spark-lv3/bai-kiem-tra-hoc-sinh-spark-lv3-giao-tiep-ki-thuat-so-mvt0kmvvozfa.html'],
     ['', 'https://tinhoc247.github.io/ic3-spark-lv3/bai-kiem-tra-hoc-sinh-spark-lv3-cong-tac-mw1rwcna0p55.html'],
-    ['', '']
+    // ['', 'https://tinhoc247.github.io/ic3-spark-lv3/bai-kiem-tra-hoc-sinh-spark-lv3-an-toan-va-bao-mat-mwile8poyi1j.html']
   ] },
   gs61:   { ten: 'GS6 Level 1', tai: 'https://drive.google.com/drive/u/1/folders/1f3yelu5x2Vu2cnZmChQHKFB4G45Q7Xbv', tests: [
     ['Chủ đề 1 - Test 1', 'https://server4-ic3.netlify.app/bai-on-luyen-hoc-sinh-gs6-lv1-can-ban-ve-cong-nghe-test-1-can-ban-ve-cong-nghe-test-2-mvp1tsxb6a21-T1.html'],
