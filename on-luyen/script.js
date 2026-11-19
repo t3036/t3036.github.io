@@ -1,4 +1,4 @@
-// Mỗi bài: ['Tên bài', 'link']. Tên '' thì hiện "Bài ôn N"; link '' = chưa có (7 bài).
+// Mỗi bài: ['Tên bài', 'link', 'ghi chú bài học (tùy chọn, chỉ hiện nếu có)']. Tên '' thì hiện "Bài ôn N"; link '' = chưa có (7 bài).
 var ON_TAP = {
   spark1: { ten: 'SPARK Level 1', tai: 'https://drive.google.com/drive/folders/1u6SQvgswefPCEqlBE-VgtfwLnkDBbqf4?usp=drive_link', tests: [
     ['', 'https://server1-ic3.netlify.app/bai-kiem-tra-hoc-sinh-spark-lv1-can-ban-ve-cong-nghe-munqfhp207o4.html'],
@@ -28,10 +28,10 @@ var ON_TAP = {
     ['', 'https://tinhoc247.github.io/ic3-spark-lv3/bai-kiem-tra-hoc-sinh-spark-lv3-an-toan-va-bao-mat-mwile8poyi1j.html']
   ] },
   gs61:   { ten: 'GS6 Level 1', tai: 'https://drive.google.com/drive/u/1/folders/1f3yelu5x2Vu2cnZmChQHKFB4G45Q7Xbv', tests: [
-    ['Chủ đề 1 - Test 1', 'https://server4-ic3.netlify.app/bai-on-luyen-hoc-sinh-gs6-lv1-can-ban-ve-cong-nghe-test-1-can-ban-ve-cong-nghe-test-2-mvp1tsxb6a21-T1.html'],
-    ['Chủ đề 1 - Test 2', 'https://server4-ic3.netlify.app/bai-on-luyen-hoc-sinh-gs6-lv1-can-ban-ve-cong-nghe-test-1-can-ban-ve-cong-nghe-test-2-mvp1tsxb6a21-T2.html'],
-    ['', ''],
-    ['', ''],
+    ['Ôn tập 1 - Test 1', 'https://server4-ic3.netlify.app/bai-on-luyen-hoc-sinh-gs6-lv1-can-ban-ve-cong-nghe-test-1-can-ban-ve-cong-nghe-test-2-mvp1tsxb6a21-T1.html', 'Bài 01 - 11'],
+    ['Ôn tập 1 - Test 2', 'https://server4-ic3.netlify.app/bai-on-luyen-hoc-sinh-gs6-lv1-can-ban-ve-cong-nghe-test-1-can-ban-ve-cong-nghe-test-2-mvp1tsxb6a21-T2.html', 'Bài 01 - 11'],
+    ['Ôn tập 2', 'https://server4-ic3.netlify.app/bai-on-luyen-hoc-sinh-gs6-lv1-quan-ly-thong-tin-mwbvu7anuonc.html', 'Bài 12 - 13'],
+    ['Ôn tập 3 ', 'https://server4-ic3.netlify.app/bai-on-luyen-hoc-sinh-gs6-lv1-cong-dan-so-mwls5azrj5s3.html', 'Bài 14 - 15'],
     ['', ''],
     ['', ''],
     ['', '']
@@ -66,7 +66,7 @@ document.title = 'Ôn tập ' + cf.ten + ' — IC3 GS6';
 document.getElementById('tai-lieu').href = cf.tai || '#';
 var luoi = document.getElementById('luoi');
 cf.tests.forEach(function (t, i) {
-  var name = t[0], href = t[1];
+  var name = t[0], href = t[1], note = t[2] || '';
   if (!href) return;
   var d = document.createElement('a');
   d.className = 'the-cap-do ' + (ON_TAP[id] ? id : 'spark1');
@@ -74,7 +74,8 @@ cf.tests.forEach(function (t, i) {
   if (href) { d.target = '_blank'; d.rel = 'noopener'; }
   else d.style.opacity = '.55';
   d.innerHTML = '<span class="the-icon" aria-hidden="true">📝</span>' +
-    '<span class="the-ten">' + (name || 'Bài ôn ' + (i + 1)) + '</span>' +
+    '<span class="the-ten">' + (name || 'Bài ôn ' + (i + 1)) +
+    (note ? '<small class="the-ghi-chu">' + note + '</small>' : '') + '</span>' +
     (href ? '' : '<span class="the-nuts"><span class="the-nut het">Sắp có</span></span>');
   luoi.appendChild(d);
 });

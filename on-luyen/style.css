@@ -1,7 +1,10 @@
-.on-tap{max-width:900px;margin:0 auto;padding:1.5rem 1rem 3rem}
+.on-tap{max-width:1200px;margin:0 auto;padding:1.5rem 2rem 3rem}
+@media(max-width:480px){.on-tap{padding:1.5rem 1rem 3rem}}
 .on-tap .dau-bai h1{margin:0;text-align:left}
 .on-tap .luoi-cap-do{grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr))}
 .on-tap .the-cap-do{background:rgba(255,255,255,.65);color:var(--muc);border:1px solid rgba(0,0,0,.08);box-shadow:0 4px 12px rgba(20,30,60,.06)}
 .on-tap .the-nuts .the-nut{background:rgba(74,144,217,.18);color:#2a5f9e}
 .on-tap .the-nuts .the-nut:hover{background:rgba(74,144,217,.32)}
 .on-tap .the-nut.het{opacity:.55;pointer-events:none}
+
+.on-tap .the-ghi-chu{display:block;font-size:.8em;font-weight:500;opacity:.75;margin-top:2px}
