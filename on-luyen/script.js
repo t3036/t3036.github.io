@@ -13,7 +13,7 @@ var ON_TAP = {
     ['', 'https://server2-ic3.netlify.app/bai-kiem-tra-hoc-sinh-spark-lv2-can-ban-ve-cong-nghe-mugnjayd2ayh.html'],
     ['', 'https://tinhoc247.github.io/ic3-spark-lv2/bai-kiem-tra-hoc-sinh-spark-lv2-quan-ly-thong-tin-mvachx9gs8cx.html'],
     ['', 'https://tinhoc247.github.io/ic3-spark-lv2/bai-kiem-tra-hoc-sinh-spark-lv2-sang-tao-noi-dung-mw8wwhj7hwrh.html'],
-    ['', ''],
+    ['', 'https://tinhoc247.github.io/ic3-spark-lv2/bai-kiem-tra-hoc-sinh-spark-lv2-cong-dan-so-mwosz0k5lnjn.html'],
     ['', ''],
     ['', ''],
     ['', '']
