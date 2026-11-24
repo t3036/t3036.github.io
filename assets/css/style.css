@@ -142,6 +142,13 @@ body:has(.thanh-menu)>.chan-trang{margin-top:auto}
 .the-nut{margin-top:auto;background:rgba(255,255,255,.25);border-radius:999px;
   padding:.45rem 1.1rem;font-weight:700;font-size:.9rem}
 
+.nut-tra-cuu{grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:.4rem;
+  padding:.9rem 1.2rem;border-radius:18px;background:var(--vang-nhat);color:var(--vang-dam);
+  border:2px solid #F5C879;text-decoration:none;font-family:"Baloo 2",Bitter,serif;
+  font-weight:700;font-size:1.15rem;box-shadow:0 6px 16px rgba(20,30,60,.08);
+  transition:transform .15s,background .15s,color .15s}
+.nut-tra-cuu:hover{transform:translateY(-3px);background:var(--vang);color:#fff;border-color:var(--vang)}
+
 .spark1{background:linear-gradient(160deg,#FFC94A,#E8A209)}
 .spark2{background:linear-gradient(160deg,#FF9F4A,#E17300)}
 .spark3{background:linear-gradient(160deg,#FF7A59,#D8461F)}
