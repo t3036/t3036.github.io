@@ -1,13 +1,19 @@
+// minitests (tùy chọn): danh sách Minitest, hiện ở phần riêng bên dưới nếu có link.
 // Mỗi bài: ['Tên bài', 'link', 'ghi chú bài học (tùy chọn, chỉ hiện nếu có)']. Tên '' thì hiện "Bài ôn N"; link '' = chưa có (7 bài).
 var ON_TAP = {
   spark1: { ten: 'SPARK Level 1', tai: 'https://drive.google.com/drive/folders/1u6SQvgswefPCEqlBE-VgtfwLnkDBbqf4?usp=drive_link', tests: [
     ['', 'https://server1-ic3.netlify.app/bai-kiem-tra-hoc-sinh-spark-lv1-can-ban-ve-cong-nghe-munqfhp207o4.html'],
     ['', 'https://tinhoc247.github.io/ic3-spark-lv1/bai-kiem-tra-hoc-sinh-spark-lv1-an-toan-va-bao-mat-mvac5zpz6c3l.html'],
     ['', 'https://tinhoc247.github.io/ic3-spark-lv1/bai-kiem-tra-hoc-sinh-spark-lv1-quan-ly-thong-tin-mvt0ftsteq4u.html'],
-    ['', ''],
+    ['', 'https://tinhoc247.github.io/ic3-spark-lv1/bai-kiem-tra-hoc-sinh-spark-lv1-sang-tao-noi-dung-mwxbn9esuu0l.html'],
     ['', ''],
     ['', ''],
     ['', '']
+  ] , minitests: [
+    ['Minitest 1', 'https://wit.id.vn/20262027/TiH/Spark1_Class3/BAI1/'],
+    ['Minitest 2', 'https://wit.id.vn/20262027/TiH/Spark1_Class3/BAI2/'],
+    ['Minitest 3', 'https://wit.id.vn/20262027/TiH/Spark1_Class3/BAI3/'],
+    ['Minitest 4', 'https://wit.id.vn/20262027/TiH/Spark1_Class3/BAI4/']
   ] },
   spark2: { ten: 'SPARK Level 2', tai: 'https://drive.google.com/drive/folders/15uIfllDedxTDwMYGiz_3px-ZYbl_HcPT?usp=drive_link', tests: [
     ['', 'https://server2-ic3.netlify.app/bai-kiem-tra-hoc-sinh-spark-lv2-can-ban-ve-cong-nghe-mugnjayd2ayh.html'],
@@ -17,6 +23,11 @@ var ON_TAP = {
     ['', ''],
     ['', ''],
     ['', '']
+  ] , minitests: [
+    ['Minitest 1', 'https://wit.id.vn/20262027/TiH/Spark2_Class4/BaiOnSo1/', 'Nhấp chuột hoặc nhấn phím → để xem hết trang.'],
+    ['Minitest 2', 'https://wit.id.vn/20262027/TiH/Spark2_Class4/BaiOnSo2/', 'Nhấp chuột hoặc nhấn phím → để xem hết trang.'],
+    ['Minitest 3', 'https://wit.id.vn/20262027/TiH/Spark2_Class4/BaiOnSo3/', 'Nhấp chuột hoặc nhấn phím → để xem hết trang.'],
+    ['Minitest 4', 'https://wit.id.vn/20262027/TiH/Spark2_Class4/BaiOnSo4/', 'Nhấp chuột hoặc nhấn phím → để xem hết trang.']
   ] },
   spark3: { ten: 'SPARK Level 3', tai: 'https://drive.google.com/drive/folders/1NwCZqbz4oUI6waxidgivKi-OFnaM2WPx?usp=drive_link', tests: [
     ['', 'https://server3-ic3.netlify.app/bai-on-luyen-hoc-sinh-spark-lv3-can-ban-ve-cong-nghe-muajzpmcmpsb.html'],
@@ -25,11 +36,12 @@ var ON_TAP = {
     ['', 'https://tinhoc247.github.io/ic3-spark-lv3/bai-kiem-tra-hoc-sinh-spark-lv3-sang-tao-noi-dung-mvqsda7yzrdu.html'],
     ['', 'https://tinhoc247.github.io/ic3-spark-lv3/bai-kiem-tra-hoc-sinh-spark-lv3-giao-tiep-ki-thuat-so-mvt0kmvvozfa.html'],
     ['', 'https://tinhoc247.github.io/ic3-spark-lv3/bai-kiem-tra-hoc-sinh-spark-lv3-cong-tac-mw1rwcna0p55.html'],
-    ['', 'https://tinhoc247.github.io/ic3-spark-lv3/bai-kiem-tra-hoc-sinh-spark-lv3-an-toan-va-bao-mat-mwile8poyi1j.html'],
-    ['Minitest 1', 'https://wit.id.vn/20262027/TiH/Spark3_Class5/BaiOnSo1/'],
-    ['Minitest 2', 'https://wit.id.vn/20262027/TiH/Spark3_Class5/BaiOnSo2/'],
-    ['Minitest 3', 'https://wit.id.vn/20262027/TiH/Spark3_Class5/BaiOnSo3/'],
-    ['Minitest 4', 'https://wit.id.vn/20262027/TiH/Spark3_Class5/BaiOnSo4/'],
+    ['', 'https://tinhoc247.github.io/ic3-spark-lv3/bai-kiem-tra-hoc-sinh-spark-lv3-an-toan-va-bao-mat-mwile8poyi1j.html']
+  ], minitests: [
+    ['Minitest 1', 'https://wit.id.vn/20262027/TiH/Spark3_Class5/BaiOnSo1/', 'Nhấp chuột hoặc nhấn phím → để xem hết trang.'],
+    ['Minitest 2', 'https://wit.id.vn/20262027/TiH/Spark3_Class5/BaiOnSo2/', 'Nhấp chuột hoặc nhấn phím → để xem hết trang.'],
+    ['Minitest 3', 'https://wit.id.vn/20262027/TiH/Spark3_Class5/BaiOnSo3/', 'Nhấp chuột hoặc nhấn phím → để xem hết trang.'],
+    ['Minitest 4', 'https://wit.id.vn/20262027/TiH/Spark3_Class5/BaiOnSo4/', 'Nhấp chuột hoặc nhấn phím → để xem hết trang.']
   ] },
   gs61:   { ten: 'GS6 Level 1', tai: 'https://drive.google.com/drive/u/1/folders/1f3yelu5x2Vu2cnZmChQHKFB4G45Q7Xbv', tests: [
     ['Ôn tập 1 - Test 1', 'https://server4-ic3.netlify.app/bai-on-luyen-hoc-sinh-gs6-lv1-can-ban-ve-cong-nghe-test-1-can-ban-ve-cong-nghe-test-2-mvp1tsxb6a21-T1.html', 'Bài 01 - 11'],
@@ -68,18 +80,28 @@ document.getElementById('trang').className = 'on-tap chuong-trinh muc-' + (ON_TA
 document.getElementById('tieu-de').textContent = 'Ôn tập ' + cf.ten;
 document.title = 'Ôn tập ' + cf.ten + ' — IC3 GS6';
 document.getElementById('tai-lieu').href = cf.tai || '#';
-var luoi = document.getElementById('luoi');
-cf.tests.forEach(function (t, i) {
-  var name = t[0], href = t[1], note = t[2] || '';
-  if (!href) return;
-  var d = document.createElement('a');
-  d.className = 'the-cap-do ' + (ON_TAP[id] ? id : 'spark1');
-  d.href = href || 'update.html';
-  if (href) { d.target = '_blank'; d.rel = 'noopener'; }
-  else d.style.opacity = '.55';
-  d.innerHTML = '<span class="the-icon" aria-hidden="true">📝</span>' +
-    '<span class="the-ten">' + (name || 'Bài ôn ' + (i + 1)) +
-    (note ? '<small class="the-ghi-chu">' + note + '</small>' : '') + '</span>' +
-    (href ? '' : '<span class="the-nuts"><span class="the-nut het">Sắp có</span></span>');
-  luoi.appendChild(d);
-});
+var muc = ON_TAP[id] ? id : 'spark1';
+function veThe(luoi, ds, tenMacDinh, icon, lop) {
+  ds.forEach(function (t, i) {
+    var name = t[0], href = t[1], note = t[2] || '';
+    if (!href) return;
+    var d = document.createElement('a');
+    d.className = 'the-cap-do ' + muc + (lop ? ' ' + lop + ' ' + lop + '-' + (i % 4 + 1) : '');
+    d.href = href; d.target = '_blank'; d.rel = 'noopener';
+    d.innerHTML = '<span class="the-icon" aria-hidden="true">' + (icon || '📝') + '</span>' +
+      '<span class="the-ten">' + (name || tenMacDinh + ' ' + (i + 1)) +
+      (note ? '<small class="the-ghi-chu">' + note + '</small>' : '') + '</span>';
+    luoi.appendChild(d);
+  });
+}
+veThe(document.getElementById('luoi'), cf.tests, 'Bài ôn');
+if ((cf.minitests || []).some(function (t) { return t[1]; })) {
+  var h = document.createElement('h2');
+  h.className = 'tieu-de-phan';
+  h.innerHTML = '<span aria-hidden="true">⏱️</span> Minitest';
+  var luoiMini = document.createElement('div');
+  luoiMini.className = 'luoi-cap-do';
+  luoiMini.id = 'luoi-minitest';
+  document.getElementById('trang').append(h, luoiMini);
+  veThe(luoiMini, cf.minitests, 'Minitest', '⏱️', 'the-minitest');
+}
