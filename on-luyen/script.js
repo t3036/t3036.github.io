@@ -53,9 +53,9 @@ var ON_TAP = {
     ['', '']
   ] },
   gs62:   { ten: 'GS6 Level 2', tests: [
-    ['Chủ đề 1 - Test 1', 'https://server5-ic3.netlify.app/bai-on-luyen-hoc-sinh-gs6-lv2-can-ban-ve-cong-nghe-mw1i45b2axov-T1.html'],
-    ['Chủ đề 1 - Test 2', 'https://server5-ic3.netlify.app/bai-on-luyen-hoc-sinh-gs6-lv2-can-ban-ve-cong-nghe-mw1i45b2axov-T2.html'],
-    ['', ''],
+    ['Ôn tập 1 - Test 1', 'https://server5-ic3.netlify.app/bai-on-luyen-hoc-sinh-gs6-lv2-can-ban-ve-cong-nghe-mw1i45b2axov-T1.html', 'Bài 01 - 07'],
+    ['Ôn tập 1 - Test 2', 'https://server5-ic3.netlify.app/bai-on-luyen-hoc-sinh-gs6-lv2-can-ban-ve-cong-nghe-mw1i45b2axov-T2.html', 'Bài 01 - 07'],
+    ['Ôn tập 2', 'https://server5-ic3.netlify.app/bai-on-luyen-hoc-sinh-gs6-lv2-giao-tiep-ki-thuat-so-mwyg02vf5gol.html', 'Bài 08 - 09'],
     ['', ''],
     ['', ''],
     ['', ''],
