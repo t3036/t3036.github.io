@@ -24,10 +24,10 @@ var ON_TAP = {
     ['', ''],
     ['', '']
   ] , minitests: [
-    ['Minitest 1', 'https://wit.id.vn/20262027/TiH/Spark2_Class4/BaiOnSo1/', 'Nhấp chuột hoặc nhấn phím → để xem hết trang.'],
-    ['Minitest 2', 'https://wit.id.vn/20262027/TiH/Spark2_Class4/BaiOnSo2/', 'Nhấp chuột hoặc nhấn phím → để xem hết trang.'],
-    ['Minitest 3', 'https://wit.id.vn/20262027/TiH/Spark2_Class4/BaiOnSo3/', 'Nhấp chuột hoặc nhấn phím → để xem hết trang.'],
-    ['Minitest 4', 'https://wit.id.vn/20262027/TiH/Spark2_Class4/BaiOnSo4/', 'Nhấp chuột hoặc nhấn phím → để xem hết trang.']
+    ['Minitest 1', 'https://wit.id.vn/20262027/TiH/Spark2_Class4/BaiOnSo1/'],
+    ['Minitest 2', 'https://wit.id.vn/20262027/TiH/Spark2_Class4/BaiOnSo2/'],
+    ['Minitest 3', 'https://wit.id.vn/20262027/TiH/Spark2_Class4/BaiOnSo3/'],
+    ['Minitest 4', 'https://wit.id.vn/20262027/TiH/Spark2_Class4/BaiOnSo4/']
   ] },
   spark3: { ten: 'SPARK Level 3', tai: 'https://drive.google.com/drive/folders/1NwCZqbz4oUI6waxidgivKi-OFnaM2WPx?usp=drive_link', tests: [
     ['', 'https://server3-ic3.netlify.app/bai-on-luyen-hoc-sinh-spark-lv3-can-ban-ve-cong-nghe-muajzpmcmpsb.html'],
@@ -38,10 +38,10 @@ var ON_TAP = {
     ['', 'https://tinhoc247.github.io/ic3-spark-lv3/bai-kiem-tra-hoc-sinh-spark-lv3-cong-tac-mw1rwcna0p55.html'],
     ['', 'https://tinhoc247.github.io/ic3-spark-lv3/bai-kiem-tra-hoc-sinh-spark-lv3-an-toan-va-bao-mat-mwile8poyi1j.html']
   ], minitests: [
-    ['Minitest 1', 'https://wit.id.vn/20262027/TiH/Spark3_Class5/BaiOnSo1/', 'Nhấp chuột hoặc nhấn phím → để xem hết trang.'],
-    ['Minitest 2', 'https://wit.id.vn/20262027/TiH/Spark3_Class5/BaiOnSo2/', 'Nhấp chuột hoặc nhấn phím → để xem hết trang.'],
-    ['Minitest 3', 'https://wit.id.vn/20262027/TiH/Spark3_Class5/BaiOnSo3/', 'Nhấp chuột hoặc nhấn phím → để xem hết trang.'],
-    ['Minitest 4', 'https://wit.id.vn/20262027/TiH/Spark3_Class5/BaiOnSo4/', 'Nhấp chuột hoặc nhấn phím → để xem hết trang.']
+    ['Minitest 1', 'https://wit.id.vn/20262027/TiH/Spark3_Class5/BaiOnSo1/'],
+    ['Minitest 2', 'https://wit.id.vn/20262027/TiH/Spark3_Class5/BaiOnSo2/'],
+    ['Minitest 3', 'https://wit.id.vn/20262027/TiH/Spark3_Class5/BaiOnSo3/'],
+    ['Minitest 4', 'https://wit.id.vn/20262027/TiH/Spark3_Class5/BaiOnSo4/']
   ] },
   gs61:   { ten: 'GS6 Level 1', tai: 'https://drive.google.com/drive/u/1/folders/1f3yelu5x2Vu2cnZmChQHKFB4G45Q7Xbv', tests: [
     ['Ôn tập 1 - Test 1', 'https://server4-ic3.netlify.app/bai-on-luyen-hoc-sinh-gs6-lv1-can-ban-ve-cong-nghe-test-1-can-ban-ve-cong-nghe-test-2-mvp1tsxb6a21-T1.html', 'Bài 01 - 11'],
